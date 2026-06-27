@@ -1,0 +1,12 @@
+{
+  "python": "3.12.4 | packaged by Anaconda, Inc. | (main, Jun 18 2024, 10:07:17) [Clang 14.0.6 ]",
+  "executable": ".venv/bin/python",
+  "platform": "macOS-15.7.2-arm64-arm-64bit",
+  "packages": {
+    "numpy": "2.4.6",
+    "pandas": "2.2.3",
+    "scipy": "1.17.1",
+    "matplotlib": "3.10.9",
+    "cvxpy": "1.9.1"
+  }
+}

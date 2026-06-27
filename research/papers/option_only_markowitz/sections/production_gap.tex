@@ -1,0 +1,49 @@
+\section{Production Gap}
+
+The theory in this paper is deliberately cleaner than a trading system. That is the right
+choice for the current research question, but it creates a production gap.
+
+\paragraph{Local approximation.}
+The Taylor expansion is local. It is best for short horizons and fails around jumps,
+discrete dividends, exercise-boundary changes, and large volatility-surface repricings.
+The residual covariance term absorbs part of this misspecification but does not eliminate
+it.
+
+\paragraph{Rolling bucket returns.}
+The empirical option assets are rolling buckets, not permanent listed contracts. This is
+necessary because listed contracts expire. The bucket panel checks whether option-style
+exposures can be allocated with Markowitz machinery; it is not a fill-level backtest. The
+current runner marks short-dated selected options to listed-expiry payoff using raw daily
+underlying closes and split conversion. That is a stricter holding-period test than a
+monthly bucket-to-bucket return, but it is still not a fill-level option backtest with
+tradable liquidation quotes, margin, exercise, and assignment handling.
+
+\paragraph{Expected returns.}
+The training mean of option-bucket returns is a noisy estimate. The paper's strong
+test-window variation should therefore be read as evidence about the measurement stack,
+not as evidence of a stable deployable premium.
+
+\paragraph{No implementation costs by design.}
+Transaction costs, slippage, margin financing, borrow frictions, and assignment frictions
+are excluded because the object is a theory paper. The option premium itself is not
+excluded: empirical P\&L is mark-to-market P\&L on paid or sold option premium. The
+excluded frictions belong in a separate implementation-cost layer, not in the definition
+of the option-only Markowitz analogue.
+
+\paragraph{American single-name options.}
+The data layer uses American-model/de-Americanized Greek proxies. This is necessary
+because listed U.S. single-name equity options are American style, while the local Taylor
+map uses European-equivalent sensitivities as a standardized risk representation. A
+production implementation would need a full surface-construction and exercise-policy
+module before capital could be deployed.
+
+\paragraph{Capacity and constraints.}
+The constraints in the paper are mathematical risk budgets: gross NAV, short-premium,
+contract concentration, underlying concentration, delta, gamma, and vega. They are not
+broker margin rules, market-impact limits, or locate constraints. A production book would
+have to replace or augment them with executable order size, spread, open interest,
+assignment, capital, and stress-margin constraints.
+
+These gaps do not weaken the theory. They define what the theory has and has not solved.
+The paper supplies the option-only mean--variance object. A production system would supply
+the trading, financing, and capacity layer.

@@ -1,0 +1,7 @@
+{
+  "status": "fail",
+  "critical_failures": 7,
+  "total_failures": 7,
+  "total_checks": 7,
+  "output_dir": "research/papers/option_only_markowitz/production_verification"
+}

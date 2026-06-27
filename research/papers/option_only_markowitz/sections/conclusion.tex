@@ -1,0 +1,40 @@
+\section{Conclusions}
+
+The durable contribution is the option cashflow and risk-accounting framework. A listed
+option enters the allocation problem only after it has been represented as a premium-funded
+cashflow, marked under a settlement convention, mapped into delta, gamma, vega, theta,
+VIX-forward exposure, and residual risk, and forecast under the physical measure. Once
+those objects exist, the Markowitz algebra is familiar: expected option cashflows and a
+Greek-induced covariance matrix replace ordinary asset means and covariances.
+
+The validation layer supports a coherent point-in-time research implementation, not
+production tradability. Gross Sharpe, VIX hedge behavior, and option convexity are not
+enough. They must survive premium accounting, exact settlement controls, post-cost
+research accounting, beta and Greek attribution, inference, leave-one-out tests, and
+no-lookahead checks. VIX options are useful in the framework because they are volatility
+instruments rather than equity substitutes, but their expiry P\&L becomes headline-grade
+only when exact VRO/SOQ settlement supports the rows being reported.
+
+The trader's use case is a disciplined screening rule rather than an automatic trading
+signal. A sleeve enters the book only when forecasted option premia survive premium cost,
+spread, settlement, and Greek-budget checks. Convexity is worth paying for only when state
+variables and hedge diagnostics justify the premium. Short option exposure is rejected or
+capped when stress loss, assignment risk, liquidity, or margin screens dominate expected
+carry. VIX options are treated as volatility instruments. When the validation layer cannot
+separate option premia from equity drift, volatility carry, or optimistic execution, the
+portfolio should sit in cash collateral, trade smaller, or use simpler diversifiers.
+
+This paper does not claim live-trading performance. The empirical sample is limited to the
+available OPRA/Databento-derived equity-option panels, VIX option chains, monthly
+snapshots, and exact VRO/SOQ coverage. Options execution, rates, margin, borrow,
+assignment, and capacity are modeled through conservative research assumptions rather than
+broker-level order and fill data. Production deployment would require richer quote
+histories, executable bid/ask depth, broker margin previews, assignment and exercise
+modeling, live routing, and reconciliation.
+
+The conclusion is therefore deliberately restrained. Build the option cashflow. Charge the
+premium and the implementation frictions. Estimate conditional premia before optimizing.
+Constrain Greeks, beta, VIX exposure, and stress loss. Use regressions, attribution,
+regimes, leave-one-out tests, and inference to ask whether the result is more than equity
+drift or volatility carry. Reject any claim that depends on free options, future
+information, unpriced settlement, optimistic costs, or hidden short-option risk.

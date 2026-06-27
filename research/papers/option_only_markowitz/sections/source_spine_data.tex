@@ -1,0 +1,74 @@
+\section{Literature and Evidence Spine}
+
+The paper rests on two layers of evidence. The first is standard portfolio and derivatives
+theory: Markowitz mean--variance allocation, Black--Scholes--Merton local replication,
+stochastic-calculus option accounting, and factor risk models. The second is generated
+empirical evidence from local OPRA/Databento-derived option panels. The separation matters
+because the paper uses different standards for different claims. A theorem needs a proof.
+A literature claim needs an actual paper or book. A numerical claim needs a generated
+artifact.
+
+\subsection{Portfolio and derivatives references}
+
+The Markowitz reference point is the maximum-Sharpe and efficient-frontier problem
+\citep{markowitz1952portfolio}. The derivative reference point is the local option-pricing
+logic associated with Black, Scholes, and Merton
+\citep{blackscholes1973,merton1973}. This paper does not need Black--Scholes to be a
+globally correct pricing model for American single-name options. It needs the weaker and
+standard local statement that an option mark can be expanded in spot, volatility, and time,
+with a second-order spot term. That is the same mathematical reason gamma appears in the
+BSM PDE; standard stochastic-calculus treatments derive this through Ito's formula and
+dynamic replication \citep{shreve2004stochasticii}.
+
+The conditional-mean reference point is the option-return literature. Expected option
+returns can reflect systematic equity exposure, volatility and variance risk premia,
+skewed crash-insurance payoffs, and volatility-state dependence rather than pure pricing
+noise \citep{coval_shumway2001,bakshi_kapadia2003,carr_wu2009,
+bollerslev_tauchen_zhou2009,broadie_chernov_johannes2009}.  The paper uses those
+mechanisms as economic forecast components, then shrinks the combined signal toward zero
+before optimization.
+
+The risk-model reference point is the factor covariance decomposition. In equity risk
+models, exposures, factor covariance, and idiosyncratic covariance are separated because a
+raw covariance matrix is noisy and because optimizers amplify precision-matrix error. The
+option-only construction uses the same structure, but the exposure matrix is made from
+Greeks rather than industry, style, or macro betas. The covariance shrinkage and
+estimation discipline follows the same concern emphasized in the portfolio literature:
+sample covariance matrices are noisy inputs to optimization, and small covariance errors
+can be magnified when the optimizer inverts the risk matrix \citep{ledoitwolf2004}.
+Backtest validation is treated with the same caution: repeated search over Sharpe ratios
+raises overfitting risk, so the paper reports random feasible portfolios, bootstrap
+intervals, regimes, and leave-one-underlying-out tests rather than a single selected path
+\citep{bailey2017pbo,lopezdeprado2018}.
+
+Performance is reported with complementary risk-adjusted measures.  The Sharpe ratio
+follows the reward-to-variability tradition of \citet{sharpe1966}.  The Sortino ratio
+replaces total volatility with target downside deviation \citep{sortino_price1994}.  The
+Calmar statistic uses maximum drawdown as the loss scale, so the drawdown literature is
+the relevant formal reference \citep{magdon_ismail_atiya2004}.  Omega measures the ratio
+of gains above a threshold to shortfalls below it \citep{keating_shadwick2002}.  The
+information ratio is computed against the SPY benchmark, following the active-return
+tradition in portfolio management \citep{grinold_kahn2000}.  The empirical target for
+Sortino and Omega is zero monthly return, matching the paper's no-cash-alpha convention.
+
+\subsection{Local option data}
+
+The empirical input is the repo-local feature store, not a live network pull. The panel
+uses model-implied Greeks by design, with American-option adjustments and
+European-equivalent sensitivities used as the standardized risk representation. The
+filters remove nonpositive marks, stale or pathological quotes, insufficient volume,
+missing Greeks, and wide relative spreads.
+
+The quality ledger reports valid IV, delta, gamma, and vega shares. For the primary
+single-name underlyings used here, valid Greek coverage is roughly 95--98\%: AAPL 95.9\%,
+AMZN 97.2\%, GOOGL 97.3\%, JPM 96.0\%, META 96.6\%, MSFT 95.1\%, NVDA 97.8\%, and TSLA
+97.9\%. The data provenance files and operational data-source pages are recorded in the
+reproducibility note rather than cited as scholarly references.
+
+\begin{table}[H]
+\centering
+\resizebox{\textwidth}{!}{\input{tables/data_summary}}
+\caption{Empirical data summary. The raw row count is after the paper's liquidity,
+moneyness, and Greek-validity filters.}
+\label{tab:data}
+\end{table}

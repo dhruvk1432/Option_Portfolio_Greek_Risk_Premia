@@ -1,0 +1,108 @@
+\section{Introduction}
+
+An investor restricted to listed options has a simple question with a difficult answer:
+which calls and puts actually deserve premium capital? The usual asset-allocation template
+starts from return columns. Options do not fit that template cleanly. They are funded,
+expiring, state-contingent cashflows whose economics depend on premium paid or received,
+strike, expiry, exercise style, settlement, volatility, convexity, and the state of the
+underlying.
+
+This paper builds a premium-weighted option-only Markowitz framework for that choice. The
+universe can contain arbitrary listed calls and puts across equities, strikes, expiries, and
+moneyness buckets. Positions can be long or short. Cash is not optimized as a separate
+risky asset; it is the NAV numeraire and collateral account used to scale option premium
+exposures. The premium is still paid or received. A long option that expires worthless loses
+its premium weight, and a short option that finishes in the money pays the payoff through
+the same NAV accounting. The allocation problem is therefore not ``which stock return
+column has the best mean,'' but whether a funded option cashflow deserves capital after
+settlement, costs, beta exposure, Greek budgets, and validation gates.
+
+\subsection{Research Question and Contributions}
+
+The research question is: how should an allocator choose among listed calls and puts when
+every instrument is a funded, expiring, state-contingent cashflow rather than a standard
+asset return column? The proposed answer is a premium-weighted option-only Markowitz
+framework that maps listed options into NAV-normalized cashflows, payoff and settlement
+conventions, Greeks, residual risk, conditional option-risk-premium forecasts,
+implementation screens, and portfolio constraints. In this sample and under these
+conventions, the validated empirical claim is that the framework is coherent,
+point-in-time, auditable, and useful for diagnosing whether option convexity, VIX exposure,
+or short-premium risk deserves capital. The non-claim is equally important: the article does
+not claim live alpha, production tradability, broker-executed performance, live margin
+parity, or deployable option trading performance.
+
+The organizing thesis is that option-only portfolio construction should be written as
+conditional option cashflow engineering. A listed option is not a stock with a different
+ticker. It is a state-contingent claim with delta, gamma, vega, theta, exercise, settlement,
+liquidity, and marking conventions. Two options can share the same underlying and still
+contribute very different risks. A put and a call can leave the book with little net delta and
+large volatility or convexity exposure. The covariance matrix must therefore come from the
+instrument map, not only from historical option-price correlations.
+
+The theoretical contribution is the option-only analogue of Markowitz. Classical portfolio
+theory starts with expected returns and an asset covariance matrix
+\citep{markowitz1952portfolio}. This paper starts with option premium weights, a local
+Greek return map, conditional option-risk-premium forecasts, and a residual covariance term.
+Once those objects are built, the mean--variance algebra is familiar: the unconstrained
+maximum-Sharpe direction is proportional to
+\(\widehat\Sigma_{O,t}^{-1}\widehat\mu_t\). The difference is the construction of
+\(\widehat\Sigma_{O,t}\) and \(\widehat\mu_t\), not the final quadratic geometry.
+
+What is new is the object rather than a single trade. The paper is not a defense of long
+calls, short puts, covered calls, protective puts, or a named volatility spread. It asks how
+to allocate across an arbitrary option universe once each contract has a mark, a payoff
+convention, a Greek exposure vector, a conditional expected return, and an implementation
+ledger. The expected-return side is also explicit: covariance optimization alone cannot
+create a high Sharpe ratio. A useful option allocator needs forecastable premia such as
+carry, variance risk premia, volatility risk premia, skew compensation, tail-insurance
+pricing, relative value, and regime-dependent convexity.
+
+\subsection{Related Work and Positioning}
+
+The starting point is mean--variance allocation. \citet{markowitz1952portfolio} showed how
+expected returns and a covariance matrix define an efficient frontier, while
+\citet{sharpe1966} made reward-to-variability central to performance evaluation. Listed
+options require a different first step because the columns are not ordinary asset returns.
+Black--Scholes--Merton option valuation \citep{blackscholes1973,merton1973} and the
+Black--76 forward option model \citep{black1976commodity} provide local pricing and Greek
+maps, not a complete physical-measure portfolio allocation rule. The present framework uses
+those maps to translate options into delta, gamma, vega, theta, VIX-forward exposure, and
+residual risk before applying Markowitz geometry.
+
+Expected option returns have their own economic sources. Empirical option-return research
+links compensation to carry, volatility risk premia, skew, crash insurance, and tail-risk
+states \citep{coval_shumway2001,bakshi_kapadia2003,carr_wu2009,
+bollerslev_tauchen_zhou2009,broadie_chernov_johannes2009}. This article uses that spine to
+motivate conditional option-risk-premium forecasts rather than treating the optimizer as a
+source of alpha. Robust covariance estimation also matters because inverse-covariance
+portfolio rules amplify noisy inputs; shrinkage follows \citet{ledoitwolf2004}. Evaluation
+uses both reward-to-volatility and downside-aware measures, including Sortino
+\citep{sortino_price1994}, Omega \citep{keating_shadwick2002}, Calmar and drawdown
+\citep{magdon_ismail_atiya2004}, and active risk \citep{grinold_kahn2000}.
+
+Implementation frictions and validation discipline determine the strength of any empirical
+claim. Option overlays are sensitive to spread, settlement, borrow, assignment, margin, and
+capacity assumptions. Backtest overfitting and multiple testing can turn optimizer variants
+into false discoveries, so the analysis uses bootstrap inference and reality-check ideas
+consistent with \citet{bailey2017pbo} and \citet{lopezdeprado2018}. The distinction from
+strategy-specific option papers is therefore deliberate. The object is not a covered-call,
+put-write, crash-put, or volatility-spread test. The object is an instrument-level cashflow
+accounting and allocation framework for arbitrary listed options before asking whether any
+option sleeve deserves capital.
+
+The empirical result is intentionally mixed. The gross point-in-time backtest tests whether
+the option-only Markowitz object behaves coherently on the local OPRA-derived panel. The
+post-cost research layer subtracts conservative spreads, fees, slippage, borrow, capacity,
+simulated margin funding, and assignment-risk penalties. VIX options are included as
+volatility derivatives with VX-forward Black--76 Greeks, but VIX option evidence is
+headline-grade only when exact VRO/SOQ settlement supports the relevant rows. If the
+coverage table reports proxy rows, the same evidence is reported only as diagnostic
+hedge-sleeve evidence rather than a listed-settlement claim.
+
+The article proceeds in the same order as the research workflow. Section 2 defines the data
+and empirical design. Section 3 builds the option cashflow and Greek-risk framework.
+Section 4 describes the conditional portfolio construction model. Section 5 sets out the
+metrics, point-in-time validation, inference, and claim gates. Section 6 reports the
+empirical results and negative evidence. Section 7 concludes with the limits of the current
+research implementation. Appendix A contains supplemental figures, option/VIX diagnostics,
+robustness tables, instrument conventions, proof sketches, and reproducibility notes.

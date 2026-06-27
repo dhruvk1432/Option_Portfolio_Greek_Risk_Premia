@@ -1,0 +1,101 @@
+
+\section{Results and Discussion}
+
+The strongest result is conceptual rather than promotional. In this sample and under these
+conventions, the option-only Markowitz object is coherent, auditable, and measurable. The
+empirical investment result is more conditional. Gross option portfolios can look
+attractive, but gross Sharpe is a research diagnostic rather than a trading result. VIX
+options improve the design as volatility instruments and hedge candidates only when exact
+VRO/SOQ settlement coverage supports the headline rows.
+
+The body keeps the central evidence in view: out-of-sample performance, full-spread
+post-cost survival, factor exposure, the realized path in Figure~\ref{fig:growth}, the
+random feasible comparison in Figure~\ref{fig:random_sharpe}, the VIX settlement gate in
+Table~\ref{tab:vix_settlement}, claim strength, and the claim audit. Detailed liquidity,
+attribution, regime, forecast-ablation, and multiple-testing diagnostics appear in
+Appendix A.
+
+\subsection{Headline evidence}
+
+\begin{table}[H]
+\centering
+\scriptsize
+\IfFileExists{tables/portfolio_performance.tex}
+  {\resizebox{\textwidth}{!}{\input{tables/portfolio_performance}}}
+  {\begin{tabular}{llll}\toprule Strategy & Return & Sharpe & Claim status \\\midrule
+  Missing & Run the empirical pipeline & -- & -- \\\bottomrule\end{tabular}}
+\caption{Gross and post-cost out-of-sample performance. Gross rows test the option-only
+Markowitz object; post-cost rows are research simulations that subtract spreads, fees,
+slippage, borrow, capacity, simulated margin funding, and assignment-risk penalties.}
+\label{tab:performance}
+\end{table}
+
+The table separates two questions. The gross rows ask whether the mathematical allocation
+object works on held-out option returns. The post-cost rows ask whether the same object
+still looks economically attractive after conservative implementation frictions. The
+pre-production layer then asks whether the result survives midpoint, half-spread, and
+full-spread executable-cost scenarios, required-capital denominators, no-fill diagnostics,
+and margin/stress-capital screens. Gross Sharpe is not treated as a trading result.
+
+\begin{table}[H]
+\centering
+\scriptsize
+\IfFileExists{tables/post_cost_survival.tex}
+  {\resizebox{\textwidth}{!}{\input{tables/post_cost_survival}}}
+  {\begin{tabular}{llllll}\toprule Strategy & Gross Sharpe & Net Sharpe & Net Calmar & Cost & Survives \\\midrule
+  Missing & Run the empirical pipeline & -- & -- & -- & -- \\\bottomrule\end{tabular}}
+\caption{Post-cost survival under the full-spread executable-cost scenario. A strategy
+survives only if net performance remains positive after conservative research frictions,
+capacity screens, settlement gates, and risk-capital checks.}
+\label{tab:post_cost_survival}
+\end{table}
+
+\begin{table}[H]
+\centering
+\scriptsize
+\IfFileExists{tables/factor_regression_headline.tex}
+  {\resizebox{\textwidth}{!}{\input{tables/factor_regression_headline}}}
+  {\begin{tabular}{llll}\toprule Strategy & Alpha & Beta controls & HAC t-stat \\\midrule
+  Missing & Run the empirical pipeline & -- & -- \\\bottomrule\end{tabular}}
+\caption{Headline factor regressions. The table asks whether option returns are explained
+by equity drift or volatility state controls before any alpha language is considered; the
+full eight-underlying regression appears in Appendix A.}
+\label{tab:factor_regression}
+\end{table}
+
+The regression is an audit, not a causal proof. If the option book is only a levered
+large-cap equity book, SPY and single-name betas should explain it. If it is mainly a
+volatility trade, VX, VIX, and VVIX controls should reveal that. A high point estimate
+without credible inference, low exposure, and post-cost robustness is not promoted to an
+option-alpha claim.
+
+\begin{table}[H]
+\centering
+\scriptsize
+\IfFileExists{tables/claim_strength_summary.tex}
+  {\resizebox{\textwidth}{!}{\input{tables/claim_strength_summary}}}
+  {\begin{tabular}{lll}\toprule Strength & Claim & Boundary \\\midrule Missing & Run the empirical pipeline & -- \\\bottomrule\end{tabular}}
+\caption{Claim-strength summary. The table distinguishes durable framework claims from
+sample-dependent diagnostics and from live-trading claims that are not made.}
+\label{tab:claim_strength}
+\end{table}
+
+\begin{table}[H]
+\centering
+\scriptsize
+\IfFileExists{tables/claim_audit.tex}
+  {\resizebox{\textwidth}{!}{\input{tables/claim_audit}}}
+  {\begin{tabular}{lll}\toprule Claim & Evidence & Status \\\midrule
+  Missing & Run the empirical pipeline & blocked \\\bottomrule\end{tabular}}
+\caption{Claim-audit summary. The table separates mathematical claims, empirical
+diagnostics, settlement-gated VIX claims, post-cost research claims, and production claims
+that are not claimed.}
+\label{tab:claim_audit}
+\end{table}
+
+The claim audit is part of the result. The article can claim a mathematically explicit
+option-only efficient frontier and a point-in-time empirical implementation. It can report
+gross, exact-settlement VIX, and pre-production post-cost research diagnostics when the
+audit layer supports those outputs. It cannot claim production tradability, live fills, live
+broker margin parity, or executable capacity because those controls are not broker-run in
+this article.

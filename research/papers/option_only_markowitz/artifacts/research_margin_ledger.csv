@@ -1,0 +1,361 @@
+return_date,strategy,margin_requirement_nav,stress_margin_nav,assignment_notional_nav,margin_model
+2021-01-29,Equity-option Greek Markowitz,3.820834687180749,0.24265127453972518,0.09624981422195138,conservative_research_simulation
+2021-02-26,Equity-option Greek Markowitz,2.3729004841850756,0.23772144271290865,0.09624981422195138,conservative_research_simulation
+2021-03-31,Equity-option Greek Markowitz,2.524731382853643,0.23772144271290865,0.0,conservative_research_simulation
+2021-04-30,Equity-option Greek Markowitz,4.651547013914842,0.1691613071379278,0.028897542663797227,conservative_research_simulation
+2021-06-30,Equity-option Greek Markowitz,5.684259139400258,0.18893258547263084,0.0,conservative_research_simulation
+2021-07-30,Equity-option Greek Markowitz,7.342846378937843,0.216689086984591,0.0,conservative_research_simulation
+2021-08-31,Equity-option Greek Markowitz,6.556877257917807,0.225273596315209,0.09624981422195138,conservative_research_simulation
+2021-09-30,Equity-option Greek Markowitz,7.02117489595155,0.24277561433404968,0.10104673318273111,conservative_research_simulation
+2021-10-29,Equity-option Greek Markowitz,4.3663317531608135,0.20320156620457774,0.0,conservative_research_simulation
+2021-11-30,Equity-option Greek Markowitz,4.514065118601962,0.225273596315209,0.1251473568857486,conservative_research_simulation
+2021-12-31,Equity-option Greek Markowitz,3.342921726069506,0.24999999999999897,0.09624981422195138,conservative_research_simulation
+2022-01-31,Equity-option Greek Markowitz,5.107739682287455,0.20224095111428933,0.0,conservative_research_simulation
+2022-02-28,Equity-option Greek Markowitz,2.8567351194712125,0.22593754644451108,0.0,conservative_research_simulation
+2022-04-29,Equity-option Greek Markowitz,4.981055834264885,0.24999999999999897,0.0,conservative_research_simulation
+2022-05-31,Equity-option Greek Markowitz,2.2756604407580316,0.24482148858453345,0.0,conservative_research_simulation
+2022-06-30,Equity-option Greek Markowitz,2.609330951234651,0.225273596315209,0.0,conservative_research_simulation
+2022-07-29,Equity-option Greek Markowitz,2.973565020890203,0.24767909569854024,0.0,conservative_research_simulation
+2022-08-31,Equity-option Greek Markowitz,2.857066845500779,0.20121114275972116,0.0,conservative_research_simulation
+2022-09-30,Equity-option Greek Markowitz,3.995859998685387,0.2258132066501866,0.0,conservative_research_simulation
+2022-10-31,Equity-option Greek Markowitz,1.8268970997601757,0.23487891479453438,0.0,conservative_research_simulation
+2022-11-30,Equity-option Greek Markowitz,2.4202283134449476,0.22593754644451108,0.0,conservative_research_simulation
+2022-12-30,Equity-option Greek Markowitz,3.8543314954146966,0.19517924489170982,0.028897542663797227,conservative_research_simulation
+2023-01-31,Equity-option Greek Markowitz,2.161899792814204,0.22593754644451108,0.028897542663797227,conservative_research_simulation
+2023-02-28,Equity-option Greek Markowitz,2.4886492755763108,0.2258132066501866,0.0,conservative_research_simulation
+2023-03-31,Equity-option Greek Markowitz,4.681357547518486,0.22593754644451108,0.0,conservative_research_simulation
+2023-04-28,Equity-option Greek Markowitz,5.316746463719258,0.20263262491053394,0.0,conservative_research_simulation
+2023-05-31,Equity-option Greek Markowitz,4.92385103215878,0.17587053181956996,0.028897542663797227,conservative_research_simulation
+2023-06-30,Equity-option Greek Markowitz,3.50170597229925,0.24265127453972518,0.09624981422195138,conservative_research_simulation
+2023-07-31,Equity-option Greek Markowitz,4.233444564540436,0.2093409969859141,0.0,conservative_research_simulation
+2023-08-31,Equity-option Greek Markowitz,6.163723272443001,0.24961732839240278,0.1251473568857486,conservative_research_simulation
+2023-09-29,Equity-option Greek Markowitz,6.711219615850924,0.24755475590421575,0.028897542663797227,conservative_research_simulation
+2023-10-31,Equity-option Greek Markowitz,5.174371546364859,0.22593754644451108,0.0,conservative_research_simulation
+2023-11-30,Equity-option Greek Markowitz,7.290894539645157,0.19479657328411362,0.028897542663797227,conservative_research_simulation
+2023-12-29,Equity-option Greek Markowitz,7.82203581006703,0.19861129110240003,0.028897542663797227,conservative_research_simulation
+2024-01-31,Equity-option Greek Markowitz,7.672945351249381,0.24987566020567448,0.1251473568857486,conservative_research_simulation
+2024-02-29,Equity-option Greek Markowitz,5.2807318533613925,0.24999999999999897,0.10104673318273111,conservative_research_simulation
+2024-04-30,Equity-option Greek Markowitz,7.846837042633047,0.2175478767064252,0.0,conservative_research_simulation
+2024-05-31,Equity-option Greek Markowitz,4.015102737205788,0.22361664214305238,0.0,conservative_research_simulation
+2024-06-28,Equity-option Greek Markowitz,4.0759639060725235,0.18229368899966544,0.028897542663797227,conservative_research_simulation
+2024-07-31,Equity-option Greek Markowitz,5.177497290681165,0.2258132066501866,0.0,conservative_research_simulation
+2024-08-30,Equity-option Greek Markowitz,3.146072387396574,0.24149033239248055,0.09624981422195138,conservative_research_simulation
+2024-09-30,Equity-option Greek Markowitz,4.436672703606415,0.24469509365509212,0.09624981422195138,conservative_research_simulation
+2024-10-31,Equity-option Greek Markowitz,5.633485226617271,0.21831173579814553,0.0,conservative_research_simulation
+2024-11-29,Equity-option Greek Markowitz,2.9646630593379024,0.24999999999999897,0.09624981422195138,conservative_research_simulation
+2024-12-31,Equity-option Greek Markowitz,6.613952788007716,0.19638038216524348,0.09624981422195138,conservative_research_simulation
+2025-01-31,Equity-option Greek Markowitz,7.506094278631278,0.20108680296539666,0.0,conservative_research_simulation
+2025-02-28,Equity-option Greek Markowitz,4.705692027543373,0.24469509365509212,0.0,conservative_research_simulation
+2025-04-30,Equity-option Greek Markowitz,2.5694489713376,0.22593754644451108,0.0,conservative_research_simulation
+2025-05-30,Equity-option Greek Markowitz,2.272215600003591,0.20416043043533175,0.028897542663797227,conservative_research_simulation
+2025-06-30,Equity-option Greek Markowitz,4.029998319678179,0.24999999999999897,0.1251473568857486,conservative_research_simulation
+2025-07-31,Equity-option Greek Markowitz,5.6184876712976735,0.23352779033572646,0.09624981422195138,conservative_research_simulation
+2025-08-29,Equity-option Greek Markowitz,6.550739643912212,0.24999999999999897,0.09624981422195138,conservative_research_simulation
+2025-09-30,Equity-option Greek Markowitz,4.449132731570669,0.22847361871458544,0.09624981422195138,conservative_research_simulation
+2025-10-31,Equity-option Greek Markowitz,4.514656236314984,0.20789506604132524,0.0,conservative_research_simulation
+2025-11-28,Equity-option Greek Markowitz,3.8354486075718777,0.24999999999999897,0.09624981422195138,conservative_research_simulation
+2025-12-31,Equity-option Greek Markowitz,7.091428908796375,0.22593754644451108,0.0,conservative_research_simulation
+2026-01-30,Equity-option Greek Markowitz,6.565889945465023,0.2070200926844554,0.0,conservative_research_simulation
+2026-02-27,Equity-option Greek Markowitz,3.3088278063894117,0.225273596315209,0.09624981422195138,conservative_research_simulation
+2026-03-31,Equity-option Greek Markowitz,3.8924692296217396,0.2094653367802386,0.0,conservative_research_simulation
+2026-04-30,Equity-option Greek Markowitz,4.387510651842734,0.22593754644451108,0.0,conservative_research_simulation
+2021-01-29,Greek Markowitz + VIX,2.9726656258932445,0.24899166040354542,0.0,conservative_research_simulation
+2021-02-26,Greek Markowitz + VIX,1.6905684576194906,0.24237082501587753,0.0,conservative_research_simulation
+2021-03-31,Greek Markowitz + VIX,2.1439521257554572,0.24237082501587753,0.0,conservative_research_simulation
+2021-04-30,Greek Markowitz + VIX,3.9783141196830245,0.20113146535722315,0.0,conservative_research_simulation
+2021-06-30,Greek Markowitz + VIX,3.771780925020081,0.21433470502364654,0.0,conservative_research_simulation
+2021-07-30,Greek Markowitz + VIX,4.193811332703677,0.24627094066355698,0.0,conservative_research_simulation
+2021-08-31,Greek Markowitz + VIX,5.178414880806193,0.22488776192866938,0.0,conservative_research_simulation
+2021-09-30,Greek Markowitz + VIX,5.726671537570692,0.2471012721455176,0.0,conservative_research_simulation
+2021-10-29,Greek Markowitz + VIX,3.4706796389982926,0.23358671655661983,0.0,conservative_research_simulation
+2021-11-30,Greek Markowitz + VIX,3.540199344372196,0.22488776192866938,0.0,conservative_research_simulation
+2021-12-31,Greek Markowitz + VIX,2.588785382187347,0.24999999999999994,0.0,conservative_research_simulation
+2022-01-31,Greek Markowitz + VIX,4.626278211431935,0.23609585005741857,0.0,conservative_research_simulation
+2022-02-28,Greek Markowitz + VIX,2.5110785062228107,0.24707611807909952,0.0,conservative_research_simulation
+2022-04-29,Greek Markowitz + VIX,4.3888156502541245,0.2301497768289113,0.0,conservative_research_simulation
+2022-05-31,Greek Markowitz + VIX,1.7570861011318828,0.241362485419423,0.0,conservative_research_simulation
+2022-06-30,Greek Markowitz + VIX,2.032430462699744,0.20503753875758074,0.0,conservative_research_simulation
+2022-07-29,Greek Markowitz + VIX,2.5360940881794867,0.24596234811714013,0.0,conservative_research_simulation
+2022-08-31,Greek Markowitz + VIX,1.8003597028855198,0.17196388000776935,0.0,conservative_research_simulation
+2022-09-30,Greek Markowitz + VIX,3.1344538690952857,0.246067778482645,0.0,conservative_research_simulation
+2022-10-31,Greek Markowitz + VIX,1.532602573367118,0.23176614086515562,0.0,conservative_research_simulation
+2022-11-30,Greek Markowitz + VIX,2.644747729838284,0.24707611807909952,0.0,conservative_research_simulation
+2022-12-30,Greek Markowitz + VIX,3.47353889754768,0.21313694528894112,0.0,conservative_research_simulation
+2023-01-31,Greek Markowitz + VIX,2.323925656818771,0.24707611807909952,0.0,conservative_research_simulation
+2023-02-28,Greek Markowitz + VIX,2.505291450077551,0.246067778482645,0.0,conservative_research_simulation
+2023-03-31,Greek Markowitz + VIX,4.524990057330629,0.24707611807909952,0.0,conservative_research_simulation
+2023-04-28,Greek Markowitz + VIX,4.762456478364614,0.22670580992411044,0.0,conservative_research_simulation
+2023-05-31,Greek Markowitz + VIX,4.1479353958770435,0.1921093867023391,0.0,conservative_research_simulation
+2023-06-30,Greek Markowitz + VIX,2.387798967813689,0.24899166040354542,0.0,conservative_research_simulation
+2023-07-31,Greek Markowitz + VIX,4.380764725145567,0.2321887826064817,0.0,conservative_research_simulation
+2023-08-31,Greek Markowitz + VIX,4.257705629908226,0.22725104897442897,0.0,conservative_research_simulation
+2023-09-29,Greek Markowitz + VIX,4.414392913199461,0.24205528066620327,0.0,conservative_research_simulation
+2023-10-31,Greek Markowitz + VIX,4.867897715273314,0.24707611807909952,0.0,conservative_research_simulation
+2023-11-30,Greek Markowitz + VIX,6.373914422191059,0.19328672211785253,0.0,conservative_research_simulation
+2023-12-29,Greek Markowitz + VIX,5.433385007141344,0.21969509831672784,0.0,conservative_research_simulation
+2024-01-31,Greek Markowitz + VIX,5.266808753897679,0.2460929325490631,0.0,conservative_research_simulation
+2024-02-29,Greek Markowitz + VIX,3.044766166540119,0.24999999999999994,0.0,conservative_research_simulation
+2024-04-30,Greek Markowitz + VIX,5.315120750418162,0.24596770944991458,0.0,conservative_research_simulation
+2024-05-31,Greek Markowitz + VIX,2.851463611088578,0.24303846619623976,0.0,conservative_research_simulation
+2024-06-28,Greek Markowitz + VIX,3.4594694698670194,0.2053068885431414,0.0,conservative_research_simulation
+2024-07-31,Greek Markowitz + VIX,4.636688419837158,0.24316905062816266,0.0,conservative_research_simulation
+2024-08-30,Greek Markowitz + VIX,2.5851643126383963,0.24504045485194098,0.0,conservative_research_simulation
+2024-09-30,Greek Markowitz + VIX,3.004269709553494,0.24213299128704485,0.0,conservative_research_simulation
+2024-10-31,Greek Markowitz + VIX,3.965819089170859,0.23227272962880233,0.0,conservative_research_simulation
+2024-11-29,Greek Markowitz + VIX,2.195860365065336,0.24999999999999994,0.0,conservative_research_simulation
+2024-12-31,Greek Markowitz + VIX,5.225254474174411,0.20927668455063309,0.0,conservative_research_simulation
+2025-01-31,Greek Markowitz + VIX,5.485197293260724,0.22095554041131443,0.0,conservative_research_simulation
+2025-02-28,Greek Markowitz + VIX,3.163892466617387,0.24213299128704485,0.0,conservative_research_simulation
+2025-04-30,Greek Markowitz + VIX,2.508593847611,0.24707611807909952,0.0,conservative_research_simulation
+2025-05-30,Greek Markowitz + VIX,1.866399571318275,0.22822884134446347,0.0,conservative_research_simulation
+2025-06-30,Greek Markowitz + VIX,3.0090541183833612,0.24999999999999994,0.0,conservative_research_simulation
+2025-07-31,Greek Markowitz + VIX,3.946341761112079,0.239019731978319,0.0,conservative_research_simulation
+2025-08-29,Greek Markowitz + VIX,3.303609968280124,0.24999999999999994,0.0,conservative_research_simulation
+2025-09-30,Greek Markowitz + VIX,3.155003807449603,0.23139055699419658,0.0,conservative_research_simulation
+2025-10-31,Greek Markowitz + VIX,3.1048143231273704,0.23384898093799245,0.0,conservative_research_simulation
+2025-11-28,Greek Markowitz + VIX,2.777546275240595,0.24875659536468575,0.0,conservative_research_simulation
+2025-12-31,Greek Markowitz + VIX,5.70220535172311,0.24707611807909952,0.0,conservative_research_simulation
+2026-01-30,Greek Markowitz + VIX,4.269149158352475,0.23104985857810428,0.0,conservative_research_simulation
+2026-02-27,Greek Markowitz + VIX,2.2266764008362965,0.22488776192866938,0.0,conservative_research_simulation
+2026-03-31,Greek Markowitz + VIX,2.7384368558372256,0.23609585005741857,0.0,conservative_research_simulation
+2026-04-30,Greek Markowitz + VIX,2.6573745976777983,0.24707611807909952,0.0,conservative_research_simulation
+2021-01-29,Beta/delta-neutral + VIX,3.4843016682803962,0.2490490593582118,0.0,conservative_research_simulation
+2021-02-26,Beta/delta-neutral + VIX,1.8331328093625532,0.23978578327916084,0.0,conservative_research_simulation
+2021-03-31,Beta/delta-neutral + VIX,2.3387730162719746,0.23978578327916084,0.0,conservative_research_simulation
+2021-04-30,Beta/delta-neutral + VIX,4.934937912029281,0.2030565355032422,0.0006716418185391017,conservative_research_simulation
+2021-06-30,Beta/delta-neutral + VIX,4.443666847935958,0.2203062013680277,0.0,conservative_research_simulation
+2021-07-30,Beta/delta-neutral + VIX,4.675069071583175,0.24884756776443656,0.0,conservative_research_simulation
+2021-08-31,Beta/delta-neutral + VIX,5.969957422835366,0.2305204180888577,0.0,conservative_research_simulation
+2021-09-30,Beta/delta-neutral + VIX,6.382505428980087,0.24624099542678696,0.0,conservative_research_simulation
+2021-10-29,Beta/delta-neutral + VIX,3.9223224241318126,0.232545403367645,0.0,conservative_research_simulation
+2021-11-30,Beta/delta-neutral + VIX,4.079344655393236,0.2305204180888577,0.0006716418185391017,conservative_research_simulation
+2021-12-31,Beta/delta-neutral + VIX,3.2098349489468117,0.24999999999999084,0.0,conservative_research_simulation
+2022-01-31,Beta/delta-neutral + VIX,5.420345192284583,0.23297077376014713,0.0,conservative_research_simulation
+2022-02-28,Beta/delta-neutral + VIX,3.164235802308696,0.24999999999999084,0.0,conservative_research_simulation
+2022-04-29,Beta/delta-neutral + VIX,5.1612740593850255,0.23462183649856716,0.0,conservative_research_simulation
+2022-05-31,Beta/delta-neutral + VIX,1.9139638307837388,0.2391706635466514,0.0,conservative_research_simulation
+2022-06-30,Beta/delta-neutral + VIX,2.3245512980241196,0.21514225458743397,0.0,conservative_research_simulation
+2022-07-29,Beta/delta-neutral + VIX,2.894506891701178,0.24136694827408633,0.0,conservative_research_simulation
+2022-08-31,Beta/delta-neutral + VIX,2.081967580643352,0.18052041808886088,0.0,conservative_research_simulation
+2022-09-30,Beta/delta-neutral + VIX,3.6555053412448553,0.24921696981284658,0.0,conservative_research_simulation
+2022-10-31,Beta/delta-neutral + VIX,1.6471359791477234,0.23177920602230295,0.0,conservative_research_simulation
+2022-11-30,Beta/delta-neutral + VIX,2.8962752905962192,0.24999999999999084,0.0,conservative_research_simulation
+2022-12-30,Beta/delta-neutral + VIX,4.001518518034384,0.21872923580215592,0.0006716418185391017,conservative_research_simulation
+2023-01-31,Beta/delta-neutral + VIX,2.540896238538812,0.24999999999999084,0.0006716418185391017,conservative_research_simulation
+2023-02-28,Beta/delta-neutral + VIX,2.757462674537682,0.24921696981284658,0.0,conservative_research_simulation
+2023-03-31,Beta/delta-neutral + VIX,5.227650892915664,0.24999999999999084,0.0,conservative_research_simulation
+2023-04-28,Beta/delta-neutral + VIX,5.451761742406224,0.2219623260649199,0.0,conservative_research_simulation
+2023-05-31,Beta/delta-neutral + VIX,4.6515517399498565,0.1902394536633737,0.0006716418185391017,conservative_research_simulation
+2023-06-30,Beta/delta-neutral + VIX,2.6065071552328423,0.2490490593582118,0.0,conservative_research_simulation
+2023-07-31,Beta/delta-neutral + VIX,4.445867200011454,0.22876455990906852,0.0,conservative_research_simulation
+2023-08-31,Beta/delta-neutral + VIX,4.877130815990195,0.23103074237999804,0.0006716418185391017,conservative_research_simulation
+2023-09-29,Beta/delta-neutral + VIX,5.06340878611198,0.23699282396837296,0.0006716418185391017,conservative_research_simulation
+2023-10-31,Beta/delta-neutral + VIX,5.664885627091018,0.24999999999999084,0.0,conservative_research_simulation
+2023-11-30,Beta/delta-neutral + VIX,7.564865672373455,0.20335107230073218,0.0006716418185391017,conservative_research_simulation
+2023-12-29,Beta/delta-neutral + VIX,6.128193201256029,0.22709858376902053,0.0006716418185391017,conservative_research_simulation
+2024-01-31,Beta/delta-neutral + VIX,6.093540607963445,0.24562587569427746,0.0006716418185391017,conservative_research_simulation
+2024-02-29,Beta/delta-neutral + VIX,3.4114044568458706,0.24999999999999084,0.0,conservative_research_simulation
+2024-04-30,Beta/delta-neutral + VIX,6.281500659213469,0.2490490593582118,0.0,conservative_research_simulation
+2024-05-31,Beta/delta-neutral + VIX,3.3625925755516004,0.24136694827408633,0.0,conservative_research_simulation
+2024-06-28,Beta/delta-neutral + VIX,4.086488139373042,0.20329616717536803,0.0006716418185391017,conservative_research_simulation
+2024-07-31,Beta/delta-neutral + VIX,4.951333483265903,0.24562587569427746,0.0,conservative_research_simulation
+2024-08-30,Beta/delta-neutral + VIX,2.913706897635241,0.24012538952037,0.0,conservative_research_simulation
+2024-09-30,Beta/delta-neutral + VIX,3.4291573860200577,0.23966330660443874,0.0,conservative_research_simulation
+2024-10-31,Beta/delta-neutral + VIX,4.551533614576236,0.22743916075996518,0.0,conservative_research_simulation
+2024-11-29,Beta/delta-neutral + VIX,2.31963661037686,0.24999999999999084,0.0,conservative_research_simulation
+2024-12-31,Beta/delta-neutral + VIX,5.842070549751587,0.19662090511366032,0.0,conservative_research_simulation
+2025-01-31,Beta/delta-neutral + VIX,6.5999376347803995,0.22973738790171344,0.0,conservative_research_simulation
+2025-02-28,Beta/delta-neutral + VIX,3.6128899903306224,0.23966330660443874,0.0,conservative_research_simulation
+2025-04-30,Beta/delta-neutral + VIX,2.859181774656887,0.24999999999999084,0.0,conservative_research_simulation
+2025-05-30,Beta/delta-neutral + VIX,2.048173017568921,0.22280199081922986,0.0006716418185391017,conservative_research_simulation
+2025-06-30,Beta/delta-neutral + VIX,3.3637142413529313,0.24999999999999084,0.0006716418185391017,conservative_research_simulation
+2025-07-31,Beta/delta-neutral + VIX,4.4133329159152135,0.2331386842147819,0.0,conservative_research_simulation
+2025-08-29,Beta/delta-neutral + VIX,3.7397343290373746,0.24999999999999084,0.0,conservative_research_simulation
+2025-09-30,Beta/delta-neutral + VIX,3.6035823140652306,0.22309237794858672,0.0,conservative_research_simulation
+2025-10-31,Beta/delta-neutral + VIX,3.4893855484252225,0.24368958768104715,0.0,conservative_research_simulation
+2025-11-28,Beta/delta-neutral + VIX,3.056754101262101,0.24796069744402616,0.0,conservative_research_simulation
+2025-12-31,Beta/delta-neutral + VIX,6.656873427383652,0.24999999999999084,0.0,conservative_research_simulation
+2026-01-30,Beta/delta-neutral + VIX,4.858394225909314,0.2237226023017332,0.0,conservative_research_simulation
+2026-02-27,Beta/delta-neutral + VIX,2.4619010678773585,0.2305204180888577,0.0,conservative_research_simulation
+2026-03-31,Beta/delta-neutral + VIX,3.332943372859072,0.2331386842147819,0.0,conservative_research_simulation
+2026-04-30,Beta/delta-neutral + VIX,2.9636739240222356,0.24999999999999084,0.0,conservative_research_simulation
+2021-01-29,Equal premium,0.9629629629629619,0.24074074074074048,0.0,conservative_research_simulation
+2021-02-26,Equal premium,0.9629629629629619,0.24074074074074048,0.0,conservative_research_simulation
+2021-03-31,Equal premium,0.9629629629629619,0.24074074074074048,0.0,conservative_research_simulation
+2021-04-30,Equal premium,0.9259259259259249,0.23148148148148123,0.0,conservative_research_simulation
+2021-06-30,Equal premium,0.9259259259259249,0.23148148148148123,0.0,conservative_research_simulation
+2021-07-30,Equal premium,0.9074074074074064,0.2268518518518516,0.0,conservative_research_simulation
+2021-08-31,Equal premium,0.9814814814814804,0.2453703703703701,0.0,conservative_research_simulation
+2021-09-30,Equal premium,0.9629629629629619,0.24074074074074048,0.0,conservative_research_simulation
+2021-10-29,Equal premium,0.9259259259259249,0.23148148148148123,0.0,conservative_research_simulation
+2021-11-30,Equal premium,0.9814814814814804,0.2453703703703701,0.0,conservative_research_simulation
+2021-12-31,Equal premium,0.9999999999999989,0.24999999999999972,0.0,conservative_research_simulation
+2022-01-31,Equal premium,0.9444444444444434,0.23611111111111086,0.0,conservative_research_simulation
+2022-02-28,Equal premium,0.9814814814814804,0.2453703703703701,0.0,conservative_research_simulation
+2022-04-29,Equal premium,0.9814814814814804,0.2453703703703701,0.0,conservative_research_simulation
+2022-05-31,Equal premium,0.9629629629629619,0.24074074074074048,0.0,conservative_research_simulation
+2022-06-30,Equal premium,0.9629629629629619,0.24074074074074048,0.0,conservative_research_simulation
+2022-07-29,Equal premium,0.9814814814814804,0.2453703703703701,0.0,conservative_research_simulation
+2022-08-31,Equal premium,0.8703703703703695,0.21759259259259237,0.0,conservative_research_simulation
+2022-09-30,Equal premium,0.9629629629629619,0.24074074074074048,0.0,conservative_research_simulation
+2022-10-31,Equal premium,0.9259259259259249,0.23148148148148123,0.0,conservative_research_simulation
+2022-11-30,Equal premium,0.9814814814814804,0.2453703703703701,0.0,conservative_research_simulation
+2022-12-30,Equal premium,0.9259259259259249,0.23148148148148123,0.0,conservative_research_simulation
+2023-01-31,Equal premium,0.9814814814814804,0.2453703703703701,0.0,conservative_research_simulation
+2023-02-28,Equal premium,0.9629629629629619,0.24074074074074048,0.0,conservative_research_simulation
+2023-03-31,Equal premium,0.9814814814814804,0.2453703703703701,0.0,conservative_research_simulation
+2023-04-28,Equal premium,0.888888888888888,0.222222222222222,0.0,conservative_research_simulation
+2023-05-31,Equal premium,0.8703703703703695,0.21759259259259237,0.0,conservative_research_simulation
+2023-06-30,Equal premium,0.9629629629629619,0.24074074074074048,0.0,conservative_research_simulation
+2023-07-31,Equal premium,0.9259259259259249,0.23148148148148123,0.0,conservative_research_simulation
+2023-08-31,Equal premium,0.9444444444444434,0.23611111111111086,0.0,conservative_research_simulation
+2023-09-29,Equal premium,0.9444444444444434,0.23611111111111086,0.0,conservative_research_simulation
+2023-10-31,Equal premium,0.9814814814814804,0.2453703703703701,0.0,conservative_research_simulation
+2023-11-30,Equal premium,0.888888888888888,0.222222222222222,0.0,conservative_research_simulation
+2023-12-29,Equal premium,0.888888888888888,0.222222222222222,0.0,conservative_research_simulation
+2024-01-31,Equal premium,0.9629629629629619,0.24074074074074048,0.0,conservative_research_simulation
+2024-02-29,Equal premium,0.9999999999999989,0.24999999999999972,0.0,conservative_research_simulation
+2024-04-30,Equal premium,0.9259259259259249,0.23148148148148123,0.0,conservative_research_simulation
+2024-05-31,Equal premium,0.9629629629629619,0.24074074074074048,0.0,conservative_research_simulation
+2024-06-28,Equal premium,0.888888888888888,0.222222222222222,0.0,conservative_research_simulation
+2024-07-31,Equal premium,0.9444444444444434,0.23611111111111086,0.0,conservative_research_simulation
+2024-08-30,Equal premium,0.9629629629629619,0.24074074074074048,0.0,conservative_research_simulation
+2024-09-30,Equal premium,0.9629629629629619,0.24074074074074048,0.0,conservative_research_simulation
+2024-10-31,Equal premium,0.9074074074074064,0.2268518518518516,0.0,conservative_research_simulation
+2024-11-29,Equal premium,0.9999999999999989,0.24999999999999972,0.0,conservative_research_simulation
+2024-12-31,Equal premium,0.9259259259259249,0.23148148148148123,0.0,conservative_research_simulation
+2025-01-31,Equal premium,0.9444444444444434,0.23611111111111086,0.0,conservative_research_simulation
+2025-02-28,Equal premium,0.9629629629629619,0.24074074074074048,0.0,conservative_research_simulation
+2025-04-30,Equal premium,0.9814814814814804,0.2453703703703701,0.0,conservative_research_simulation
+2025-05-30,Equal premium,0.9259259259259249,0.23148148148148123,0.0,conservative_research_simulation
+2025-06-30,Equal premium,0.9999999999999989,0.24999999999999972,0.0,conservative_research_simulation
+2025-07-31,Equal premium,0.9814814814814804,0.2453703703703701,0.0,conservative_research_simulation
+2025-08-29,Equal premium,0.9999999999999989,0.24999999999999972,0.0,conservative_research_simulation
+2025-09-30,Equal premium,0.9629629629629619,0.24074074074074048,0.0,conservative_research_simulation
+2025-10-31,Equal premium,0.9629629629629619,0.24074074074074048,0.0,conservative_research_simulation
+2025-11-28,Equal premium,0.9814814814814804,0.2453703703703701,0.0,conservative_research_simulation
+2025-12-31,Equal premium,0.9814814814814804,0.2453703703703701,0.0,conservative_research_simulation
+2026-01-30,Equal premium,0.9259259259259249,0.23148148148148123,0.0,conservative_research_simulation
+2026-02-27,Equal premium,0.9814814814814804,0.2453703703703701,0.0,conservative_research_simulation
+2026-03-31,Equal premium,0.9629629629629619,0.24074074074074048,0.0,conservative_research_simulation
+2026-04-30,Equal premium,0.9814814814814804,0.2453703703703701,0.0,conservative_research_simulation
+2021-01-29,Equal risk,0.955329063228662,0.2388322658071655,0.0,conservative_research_simulation
+2021-02-26,Equal risk,0.9412312427977926,0.23530781069944814,0.0,conservative_research_simulation
+2021-03-31,Equal risk,0.9412312427977926,0.23530781069944814,0.0,conservative_research_simulation
+2021-04-30,Equal risk,0.8450686818028053,0.2112671704507013,0.0,conservative_research_simulation
+2021-06-30,Equal risk,0.8355084746522007,0.20887711866305017,0.0,conservative_research_simulation
+2021-07-30,Equal risk,0.8767846819991633,0.21919617049979082,0.0,conservative_research_simulation
+2021-08-31,Equal risk,0.9598430016660928,0.2399607504165232,0.0,conservative_research_simulation
+2021-09-30,Equal risk,0.9594829298250219,0.23987073245625548,0.0,conservative_research_simulation
+2021-10-29,Equal risk,0.8363424404710439,0.20908561011776097,0.0,conservative_research_simulation
+2021-11-30,Equal risk,0.9598430016660928,0.2399607504165232,0.0,conservative_research_simulation
+2021-12-31,Equal risk,1.0000000000000002,0.25000000000000006,0.0,conservative_research_simulation
+2022-01-31,Equal risk,0.8672310351580018,0.21680775878950045,0.0,conservative_research_simulation
+2022-02-28,Equal risk,0.9344342301883157,0.23360855754707893,0.0,conservative_research_simulation
+2022-04-29,Equal risk,0.953322493264921,0.23833062331623026,0.0,conservative_research_simulation
+2022-05-31,Equal risk,0.9651129052329458,0.24127822630823645,0.0,conservative_research_simulation
+2022-06-30,Equal risk,0.9131654949310135,0.22829137373275338,0.0,conservative_research_simulation
+2022-07-29,Equal risk,0.964571769859057,0.24114294246476425,0.0,conservative_research_simulation
+2022-08-31,Equal risk,0.828800099872048,0.207200024968012,0.0,conservative_research_simulation
+2022-09-30,Equal risk,0.9240395930202233,0.23100989825505583,0.0,conservative_research_simulation
+2022-10-31,Equal risk,0.9300924612323591,0.23252311530808978,0.0,conservative_research_simulation
+2022-11-30,Equal risk,0.9344342301883157,0.23360855754707893,0.0,conservative_research_simulation
+2022-12-30,Equal risk,0.8560875690036179,0.21402189225090448,0.0,conservative_research_simulation
+2023-01-31,Equal risk,0.9344342301883157,0.23360855754707893,0.0,conservative_research_simulation
+2023-02-28,Equal risk,0.9240395930202233,0.23100989825505583,0.0,conservative_research_simulation
+2023-03-31,Equal risk,0.9344342301883157,0.23360855754707893,0.0,conservative_research_simulation
+2023-04-28,Equal risk,0.8455404179943946,0.21138510449859865,0.0,conservative_research_simulation
+2023-05-31,Equal risk,0.7905961270744287,0.19764903176860718,0.0,conservative_research_simulation
+2023-06-30,Equal risk,0.955329063228662,0.2388322658071655,0.0,conservative_research_simulation
+2023-07-31,Equal risk,0.8848719270214225,0.22121798175535562,0.0,conservative_research_simulation
+2023-08-31,Equal risk,0.9380194980076665,0.23450487450191662,0.0,conservative_research_simulation
+2023-09-29,Equal risk,0.9479363621192319,0.23698409052980798,0.0,conservative_research_simulation
+2023-10-31,Equal risk,0.9344342301883157,0.23360855754707893,0.0,conservative_research_simulation
+2023-11-30,Equal risk,0.8003478375830168,0.2000869593957542,0.0,conservative_research_simulation
+2023-12-29,Equal risk,0.8590980942810351,0.21477452357025878,0.0,conservative_research_simulation
+2024-01-31,Equal risk,0.9833645922601751,0.24584114806504379,0.0,conservative_research_simulation
+2024-02-29,Equal risk,1.0000000000000002,0.25000000000000006,0.0,conservative_research_simulation
+2024-04-30,Equal risk,0.8760912745524281,0.21902281863810702,0.0,conservative_research_simulation
+2024-05-31,Equal risk,0.8990060000473725,0.22475150001184313,0.0,conservative_research_simulation
+2024-06-28,Equal risk,0.8084017851943303,0.20210044629858256,0.0,conservative_research_simulation
+2024-07-31,Equal risk,0.9177988224484908,0.2294497056121227,0.0,conservative_research_simulation
+2024-08-30,Equal risk,0.9490771666101896,0.2372692916525474,0.0,conservative_research_simulation
+2024-09-30,Equal risk,0.9740831073705571,0.24352077684263929,0.0,conservative_research_simulation
+2024-10-31,Equal risk,0.8668483368461969,0.21671208421154922,0.0,conservative_research_simulation
+2024-11-29,Equal risk,1.0000000000000002,0.25000000000000006,0.0,conservative_research_simulation
+2024-12-31,Equal risk,0.9123850861765982,0.22809627154414955,0.0,conservative_research_simulation
+2025-01-31,Equal risk,0.8838825946863158,0.22097064867157895,0.0,conservative_research_simulation
+2025-02-28,Equal risk,0.9740831073705571,0.24352077684263929,0.0,conservative_research_simulation
+2025-04-30,Equal risk,0.9344342301883157,0.23360855754707893,0.0,conservative_research_simulation
+2025-05-30,Equal risk,0.8755904421318045,0.21889761053295112,0.0,conservative_research_simulation
+2025-06-30,Equal risk,1.0000000000000002,0.25000000000000006,0.0,conservative_research_simulation
+2025-07-31,Equal risk,0.967073104572932,0.241768276143233,0.0,conservative_research_simulation
+2025-08-29,Equal risk,1.0000000000000002,0.25000000000000006,0.0,conservative_research_simulation
+2025-09-30,Equal risk,0.9425806469739701,0.23564516174349254,0.0,conservative_research_simulation
+2025-10-31,Equal risk,0.9011833474406998,0.22529583686017496,0.0,conservative_research_simulation
+2025-11-28,Equal risk,0.9887103625737514,0.24717759064343786,0.0,conservative_research_simulation
+2025-12-31,Equal risk,0.9344342301883157,0.23360855754707893,0.0,conservative_research_simulation
+2026-01-30,Equal risk,0.8556844674522118,0.21392111686305296,0.0,conservative_research_simulation
+2026-02-27,Equal risk,0.9598430016660928,0.2399607504165232,0.0,conservative_research_simulation
+2026-03-31,Equal risk,0.9015073347612476,0.2253768336903119,0.0,conservative_research_simulation
+2026-04-30,Equal risk,0.9344342301883157,0.23360855754707893,0.0,conservative_research_simulation
+2021-01-29,VIX hedge sleeve,1.0,0.25,0.0,conservative_research_simulation
+2021-02-26,VIX hedge sleeve,1.0,0.25,0.0,conservative_research_simulation
+2021-03-31,VIX hedge sleeve,1.0,0.25,0.0,conservative_research_simulation
+2021-04-30,VIX hedge sleeve,1.0,0.25,0.0,conservative_research_simulation
+2021-06-30,VIX hedge sleeve,1.0,0.25,0.0,conservative_research_simulation
+2021-07-30,VIX hedge sleeve,1.0,0.25,0.0,conservative_research_simulation
+2021-08-31,VIX hedge sleeve,1.0,0.25,0.0,conservative_research_simulation
+2021-09-30,VIX hedge sleeve,1.0,0.25,0.0,conservative_research_simulation
+2021-10-29,VIX hedge sleeve,1.0,0.25,0.0,conservative_research_simulation
+2021-11-30,VIX hedge sleeve,1.0,0.25,0.0,conservative_research_simulation
+2021-12-31,VIX hedge sleeve,1.0,0.25,0.0,conservative_research_simulation
+2022-01-31,VIX hedge sleeve,1.0,0.25,0.0,conservative_research_simulation
+2022-02-28,VIX hedge sleeve,1.0,0.25,0.0,conservative_research_simulation
+2022-04-29,VIX hedge sleeve,1.0,0.25,0.0,conservative_research_simulation
+2022-05-31,VIX hedge sleeve,1.0,0.25,0.0,conservative_research_simulation
+2022-06-30,VIX hedge sleeve,1.0,0.25,0.0,conservative_research_simulation
+2022-07-29,VIX hedge sleeve,1.0,0.25,0.0,conservative_research_simulation
+2022-08-31,VIX hedge sleeve,0.0,0.0,0.0,conservative_research_simulation
+2022-09-30,VIX hedge sleeve,1.0,0.25,0.0,conservative_research_simulation
+2022-10-31,VIX hedge sleeve,1.0,0.25,0.0,conservative_research_simulation
+2022-11-30,VIX hedge sleeve,1.0,0.25,0.0,conservative_research_simulation
+2022-12-30,VIX hedge sleeve,1.0,0.25,0.0,conservative_research_simulation
+2023-01-31,VIX hedge sleeve,1.0,0.25,0.0,conservative_research_simulation
+2023-02-28,VIX hedge sleeve,1.0,0.25,0.0,conservative_research_simulation
+2023-03-31,VIX hedge sleeve,1.0,0.25,0.0,conservative_research_simulation
+2023-04-28,VIX hedge sleeve,1.0,0.25,0.0,conservative_research_simulation
+2023-05-31,VIX hedge sleeve,1.0,0.25,0.0,conservative_research_simulation
+2023-06-30,VIX hedge sleeve,1.0,0.25,0.0,conservative_research_simulation
+2023-07-31,VIX hedge sleeve,1.0,0.25,0.0,conservative_research_simulation
+2023-08-31,VIX hedge sleeve,1.0,0.25,0.0,conservative_research_simulation
+2023-09-29,VIX hedge sleeve,1.0,0.25,0.0,conservative_research_simulation
+2023-10-31,VIX hedge sleeve,1.0,0.25,0.0,conservative_research_simulation
+2023-11-30,VIX hedge sleeve,1.0,0.25,0.0,conservative_research_simulation
+2023-12-29,VIX hedge sleeve,1.0,0.25,0.0,conservative_research_simulation
+2024-01-31,VIX hedge sleeve,1.0,0.25,0.0,conservative_research_simulation
+2024-02-29,VIX hedge sleeve,1.0,0.25,0.0,conservative_research_simulation
+2024-04-30,VIX hedge sleeve,1.0,0.25,0.0,conservative_research_simulation
+2024-05-31,VIX hedge sleeve,1.0,0.25,0.0,conservative_research_simulation
+2024-06-28,VIX hedge sleeve,0.6666666666666666,0.16666666666666666,0.0,conservative_research_simulation
+2024-07-31,VIX hedge sleeve,1.0,0.25,0.0,conservative_research_simulation
+2024-08-30,VIX hedge sleeve,1.0,0.25,0.0,conservative_research_simulation
+2024-09-30,VIX hedge sleeve,1.0,0.25,0.0,conservative_research_simulation
+2024-10-31,VIX hedge sleeve,1.0,0.25,0.0,conservative_research_simulation
+2024-11-29,VIX hedge sleeve,1.0,0.25,0.0,conservative_research_simulation
+2024-12-31,VIX hedge sleeve,1.0,0.25,0.0,conservative_research_simulation
+2025-01-31,VIX hedge sleeve,1.0,0.25,0.0,conservative_research_simulation
+2025-02-28,VIX hedge sleeve,1.0,0.25,0.0,conservative_research_simulation
+2025-04-30,VIX hedge sleeve,1.0,0.25,0.0,conservative_research_simulation
+2025-05-30,VIX hedge sleeve,1.0,0.25,0.0,conservative_research_simulation
+2025-06-30,VIX hedge sleeve,1.0,0.25,0.0,conservative_research_simulation
+2025-07-31,VIX hedge sleeve,1.0,0.25,0.0,conservative_research_simulation
+2025-08-29,VIX hedge sleeve,1.0,0.25,0.0,conservative_research_simulation
+2025-09-30,VIX hedge sleeve,1.0,0.25,0.0,conservative_research_simulation
+2025-10-31,VIX hedge sleeve,1.0,0.25,0.0,conservative_research_simulation
+2025-11-28,VIX hedge sleeve,1.0,0.25,0.0,conservative_research_simulation
+2025-12-31,VIX hedge sleeve,1.0,0.25,0.0,conservative_research_simulation
+2026-01-30,VIX hedge sleeve,1.0,0.25,0.0,conservative_research_simulation
+2026-02-27,VIX hedge sleeve,1.0,0.25,0.0,conservative_research_simulation
+2026-03-31,VIX hedge sleeve,1.0,0.25,0.0,conservative_research_simulation
+2026-04-30,VIX hedge sleeve,1.0,0.25,0.0,conservative_research_simulation

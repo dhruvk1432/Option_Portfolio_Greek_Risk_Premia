@@ -1,0 +1,20 @@
+\begin{tabular}{llll}
+\toprule
+Claim & Type & Evidence & Status \\
+\midrule
+Option covariance equals $B\Omega B^\top+\Sigma_\varepsilon$ & Theorem & Displayed proof and standard covariance algebra & Proved \\
+Unconstrained option tangency is $\Sigma_O^{-1}\mu_O$ & Theorem & Displayed Lagrange multiplier proof & Proved \\
+Greek Markowitz Sharpe exceeds random feasible p95 & Generated empirical & performance table and random feasible Sharpe artifact & Not supported after exact-expiry PIT audit \\
+Result is not only long-call equity drift & Generated diagnostic & exposure, regression, regimes, equity benchmarks, leave-one-out & Not supported as an alpha-independence claim \\
+Option premium cost is included in P\&L and Sharpe & Accounting identity & NAV weights, mark-return construction, exposure premium columns & Implemented by construction \\
+Empirical returns use point-in-time option choices & Generated diagnostic & timing diagnostics, trading-data audit, and holding-return detail artifacts & Checked against train/test dates \\
+Stock splits do not create option windfalls & Generated diagnostic & raw-close split factors and exact-expiry payoff construction & Checked for detected split/unit jumps \\
+Greek risk model fully explains option P\&L & Rejected overclaim & approximation diagnostics and P\&L attribution artifacts & Not claimed \\
+Post-cost research returns include implementation frictions & Generated empirical & Generated mid, half-spread, full-spread, fee, capacity, required-capital, and assignment-risk ledgers & Implemented as conservative research simulation \\
+Pre-production results are broker-executed live evidence & Rejected overclaim & No live fills, order routing, broker margin preview, or broker reconciliation & Not claimed \\
+VIX option results are headline-grade listed-settlement evidence & Conditional empirical & All VIX headline rows use exact VRO/SOQ source flags & Supported \\
+Strategy is production tradable after costs & Production claim & No live fills, live broker margin preview, order routing, or broker reconciliation & Not claimed \\
+VIX options are modeled as volatility derivatives, not equity underlyings & Modeling convention & VIX option panel uses VX-forward Black-76 Greeks and VIX/VVIX state variables & Implemented \\
+VIX option expiry P\&L is exact listed settlement P\&L & Generated empirical & All VIX expiry rows use exact Cboe VRO/SOQ settlement & Supported \\
+\bottomrule
+\end{tabular}

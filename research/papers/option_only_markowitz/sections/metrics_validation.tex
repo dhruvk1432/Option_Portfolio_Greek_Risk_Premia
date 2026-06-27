@@ -1,0 +1,57 @@
+\section{Metrics and Validation}
+
+The validation design asks several different questions. The realized path asks what
+happened in the held-out monthly window. The point-in-time audit asks whether decisions
+used only information available at the rebalance date. The regression asks whether the
+option book is mostly equity drift or volatility exposure. The attribution asks whether P\&L
+comes from delta, gamma, vega, carry, VIX-forward exposure, skew/tail terms, or residual
+marking error. Cost stress asks whether the gross result survives realistic research
+frictions.
+
+\begin{figure}[H]
+\centering
+\IfFileExists{figures/portfolio_growth.pdf}
+  {\includegraphics[width=0.88\textwidth]{portfolio_growth.pdf}}
+  {\fbox{\parbox{0.82\textwidth}{Run the empirical pipeline to generate the portfolio growth figure.}}}
+\caption{Headline out-of-sample growth paths. The figure focuses on the central option
+allocators and equity benchmarks; the all-strategy growth diagnostic appears in
+Appendix~A. The log-scale floor prevents failed strategies from disappearing visually.}
+\label{fig:growth}
+\end{figure}
+
+Performance is reported with complementary measures. Sharpe follows the reward-to-
+variability tradition \citep{sharpe1966}. Sortino replaces total volatility with downside
+deviation \citep{sortino_price1994}. Calmar scales return by maximum drawdown
+\citep{magdon_ismail_atiya2004}. Omega compares gains above a threshold with shortfalls
+below it \citep{keating_shadwick2002}. Information ratio measures active return against
+SPY \citep{grinold_kahn2000}. The zero monthly threshold is used for Sortino and Omega
+because cash is a numeraire in the model, not an alpha sleeve.
+
+The inference layer is intentionally conservative. Sharpe, Sortino, Calmar, Omega, regime
+statistics, and leave-one-out differences are reported with block-bootstrap intervals where
+meaningful. Factor alpha uses HAC/Newey--West standard errors. These intervals do not
+prove economic significance, but they prevent the paper from reading point estimates as
+certainties. The pre-production extension also reports probabilistic Sharpe ratios,
+deflated Sharpe ratios, and a block-bootstrap max-Sharpe screen across the tested gross and
+executable-cost variants.
+
+\begin{figure}[H]
+\centering
+\IfFileExists{figures/random_sharpe_histogram.pdf}
+  {\includegraphics[width=0.70\textwidth]{random_sharpe_histogram.pdf}}
+  {\fbox{\parbox{0.72\textwidth}{Run the empirical pipeline to generate the random feasible Sharpe figure.}}}
+\caption{Random feasible comparison. The histogram shows out-of-sample Sharpe ratios for
+random gross-NAV-feasible option books; the vertical marker shows the optimized
+Greek-Markowitz-plus-VIX sleeve. The exhibit asks whether optimization adds information
+beyond arbitrary feasible option exposure.}
+\label{fig:random_sharpe}
+\end{figure}
+
+The point-in-time contract is strict. Decision dates precede return dates. State snapshots,
+Greeks, forecasts, covariances, residuals, betas, borrow proxies, and cost inputs are drawn
+from the training window or the decision date. Expiry spot, future IV, future VIX/VVIX,
+future VX curves, and future option returns are not allowed to enter portfolio construction.
+Cost-scenario ledgers, required-capital denominators, hurdle/no-trade records, liquidity-tier
+diagnostics, assignment-risk filters, and reality-check inputs obey the same rule. The
+audit layer reads the machine-readable outputs independently and fails if core lineage,
+settlement, cost, inference, claim, or manuscript checks fail.

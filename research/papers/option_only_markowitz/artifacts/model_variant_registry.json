@@ -1,0 +1,184 @@
+[
+  {
+    "Variant":"Equity-option Greek Markowitz::gross",
+    "Basis":"gross",
+    "OOS start":"2021-01-29",
+    "OOS end":"2026-04-30",
+    "Seed":20260625
+  },
+  {
+    "Variant":"Greek Markowitz + VIX::gross",
+    "Basis":"gross",
+    "OOS start":"2021-01-29",
+    "OOS end":"2026-04-30",
+    "Seed":20260625
+  },
+  {
+    "Variant":"Beta\/delta-neutral + VIX::gross",
+    "Basis":"gross",
+    "OOS start":"2021-01-29",
+    "OOS end":"2026-04-30",
+    "Seed":20260625
+  },
+  {
+    "Variant":"Equal premium::gross",
+    "Basis":"gross",
+    "OOS start":"2021-01-29",
+    "OOS end":"2026-04-30",
+    "Seed":20260625
+  },
+  {
+    "Variant":"Equal risk::gross",
+    "Basis":"gross",
+    "OOS start":"2021-01-29",
+    "OOS end":"2026-04-30",
+    "Seed":20260625
+  },
+  {
+    "Variant":"VIX hedge sleeve::gross",
+    "Basis":"gross",
+    "OOS start":"2021-01-29",
+    "OOS end":"2026-04-30",
+    "Seed":20260625
+  },
+  {
+    "Variant":"Delta-matched equities::gross",
+    "Basis":"gross",
+    "OOS start":"2021-01-29",
+    "OOS end":"2026-04-30",
+    "Seed":20260625
+  },
+  {
+    "Variant":"Underlying Markowitz::gross",
+    "Basis":"gross",
+    "OOS start":"2021-01-29",
+    "OOS end":"2026-04-30",
+    "Seed":20260625
+  },
+  {
+    "Variant":"Equity-option Greek Markowitz::mid",
+    "Basis":"mid",
+    "OOS start":"2021-01-29",
+    "OOS end":"2026-04-30",
+    "Seed":20260625
+  },
+  {
+    "Variant":"Greek Markowitz + VIX::mid",
+    "Basis":"mid",
+    "OOS start":"2021-01-29",
+    "OOS end":"2026-04-30",
+    "Seed":20260625
+  },
+  {
+    "Variant":"Beta\/delta-neutral + VIX::mid",
+    "Basis":"mid",
+    "OOS start":"2021-01-29",
+    "OOS end":"2026-04-30",
+    "Seed":20260625
+  },
+  {
+    "Variant":"Equal premium::mid",
+    "Basis":"mid",
+    "OOS start":"2021-01-29",
+    "OOS end":"2026-04-30",
+    "Seed":20260625
+  },
+  {
+    "Variant":"Equal risk::mid",
+    "Basis":"mid",
+    "OOS start":"2021-01-29",
+    "OOS end":"2026-04-30",
+    "Seed":20260625
+  },
+  {
+    "Variant":"VIX hedge sleeve::mid",
+    "Basis":"mid",
+    "OOS start":"2021-01-29",
+    "OOS end":"2026-04-30",
+    "Seed":20260625
+  },
+  {
+    "Variant":"Equity-option Greek Markowitz::half_spread",
+    "Basis":"half_spread",
+    "OOS start":"2021-01-29",
+    "OOS end":"2026-04-30",
+    "Seed":20260625
+  },
+  {
+    "Variant":"Greek Markowitz + VIX::half_spread",
+    "Basis":"half_spread",
+    "OOS start":"2021-01-29",
+    "OOS end":"2026-04-30",
+    "Seed":20260625
+  },
+  {
+    "Variant":"Beta\/delta-neutral + VIX::half_spread",
+    "Basis":"half_spread",
+    "OOS start":"2021-01-29",
+    "OOS end":"2026-04-30",
+    "Seed":20260625
+  },
+  {
+    "Variant":"Equal premium::half_spread",
+    "Basis":"half_spread",
+    "OOS start":"2021-01-29",
+    "OOS end":"2026-04-30",
+    "Seed":20260625
+  },
+  {
+    "Variant":"Equal risk::half_spread",
+    "Basis":"half_spread",
+    "OOS start":"2021-01-29",
+    "OOS end":"2026-04-30",
+    "Seed":20260625
+  },
+  {
+    "Variant":"VIX hedge sleeve::half_spread",
+    "Basis":"half_spread",
+    "OOS start":"2021-01-29",
+    "OOS end":"2026-04-30",
+    "Seed":20260625
+  },
+  {
+    "Variant":"Equity-option Greek Markowitz::full_spread",
+    "Basis":"full_spread",
+    "OOS start":"2021-01-29",
+    "OOS end":"2026-04-30",
+    "Seed":20260625
+  },
+  {
+    "Variant":"Greek Markowitz + VIX::full_spread",
+    "Basis":"full_spread",
+    "OOS start":"2021-01-29",
+    "OOS end":"2026-04-30",
+    "Seed":20260625
+  },
+  {
+    "Variant":"Beta\/delta-neutral + VIX::full_spread",
+    "Basis":"full_spread",
+    "OOS start":"2021-01-29",
+    "OOS end":"2026-04-30",
+    "Seed":20260625
+  },
+  {
+    "Variant":"Equal premium::full_spread",
+    "Basis":"full_spread",
+    "OOS start":"2021-01-29",
+    "OOS end":"2026-04-30",
+    "Seed":20260625
+  },
+  {
+    "Variant":"Equal risk::full_spread",
+    "Basis":"full_spread",
+    "OOS start":"2021-01-29",
+    "OOS end":"2026-04-30",
+    "Seed":20260625
+  },
+  {
+    "Variant":"VIX hedge sleeve::full_spread",
+    "Basis":"full_spread",
+    "OOS start":"2021-01-29",
+    "OOS end":"2026-04-30",
+    "Seed":20260625
+  }
+]

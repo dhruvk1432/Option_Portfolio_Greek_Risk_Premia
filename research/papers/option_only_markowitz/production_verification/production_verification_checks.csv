@@ -1,0 +1,8 @@
+category,name,passed,critical,observed,expected
+settlement,settlement ledger exists,False,True,0,""">0 rows"""
+execution,execution ledger exists,False,True,0,""">0 rows"""
+execution,fill ledger exists,False,True,0,""">0 rows"""
+margin,margin ledger exists,False,True,0,""">0 rows"""
+assignment,assignment ledger exists,False,True,0,""">0 rows or explicit no-assignment row"""
+reconciliation,data reconciliation ledger exists,False,True,0,""">0 rows"""
+reconciliation,broker position reconciliation exists,False,True,0,""">0 rows"""

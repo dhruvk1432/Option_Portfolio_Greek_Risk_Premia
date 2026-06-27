@@ -1,0 +1,364 @@
+\section{Appendix}
+
+\begin{center}
+\fbox{\begin{minipage}{0.86\textwidth}
+\textbf{\color{journalgreen} Reproducibility}\par
+Run from the project root after configuring local data paths and credentials where
+needed:\par
+\vspace{2pt}
+\texttt{make option-paper}\par
+\texttt{make paper}\par
+\texttt{make verify}\par
+\texttt{make test}\par
+\end{minipage}}
+\end{center}
+
+\subsection{Additional realized-path and optimizer results}
+
+This supplement begins with realized-path and optimizer diagnostics. The exhibits use the
+same held-out panel as the body tables and compare allocation behavior rather than
+re-estimating a separate experiment.
+
+\begin{figure}[H]
+\centering
+\IfFileExists{figures/portfolio_growth_all_strategies.pdf}
+  {\includegraphics[width=0.86\textwidth]{portfolio_growth_all_strategies.pdf}}
+  {\fbox{\parbox{0.78\textwidth}{Run the empirical pipeline to generate the all-strategy growth diagnostic.}}}
+\caption{All-strategy out-of-sample growth diagnostic. The main text shows the central
+strategies; this appendix figure keeps every generated strategy visible for auditability.}
+\label{fig:growth_all_app}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\IfFileExists{figures/risk_calibration.pdf}
+  {\includegraphics[width=0.72\textwidth]{risk_calibration.pdf}}
+  {\fbox{\parbox{0.75\textwidth}{Run the empirical pipeline to generate the risk calibration figure.}}}
+\caption{Predicted versus realized monthly volatility by option strategy.}
+\label{fig:risk_calibration_app}
+\end{figure}
+
+\begin{table}[H]
+\centering
+\scriptsize
+\IfFileExists{tables/exposure_summary.tex}
+  {\resizebox{0.92\textwidth}{!}{\input{tables/exposure_summary}}}
+  {\begin{tabular}{llll}\toprule Strategy & Gross NAV & Net NAV & Short gross \\\midrule Missing & -- & -- & -- \\\bottomrule\end{tabular}}
+\caption{Premium and sign exposures. The table records how much option premium is paid,
+sold, and netted before the strategy return is realized.}
+\label{tab:premium_exposure_app}
+\end{table}
+
+\begin{table}[H]
+\centering
+\scriptsize
+\IfFileExists{tables/greek_exposure_summary.tex}
+  {\resizebox{\textwidth}{!}{\input{tables/greek_exposure_summary}}}
+  {\begin{tabular}{llll}\toprule Strategy & Delta & Vega & Stress \\\midrule Missing & -- & -- & -- \\\bottomrule\end{tabular}}
+\caption{Greek, beta-proxy, VIX-vega, stress, and option-right exposures.}
+\label{tab:greek_exposure_app}
+\end{table}
+
+\subsection{Option, VIX, cost, and settlement diagnostics}
+
+The option results are reported only after timing, settlement, and cost conventions are
+visible. This is where the paper records the distinction between gross theory returns,
+post-cost research returns, and production claims that are not made.
+
+\begin{table}[H]
+\centering
+\scriptsize
+\IfFileExists{tables/timing_diagnostics.tex}
+  {\resizebox{0.92\textwidth}{!}{\input{tables/timing_diagnostics}}}
+  {\begin{tabular}{ll}\toprule Diagnostic & Value \\\midrule Missing & Run the empirical pipeline \\\bottomrule\end{tabular}}
+\caption{Timing and return-construction diagnostics.}
+\label{tab:timing_app}
+\end{table}
+
+\begin{table}[H]
+\centering
+\scriptsize
+\IfFileExists{tables/trading_data_audit.tex}
+  {\resizebox{\textwidth}{!}{\input{tables/trading_data_audit}}}
+  {\begin{tabular}{lll}\toprule Check & Value & Pass \\\midrule Missing & -- & -- \\\bottomrule\end{tabular}}
+\caption{Trading-data audit for the point-in-time holding model. Rows include VIX option
+settlement-source flags; proxy rows, if present, remain diagnostic.}
+\label{tab:trading_audit_app}
+\end{table}
+
+\begin{table}[H]
+\centering
+\scriptsize
+\IfFileExists{tables/vix_required_settlement_download_audit.tex}
+  {\resizebox{0.86\textwidth}{!}{\input{tables/vix_required_settlement_download_audit}}}
+  {\begin{tabular}{llll}\toprule Year & Exact & Component & Expiries \\\midrule Missing & -- & -- & -- \\\bottomrule\end{tabular}}
+\caption{Public Cboe VRO/SOQ download audit for required VIX expiries. Rows with
+\texttt{Exact scalar parsed = False} are not used in headline VIX option returns.}
+\label{tab:vix_download_audit_app}
+\end{table}
+
+\begin{table}[H]
+\centering
+\scriptsize
+\IfFileExists{tables/cost_capacity_margin_diagnostics.tex}
+  {\resizebox{\textwidth}{!}{\input{tables/cost_capacity_margin_diagnostics}}}
+  {\begin{tabular}{llll}\toprule Strategy & Cost & Capacity & Margin \\\midrule Missing & -- & -- & -- \\\bottomrule\end{tabular}}
+\caption{Research cost and capital diagnostics. Costs include transaction costs, spread
+crossing, explicit fees, slippage, borrow, capacity penalties, simulated margin funding,
+and assignment-risk penalties where flagged. These are not live broker fills.}
+\label{tab:costs_app}
+\end{table}
+
+\begin{table}[H]
+\centering
+\scriptsize
+\IfFileExists{tables/capacity_market_impact_diagnostics.tex}
+  {\resizebox{\textwidth}{!}{\input{tables/capacity_market_impact_diagnostics}}}
+  {\begin{tabular}{llll}\toprule Strategy & Scenario & Contracts & Capacity \\\midrule Missing & -- & -- & -- \\\bottomrule\end{tabular}}
+\caption{Executable-cost, capacity, and market-impact diagnostics by scenario. Rows are
+generated from the cost-scenario ledger and record no-fill/capacity failures rather than
+assuming midpoint execution.}
+\label{tab:capacity_market_impact_app}
+\end{table}
+
+\begin{table}[H]
+\centering
+\scriptsize
+\IfFileExists{tables/portfolio_performance_diagnostics.tex}
+  {\resizebox{\textwidth}{!}{\input{tables/portfolio_performance_diagnostics}}}
+  {\begin{tabular}{llll}\toprule Strategy & Downside & Drawdown & NAV \\\midrule Missing & -- & -- & -- \\\bottomrule\end{tabular}}
+\caption{Gross performance diagnostics and NAV accounting.}
+\label{tab:performance_diag_app}
+\end{table}
+
+\begin{table}[H]
+\centering
+\scriptsize
+\IfFileExists{tables/portfolio_performance_net_diagnostics.tex}
+  {\resizebox{\textwidth}{!}{\input{tables/portfolio_performance_net_diagnostics}}}
+  {\begin{tabular}{llll}\toprule Strategy & Downside & Drawdown & NAV \\\midrule Missing & -- & -- & -- \\\bottomrule\end{tabular}}
+\caption{Post-cost performance diagnostics and NAV accounting.}
+\label{tab:performance_net_diag_app}
+\end{table}
+
+\subsection{Validation, inference, and robustness additional results}
+
+The validation appendix keeps uncertain evidence in view. The bootstrap intervals and
+leave-one-underlying-out tests are uncertainty screens, not proof that a premium is stable.
+
+\begin{table}[H]
+\centering
+\scriptsize
+\IfFileExists{tables/liquidity_tier_performance.tex}
+  {\resizebox{\textwidth}{!}{\input{tables/liquidity_tier_performance}}}
+  {\begin{tabular}{llll}\toprule Tier & Strategy & Sharpe & Calmar \\\midrule Missing & -- & -- & -- \\\bottomrule\end{tabular}}
+\caption{Liquidity-tier performance. The tiers test whether the option allocation survives
+when the universe is restricted to high-volume, tight-spread, high-open-interest, or jointly
+liquid contracts.}
+\label{tab:liquidity_tiers_app}
+\end{table}
+
+\begin{table}[H]
+\centering
+\scriptsize
+\IfFileExists{tables/pnl_attribution.tex}
+  {\resizebox{\textwidth}{!}{\input{tables/pnl_attribution}}}
+  {\begin{tabular}{llll}\toprule Strategy & Delta & Vega & Residual \\\midrule Missing & -- & -- & -- \\\bottomrule\end{tabular}}
+\caption{Annualized mean P\&L attribution. Equity-option Greeks and VIX-forward Greeks
+are separated; components reconcile to realized mean after the residual term.}
+\label{tab:pnl_attribution_app}
+\end{table}
+
+\begin{table}[H]
+\centering
+\scriptsize
+\IfFileExists{tables/regime_performance.tex}
+  {\resizebox{\textwidth}{!}{\input{tables/regime_performance}}}
+  {\begin{tabular}{llll}\toprule Regime & Strategy & Return & Sharpe \\\midrule Missing & -- & -- & -- \\\bottomrule\end{tabular}}
+\caption{Performance by SPY-return tercile. Down, flat, and up regimes are descriptive
+cuts of the held-out sample, not fitted optimizer inputs.}
+\label{tab:regime_performance_app}
+\end{table}
+
+\begin{table}[H]
+\centering
+\scriptsize
+\IfFileExists{tables/forecast_ablation_performance.tex}
+  {\resizebox{0.86\textwidth}{!}{\input{tables/forecast_ablation_performance}}}
+  {\begin{tabular}{llll}\toprule Ablation & Return & Sharpe & Calmar \\\midrule Missing & -- & -- & -- \\\bottomrule\end{tabular}}
+\caption{Forecast ablation performance. Each row isolates one economically identified
+component of the conditional option-premium forecast.}
+\label{tab:forecast_ablation_app}
+\end{table}
+
+\begin{table}[H]
+\centering
+\scriptsize
+\IfFileExists{tables/inference_summary.tex}
+  {\resizebox{\textwidth}{!}{\input{tables/inference_summary}}}
+  {\begin{tabular}{llll}\toprule Strategy & Metric & Estimate & Interval \\\midrule Missing & -- & -- & -- \\\bottomrule\end{tabular}}
+\caption{Full bootstrap inference ledger for gross and post-cost strategy metrics.}
+\label{tab:inference_app}
+\end{table}
+
+\begin{table}[H]
+\centering
+\scriptsize
+\IfFileExists{tables/reality_check_inference.tex}
+  {\resizebox{\textwidth}{!}{\input{tables/reality_check_inference}}}
+  {\begin{tabular}{llll}\toprule Variant & Sharpe & PSR & DSR \\\midrule Missing & -- & -- & -- \\\bottomrule\end{tabular}}
+\caption{Reality-check inference across gross and executable-cost variants.}
+\label{tab:reality_check_app}
+\end{table}
+
+
+\subsubsection{Tail-path simulation diagnostics}
+
+The next tables simulate alternative out-of-sample paths from the realized monthly strategy
+returns. They are path-risk diagnostics only: simulated returns do not enter contract
+selection, optimizer weights, expected-return forecasts, or any trading decision. The block
+bootstrap preserves short-run dependence in the realized option return path. The
+volatility-clustered simulation fits EGARCH(1,1)-t only when the OOS sample is long enough;
+otherwise it reports an EWMA residual fallback rather than pretending that the EGARCH
+parameters are precisely estimated.
+
+\begin{table}[H]
+\centering
+\scriptsize
+\IfFileExists{tables/drawdown_breach_rates.tex}
+  {\resizebox{\textwidth}{!}{\input{tables/drawdown_breach_rates}}}
+  {\begin{tabular}{llll}\toprule Basis & Strategy & Simulation & Breach \\\midrule Missing & -- & -- & -- \\\bottomrule\end{tabular}}
+\caption{Drawdown-breach probabilities from block-bootstrap and volatility-clustered path
+simulations. The thresholds are intentionally wide because option-only post-cost paths can
+experience large drawdowns.}
+\label{tab:simulation_breach_app}
+\end{table}
+
+\begin{table}[H]
+\centering
+\scriptsize
+\IfFileExists{tables/simulation_summary.tex}
+  {\resizebox{\textwidth}{!}{\input{tables/simulation_summary}}}
+  {\begin{tabular}{llll}\toprule Basis & Strategy & Simulation & Max DD \\\midrule Missing & -- & -- & -- \\\bottomrule\end{tabular}}
+\caption{Tail-path simulation summary. Median return and Sortino describe the simulated
+path center; the fifth-percentile maximum drawdown and terminal wealth columns describe the
+left tail of realized-path resampling.}
+\label{tab:simulation_summary_app}
+\end{table}
+
+\begin{table}[H]
+\centering
+\scriptsize
+\IfFileExists{tables/simulation_assumptions.tex}
+  {\resizebox{\textwidth}{!}{\input{tables/simulation_assumptions}}}
+  {\begin{tabular}{llll}\toprule Basis & Strategy & Method & Status \\\midrule Missing & -- & -- & -- \\\bottomrule\end{tabular}}
+\caption{Simulation assumptions and model status. Fallback rows are deliberate diagnostics:
+when the monthly OOS sample is too short for EGARCH estimation, the appendix uses an EWMA
+residual bootstrap and records the reason.}
+\label{tab:simulation_assumptions_app}
+\end{table}
+
+\begin{table}[H]
+\centering
+\scriptsize
+\IfFileExists{tables/vix_regime_performance.tex}
+  {\resizebox{\textwidth}{!}{\input{tables/vix_regime_performance}}}
+  {\begin{tabular}{llll}\toprule Strategy & Regime & Return & Sharpe \\\midrule Missing & -- & -- & -- \\\bottomrule\end{tabular}}
+\caption{Performance by VIX-level tercile.}
+\label{tab:vix_regime_app}
+\end{table}
+
+
+\begin{table}[H]
+\centering
+\scriptsize
+\IfFileExists{tables/factor_regression.tex}
+  {\resizebox{\textwidth}{!}{\input{tables/factor_regression}}}
+  {\begin{tabular}{llll}\toprule Strategy & Alpha & Controls & Status \\\midrule Missing & -- & -- & -- \\\bottomrule\end{tabular}}
+\caption{Full factor regression ledger, including SPY, all eight underlying equities, VX front returns, VIX changes, and VVIX changes.}
+\label{tab:factor_regression_full_app}
+\end{table}
+
+\begin{table}[H]
+\centering
+\scriptsize
+\IfFileExists{tables/leave_one_out.tex}
+  {\resizebox{\textwidth}{!}{\input{tables/leave_one_out}}}
+  {\begin{tabular}{llll}\toprule Exclusion & Sharpe & Delta & Status \\\midrule Missing & -- & -- & -- \\\bottomrule\end{tabular}}
+\caption{Leave-one-underlying-out robustness for the VIX-enabled Greek Markowitz option
+portfolio.}
+\label{tab:loo_app}
+\end{table}
+
+\begin{figure}[H]
+\centering
+\IfFileExists{figures/leave_one_out_sharpe.pdf}
+  {\includegraphics[width=0.88\textwidth]{leave_one_out_sharpe.pdf}}
+  {\fbox{\parbox{0.78\textwidth}{Run the empirical pipeline to generate the leave-one-out figure.}}}
+\caption{Out-of-sample Sharpe ratios for leave-one-underlying-out variants.}
+\label{fig:loo_app}
+\end{figure}
+
+\begin{table}[H]
+\centering
+\scriptsize
+\IfFileExists{tables/rolling_oos.tex}
+  {\resizebox{0.72\textwidth}{!}{\input{tables/rolling_oos}}}
+  {\begin{tabular}{lll}\toprule Check & Value & Status \\\midrule Missing & -- & -- \\\bottomrule\end{tabular}}
+\caption{Supplemental rolling 36-month OOS diagnostic.}
+\label{tab:rolling_app}
+\end{table}
+
+\subsection{Instrument and settlement convention reference}
+
+Every candidate option is first translated into a cashflow convention. Equity options record
+premium, underlying, strike, expiry, right, exercise style, mark, Greek model, payoff source,
+and split adjustment. VIX options record OSI symbol, VX-forward anchor, VIX settlement
+source, Black--76 Greek model, and whether expiry P\&L used exact VRO/SOQ or a settlement
+proxy. Short options additionally record assignment-risk flags, simulated margin funding,
+and short-premium budget use.
+
+A weak implementation-quality score does not automatically exclude a contract. It widens
+the haircut, raises the stress or capacity penalty, or downgrades the claim. This is why the
+paper can show VIX option diagnostics without treating proxy settlement as exact listed
+settlement.
+
+\subsection{Proof sketches, solver reductions, and implementation notes}
+
+The covariance identity follows from the factor representation. If
+\(r_O=\mu_O+Bf+\varepsilon\), \(\Cov(f,\varepsilon)=0\),
+\(\Omega=\Var(f)\), and \(\Sigma_\varepsilon=\Var(\varepsilon)\), then
+\[
+  \Var(r_O)=B\Omega B^\top+\Sigma_\varepsilon.
+\]
+The matrix is positive semidefinite because both terms are positive semidefinite. This is
+the option-risk-model analogue of an equity factor covariance model.
+
+The tangency result is the standard Markowitz argument. Sharpe is homogeneous of degree
+zero, so impose \(q^\top\Sigma_Oq=1\) and maximize \(q^\top\mu_O\). The Lagrangian first-order
+condition gives \(\mu_O=2\lambda\Sigma_Oq\), hence
+\(q\propto\Sigma_O^{-1}\mu_O\). Constraints replace this closed-form direction with a
+fractional program over the feasible set.
+
+The reproducibility package exposes the model code, empirical pipeline, publication tables,
+figures, strategy-return ledgers, factor regressions, attribution, regime splits, VIX
+settlement records, claim-audit records, and \path{tables/empirical_summary.json}. The audit
+layer independently checks data lineage, point-in-time timing, optimizer constraints, output
+reproducibility, figure visibility, bibliography scope, caveat text, and LaTeX rendering.
+
+\begin{table}[H]
+\centering
+\small
+\IfFileExists{tables/approximation_diagnostics.tex}
+  {\input{tables/approximation_diagnostics}}
+  {\begin{tabular}{lll}\toprule Diagnostic & Value & Status \\\midrule Missing & -- & -- \\\bottomrule\end{tabular}}
+\caption{Training-window residual diagnostics for the local Greek-factor approximation.}
+\label{tab:approx_app}
+\end{table}
+
+The production gap remains visible. Exact VRO/SOQ settlement, executable option quotes,
+calibrated costs, margin, assignment, borrow, capacity, order routing, and broker
+reconciliation would be required for production claims. Those claims are not made in this
+article. The current contribution is the option-only theory object, a point-in-time research
+implementation, and an audit layer that prevents stronger wording when the data do not
+support it.

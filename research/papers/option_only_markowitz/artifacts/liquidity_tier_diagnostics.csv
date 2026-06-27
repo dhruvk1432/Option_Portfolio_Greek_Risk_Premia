@@ -1,0 +1,15 @@
+Liquidity tier,Strategy,Method,Eligible assets,Active assets,Gross NAV used,Status
+all_eligible,Greek Markowitz,rerun_optimizer_on_tier,54,46,1.0000000000000004,ok
+all_eligible,Equal premium,rerun_optimizer_on_tier,54,54,0.9999999999999998,ok
+all_eligible,Equal risk,rerun_optimizer_on_tier,54,54,1.0,ok
+all_eligible,Delta neutral,rerun_optimizer_on_tier,54,47,0.9999999999999689,ok
+all_eligible,VIX hedge sleeve,rerun_optimizer_on_tier,54,3,1.0,ok
+tight_spread_quartile,Greek Markowitz,rerun_optimizer_on_tier,14,14,0.6129917455450652,ok
+tight_spread_quartile,Equal premium,rerun_optimizer_on_tier,14,14,0.9999999999999998,ok
+tight_spread_quartile,Equal risk,rerun_optimizer_on_tier,14,14,1.0000000000000002,ok
+tight_spread_quartile,Delta neutral,rerun_optimizer_on_tier,14,14,0.7896126942759967,ok
+top_volume_quartile,Greek Markowitz,rerun_optimizer_on_tier,14,10,0.9673009329808202,ok
+top_volume_quartile,Equal premium,rerun_optimizer_on_tier,14,14,0.9999999999999998,ok
+top_volume_quartile,Equal risk,rerun_optimizer_on_tier,14,14,1.0000000000000002,ok
+top_volume_quartile,Delta neutral,rerun_optimizer_on_tier,14,10,0.9000000000000021,ok
+top_volume_quartile,VIX hedge sleeve,rerun_optimizer_on_tier,14,3,1.0,ok

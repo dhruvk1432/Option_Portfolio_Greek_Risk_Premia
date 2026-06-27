@@ -1,0 +1,52 @@
+# macOS / editors
+.DS_Store
+.vscode/
+.idea/
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.venv/
+venv/
+
+# Secrets
+.env
+.env.*
+!.env.example
+
+# LaTeX intermediates, but keep .tex and final PDFs
+*.aux
+*.log
+*.out
+*.toc
+*.synctex.gz
+*.fls
+*.fdb_latexmk
+*.bbl
+*.blg
+
+# Licensed/raw/local datasets. Generated paper artifacts under research/ are tracked.
+data/feature_store/*
+data/universe/*
+data/databento_cache/*
+data/public/cboe/vro_soq/raw/
+!data/README.md
+!data/feature_store/.gitkeep
+!data/universe/.gitkeep
+!data/databento_cache/.gitkeep
+!data/public/
+!data/public/cboe/
+!data/public/cboe/vro_soq/
+!data/public/cboe/vro_soq/vro_soq_settlements.csv
+!data/public/cboe/vro_soq/vro_soq_download_audit.csv
+!data/public/cboe/vro_soq/vro_soq_manifest.json
+
+# Ad hoc local outputs
+scratch/
+tmp/
+*.tmp
+*.lock

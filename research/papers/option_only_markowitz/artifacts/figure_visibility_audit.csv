@@ -1,0 +1,9 @@
+Figure,Series,Visible points,Min,Max,Pass
+portfolio_growth_all_strategies.pdf,Equity-option Greek Markowitz,60,0.18301183633659804,18.35005283540228,yes
+portfolio_growth_all_strategies.pdf,Greek Markowitz + VIX,60,0.6403949520529775,144.51863321469477,yes
+portfolio_growth_all_strategies.pdf,Beta/delta-neutral + VIX,60,0.5735551082032617,98.96616243356763,yes
+portfolio_growth_all_strategies.pdf,Equal premium,60,0.00017820144291514343,0.8905477325031234,yes
+portfolio_growth_all_strategies.pdf,Equal risk,60,0.022882378499810462,0.944996867354272,yes
+portfolio_growth_all_strategies.pdf,VIX hedge sleeve,60,0.0001,0.0001,yes
+portfolio_growth_all_strategies.pdf,Delta-matched equities,60,0.4455022053499991,33.42982475656225,yes
+portfolio_growth_all_strategies.pdf,Underlying Markowitz,60,0.945644336357695,2.459772612888149,yes

@@ -1,0 +1,61 @@
+\section{Portfolio Construction Model}
+
+The optimizer is chosen only after the cashflow and risk map are built. Covariance is not
+enough. A high Sharpe ratio cannot come from \(\Sigma_{O,t}\) alone; it must come from a
+conditional expected-return vector. The paper writes the option mean as
+\[
+\widehat\mu_{i,t}
+=
+ b^S_{i,t}\widehat\lambda^S_t
++b^\Gamma_{i,t}\widehat\lambda^{var}_t
++b^\nu_{i,t}\widehat\lambda^{vol}_t
++b^{skew}_{i,t}\widehat\lambda^{skew}_t
++b^{tail}_{i,t}\widehat\lambda^{tail}_t
++\theta^\ast_{i,t}.
+\]
+Delta loads on equity compensation. Gamma and vega load on variance and volatility risk
+premia. Put skew and VIX call wings load on crash-insurance and tail premia. Theta is
+carry under unchanged state variables. The option-return literature documents why these
+components can carry expected returns rather than only hedge noise
+\citep{coval_shumway2001,bakshi_kapadia2003,carr_wu2009,
+bollerslev_tauchen_zhou2009,broadie_chernov_johannes2009}. In implementation the
+combined signal is estimated only from training-window or decision-date information and is
+shrunk toward zero.
+
+Given \(\widehat\mu_t\) and \(\widehat\Sigma_t\), the gross option-only Sharpe problem is
+\[
+  \max_{q\in\mathcal K_t}
+  \frac{q^\top\widehat\mu_t}{\sqrt{q^\top\widehat\Sigma_tq}},
+  \qquad
+  \widehat\Sigma_t=B_t\Omega_tB_t^\top+\Sigma_{\varepsilon,t}.
+\]
+If the feasible set is unconstrained and \(\widehat\Sigma_t\) is positive definite, the
+maximum-Sharpe direction is proportional to
+\(\widehat\Sigma_t^{-1}\widehat\mu_t\). This is exactly the Markowitz tangency formula. The
+option work is in building the conditional option return object that the formula consumes.
+
+The practical feasible set is smaller. The research implementation imposes gross NAV, short
+premium, per-contract, underlying concentration, delta, SPY beta, eight-underlying beta,
+gamma, equity vega, VIX vega, and scenario stress-loss budgets where the corresponding
+strategy requires them. The optimizer can therefore choose calls, puts, long positions, and
+short positions, but it cannot hide large exposure behind a small option premium.
+
+\begin{table}[H]
+\centering
+\scriptsize
+\IfFileExists{tables/risk_calibration.tex}
+  {\resizebox{0.94\textwidth}{!}{\input{tables/risk_calibration}}}
+  {\begin{tabular}{llll}\toprule Strategy & Predicted risk & Realized risk & Ratio \\\midrule
+  Missing & Run the empirical pipeline & -- & -- \\\bottomrule\end{tabular}}
+\caption{Greek-induced covariance calibration. Predicted monthly volatility is computed
+from \(q^\top\Sigma_Oq\) using the training-window Greek risk model; realized volatility is
+measured on train and test option returns.}
+\label{tab:risk_calibration}
+\end{table}
+
+The estimator follows the standard risk-model route. It constructs \(B_t\), estimates
+\(\Omega_t\) from point-in-time state shocks, estimates \(\Sigma_{\varepsilon,t}\) from
+training residuals, shrinks the covariance toward a diagonal target, and repairs small
+negative eigenvalues. This follows the same concern that motivates covariance shrinkage in
+ordinary portfolio problems: noisy matrices become dangerous when the optimizer inverts
+them \citep{ledoitwolf2004}.

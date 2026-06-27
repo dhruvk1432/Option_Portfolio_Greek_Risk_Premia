@@ -1,0 +1,12 @@
+\begin{tabular}{lrrrr}
+\toprule
+Strategy & Predicted monthly vol & Train realized vol & Test realized vol & Test / predicted \\
+\midrule
+Equity-option Greek Markowitz & 0.334 & 0.267 & 0.307 & 0.918 \\
+Greek Markowitz + VIX & 0.363 & 0.261 & 0.262 & 0.722 \\
+Beta/delta-neutral + VIX & 0.354 & 0.272 & 0.239 & 0.677 \\
+Equal premium & 1.509 & 0.625 & 0.542 & 0.359 \\
+Equal risk & 0.668 & 0.394 & 0.368 & 0.551 \\
+VIX hedge sleeve & 4.648 & 4.092 & 0.417 & 0.090 \\
+\bottomrule
+\end{tabular}

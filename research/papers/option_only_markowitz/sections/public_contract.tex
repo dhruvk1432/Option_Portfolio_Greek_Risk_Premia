@@ -1,0 +1,54 @@
+\section{Public Research Contract}
+
+The paper has two contracts. The theoretical contract is that every option position is
+defined by a mark, a payoff convention, a NAV normalization, a Greek exposure map, and a
+residual risk term. The empirical contract is that every number in the result section is
+regenerated from files inside the repository. This is a mechanical constraint, but it has
+a substantive purpose: it prevents the article from drifting away from the code and data
+that support it.
+
+The investable objects are not strategies such as covered calls, protective puts, or
+spreads. They are individual listed equity options grouped into rolling buckets only for
+empirical continuity. The optimizer sees arbitrary call and put assets, signed position
+weights, expected returns, a Greek-induced covariance matrix, and constraints. This is
+important because the paper is not a defense of any named option strategy. It is an
+allocation model for an arbitrary option universe.
+
+The accounting unit is portfolio NAV. If \(q_i=0.10\), the portfolio pays ten cents of
+NAV to buy option \(i\); if \(q_i=-0.10\), it sells an option exposure with ten cents of
+initial premium magnitude. Let beginning NAV be \(W_t\), option mark be \(C_{i,t}\), and
+contract count be \(N_{i,t}=q_{i,t}W_t/C_{i,t}\). The next-period contribution to NAV is
+\[
+  \frac{N_{i,t}(C_{i,t+1}-C_{i,t})}{W_t}
+  =
+  q_{i,t}\frac{C_{i,t+1}-C_{i,t}}{C_{i,t}} .
+\]
+Thus the option premium is not ignored. It is the denominator of the option return and
+the scale of the NAV weight. A long option that expires worthless contributes \(-q_i\) to
+NAV, exactly as a paid premium should. The unspent or collateral cash is an accounting
+numeraire, not an optimized risk asset. This differs from a stock-cash allocation problem:
+the paper does not search for an optimal cash sleeve, risk-free lending amount, or
+leverage target. It searches for option premium exposures under gross and risk budgets.
+
+The timing rule is also part of the contract. Expected returns, underlying covariance,
+volatility-shock covariance, and residual covariance are estimated from the training window
+only. The test-window portfolio returns are then computed from held-out option-bucket
+returns. The selected test option is chosen at the decision snapshot; the later
+split-adjusted listed-expiry payoff is used only to realize the return. Equity benchmarks
+and factor regressions use the same train/test split. No result uses future test returns
+to set the Greek Markowitz weights.
+
+The claim hierarchy is deliberately conservative:
+\begin{itemize}[leftmargin=2em]
+  \item mathematical claims require a displayed derivation or proof;
+  \item source claims require a cited paper, book, or primary data document;
+  \item data claims require a generated table, figure, CSV, or JSON summary;
+  \item production claims would require executable fills, costs, margin, assignment, and
+  broker-level parity checks, and are not made here.
+\end{itemize}
+
+This distinction controls the strength of the conclusion. The paper can claim that the
+option-only Markowitz covariance object is mathematically coherent. It can claim that the
+local empirical implementation is point-in-time auditable and produces informative risk
+diagnostics on the available OPRA-derived panel. It cannot claim live trading alpha,
+capacity, or production tradability.

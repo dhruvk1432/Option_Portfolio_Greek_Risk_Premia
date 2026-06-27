@@ -1,0 +1,52 @@
+{
+  "status": "pass",
+  "critical_failures": 0,
+  "total_failures": 0,
+  "total_checks": 176,
+  "command": "python -m research.papers.option_only_markowitz.verification.verify --skip-regenerate --skip-compile --skip-render",
+  "paper": "research/papers/option_only_markowitz",
+  "outputs": {
+    "verification_report": "research/papers/option_only_markowitz/verification/verification_report.md",
+    "failed_checks": "research/papers/option_only_markowitz/verification/failed_checks.csv",
+    "all_checks": "research/papers/option_only_markowitz/verification/verification_checks.csv",
+    "hash_manifest": "research/papers/option_only_markowitz/verification/hash_manifest.csv"
+  },
+  "checks_by_category": {
+    "producer": {
+      "pass": 1,
+      "fail": 0
+    },
+    "paper": {
+      "pass": 12,
+      "fail": 0
+    },
+    "artifacts": {
+      "pass": 4,
+      "fail": 0
+    },
+    "data": {
+      "pass": 14,
+      "fail": 0
+    },
+    "pit": {
+      "pass": 11,
+      "fail": 0
+    },
+    "math": {
+      "pass": 9,
+      "fail": 0
+    },
+    "optimizer": {
+      "pass": 7,
+      "fail": 0
+    },
+    "empirical": {
+      "pass": 105,
+      "fail": 0
+    },
+    "claims": {
+      "pass": 13,
+      "fail": 0
+    }
+  }
+}
