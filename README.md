@@ -21,7 +21,7 @@ The contribution is a disciplined option allocation and validation framework. Th
 ## What Is Included
 
 ```text
-Option_Only_Markowitz_Cashflow_Engineering/
+Option_Portfolio_Greek_Risk_Premia/
 ├── data/                         # Public VRO/SOQ outputs plus licensed-data placeholders
 ├── data_ingestion/market_data/    # Public and licensed market-data pull helpers
 ├── data_pull/                     # Publication-facing data-pull CLI

@@ -26,19 +26,19 @@ No failed checks.
 ## Passed Critical Evidence
 
 - `artifacts` / `required generated outputs exist`: []
-- `artifacts` / `empirical summary exists`: /Users/dhruvkohli/Desktop/Github Repos/Option_Only_Markowitz_Cashflow_Engineering/research/papers/option_only_markowitz/tables/empirical_summary.json
+- `artifacts` / `empirical summary exists`: /Users/dhruvkohli/Desktop/Github Repos/Option_Portfolio_Greek_Risk_Premia/research/papers/option_only_markowitz/tables/empirical_summary.json
 - `artifacts` / `empirical summary schema`: ["approximation", "claim_audit", "claim_strength", "cost_diagnostics", "cost_scenario_diagnostics", "data", "drawdown_breach_rates", "exposure", "factor_regression", "figure_visibility", "forecast_ablation_components", "forecast_ablation_performance", "hurdle_summary", "inference", "leave_one_out", "liquidity_tier_diagnostics", "liquidity_tier_performance", "performance", "performance_gross_only", "performance_post_cost", "pnl_attribution", "post_cost_survival", "random_feasible", "reality_check_inference", "regime_performance", "risk_calibration", "rolling_oos", "simulation_assumptions", "simulation_summary", "split_adjustments", "timing_diagnostics", "trading_data_audit", "vix_regime_performance", "vix_required_settlement_download_audit", "vix_settlement_audit", "vix_settlement_coverage"]
-- `data` / `input exists or is externally licensed: equity option feature store`: /Users/dhruvkohli/Desktop/Github Repos/Option_Only_Markowitz_Cashflow_Engineering/data/feature_store/option_greek_proxy_panel.parquet
-- `data` / `input exists or is externally licensed: Greek quality summary`: /Users/dhruvkohli/Desktop/Github Repos/Option_Only_Markowitz_Cashflow_Engineering/data/feature_store/option_greek_quality.csv
-- `data` / `input exists or is externally licensed: raw close panel`: /Users/dhruvkohli/Desktop/Github Repos/Option_Only_Markowitz_Cashflow_Engineering/data/universe/multi_raw_close.csv
-- `data` / `input exists or is externally licensed: VIX complex`: /Users/dhruvkohli/Desktop/Github Repos/Option_Only_Markowitz_Cashflow_Engineering/data/universe/vix_complex.parquet
-- `data` / `input exists or is externally licensed: VX futures curve`: /Users/dhruvkohli/Desktop/Github Repos/Option_Only_Markowitz_Cashflow_Engineering/data/universe/vx_futures_daily.parquet
+- `data` / `input exists or is externally licensed: equity option feature store`: /Users/dhruvkohli/Desktop/Github Repos/Option_Portfolio_Greek_Risk_Premia/data/feature_store/option_greek_proxy_panel.parquet
+- `data` / `input exists or is externally licensed: Greek quality summary`: /Users/dhruvkohli/Desktop/Github Repos/Option_Portfolio_Greek_Risk_Premia/data/feature_store/option_greek_quality.csv
+- `data` / `input exists or is externally licensed: raw close panel`: /Users/dhruvkohli/Desktop/Github Repos/Option_Portfolio_Greek_Risk_Premia/data/universe/multi_raw_close.csv
+- `data` / `input exists or is externally licensed: VIX complex`: /Users/dhruvkohli/Desktop/Github Repos/Option_Portfolio_Greek_Risk_Premia/data/universe/vix_complex.parquet
+- `data` / `input exists or is externally licensed: VX futures curve`: /Users/dhruvkohli/Desktop/Github Repos/Option_Portfolio_Greek_Risk_Premia/data/universe/vx_futures_daily.parquet
 - `data` / `VIX raw monthly shards present or externally licensed`: 0
 - `data` / `standalone package uses generated data artifacts when licensed raw inputs are absent`: raw OPRA/Databento inputs omitted
 - `data` / `VIX OSI parser preserves terms`: ["VIX", "2026-06-17T00:00:00", "call", 30.0]
 - `data` / `VIX detail settlement source complete`: {"vro_soq_exact": 536}
 - `data` / `VIX headline rows use exact VRO/SOQ`: {"vro_soq_exact": 536}
-- `data` / `VIX settlement audit artifact exists`: /Users/dhruvkohli/Desktop/Github Repos/Option_Only_Markowitz_Cashflow_Engineering/research/papers/option_only_markowitz/artifacts/vix_settlement_audit.csv
+- `data` / `VIX settlement audit artifact exists`: /Users/dhruvkohli/Desktop/Github Repos/Option_Portfolio_Greek_Risk_Premia/research/papers/option_only_markowitz/artifacts/vix_settlement_audit.csv
 - `data` / `VIX Greek model is Black-76 VX-forward`: {"black76_vx_forward": 536}
 - `data` / `VIX underlying is VX forward`: {"VX_FRONT": 536}
 - `data` / `VIX long-option return lower bound`: -1.0
@@ -78,7 +78,7 @@ No failed checks.
 - `empirical` / `strategy has all cost scenarios: Equal premium`: ["Equal premium::full_spread", "Equal premium::half_spread", "Equal premium::mid"]
 - `empirical` / `strategy has all cost scenarios: Equal risk`: ["Equal risk::full_spread", "Equal risk::half_spread", "Equal risk::mid"]
 - `empirical` / `strategy has all cost scenarios: VIX hedge sleeve`: ["VIX hedge sleeve::full_spread", "VIX hedge sleeve::half_spread", "VIX hedge sleeve::mid"]
-- `empirical` / `required-capital returns artifact exists`: /Users/dhruvkohli/Desktop/Github Repos/Option_Only_Markowitz_Cashflow_Engineering/research/papers/option_only_markowitz/artifacts/required_capital_returns.csv
+- `empirical` / `required-capital returns artifact exists`: /Users/dhruvkohli/Desktop/Github Repos/Option_Portfolio_Greek_Risk_Premia/research/papers/option_only_markowitz/artifacts/required_capital_returns.csv
 - `empirical` / `rejected/no-fill ledger is auditable`: ["return_date", "strategy", "scenario", "asset_id", "reject_reason"]
 - `empirical` / `hurdle_selection_ledger.csv schema`: ["hurdle", "asset_id", "expected_return", "expected_cost", "risk_estimate", "passed"]
 - `empirical` / `liquidity_tier_performance.csv schema`: ["Liquidity tier", "Strategy", "Ann. return", "Ann. vol", "Sharpe", "Calmar", "Omega"]
@@ -88,7 +88,7 @@ No failed checks.
 - `empirical` / `simulation_summary.csv schema`: ["Return basis", "Strategy", "Requested method", "Status", "Simulation", "Reason", "N paths", "Ann. return p05", "Ann. return p50", "Ann. return p95", "Sortino p05", "Sortino p50", "Sortino p95", "Max DD p05", "Max DD p50", "Max DD p95", "Terminal wealth p05", "Terminal wealth p50", "Terminal wealth p95"]
 - `empirical` / `simulation_assumptions.csv schema`: ["Strategy", "Return basis", "Method", "Status", "N obs", "Source start", "Source end", "Periods/year", "Period mean", "Period volatility", "Skewness", "Excess kurtosis", "Lag1 autocorr", "Block length", "Path count", "Interpretation", "Reason"]
 - `empirical` / `drawdown_breach_rates.csv schema`: ["Return basis", "Strategy", "Requested method", "Simulation", "Breach 10%", "Breach 25%", "Breach 50%", "Breach 75%", "Breach 90%"]
-- `empirical` / `factor-control raw inputs absent; generated regression artifacts used`: /Users/dhruvkohli/Desktop/Github Repos/Option_Only_Markowitz_Cashflow_Engineering/data/feature_store/option_greek_proxy_panel.parquet
+- `empirical` / `factor-control raw inputs absent; generated regression artifacts used`: /Users/dhruvkohli/Desktop/Github Repos/Option_Portfolio_Greek_Risk_Premia/data/feature_store/option_greek_proxy_panel.parquet
 - `empirical` / `information ratio recorded from generated summary: Equity-option Greek Markowitz`: 0.5982743778565097
 - `empirical` / `performance metric matches summary: Equity-option Greek Markowitz / Ann. return`: 0.894164572585072
 - `empirical` / `performance metric matches summary: Equity-option Greek Markowitz / Ann. vol`: 1.0618025335815389

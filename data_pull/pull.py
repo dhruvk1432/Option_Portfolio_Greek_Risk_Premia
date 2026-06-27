@@ -177,7 +177,7 @@ def write_manifest(path: Path, payload: dict[str, object]) -> None:
 
 
 def main() -> None:
-    parser = argparse.ArgumentParser(description="Plan or execute publication data pulls for Option_Only_Markowitz_Cashflow_Engineering.")
+    parser = argparse.ArgumentParser(description="Plan or execute publication data pulls for Option_Portfolio_Greek_Risk_Premia.")
     parser.add_argument("--repo-root", default=str(REPO_ROOT), help="Repository root. Defaults to this checkout.")
     parser.add_argument("--env-file", default=".env", help="Environment file relative to repo root.")
     parser.add_argument("--preset", choices=sorted(PRESETS), default="validate")

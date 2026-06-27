@@ -4,12 +4,12 @@
   "total_failures": 0,
   "total_checks": 176,
   "command": "python -m research.papers.option_only_markowitz.verification.verify --skip-regenerate --skip-compile --skip-render",
-  "paper": "/Users/dhruvkohli/Desktop/Github Repos/Option_Only_Markowitz_Cashflow_Engineering/research/papers/option_only_markowitz",
+  "paper": "/Users/dhruvkohli/Desktop/Github Repos/Option_Portfolio_Greek_Risk_Premia/research/papers/option_only_markowitz",
   "outputs": {
-    "verification_report": "/Users/dhruvkohli/Desktop/Github Repos/Option_Only_Markowitz_Cashflow_Engineering/research/papers/option_only_markowitz/verification/verification_report.md",
-    "failed_checks": "/Users/dhruvkohli/Desktop/Github Repos/Option_Only_Markowitz_Cashflow_Engineering/research/papers/option_only_markowitz/verification/failed_checks.csv",
-    "all_checks": "/Users/dhruvkohli/Desktop/Github Repos/Option_Only_Markowitz_Cashflow_Engineering/research/papers/option_only_markowitz/verification/verification_checks.csv",
-    "hash_manifest": "/Users/dhruvkohli/Desktop/Github Repos/Option_Only_Markowitz_Cashflow_Engineering/research/papers/option_only_markowitz/verification/hash_manifest.csv"
+    "verification_report": "/Users/dhruvkohli/Desktop/Github Repos/Option_Portfolio_Greek_Risk_Premia/research/papers/option_only_markowitz/verification/verification_report.md",
+    "failed_checks": "/Users/dhruvkohli/Desktop/Github Repos/Option_Portfolio_Greek_Risk_Premia/research/papers/option_only_markowitz/verification/failed_checks.csv",
+    "all_checks": "/Users/dhruvkohli/Desktop/Github Repos/Option_Portfolio_Greek_Risk_Premia/research/papers/option_only_markowitz/verification/verification_checks.csv",
+    "hash_manifest": "/Users/dhruvkohli/Desktop/Github Repos/Option_Portfolio_Greek_Risk_Premia/research/papers/option_only_markowitz/verification/hash_manifest.csv"
   },
   "checks_by_category": {
     "producer": {
