@@ -40,10 +40,10 @@ export OPTION_MARKOWITZ_VRO_FILE=data/public/cboe/vro_soq/vro_soq_settlements.cs
 
 # 3. Compile the paper.
 cd research/papers/option_only_markowitz
-lualatex option_only_markowitz_cashflow_engineering_dhruv_kohli.tex
-bibtex option_only_markowitz_cashflow_engineering_dhruv_kohli
-lualatex option_only_markowitz_cashflow_engineering_dhruv_kohli.tex
-lualatex option_only_markowitz_cashflow_engineering_dhruv_kohli.tex
+lualatex option_only_portfolio_optimization_dhruv_kohli.tex
+bibtex option_only_portfolio_optimization_dhruv_kohli
+lualatex option_only_portfolio_optimization_dhruv_kohli.tex
+lualatex option_only_portfolio_optimization_dhruv_kohli.tex
 cd ../../../..
 
 # 4. Run the independent verifier.

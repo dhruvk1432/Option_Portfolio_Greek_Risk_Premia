@@ -1,9 +1,9 @@
-# Option-Only Markowitz as Conditional Option Cashflow Engineering
+# Option-Only Portfolio Optimization with Greek-Induced Covariance and Conditional Risk Premia
 
 Standalone publication repository for the paper:
 
 ```text
-research/papers/option_only_markowitz/option_only_markowitz_cashflow_engineering_dhruv_kohli.pdf
+research/papers/option_only_markowitz/option_only_portfolio_optimization_dhruv_kohli.pdf
 ```
 
 This project asks how an allocator should choose among listed calls and puts when every instrument is a funded, expiring, state-contingent cashflow rather than a standard asset-return column. It builds a premium-weighted option-only Markowitz framework that maps each option into NAV-normalized cashflows, payoff and settlement conventions, Greeks, conditional option-risk-premium forecasts, Greek-induced covariance, implementation screens, and portfolio constraints.
@@ -26,8 +26,8 @@ Option_Only_Markowitz_Cashflow_Engineering/
 ├── data_ingestion/market_data/    # Public and licensed market-data pull helpers
 ├── data_pull/                     # Publication-facing data-pull CLI
 ├── research/papers/option_only_markowitz/
-│   ├── option_only_markowitz_cashflow_engineering_dhruv_kohli.pdf
-│   ├── option_only_markowitz_cashflow_engineering_dhruv_kohli.tex
+│   ├── option_only_portfolio_optimization_dhruv_kohli.pdf
+│   ├── option_only_portfolio_optimization_dhruv_kohli.tex
 │   ├── analysis/                  # Empirical runner, costs, inference, VIX panel, simulation
 │   ├── artifacts/                 # Machine-readable generated outputs
 │   ├── docs/                      # Source ledger, replication package, release notes

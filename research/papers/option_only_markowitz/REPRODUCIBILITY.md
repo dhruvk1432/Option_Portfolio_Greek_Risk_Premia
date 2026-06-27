@@ -1,6 +1,6 @@
 # Reproducibility Note
 
-Paper: **Option-Only Markowitz as Conditional Option Cashflow Engineering**.
+Paper: **Option-Only Portfolio Optimization with Greek-Induced Covariance and Conditional Risk Premia**.
 
 ## Commands
 
@@ -18,10 +18,10 @@ From the repository root:
 ```bash
 .venv/bin/python -m research.papers.option_only_markowitz.analysis.run_empirics --stage all
 cd research/papers/option_only_markowitz
-lualatex option_only_markowitz_cashflow_engineering_dhruv_kohli.tex
-bibtex option_only_markowitz_cashflow_engineering_dhruv_kohli
-lualatex option_only_markowitz_cashflow_engineering_dhruv_kohli.tex
-lualatex option_only_markowitz_cashflow_engineering_dhruv_kohli.tex
+lualatex option_only_portfolio_optimization_dhruv_kohli.tex
+bibtex option_only_portfolio_optimization_dhruv_kohli
+lualatex option_only_portfolio_optimization_dhruv_kohli.tex
+lualatex option_only_portfolio_optimization_dhruv_kohli.tex
 ```
 
 Focused tests:

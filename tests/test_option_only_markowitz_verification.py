@@ -58,7 +58,7 @@ class TestOptionOnlyVerificationHarness(unittest.TestCase):
         manifest = pd.read_csv(manifest_path)
         self.assertGreaterEqual(len(manifest), 30)
         self.assertIn(
-            "option_only_markowitz_cashflow_engineering_dhruv_kohli.pdf",
+            "option_only_portfolio_optimization_dhruv_kohli.pdf",
             set(manifest["path"]),
         )
 

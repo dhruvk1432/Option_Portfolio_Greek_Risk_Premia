@@ -1,17 +1,17 @@
-# Option-Only Markowitz as Conditional Option Cashflow Engineering
+# Option-Only Portfolio Optimization with Greek-Induced Covariance and Conditional Risk Premia
 
 This folder is the self-contained publication bundle for the paper:
 
 ```text
-option_only_markowitz_cashflow_engineering_dhruv_kohli.pdf
+option_only_portfolio_optimization_dhruv_kohli.pdf
 ```
 
 The paper develops a premium-weighted option-only Markowitz framework for listed calls and puts. Options are treated as funded, expiring, state-contingent cashflows rather than ordinary asset-return columns. The empirical layer is a point-in-time research simulation with exact VRO/SOQ settlement gating, post-cost diagnostics, inference, and claim-audit checks. It is not broker-executed or live-trading evidence.
 
 ## What Is Included
 
-- `option_only_markowitz_cashflow_engineering_dhruv_kohli.tex`: LaTeX root.
-- `option_only_markowitz_cashflow_engineering_dhruv_kohli.pdf`: final compiled paper.
+- `option_only_portfolio_optimization_dhruv_kohli.tex`: LaTeX root.
+- `option_only_portfolio_optimization_dhruv_kohli.pdf`: final compiled paper.
 - `sections/`: article sections and Appendix A.
 - `analysis/`: empirical pipeline, VIX panel construction, cost scenarios, inference, and publication utilities.
 - `tables/`, `figures/`, `artifacts/`: generated paper outputs and machine-readable ledgers.
@@ -43,7 +43,7 @@ make test
 The canonical PDF path is:
 
 ```text
-research/papers/option_only_markowitz/option_only_markowitz_cashflow_engineering_dhruv_kohli.pdf
+research/papers/option_only_markowitz/option_only_portfolio_optimization_dhruv_kohli.pdf
 ```
 
 ## Data Requirements

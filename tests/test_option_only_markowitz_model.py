@@ -435,8 +435,8 @@ class TestEmpiricalPaperContract(unittest.TestCase):
 
     def test_generated_paper_artifact_contract(self):
         required = [
-            "option_only_markowitz_cashflow_engineering_dhruv_kohli.pdf",
-            "option_only_markowitz_cashflow_engineering_dhruv_kohli.tex",
+            "option_only_portfolio_optimization_dhruv_kohli.pdf",
+            "option_only_portfolio_optimization_dhruv_kohli.tex",
             "REPRODUCIBILITY.md",
             "docs/source_ledger.md",
             "tables/data_summary.tex",

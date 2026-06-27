@@ -2072,7 +2072,7 @@ def run_all() -> dict[str, object]:
     for directory in (TABLE_DIR, FIG_DIR, ART_DIR):
         hash_paths.extend([p for p in directory.rglob("*") if p.is_file()])
     hash_paths.extend([
-        PAPER / "option_only_markowitz_cashflow_engineering_dhruv_kohli.tex",
+        PAPER / "option_only_portfolio_optimization_dhruv_kohli.tex",
         PAPER / "REPRODUCIBILITY.md",
         PAPER / "environment_lock.json",
     ])

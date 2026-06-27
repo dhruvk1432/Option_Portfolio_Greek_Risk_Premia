@@ -1,6 +1,6 @@
 PYTHON ?= .venv/bin/python
 PAPER_DIR := research/papers/option_only_markowitz
-PAPER_STEM := option_only_markowitz_cashflow_engineering_dhruv_kohli
+PAPER_STEM := option_only_portfolio_optimization_dhruv_kohli
 
 .PHONY: help install data-plan data-validate data-public data-paid option-paper paper verify test clean
 
