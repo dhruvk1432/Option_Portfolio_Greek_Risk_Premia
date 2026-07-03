@@ -1,0 +1,27 @@
+\begin{tabular}{llrrrrr}
+\toprule
+Strategy & Scenario & Fail-closed Sharpe & Repaired Sharpe & Fail-closed ann. return & Repaired ann. return & Repair uplift (ann.) \\
+\midrule
+Equity-option Greek Markowitz & mid & 1.024 & 1.195 & 0.488 & 0.694 & 0.206 \\
+Greek Markowitz + VIX & mid & 0.771 & 1.355 & 0.424 & 0.823 & 0.400 \\
+Beta/delta-neutral + VIX & mid & 1.265 & 1.622 & 0.691 & 0.915 & 0.224 \\
+Cost-aware Sortino + VIX & mid & 0.142 & 0.592 & 0.214 & 1.424 & 1.211 \\
+Equal premium & mid & 0.052 & 0.017 & 0.061 & 0.025 & -0.037 \\
+Equal risk & mid & 0.137 & 0.143 & 0.108 & 0.139 & 0.031 \\
+VIX hedge sleeve & mid & -1.700 & -4.256 & -1.417 & -4.277 & -2.860 \\
+Equity-option Greek Markowitz & half\_spread & 0.969 & 1.122 & 0.462 & 0.652 & 0.191 \\
+Greek Markowitz + VIX & half\_spread & 0.534 & 1.051 & 0.293 & 0.639 & 0.347 \\
+Beta/delta-neutral + VIX & half\_spread & 0.971 & 1.275 & 0.532 & 0.721 & 0.189 \\
+Cost-aware Sortino + VIX & half\_spread & 0.094 & 0.540 & 0.142 & 1.298 & 1.156 \\
+Equal premium & half\_spread & -0.052 & -0.085 & -0.061 & -0.119 & -0.058 \\
+Equal risk & half\_spread & 0.015 & 0.024 & 0.012 & 0.024 & 0.012 \\
+VIX hedge sleeve & half\_spread & -1.742 & -4.458 & -1.552 & -4.675 & -3.123 \\
+Equity-option Greek Markowitz & full\_spread & 0.913 & 1.049 & 0.435 & 0.610 & 0.175 \\
+Greek Markowitz + VIX & full\_spread & 0.294 & 0.748 & 0.161 & 0.455 & 0.294 \\
+Beta/delta-neutral + VIX & full\_spread & 0.678 & 0.929 & 0.373 & 0.527 & 0.153 \\
+Cost-aware Sortino + VIX & full\_spread & 0.047 & 0.487 & 0.070 & 1.172 & 1.102 \\
+Equal premium & full\_spread & -0.156 & -0.188 & -0.183 & -0.263 & -0.080 \\
+Equal risk & full\_spread & -0.107 & -0.094 & -0.084 & -0.091 & -0.008 \\
+VIX hedge sleeve & full\_spread & -1.777 & -4.635 & -1.687 & -5.072 & -3.385 \\
+\bottomrule
+\end{tabular}

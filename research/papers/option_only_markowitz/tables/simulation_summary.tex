@@ -1,38 +1,38 @@
-\begin{tabular}{lllrrrrrr}
+\begin{tabular}{lllrrrrrrr}
 \toprule
-Return basis & Strategy & Simulation & N paths & Ann. return p50 & Sortino p50 & Max DD p05 & Max DD p50 & Terminal wealth p05 \\
+Return basis & Strategy & Simulation & N paths & Ann. return p50 & Sortino p50 & Max DD p05 & Max DD p50 & Terminal wealth p05 & Defaulted path share \\
 \midrule
-Gross before costs & Equity-option Greek Markowitz & circular\_block\_bootstrap & 1000 & 0.525 & 1.826 & -0.976 & -0.840 & 0.128 \\
-Gross before costs & Equity-option Greek Markowitz & ewma\_residual\_fallback\_insufficient\_egarch\_obs & 1000 & 0.376 & 1.561 & -0.984 & -0.835 & 0.125 \\
-Gross before costs & Greek Markowitz + VIX & circular\_block\_bootstrap & 1000 & 1.382 & 3.451 & -0.816 & -0.602 & 3.033 \\
-Gross before costs & Greek Markowitz + VIX & ewma\_residual\_fallback\_insufficient\_egarch\_obs & 1000 & 1.485 & 3.383 & -0.981 & -0.700 & 1.391 \\
-Gross before costs & Beta/delta-neutral + VIX & circular\_block\_bootstrap & 1000 & 1.354 & 3.505 & -0.777 & -0.547 & 4.583 \\
-Gross before costs & Beta/delta-neutral + VIX & ewma\_residual\_fallback\_insufficient\_egarch\_obs & 1000 & 1.274 & 3.238 & -0.878 & -0.577 & 3.275 \\
-Gross before costs & Delta-matched equities & circular\_block\_bootstrap & 1000 & 1.006 & 2.410 & -0.964 & -0.774 & 0.717 \\
-Gross before costs & Delta-matched equities & ewma\_residual\_fallback\_insufficient\_egarch\_obs & 1000 & 1.283 & 2.834 & -0.919 & -0.696 & 1.819 \\
-Gross before costs & Underlying Markowitz & circular\_block\_bootstrap & 1000 & 0.176 & 1.943 & -0.422 & -0.232 & 1.035 \\
-Gross before costs & Underlying Markowitz & ewma\_residual\_fallback\_insufficient\_egarch\_obs & 1000 & 0.149 & 1.691 & -0.352 & -0.199 & 1.036 \\
-Gross before costs & Equal premium & circular\_block\_bootstrap & 1000 & -0.784 & -0.064 & -1.000 & -1.000 & 0.000 \\
-Gross before costs & Equal premium & ewma\_residual\_fallback\_insufficient\_egarch\_obs & 1000 & -0.856 & -0.612 & -1.008 & -1.000 & -0.000 \\
-Gross before costs & Equal risk & circular\_block\_bootstrap & 1000 & -0.450 & 0.153 & -0.999 & -0.982 & 0.001 \\
-Gross before costs & Equal risk & ewma\_residual\_fallback\_insufficient\_egarch\_obs & 1000 & -0.590 & -0.340 & -1.000 & -0.995 & 0.000 \\
-Gross before costs & VIX hedge sleeve & circular\_block\_bootstrap & 1000 & -1.000 & -3.084 & -1.000 & -1.000 & 0.000 \\
-Gross before costs & VIX hedge sleeve & ewma\_residual\_fallback\_insufficient\_egarch\_obs & 1000 & -1.000 & -1.180 & -5119394349261.397 & -26003204.190 & -22351740928646619564915026613239192969479982290743869848025283945750791128187332694099412714196597845910582341198727462815578867943076576915568644054240573677577398675852626329317101896386114769387520000.000 \\
-Full-spread post-cost & Equity-option Greek Markowitz & circular\_block\_bootstrap & 1000 & 0.413 & 1.626 & -0.982 & -0.856 & 0.083 \\
-Full-spread post-cost & Equity-option Greek Markowitz & ewma\_residual\_fallback\_insufficient\_egarch\_obs & 1000 & 0.236 & 1.335 & -0.990 & -0.857 & 0.068 \\
-Full-spread post-cost & Greek Markowitz + VIX & circular\_block\_bootstrap & 1000 & 0.761 & 2.263 & -0.908 & -0.696 & 0.615 \\
-Full-spread post-cost & Greek Markowitz + VIX & ewma\_residual\_fallback\_insufficient\_egarch\_obs & 1000 & 0.727 & 2.177 & -0.977 & -0.751 & 0.324 \\
-Full-spread post-cost & Beta/delta-neutral + VIX & circular\_block\_bootstrap & 1000 & 0.632 & 2.038 & -0.888 & -0.644 & 0.661 \\
-Full-spread post-cost & Beta/delta-neutral + VIX & ewma\_residual\_fallback\_insufficient\_egarch\_obs & 1000 & 0.509 & 1.792 & -0.918 & -0.653 & 0.519 \\
-Full-spread post-cost & Delta-matched equities & circular\_block\_bootstrap & 1000 & 1.006 & 2.410 & -0.964 & -0.774 & 0.717 \\
-Full-spread post-cost & Delta-matched equities & ewma\_residual\_fallback\_insufficient\_egarch\_obs & 1000 & 1.283 & 2.834 & -0.919 & -0.696 & 1.819 \\
-Full-spread post-cost & Underlying Markowitz & circular\_block\_bootstrap & 1000 & 0.176 & 1.943 & -0.422 & -0.232 & 1.035 \\
-Full-spread post-cost & Underlying Markowitz & ewma\_residual\_fallback\_insufficient\_egarch\_obs & 1000 & 0.149 & 1.691 & -0.352 & -0.199 & 1.036 \\
-Full-spread post-cost & Equal premium & circular\_block\_bootstrap & 1000 & -0.858 & -0.370 & -1.000 & -1.000 & 0.000 \\
-Full-spread post-cost & Equal premium & ewma\_residual\_fallback\_insufficient\_egarch\_obs & 1000 & -0.921 & -0.879 & -1.029 & -1.000 & -0.000 \\
-Full-spread post-cost & Equal risk & circular\_block\_bootstrap & 1000 & -0.589 & -0.195 & -1.000 & -0.994 & 0.000 \\
-Full-spread post-cost & Equal risk & ewma\_residual\_fallback\_insufficient\_egarch\_obs & 1000 & -0.718 & -0.665 & -1.000 & -0.999 & 0.000 \\
-Full-spread post-cost & VIX hedge sleeve & circular\_block\_bootstrap & 1000 & -1.000 & -3.097 & -1.072 & -1.000 & 0.000 \\
-Full-spread post-cost & VIX hedge sleeve & ewma\_residual\_fallback\_insufficient\_egarch\_obs & 1000 & -1.000 & -1.168 & -14999937378889.883 & -52339900.203 & -525374998467292025864430357839332563654903718092683760000481729782174345503400605505835247062471512248274435793844560577271773102709211796292106095746096284591255375346799472801124129161225082342098369467383808.000 \\
+Gross before costs & Equity-option Greek Markowitz & circular\_block\_bootstrap & 1000 & 0.525 & 1.826 & -0.976 & -0.840 & 0.128 & 0.000 \\
+Gross before costs & Equity-option Greek Markowitz & garch11\_residual\_fallback\_insufficient\_egarch\_obs & 1000 & 0.181 & 1.238 & -0.996 & -0.871 & 0.023 & 0.002 \\
+Gross before costs & Greek Markowitz + VIX & circular\_block\_bootstrap & 1000 & 1.382 & 3.451 & -0.816 & -0.602 & 3.033 & 0.000 \\
+Gross before costs & Greek Markowitz + VIX & garch11\_residual\_fallback\_insufficient\_egarch\_obs & 1000 & 1.086 & 2.713 & -0.983 & -0.684 & 0.327 & 0.007 \\
+Gross before costs & Beta/delta-neutral + VIX & circular\_block\_bootstrap & 1000 & 1.354 & 3.505 & -0.777 & -0.547 & 4.583 & 0.000 \\
+Gross before costs & Beta/delta-neutral + VIX & garch11\_residual\_fallback\_insufficient\_egarch\_obs & 1000 & 1.130 & 3.130 & -0.910 & -0.553 & 1.634 & 0.002 \\
+Gross before costs & Delta-matched equities & circular\_block\_bootstrap & 1000 & 1.006 & 2.410 & -0.964 & -0.774 & 0.717 & 0.000 \\
+Gross before costs & Delta-matched equities & garch11\_residual\_fallback\_insufficient\_egarch\_obs & 1000 & 1.029 & 2.629 & -0.921 & -0.638 & 0.867 & 0.000 \\
+Gross before costs & Underlying Markowitz & circular\_block\_bootstrap & 1000 & 0.176 & 1.943 & -0.422 & -0.232 & 1.035 & 0.000 \\
+Gross before costs & Underlying Markowitz & garch11\_residual\_fallback\_insufficient\_egarch\_obs & 1000 & 0.143 & 1.656 & -0.395 & -0.199 & 0.974 & 0.000 \\
+Gross before costs & Equal premium & circular\_block\_bootstrap & 1000 & -0.784 & -0.064 & -1.000 & -1.000 & 0.000 & 0.000 \\
+Gross before costs & Equal premium & garch11\_residual\_fallback\_insufficient\_egarch\_obs & 1000 & -0.854 & -0.613 & -1.000 & -1.000 & 0.000 & 0.138 \\
+Gross before costs & Equal risk & circular\_block\_bootstrap & 1000 & -0.450 & 0.153 & -0.999 & -0.982 & 0.001 & 0.000 \\
+Gross before costs & Equal risk & garch11\_residual\_fallback\_insufficient\_egarch\_obs & 1000 & -0.601 & -0.349 & -1.000 & -0.995 & 0.000 & 0.002 \\
+Gross before costs & VIX hedge sleeve & circular\_block\_bootstrap & 1000 & -1.000 & -3.084 & -1.000 & -1.000 & 0.000 & 1.000 \\
+Gross before costs & VIX hedge sleeve & garch11\_residual\_fallback\_insufficient\_egarch\_obs & 1000 & -1.000 & -3.272 & -1.000 & -1.000 & 0.000 & 1.000 \\
+Full-spread post-cost & Equity-option Greek Markowitz & circular\_block\_bootstrap & 1000 & 0.367 & 2.139 & -0.637 & -0.424 & 0.922 & 0.000 \\
+Full-spread post-cost & Equity-option Greek Markowitz & garch11\_residual\_fallback\_insufficient\_egarch\_obs & 1000 & 0.140 & 0.922 & -0.790 & -0.511 & 0.424 & 0.000 \\
+Full-spread post-cost & Greek Markowitz + VIX & circular\_block\_bootstrap & 1000 & 0.001 & 0.435 & -0.859 & -0.655 & 0.234 & 0.000 \\
+Full-spread post-cost & Greek Markowitz + VIX & garch11\_residual\_fallback\_insufficient\_egarch\_obs & 1000 & -0.182 & -0.093 & -0.988 & -0.835 & 0.020 & 0.000 \\
+Full-spread post-cost & Beta/delta-neutral + VIX & circular\_block\_bootstrap & 1000 & 0.232 & 1.124 & -0.731 & -0.513 & 0.556 & 0.000 \\
+Full-spread post-cost & Beta/delta-neutral + VIX & garch11\_residual\_fallback\_insufficient\_egarch\_obs & 1000 & 0.080 & 0.632 & -0.929 & -0.642 & 0.171 & 0.000 \\
+Full-spread post-cost & Delta-matched equities & circular\_block\_bootstrap & 1000 & 1.006 & 2.410 & -0.964 & -0.774 & 0.717 & 0.000 \\
+Full-spread post-cost & Delta-matched equities & garch11\_residual\_fallback\_insufficient\_egarch\_obs & 1000 & 1.029 & 2.629 & -0.921 & -0.638 & 0.867 & 0.000 \\
+Full-spread post-cost & Underlying Markowitz & circular\_block\_bootstrap & 1000 & 0.176 & 1.943 & -0.422 & -0.232 & 1.035 & 0.000 \\
+Full-spread post-cost & Underlying Markowitz & garch11\_residual\_fallback\_insufficient\_egarch\_obs & 1000 & 0.143 & 1.656 & -0.395 & -0.199 & 0.974 & 0.000 \\
+Full-spread post-cost & Equal premium & circular\_block\_bootstrap & 1000 & -0.520 & -0.290 & -0.999 & -0.984 & 0.002 & 0.000 \\
+Full-spread post-cost & Equal premium & garch11\_residual\_fallback\_insufficient\_egarch\_obs & 1000 & -0.682 & -0.793 & -1.000 & -0.998 & 0.000 & 0.000 \\
+Full-spread post-cost & Equal risk & circular\_block\_bootstrap & 1000 & -0.312 & -0.172 & -0.988 & -0.914 & 0.016 & 0.000 \\
+Full-spread post-cost & Equal risk & garch11\_residual\_fallback\_insufficient\_egarch\_obs & 1000 & -0.298 & -0.407 & -0.984 & -0.902 & 0.019 & 0.000 \\
+Full-spread post-cost & VIX hedge sleeve & circular\_block\_bootstrap & 1000 & -1.000 & -1.650 & -1.000 & -1.000 & 0.000 & 0.623 \\
+Full-spread post-cost & VIX hedge sleeve & garch11\_residual\_fallback\_insufficient\_egarch\_obs & 1000 & -0.776 & -0.870 & -1.000 & -1.000 & 0.000 & 0.012 \\
 \bottomrule
 \end{tabular}

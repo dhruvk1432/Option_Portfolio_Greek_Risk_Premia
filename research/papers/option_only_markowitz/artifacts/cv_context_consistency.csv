@@ -1,0 +1,8 @@
+strategy,status,max_abs_diff,n_context_weights,n_reference_weights
+Equity-option Greek Markowitz,ok,9.69276742202041e-17,43,43
+Greek Markowitz + VIX,ok,9.71445146547012e-17,46,46
+Beta/delta-neutral + VIX,ok,9.84455572616838e-17,47,47
+Cost-aware Sortino + VIX,ok,8.326672684688674e-17,7,7
+Equal premium,ok,1.734723475976807e-17,54,54
+Equal risk,ok,9.71445146547012e-17,54,54
+VIX hedge sleeve,ok,0.0,3,3

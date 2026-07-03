@@ -1,0 +1,36 @@
+Section,Item,Value,Notes
+State Dimension,spot:AAPL,mu=0.019431; omega=0.00113634; alpha=0.0777105; beta=0.748476,n_obs=70; fallback=False; reason=
+State Dimension,spot:AMZN,mu=0.0316915; omega=0.00203097; alpha=0; beta=0.704828,n_obs=70; fallback=False; reason=
+State Dimension,spot:GOOGL,mu=0.0182634; omega=0.00348159; alpha=0.143728; beta=2.13318e-14,n_obs=70; fallback=False; reason=
+State Dimension,spot:JPM,mu=0.0162303; omega=0.00362136; alpha=0.211243; beta=0,n_obs=70; fallback=False; reason=
+State Dimension,spot:META,mu=0.0213947; omega=0.00167887; alpha=0.315841; beta=0.392632,n_obs=70; fallback=False; reason=
+State Dimension,spot:MSFT,mu=0.0262454; omega=0.000436407; alpha=0.140304; beta=0.728673,n_obs=70; fallback=False; reason=
+State Dimension,spot:NVDA,mu=0.049128; omega=0.00330517; alpha=0.0538818; beta=0.712314,n_obs=70; fallback=False; reason=
+State Dimension,spot:TSLA,mu=0.0189024; omega=0.000354872; alpha=0.0604221; beta=0.939578,n_obs=70; fallback=False; reason=
+State Dimension,spot:VX_FRONT,mu=-0.00580358; omega=0.0268687; alpha=0.446917; beta=0.0984006,n_obs=70; fallback=False; reason=
+State Dimension,iv:AAPL,mu=0.0081573; omega=0.0225031; alpha=0.213579; beta=0.606376,n_obs=69; fallback=False; reason=
+State Dimension,iv:AMZN,mu=0.000709312; omega=0.0592597; alpha=0.042638; beta=0.453598,n_obs=69; fallback=False; reason=
+State Dimension,iv:GOOGL,mu=-0.00220899; omega=0.0485703; alpha=0.00707529; beta=0.485269,n_obs=69; fallback=False; reason=
+State Dimension,iv:JPM,mu=-0.00210938; omega=0.0415749; alpha=0.0733827; beta=0.415499,n_obs=69; fallback=False; reason=
+State Dimension,iv:META,mu=-0.00157152; omega=0.0244162; alpha=0.205676; beta=0.547104,n_obs=69; fallback=False; reason=
+State Dimension,iv:MSFT,mu=0.00613006; omega=0.0939383; alpha=0.221406; beta=1.84521e-17,n_obs=69; fallback=False; reason=
+State Dimension,iv:NVDA,mu=0.000877734; omega=0.0172009; alpha=0.162236; beta=0.739677,n_obs=69; fallback=False; reason=
+State Dimension,iv:TSLA,mu=-0.00981235; omega=0.0226323; alpha=0.187789; beta=0.505187,n_obs=69; fallback=False; reason=
+State Dimension,iv:VX_FRONT,mu=-0.00212937; omega=0.0459306; alpha=0.360287; beta=2.13779e-17,n_obs=69; fallback=False; reason=
+State Dimension,vix:VIX,mu=0.00114242; omega=0.0338075; alpha=0.49259; beta=0.0963354,n_obs=68; fallback=False; reason=
+Kernel,Simulation Method,joint_garch_block,joint block rows preserve empirical cross-dependence; gaussian_copula is rank-mapped sensitivity
+Kernel,Strike Rule,K_t = entry state_t * exp(train median log moneyness),"Static moneyness, repriced each month"
+Kernel,Original Tenor Reference,train median tenor_days / 365,Stored as tenor_years for audit only
+Kernel,Pricing Tenor Rule,0.08333333333333333,Synthetic contracts are one-step (1-month) options so premium and payoff horizons match; realized-kernel tenors average ~0.6 months
+Kernel,Skew Freeze,contract median IV / underlying ATM median IV,54 contracts
+Kernel,Rate,0.02,Continuously-compounded annual rate used in BS and Black-76
+Kernel,IV Floors Caps,0.05 to 2.0,Applied to ATM and skew-adjusted contract IV
+Kernel,VIX Level Caps,5.0 to 150.0,Applied during state reconstruction
+Kernel,Min Mark Rule,0.25,"Entry denominator uses max(model premium, min_mark) in dollars"
+Kernel,Spot Anchor,contract train-end spot,State spot paths are relative to 1.0 and scaled by anchor_spot at repricing
+Kernel,VIX Forward Convention,simulated spot:VX_FRONT entry forward; VIX level settlement proxy at t+1,"Premium uses the VX-front state, payoff uses simulated VIX level"
+Kernel,Seed,20260625,
+Kernel,Path Count,1000,
+Kernel,Horizon Months,60,
+Kernel,Block Length,6,
+Kernel,Min GARCH Obs,60,

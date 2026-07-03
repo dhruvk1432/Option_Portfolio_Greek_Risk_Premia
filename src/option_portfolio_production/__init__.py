@@ -10,6 +10,7 @@ from .lifecycle import AssignmentEvent, assign_short_option, early_exercise_risk
 from .margin import MarginConfig, build_margin_ledger, conservative_order_margin, stress_loss_for_order
 from .market_data import QuoteReconciliationResult, build_market_data_ledger, reconcile_quote_pair, validate_timestamp_monotonicity
 from .optimizer import ProductionOptimizerConfig, post_cost_expected_returns
+from .repair import REPAIR_LEDGER_COLUMNS, RepairEvent, RepairPolicy, adverse_drift_bps, attempt_order_repair, build_repair_ledger, propose_repair_order
 from .risk import RiskGateConfig, evaluate_pre_trade_gate
 from .schemas import AccountState, Fill, GateResult, MarginEstimate, OptionContract, OptionOrder, Position, QuoteSnapshot
 from .settlement import attach_exact_vix_settlement, load_vro_soq_table, normalize_vro_soq_frame, require_exact_vix_settlement, settlement_coverage
@@ -31,13 +32,19 @@ __all__ = [
     "ProductionOptimizerConfig",
     "QuoteReconciliationResult",
     "QuoteSnapshot",
+    "REPAIR_LEDGER_COLUMNS",
+    "RepairEvent",
+    "RepairPolicy",
     "RiskGateConfig",
     "assign_short_option",
     "attach_exact_vix_settlement",
+    "adverse_drift_bps",
+    "attempt_order_repair",
     "build_execution_ledger",
     "build_fill_ledger",
     "build_margin_ledger",
     "build_market_data_ledger",
+    "build_repair_ledger",
     "conservative_order_margin",
     "early_exercise_risk",
     "estimate_nbbo_fill",
@@ -46,6 +53,7 @@ __all__ = [
     "load_vro_soq_table",
     "normalize_vro_soq_frame",
     "post_cost_expected_returns",
+    "propose_repair_order",
     "reconcile_quote_pair",
     "require_exact_vix_settlement",
     "settlement_coverage",

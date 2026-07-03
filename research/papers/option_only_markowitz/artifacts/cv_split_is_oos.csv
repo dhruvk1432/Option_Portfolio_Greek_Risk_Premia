@@ -1,0 +1,937 @@
+fold_id,scheme,strategy,basis,is_sharpe,oos_sharpe,status
+kfold_00,kfold,Equity-option Greek Markowitz,gross,1.8943537180674512,-0.4541586339821839,ok
+kfold_00,kfold,Greek Markowitz + VIX,gross,1.260239126207668,-0.7799809289749505,ok
+kfold_00,kfold,Beta/delta-neutral + VIX,gross,1.1430044267260688,-0.4718857113931543,ok
+kfold_00,kfold,Equal premium,gross,0.19495161261111496,-0.12557153349489603,ok
+kfold_00,kfold,Equal risk,gross,0.4073856661529102,0.22987812068177885,ok
+kfold_00,kfold,VIX hedge sleeve,gross,-0.36609210063910563,-6.638050928846934,ok
+kfold_01,kfold,Equity-option Greek Markowitz,gross,1.6548879893979729,0.11248752273519853,ok
+kfold_01,kfold,Greek Markowitz + VIX,gross,1.5048521398194306,-2.533084013481896,ok
+kfold_01,kfold,Beta/delta-neutral + VIX,gross,1.4084042169219073,-2.493080994351978,ok
+kfold_01,kfold,Equal premium,gross,0.20402125905118948,0.4676241770469024,ok
+kfold_01,kfold,Equal risk,gross,0.4214744455730445,0.3398964293823335,ok
+kfold_01,kfold,VIX hedge sleeve,gross,-0.3918278135150642,-0.6023088509027402,ok
+kfold_02,kfold,Equity-option Greek Markowitz,gross,1.5180759626997995,3.3728516640728117,ok
+kfold_02,kfold,Greek Markowitz + VIX,gross,1.194187693023186,2.418799402702945,ok
+kfold_02,kfold,Beta/delta-neutral + VIX,gross,1.155216757546698,2.066899736139669,ok
+kfold_02,kfold,Equal premium,gross,0.31910394866800135,-0.9093485768709414,ok
+kfold_02,kfold,Equal risk,gross,0.5056793597890445,0.11866267600133994,ok
+kfold_02,kfold,VIX hedge sleeve,gross,-0.3871278134292312,-2.2721302386084847,ok
+kfold_03,kfold,Equity-option Greek Markowitz,gross,1.997170502206331,-0.6696706313599972,ok
+kfold_03,kfold,Greek Markowitz + VIX,gross,1.3619753491056605,0.05685480418125761,ok
+kfold_03,kfold,Beta/delta-neutral + VIX,gross,1.3602037377044092,-1.1032308897796688,ok
+kfold_03,kfold,Equal premium,gross,0.17182979412153454,0.3516531098870905,ok
+kfold_03,kfold,Equal risk,gross,0.41598763551804635,0.6168485914284602,ok
+kfold_03,kfold,VIX hedge sleeve,gross,-0.4755939386165493,0.03545511522538609,ok
+kfold_04,kfold,Equity-option Greek Markowitz,gross,1.6683087109116665,0.9037192790489025,ok
+kfold_04,kfold,Greek Markowitz + VIX,gross,1.3504618224898925,-0.17094946371377745,ok
+kfold_04,kfold,Beta/delta-neutral + VIX,gross,1.2488504024408493,0.5836452046485703,ok
+kfold_04,kfold,Equal premium,gross,0.16465078235241676,0.19895754026265952,ok
+kfold_04,kfold,Equal risk,gross,0.4195291724954821,0.42369848655066766,ok
+kfold_04,kfold,VIX hedge sleeve,gross,-0.3627793651885651,-1.031160601517173,ok
+kfold_05,kfold,Equity-option Greek Markowitz,gross,1.6572369612254088,2.6556641500178673,ok
+kfold_05,kfold,Greek Markowitz + VIX,gross,1.3932667485721824,1.4202374976161172,ok
+kfold_05,kfold,Beta/delta-neutral + VIX,gross,1.4871379701046703,0.9101892279832591,ok
+kfold_05,kfold,Equal premium,gross,0.04386280321839295,2.1499449921179763,ok
+kfold_05,kfold,Equal risk,gross,0.24518542593002116,2.6896836227901866,ok
+kfold_05,kfold,VIX hedge sleeve,gross,-2.1876488320439935,0.7191714835688778,ok
+kfold_06,kfold,Equity-option Greek Markowitz,gross,1.781972579423781,0.6940036782990754,ok
+kfold_06,kfold,Greek Markowitz + VIX,gross,1.3011002188523462,1.243959786375699,ok
+kfold_06,kfold,Beta/delta-neutral + VIX,gross,1.2879768519744728,1.064671070845527,ok
+kfold_06,kfold,Equal premium,gross,0.3390229711810874,-1.273580777346528,ok
+kfold_06,kfold,Equal risk,gross,0.6514512119407111,-1.4930965253593609,ok
+kfold_06,kfold,VIX hedge sleeve,gross,-0.31840037961661266,-5.817308555635695,ok
+kfold_07,kfold,Equity-option Greek Markowitz,gross,1.9895069467877937,-0.7269202013809899,ok
+kfold_07,kfold,Greek Markowitz + VIX,gross,1.4842106921884093,-0.04501603795860449,ok
+kfold_07,kfold,Beta/delta-neutral + VIX,gross,1.299832462347022,1.1303414072582654,ok
+kfold_07,kfold,Equal premium,gross,0.32077308200426446,-0.15638569416302295,ok
+kfold_07,kfold,Equal risk,gross,0.6525278079053661,-0.3607500785995585,ok
+kfold_07,kfold,VIX hedge sleeve,gross,-0.3340649841421922,-4.696155328595746,ok
+kfold_08,kfold,Equity-option Greek Markowitz,gross,1.7243724377337655,1.5273344775048452,ok
+kfold_08,kfold,Greek Markowitz + VIX,gross,1.2413003536101834,1.2505896481539724,ok
+kfold_08,kfold,Beta/delta-neutral + VIX,gross,1.187676742884544,1.6032544953735743,ok
+kfold_08,kfold,Equal premium,gross,0.24096025535749066,0.9648671520519131,ok
+kfold_08,kfold,Equal risk,gross,0.4570614659039181,1.1876224757177716,ok
+kfold_08,kfold,VIX hedge sleeve,gross,-0.3039484185023677,-20.27825619918045,ok
+kfold_09,kfold,Equity-option Greek Markowitz,gross,1.6200297138987971,2.487356239438947,ok
+kfold_09,kfold,Greek Markowitz + VIX,gross,1.052872134244847,3.7777711557791047,ok
+kfold_09,kfold,Beta/delta-neutral + VIX,gross,1.0526340766309723,2.8589687490748705,ok
+kfold_09,kfold,Equal premium,gross,0.2009976040035494,0.6481801473599087,ok
+kfold_09,kfold,Equal risk,gross,0.368728680712919,1.2966468592391691,ok
+kfold_09,kfold,VIX hedge sleeve,gross,-0.3361026634234372,-19.890325644024923,ok
+kfold_10,kfold,Equity-option Greek Markowitz,gross,1.5978734238497405,1.5290283288049724,ok
+kfold_10,kfold,Greek Markowitz + VIX,gross,1.1500100364854762,1.998990369032506,ok
+kfold_10,kfold,Beta/delta-neutral + VIX,gross,1.0963227982827901,2.2882608193492886,ok
+kfold_10,kfold,Equal premium,gross,0.3151366051245014,-0.120661380387779,ok
+kfold_10,kfold,Equal risk,gross,0.5289166432344686,0.02557462172945866,ok
+kfold_10,kfold,VIX hedge sleeve,gross,-0.3366518806894758,-4.357936208441055,ok
+kfold_11,kfold,Equity-option Greek Markowitz,gross,1.8484337222872516,-0.19345384266839025,ok
+kfold_11,kfold,Greek Markowitz + VIX,gross,1.7234430454439247,0.3411203109223504,ok
+kfold_11,kfold,Beta/delta-neutral + VIX,gross,1.4774116983879153,0.67314609697801,ok
+kfold_11,kfold,Equal premium,gross,0.3461903378230406,-0.5613398224208995,ok
+kfold_11,kfold,Equal risk,gross,0.47415490342517247,-0.6246907086223044,ok
+kfold_11,kfold,VIX hedge sleeve,gross,-0.34685083194817257,-5.396063819869177,ok
+cpcv_00_01,cpcv,Equity-option Greek Markowitz,gross,1.8346524801045287,0.17778573086771174,ok
+cpcv_00_01,cpcv,Greek Markowitz + VIX,gross,1.5743502625046395,-1.6431724035040038,ok
+cpcv_00_01,cpcv,Beta/delta-neutral + VIX,gross,1.3652712376659915,-1.1856232907358604,ok
+cpcv_00_01,cpcv,Equal premium,gross,0.22511230840122495,0.22174351029834535,ok
+cpcv_00_01,cpcv,Equal risk,gross,0.40976610825297033,0.32949897684364576,ok
+cpcv_00_01,cpcv,VIX hedge sleeve,gross,-0.32571085875545763,-2.0141190042854182,ok
+cpcv_00_02,cpcv,Equity-option Greek Markowitz,gross,1.6658104987521922,1.6763425116373984,ok
+cpcv_00_02,cpcv,Greek Markowitz + VIX,gross,1.1977692936989155,0.7819900382395526,ok
+cpcv_00_02,cpcv,Beta/delta-neutral + VIX,gross,1.086695457246924,0.504094037025384,ok
+cpcv_00_02,cpcv,Equal premium,gross,0.287502049773675,-0.3766628610214268,ok
+cpcv_00_02,cpcv,Equal risk,gross,0.4644302709501029,0.16022942153149364,ok
+cpcv_00_02,cpcv,VIX hedge sleeve,gross,-0.3473699359695286,-3.827754064718735,ok
+cpcv_00_03,cpcv,Equity-option Greek Markowitz,gross,2.2054915821787047,-0.8279513616294916,ok
+cpcv_00_03,cpcv,Greek Markowitz + VIX,gross,1.4111119960291676,-0.6724852234280425,ok
+cpcv_00_03,cpcv,Beta/delta-neutral + VIX,gross,1.3387376814308916,-0.8050752999589589,ok
+cpcv_00_03,cpcv,Equal premium,gross,0.11136708205163101,0.15317351120847986,ok
+cpcv_00_03,cpcv,Equal risk,gross,0.35670731748700896,0.46211853780024675,ok
+cpcv_00_03,cpcv,VIX hedge sleeve,gross,-0.4402398302502753,-0.989169403754538,ok
+cpcv_00_04,cpcv,Equity-option Greek Markowitz,gross,1.8424457019798128,0.11177082281586306,ok
+cpcv_00_04,cpcv,Greek Markowitz + VIX,gross,1.381974434122308,-0.3839332909539934,ok
+cpcv_00_04,cpcv,Beta/delta-neutral + VIX,gross,1.2143062798408353,-0.1449049893491619,ok
+cpcv_00_04,cpcv,Equal premium,gross,0.10528326684856336,0.05468928594686121,ok
+cpcv_00_04,cpcv,Equal risk,gross,0.37281508213377806,0.3326266830740647,ok
+cpcv_00_04,cpcv,VIX hedge sleeve,gross,-0.32074384876523737,-1.8791768488954608,ok
+cpcv_00_05,cpcv,Equity-option Greek Markowitz,gross,1.848531234477049,1.8650743448463258,ok
+cpcv_00_05,cpcv,Greek Markowitz + VIX,gross,1.5977618607506716,0.32953335181901694,ok
+cpcv_00_05,cpcv,Beta/delta-neutral + VIX,gross,1.634340184853715,0.20863098891477255,ok
+cpcv_00_05,cpcv,Equal premium,gross,-0.04097036472511428,1.154925431775819,ok
+cpcv_00_05,cpcv,Equal risk,gross,0.10999275244897685,1.3681784007348718,ok
+cpcv_00_05,cpcv,VIX hedge sleeve,gross,-2.2411093706847884,0.318873463598574,ok
+cpcv_00_06,cpcv,Equity-option Greek Markowitz,gross,1.9254894398091227,0.6723479538232929,ok
+cpcv_00_06,cpcv,Greek Markowitz + VIX,gross,1.2449911128274975,0.4187176590177481,ok
+cpcv_00_06,cpcv,Beta/delta-neutral + VIX,gross,1.1402672655803177,0.31800762163491986,ok
+cpcv_00_06,cpcv,Equal premium,gross,0.31012942296283813,-0.6928860333649672,ok
+cpcv_00_06,cpcv,Equal risk,gross,0.6322313007895021,-0.6382757279115511,ok
+cpcv_00_06,cpcv,VIX hedge sleeve,gross,-0.27400191609387187,-6.330150040619492,ok
+cpcv_00_07,cpcv,Equity-option Greek Markowitz,gross,2.256957993849526,-0.5326473861559706,ok
+cpcv_00_07,cpcv,Greek Markowitz + VIX,gross,1.4317447695387386,-0.04121676436481295,ok
+cpcv_00_07,cpcv,Beta/delta-neutral + VIX,gross,1.128993610286573,0.5217601128765733,ok
+cpcv_00_07,cpcv,Equal premium,gross,0.2884320772826192,-0.14531393959931052,ok
+cpcv_00_07,cpcv,Equal risk,gross,0.6435554850909486,-0.0895659158827671,ok
+cpcv_00_07,cpcv,VIX hedge sleeve,gross,-0.29073827828201226,-5.637078127158921,ok
+cpcv_00_08,cpcv,Equity-option Greek Markowitz,gross,1.953110991907969,0.24002540292003852,ok
+cpcv_00_08,cpcv,Greek Markowitz + VIX,gross,1.2993593239267147,0.17773371312928746,ok
+cpcv_00_08,cpcv,Beta/delta-neutral + VIX,gross,1.126738766160178,0.34428960335443115,ok
+cpcv_00_08,cpcv,Equal premium,gross,0.19646941915960345,0.35473174077119657,ok
+cpcv_00_08,cpcv,Equal risk,gross,0.4228079623726217,0.6332886612010562,ok
+cpcv_00_08,cpcv,VIX hedge sleeve,gross,-0.2585951634653419,-9.522823384314666,ok
+cpcv_00_09,cpcv,Equity-option Greek Markowitz,gross,1.8548534097304383,1.189708676895625,ok
+cpcv_00_09,cpcv,Greek Markowitz + VIX,gross,1.0762626855321924,1.059585327044492,ok
+cpcv_00_09,cpcv,Beta/delta-neutral + VIX,gross,0.9851622711229718,0.8051273046143046,ok
+cpcv_00_09,cpcv,Equal premium,gross,0.1495420668007261,0.2535533072761958,ok
+cpcv_00_09,cpcv,Equal risk,gross,0.32655343403848786,0.6669588812209436,ok
+cpcv_00_09,cpcv,VIX hedge sleeve,gross,-0.29303718461304457,-9.258161628997044,ok
+cpcv_00_10,cpcv,Equity-option Greek Markowitz,gross,1.7919173216242208,0.5408452251032819,ok
+cpcv_00_10,cpcv,Greek Markowitz + VIX,gross,1.155962310389294,0.4264869591485167,ok
+cpcv_00_10,cpcv,Beta/delta-neutral + VIX,gross,1.0085798251634814,0.3323611589800496,ok
+cpcv_00_10,cpcv,Equal premium,gross,0.282748779756344,-0.12634906308269195,ok
+cpcv_00_10,cpcv,Equal risk,gross,0.49685124719313245,0.08957052713724975,ok
+cpcv_00_10,cpcv,VIX hedge sleeve,gross,-0.29361747410255307,-5.454074288634071,ok
+cpcv_00_11,cpcv,Equity-option Greek Markowitz,gross,1.9931631597770174,0.24200753465002459,ok
+cpcv_00_11,cpcv,Greek Markowitz + VIX,gross,1.57817020320059,0.25076966709137416,ok
+cpcv_00_11,cpcv,Beta/delta-neutral + VIX,gross,1.3471362194783043,0.41802743949413024,ok
+cpcv_00_11,cpcv,Equal premium,gross,0.3186188776286603,-0.37259797284607876,ok
+cpcv_00_11,cpcv,Equal risk,gross,0.4186429823383899,-0.44625395094667347,ok
+cpcv_00_11,cpcv,VIX hedge sleeve,gross,-0.30474894677256753,-6.1351278101084,ok
+cpcv_01_02,cpcv,Equity-option Greek Markowitz,gross,1.5516907697401974,1.3296873104785147,ok
+cpcv_01_02,cpcv,Greek Markowitz + VIX,gross,1.462339637630313,-0.352580728034069,ok
+cpcv_01_02,cpcv,Beta/delta-neutral + VIX,gross,1.3653705032238406,-0.3361720031706298,ok
+cpcv_01_02,cpcv,Equal premium,gross,0.31885473596050357,0.0947294475260641,ok
+cpcv_01_02,cpcv,Equal risk,gross,0.5008747642981528,0.2528701673326255,ok
+cpcv_01_02,cpcv,VIX hedge sleeve,gross,-0.3991377730996575,-1.064485086490743,ok
+cpcv_01_03,cpcv,Equity-option Greek Markowitz,gross,1.913474175279182,-0.10399615091987113,ok
+cpcv_01_03,cpcv,Greek Markowitz + VIX,gross,1.6064629083893236,-1.0763774035787057,ok
+cpcv_01_03,cpcv,Beta/delta-neutral + VIX,gross,1.6087240386905157,-1.649855721981999,ok
+cpcv_01_03,cpcv,Equal premium,gross,0.12387371782188786,0.4199069313742941,ok
+cpcv_01_03,cpcv,Equal risk,gross,0.3715423451245236,0.5126261241315159,ok
+cpcv_01_03,cpcv,VIX hedge sleeve,gross,-0.4689115166401011,-0.19489878074712147,ok
+cpcv_01_04,cpcv,Equity-option Greek Markowitz,gross,1.6114007819934641,0.29410348708442313,ok
+cpcv_01_04,cpcv,Greek Markowitz + VIX,gross,1.6287583683603253,-1.8257995213812348,ok
+cpcv_01_04,cpcv,Beta/delta-neutral + VIX,gross,1.4743043135679417,-1.4116202587934004,ok
+cpcv_01_04,cpcv,Equal premium,gross,0.11755548287610759,0.34906942668709584,ok
+cpcv_01_04,cpcv,Equal risk,gross,0.3816272692506675,0.39608154275526536,ok
+cpcv_01_04,cpcv,VIX hedge sleeve,gross,-0.34838013446965455,-0.8587786538274597,ok
+cpcv_01_05,cpcv,Equity-option Greek Markowitz,gross,1.5615758996643503,1.681271117245044,ok
+cpcv_01_05,cpcv,Greek Markowitz + VIX,gross,1.5946130715399205,0.44747384740570934,ok
+cpcv_01_05,cpcv,Beta/delta-neutral + VIX,gross,1.7581336068916027,0.19277826777550125,ok
+cpcv_01_05,cpcv,Equal premium,gross,-0.024574232392453342,1.3210799753325768,ok
+cpcv_01_05,cpcv,Equal risk,gross,0.18181267448065974,1.6210616971807341,ok
+cpcv_01_05,cpcv,VIX hedge sleeve,gross,-2.366065594565133,0.4673220615603131,ok
+cpcv_01_06,cpcv,Equity-option Greek Markowitz,gross,1.7248384634474558,0.41289458277739494,ok
+cpcv_01_06,cpcv,Greek Markowitz + VIX,gross,1.5880376693915628,-0.5042392564554915,ok
+cpcv_01_06,cpcv,Beta/delta-neutral + VIX,gross,1.4953491115932425,-0.5288320260249533,ok
+cpcv_01_06,cpcv,Equal premium,gross,0.31807860537248667,-0.23318075669365207,ok
+cpcv_01_06,cpcv,Equal risk,gross,0.6377601408539905,-0.5228977096110357,ok
+cpcv_01_06,cpcv,VIX hedge sleeve,gross,-0.3011476942216749,-1.9994889508934455,ok
+cpcv_01_07,cpcv,Equity-option Greek Markowitz,gross,2.01744117447747,-0.16213476161639714,ok
+cpcv_01_07,cpcv,Greek Markowitz + VIX,gross,1.7812442713521595,-1.0215855382246486,ok
+cpcv_01_07,cpcv,Beta/delta-neutral + VIX,gross,1.4836400755169854,-0.3966757564015096,ok
+cpcv_01_07,cpcv,Equal premium,gross,0.29678986774507365,0.17730696478009828,ok
+cpcv_01_07,cpcv,Equal risk,gross,0.6229131355740319,0.0374034388300594,ok
+cpcv_01_07,cpcv,VIX hedge sleeve,gross,-0.3179585994046186,-1.7835124623402805,ok
+cpcv_01_08,cpcv,Equity-option Greek Markowitz,gross,1.6647931969223455,0.828673676778314,ok
+cpcv_01_08,cpcv,Greek Markowitz + VIX,gross,1.5305781066240112,-0.38503137332486004,ok
+cpcv_01_08,cpcv,Beta/delta-neutral + VIX,gross,1.3833696669537876,0.044144707970571115,ok
+cpcv_01_08,cpcv,Equal premium,gross,0.20659003641926413,0.6364998022179623,ok
+cpcv_01_08,cpcv,Equal risk,gross,0.4424502833655716,0.756485946245604,ok
+cpcv_01_08,cpcv,VIX hedge sleeve,gross,-0.28565942457430127,-2.3818195426824995,ok
+cpcv_01_09,cpcv,Equity-option Greek Markowitz,gross,1.56735087117495,1.0933406308556362,ok
+cpcv_01_09,cpcv,Greek Markowitz + VIX,gross,1.3238843935815992,0.2621763345510295,ok
+cpcv_01_09,cpcv,Beta/delta-neutral + VIX,gross,1.2478689416033562,0.11660983721294617,ok
+cpcv_01_09,cpcv,Equal premium,gross,0.1605930919357951,0.5475547393627156,ok
+cpcv_01_09,cpcv,Equal risk,gross,0.3408297935085158,0.8152161204096546,ok
+cpcv_01_09,cpcv,VIX hedge sleeve,gross,-0.3201280147087456,-2.1739955212095636,ok
+cpcv_01_10,cpcv,Equity-option Greek Markowitz,gross,1.5311782837173575,0.5645646950763193,ok
+cpcv_01_10,cpcv,Greek Markowitz + VIX,gross,1.3930885260995434,-0.44861006397248926,ok
+cpcv_01_10,cpcv,Beta/delta-neutral + VIX,gross,1.2604635886572637,-0.3135089916472906,ok
+cpcv_01_10,cpcv,Equal premium,gross,0.291151392133948,0.25041357461389846,ok
+cpcv_01_10,cpcv,Equal risk,gross,0.5048262102247227,0.17025692872418685,ok
+cpcv_01_10,cpcv,VIX hedge sleeve,gross,-0.32071344047169026,-1.6800841283495642,ok
+cpcv_01_11,cpcv,Equity-option Greek Markowitz,gross,1.8514569802241367,0.6247835725593669,ok
+cpcv_01_11,cpcv,Greek Markowitz + VIX,gross,1.9553166014578012,-0.02704721274510514,ok
+cpcv_01_11,cpcv,Beta/delta-neutral + VIX,gross,1.5871918865636376,0.15525681729323546,ok
+cpcv_01_11,cpcv,Equal premium,gross,0.3260795456766648,-0.021409259234060053,ok
+cpcv_01_11,cpcv,Equal risk,gross,0.4206450462213154,-0.018372582097763053,ok
+cpcv_01_11,cpcv,VIX hedge sleeve,gross,-0.33161517218243247,-1.8122489206049688,ok
+cpcv_02_03,cpcv,Equity-option Greek Markowitz,gross,1.8085813434024964,0.6728850995897131,ok
+cpcv_02_03,cpcv,Greek Markowitz + VIX,gross,1.2268250881294338,1.3646638439137204,ok
+cpcv_02_03,cpcv,Beta/delta-neutral + VIX,gross,1.2230543261659956,0.6524993374744599,ok
+cpcv_02_03,cpcv,Equal premium,gross,0.20218432767878883,0.01502522705200536,ok
+cpcv_02_03,cpcv,Equal risk,gross,0.3656124682089662,0.3842560757512445,ok
+cpcv_02_03,cpcv,VIX hedge sleeve,gross,-0.4567186794847929,-0.38025041582418534,ok
+cpcv_02_04,cpcv,Equity-option Greek Markowitz,gross,1.4711209986640703,1.9903908575409823,ok
+cpcv_02_04,cpcv,Greek Markowitz + VIX,gross,1.2514087808396426,1.2045405344366393,ok
+cpcv_02_04,cpcv,Beta/delta-neutral + VIX,gross,1.1829217039068824,1.194085484754254,ok
+cpcv_02_04,cpcv,Equal premium,gross,0.25308571484884174,-0.1144297248467176,ok
+cpcv_02_04,cpcv,Equal risk,gross,0.47206120030899473,0.34826867556005786,ok
+cpcv_02_04,cpcv,VIX hedge sleeve,gross,-0.3435691516443607,-1.1636775988174604,ok
+cpcv_02_05,cpcv,Equity-option Greek Markowitz,gross,1.3456760001501271,2.4182084696419883,ok
+cpcv_02_05,cpcv,Greek Markowitz + VIX,gross,1.245144197721733,1.6165818118744588,ok
+cpcv_02_05,cpcv,Beta/delta-neutral + VIX,gross,1.3199940636798522,1.1076363826471205,ok
+cpcv_02_05,cpcv,Equal premium,gross,0.1256596757806375,1.1322080035957791,ok
+cpcv_02_05,cpcv,Equal risk,gross,0.2819474605855774,1.6144260868914295,ok
+cpcv_02_05,cpcv,VIX hedge sleeve,gross,-2.2260481131706733,0.43861596470905123,ok
+cpcv_02_06,cpcv,Equity-option Greek Markowitz,gross,1.5955817626204372,1.3925325050022876,ok
+cpcv_02_06,cpcv,Greek Markowitz + VIX,gross,1.2271583391297338,1.6320162711948494,ok
+cpcv_02_06,cpcv,Beta/delta-neutral + VIX,gross,1.2185820151327966,1.3813294392285007,ok
+cpcv_02_06,cpcv,Equal premium,gross,0.4405079319047133,-1.1111520105954036,ok
+cpcv_02_06,cpcv,Equal risk,gross,0.7155614126482679,-0.7590400182022893,ok
+cpcv_02_06,cpcv,VIX hedge sleeve,gross,-0.2965836880838489,-3.647044109605672,ok
+cpcv_02_07,cpcv,Equity-option Greek Markowitz,gross,1.8124470551471863,0.9662017931242838,ok
+cpcv_02_07,cpcv,Greek Markowitz + VIX,gross,1.4125359585286719,1.1086702793580978,ok
+cpcv_02_07,cpcv,Beta/delta-neutral + VIX,gross,1.2091893980591184,1.4074687496680995,ok
+cpcv_02_07,cpcv,Equal premium,gross,0.4222019504127783,-0.35201301538498275,ok
+cpcv_02_07,cpcv,Equal risk,gross,0.7044482378862474,-0.045178861693447925,ok
+cpcv_02_07,cpcv,VIX hedge sleeve,gross,-0.3133302912784351,-3.3477205858690655,ok
+cpcv_02_08,cpcv,Equity-option Greek Markowitz,gross,1.5193263304692222,1.8957666381102611,ok
+cpcv_02_08,cpcv,Greek Markowitz + VIX,gross,1.1544985335785711,1.5612897207964376,ok
+cpcv_02_08,cpcv,Beta/delta-neutral + VIX,gross,1.1171362430853446,1.5572339046119386,ok
+cpcv_02_08,cpcv,Equal premium,gross,0.33276074806409106,0.22237602395522746,ok
+cpcv_02_08,cpcv,Equal risk,gross,0.511697440881015,0.8404697484437332,ok
+cpcv_02_08,cpcv,VIX hedge sleeve,gross,-0.28115772615807794,-4.586965610839804,ok
+cpcv_02_09,cpcv,Equity-option Greek Markowitz,gross,1.3900662852626577,2.3904806981004185,ok
+cpcv_02_09,cpcv,Greek Markowitz + VIX,gross,1.0009752478661296,2.799530918079623,ok
+cpcv_02_09,cpcv,Beta/delta-neutral + VIX,gross,0.9858232438323684,2.1721391115292032,ok
+cpcv_02_09,cpcv,Equal premium,gross,0.2900262199363569,0.09894231143021169,ok
+cpcv_02_09,cpcv,Equal risk,gross,0.43007267865707066,0.7944034967844897,ok
+cpcv_02_09,cpcv,VIX hedge sleeve,gross,-0.31550777830987675,-4.427123884124024,ok
+cpcv_02_10,cpcv,Equity-option Greek Markowitz,gross,1.3638328574525318,2.1642940152786156,ok
+cpcv_02_10,cpcv,Greek Markowitz + VIX,gross,1.0578112971038327,2.3073452704053126,ok
+cpcv_02_10,cpcv,Beta/delta-neutral + VIX,gross,1.009481857174751,2.0356190756688517,ok
+cpcv_02_10,cpcv,Equal premium,gross,0.41321058131248134,-0.41567447405474245,ok
+cpcv_02_10,cpcv,Equal risk,gross,0.5959362808146567,0.06137225154368409,ok
+cpcv_02_10,cpcv,VIX hedge sleeve,gross,-0.3160903803570734,-3.1868865837555935,ok
+cpcv_02_11,cpcv,Equity-option Greek Markowitz,gross,1.704811350858184,1.1723610452083288,ok
+cpcv_02_11,cpcv,Greek Markowitz + VIX,gross,1.5788508703683375,1.1969515921600788,ok
+cpcv_02_11,cpcv,Beta/delta-neutral + VIX,gross,1.3987234838477778,1.499837644571151,ok
+cpcv_02_11,cpcv,Equal premium,gross,0.4488335624447439,-0.6114087488891468,ok
+cpcv_02_11,cpcv,Equal risk,gross,0.5873199900033833,-0.7356002958294985,ok
+cpcv_02_11,cpcv,VIX hedge sleeve,gross,-0.3269836093962502,-3.4848260011948717,ok
+cpcv_03_04,cpcv,Equity-option Greek Markowitz,gross,1.7889748030813,-0.25145812933694756,ok
+cpcv_03_04,cpcv,Greek Markowitz + VIX,gross,1.4157479795914552,0.12391858746267864,ok
+cpcv_03_04,cpcv,Beta/delta-neutral + VIX,gross,1.4419197639721935,-0.35893361368072385,ok
+cpcv_03_04,cpcv,Equal premium,gross,0.20892742784889334,0.28610048567466106,ok
+cpcv_03_04,cpcv,Equal risk,gross,0.42249395844208976,0.5385187627814202,ok
+cpcv_03_04,cpcv,VIX hedge sleeve,gross,-0.38908254606207565,-0.4764026026476344,ok
+cpcv_03_05,cpcv,Equity-option Greek Markowitz,gross,1.9944408786687304,0.8989582493412432,ok
+cpcv_03_05,cpcv,Greek Markowitz + VIX,gross,1.5013160441755664,1.0282750853905425,ok
+cpcv_03_05,cpcv,Beta/delta-neutral + VIX,gross,1.6467710866346632,0.5276016509848648,ok
+cpcv_03_05,cpcv,Equal premium,gross,-0.07445634530817634,1.2627043230198054,ok
+cpcv_03_05,cpcv,Equal risk,gross,0.16384614952244728,1.6679092067470975,ok
+cpcv_03_05,cpcv,VIX hedge sleeve,gross,-4.332161220959098,0.5117455725179528,ok
+cpcv_03_06,cpcv,Equity-option Greek Markowitz,gross,2.0578059949416394,0.1435893494914397,ok
+cpcv_03_06,cpcv,Greek Markowitz + VIX,gross,1.4197620785554668,0.7751882487968468,ok
+cpcv_03_06,cpcv,Beta/delta-neutral + VIX,gross,1.4445002097020736,0.26956118439597726,ok
+cpcv_03_06,cpcv,Equal premium,gross,0.28647062219050745,-0.30515281504838243,ok
+cpcv_03_06,cpcv,Equal risk,gross,0.6331125706663837,-0.18210389529333842,ok
+cpcv_03_06,cpcv,VIX hedge sleeve,gross,-0.3882137494472041,-1.0001478736941716,ok
+cpcv_03_07,cpcv,Equity-option Greek Markowitz,gross,2.3671405882813326,-0.6291516938926169,ok
+cpcv_03_07,cpcv,Greek Markowitz + VIX,gross,1.664771209364001,-0.0530492455413927,ok
+cpcv_03_07,cpcv,Beta/delta-neutral + VIX,gross,1.5067458534704063,-0.009230975023491975,ok
+cpcv_03_07,cpcv,Equal premium,gross,0.2638837116105854,0.11400510225292795,ok
+cpcv_03_07,cpcv,Equal risk,gross,0.6393093279489585,0.1873313754160876,ok
+cpcv_03_07,cpcv,VIX hedge sleeve,gross,-0.40535335111430637,-0.8546094598917848,ok
+cpcv_03_08,cpcv,Equity-option Greek Markowitz,gross,1.9498777816152446,0.7770025212770477,ok
+cpcv_03_08,cpcv,Greek Markowitz + VIX,gross,1.3283733836317437,1.022135113903034,ok
+cpcv_03_08,cpcv,Beta/delta-neutral + VIX,gross,1.3214517025315016,0.89224667853843,ok
+cpcv_03_08,cpcv,Equal premium,gross,0.17102807890961072,0.5643772464021832,ok
+cpcv_03_08,cpcv,Equal risk,gross,0.39720500718157936,0.862399134629473,ok
+cpcv_03_08,cpcv,VIX hedge sleeve,gross,-0.37237274237389173,-1.2070612851180789,ok
+cpcv_03_09,cpcv,Equity-option Greek Markowitz,gross,1.8280619158711295,1.0038208970013522,ok
+cpcv_03_09,cpcv,Greek Markowitz + VIX,gross,1.134289891605041,1.9408735645732629,ok
+cpcv_03_09,cpcv,Beta/delta-neutral + VIX,gross,1.153513192353663,1.2838421660196264,ok
+cpcv_03_09,cpcv,Equal premium,gross,0.1229085355509382,0.4778360737142645,ok
+cpcv_03_09,cpcv,Equal risk,gross,0.31639725423264276,0.8961258033569806,ok
+cpcv_03_09,cpcv,VIX hedge sleeve,gross,-0.4071690549144802,-1.0525840659629182,ok
+cpcv_03_10,cpcv,Equity-option Greek Markowitz,gross,1.8875658834494722,0.25243829777011845,ok
+cpcv_03_10,cpcv,Greek Markowitz + VIX,gross,1.2782187969072814,0.9124304882521437,ok
+cpcv_03_10,cpcv,Beta/delta-neutral + VIX,gross,1.247885962777557,0.5153151153392055,ok
+cpcv_03_10,cpcv,Equal premium,gross,0.2589307651829161,0.17695680771532024,ok
+cpcv_03_10,cpcv,Equal risk,gross,0.4961232488987415,0.41126646573220094,ok
+cpcv_03_10,cpcv,VIX hedge sleeve,gross,-0.40777565424006823,-0.7838073090149198,ok
+cpcv_03_11,cpcv,Equity-option Greek Markowitz,gross,2.1216134565419513,0.016369700735347204,ok
+cpcv_03_11,cpcv,Greek Markowitz + VIX,gross,1.9249042300017127,0.19733324980178638,ok
+cpcv_03_11,cpcv,Beta/delta-neutral + VIX,gross,1.6851264212569321,-0.05692397244650404,ok
+cpcv_03_11,cpcv,Equal premium,gross,0.29485529497561525,-0.08508218460477814,ok
+cpcv_03_11,cpcv,Equal risk,gross,0.4639826682229526,-0.002661295746225751,ok
+cpcv_03_11,cpcv,VIX hedge sleeve,gross,-0.4180971869625399,-0.857965417593459,ok
+cpcv_04_05,cpcv,Equity-option Greek Markowitz,gross,1.8200829449345146,2.0359555843625867,ok
+cpcv_04_05,cpcv,Greek Markowitz + VIX,gross,1.4957273898103203,1.101034586606081,ok
+cpcv_04_05,cpcv,Beta/delta-neutral + VIX,gross,1.4725547453197025,0.8830002840966928,ok
+cpcv_04_05,cpcv,Equal premium,gross,-0.0622374809302893,1.2273412093835676,ok
+cpcv_04_05,cpcv,Equal risk,gross,0.18216620530573693,1.6074691849509752,ok
+cpcv_04_05,cpcv,VIX hedge sleeve,gross,-2.5438183638664675,0.38857904699399304,ok
+cpcv_04_06,cpcv,Equity-option Greek Markowitz,gross,1.7442615442504334,0.8764075734657324,ok
+cpcv_04_06,cpcv,Greek Markowitz + VIX,gross,1.3967971790514215,0.8717627560891318,ok
+cpcv_04_06,cpcv,Beta/delta-neutral + VIX,gross,1.2995273690201956,1.0316825635799265,ok
+cpcv_04_06,cpcv,Equal premium,gross,0.27413882553718155,-0.44120585925021555,ok
+cpcv_04_06,cpcv,Equal risk,gross,0.6233286713204922,-0.4094948453914225,ok
+cpcv_04_06,cpcv,VIX hedge sleeve,gross,-0.2693578174872803,-1.8817648744841604,ok
+cpcv_04_07,cpcv,Equity-option Greek Markowitz,gross,2.133381000791328,0.033752875520297244,ok
+cpcv_04_07,cpcv,Greek Markowitz + VIX,gross,1.6782140104772718,-0.020059043208715124,ok
+cpcv_04_07,cpcv,Beta/delta-neutral + VIX,gross,1.3368888010112652,0.9607629132393676,ok
+cpcv_04_07,cpcv,Equal premium,gross,0.2519617667365972,0.021199199182678735,ok
+cpcv_04_07,cpcv,Equal risk,gross,0.6058789689799405,0.186984235191587,ok
+cpcv_04_07,cpcv,VIX hedge sleeve,gross,-0.286287959373221,-1.708255684077324,ok
+cpcv_04_08,cpcv,Equity-option Greek Markowitz,gross,1.7216787624095407,1.2157241230932307,ok
+cpcv_04_08,cpcv,Greek Markowitz + VIX,gross,1.3841903153823576,0.7244033169502321,ok
+cpcv_04_08,cpcv,Beta/delta-neutral + VIX,gross,1.223186339146894,1.1334821554052412,ok
+cpcv_04_08,cpcv,Equal premium,gross,0.16342608226195693,0.49420226926949606,ok
+cpcv_04_08,cpcv,Equal risk,gross,0.4003168596952165,0.7935935000955938,ok
+cpcv_04_08,cpcv,VIX hedge sleeve,gross,-0.2537747389761675,-2.1595174218877653,ok
+cpcv_04_09,cpcv,Equity-option Greek Markowitz,gross,1.5512129458017887,1.6515680893301783,ok
+cpcv_04_09,cpcv,Greek Markowitz + VIX,gross,1.1535115753858525,1.7723187803545988,ok
+cpcv_04_09,cpcv,Beta/delta-neutral + VIX,gross,1.069297117091317,1.6437296624780313,ok
+cpcv_04_09,cpcv,Equal premium,gross,0.11696732782907583,0.4006774633091082,ok
+cpcv_04_09,cpcv,Equal risk,gross,0.32384589399091396,0.8160506508659358,ok
+cpcv_04_09,cpcv,VIX hedge sleeve,gross,-0.2886374642225752,-1.995899475478074,ok
+cpcv_04_10,cpcv,Equity-option Greek Markowitz,gross,1.5383291194907442,1.1458984439595994,ok
+cpcv_04_10,cpcv,Greek Markowitz + VIX,gross,1.2390843469709198,1.015912482482782,ok
+cpcv_04_10,cpcv,Beta/delta-neutral + VIX,gross,1.11027492137845,1.4151846655889244,ok
+cpcv_04_10,cpcv,Equal premium,gross,0.24789130911230167,0.07272636829420581,ok
+cpcv_04_10,cpcv,Equal risk,gross,0.49508385678740563,0.3037349075573542,ok
+cpcv_04_10,cpcv,VIX hedge sleeve,gross,-0.2892240443085649,-1.6421472304110876,ok
+cpcv_04_11,cpcv,Equity-option Greek Markowitz,gross,1.9519039376938572,0.5093643803270915,ok
+cpcv_04_11,cpcv,Greek Markowitz + VIX,gross,1.783963168116037,0.43928469473414844,ok
+cpcv_04_11,cpcv,Beta/delta-neutral + VIX,gross,1.534862310523803,0.7575048726141438,ok
+cpcv_04_11,cpcv,Equal premium,gross,0.2814566477284037,-0.18919606443398798,ok
+cpcv_04_11,cpcv,Equal risk,gross,0.4418300573195099,-0.13705843518279326,ok
+cpcv_04_11,cpcv,VIX hedge sleeve,gross,-0.3005304665992219,-1.7376173225701363,ok
+cpcv_05_06,cpcv,Equity-option Greek Markowitz,gross,1.5636790134696887,1.7452111509376542,ok
+cpcv_05_06,cpcv,Greek Markowitz + VIX,gross,1.314736172508567,1.3394744488621362,ok
+cpcv_05_06,cpcv,Beta/delta-neutral + VIX,gross,1.4372164512968366,1.0146754908091185,ok
+cpcv_05_06,cpcv,Equal premium,gross,0.12392947494388963,0.7182642888106999,ok
+cpcv_05_06,cpcv,Equal risk,gross,0.3185167258787249,0.9750595517130473,ok
+cpcv_05_06,cpcv,VIX hedge sleeve,gross,-2.023353597885245,0.3148132286647453,ok
+cpcv_05_07,cpcv,Equity-option Greek Markowitz,gross,1.8995321608876987,1.3548382983715495,ok
+cpcv_05_07,cpcv,Greek Markowitz + VIX,gross,1.616097470666013,1.021346841921772,ok
+cpcv_05_07,cpcv,Beta/delta-neutral + VIX,gross,1.5619481090116656,0.8682141742172025,ok
+cpcv_05_07,cpcv,Equal premium,gross,0.11848872081402716,1.0521566227529286,ok
+cpcv_05_07,cpcv,Equal risk,gross,0.4410718857290614,1.3002552061940167,ok
+cpcv_05_07,cpcv,VIX hedge sleeve,gross,-2.009941618951911,0.3446162885811335,ok
+cpcv_05_08,cpcv,Equity-option Greek Markowitz,gross,1.6793092401019822,1.916233155227598,ok
+cpcv_05_08,cpcv,Greek Markowitz + VIX,gross,1.3624101247429232,1.4202166662000315,ok
+cpcv_05_08,cpcv,Beta/delta-neutral + VIX,gross,1.4917162342999366,1.0550018034451771,ok
+cpcv_05_08,cpcv,Equal premium,gross,0.030306358724573722,1.62706481296402,ok
+cpcv_05_08,cpcv,Equal risk,gross,0.2217711368662228,2.048739936423136,ok
+cpcv_05_08,cpcv,VIX hedge sleeve,gross,-1.8882596395046911,0.2765243414080381,ok
+cpcv_05_09,cpcv,Equity-option Greek Markowitz,gross,1.5700532535887641,2.2380020768494617,ok
+cpcv_05_09,cpcv,Greek Markowitz + VIX,gross,1.1772960050240837,1.764485863834734,ok
+cpcv_05_09,cpcv,Beta/delta-neutral + VIX,gross,1.2325525463489577,1.4027801529322106,ok
+cpcv_05_09,cpcv,Equal premium,gross,-0.02014183466696468,1.5181698382143465,ok
+cpcv_05_09,cpcv,Equal risk,gross,0.11402494787512706,2.0606277855645163,ok
+cpcv_05_09,cpcv,VIX hedge sleeve,gross,-2.0125015375022297,0.320119646388216,ok
+cpcv_05_10,cpcv,Equity-option Greek Markowitz,gross,1.5402424928340261,2.1146738587440006,ok
+cpcv_05_10,cpcv,Greek Markowitz + VIX,gross,1.2503597677490241,1.476060746540231,ok
+cpcv_05_10,cpcv,Beta/delta-neutral + VIX,gross,1.2413517596634938,1.2346860487753064,ok
+cpcv_05_10,cpcv,Equal premium,gross,0.11892936930613454,1.243461654097852,ok
+cpcv_05_10,cpcv,Equal risk,gross,0.30822429256658684,1.5836159909927283,ok
+cpcv_05_10,cpcv,VIX hedge sleeve,gross,-2.016949206112294,0.36989917934483274,ok
+cpcv_05_11,cpcv,Equity-option Greek Markowitz,gross,1.755235640866233,1.3110320103075022,ok
+cpcv_05_11,cpcv,Greek Markowitz + VIX,gross,1.7115847312794383,1.295293139330303,ok
+cpcv_05_11,cpcv,Beta/delta-neutral + VIX,gross,1.570109632331991,0.8889791223604923,ok
+cpcv_05_11,cpcv,Equal premium,gross,0.15045087767114165,0.8553119764015413,ok
+cpcv_05_11,cpcv,Equal risk,gross,0.30319016249283665,0.9649143594147656,ok
+cpcv_05_11,cpcv,VIX hedge sleeve,gross,-2.039198302295635,0.3560092802893885,ok
+cpcv_06_07,cpcv,Equity-option Greek Markowitz,gross,2.076581858308913,-0.04861702170755056,ok
+cpcv_06_07,cpcv,Greek Markowitz + VIX,gross,1.4847699319264376,0.49485045276702877,ok
+cpcv_06_07,cpcv,Beta/delta-neutral + VIX,gross,1.399605342090299,0.8930250553776944,ok
+cpcv_06_07,cpcv,Equal premium,gross,0.4156250653956552,-0.645456817141762,ok
+cpcv_06_07,cpcv,Equal risk,gross,0.7596635417401767,-0.87667046781675,ok
+cpcv_06_07,cpcv,VIX hedge sleeve,gross,-0.26155226087447636,-5.325963614237454,ok
+cpcv_06_08,cpcv,Equity-option Greek Markowitz,gross,1.8333184297214522,0.9600490503756971,ok
+cpcv_06_08,cpcv,Greek Markowitz + VIX,gross,1.3361314411039156,1.1693935281545154,ok
+cpcv_06_08,cpcv,Beta/delta-neutral + VIX,gross,1.2907618165942665,1.363553707362614,ok
+cpcv_06_08,cpcv,Equal premium,gross,0.3546085378567995,-0.25636965187606264,ok
+cpcv_06_08,cpcv,Equal risk,gross,0.6716739168131592,-0.1195934075219571,ok
+cpcv_06_08,cpcv,VIX hedge sleeve,gross,-0.20761997767194207,-8.529794561007801,ok
+cpcv_06_09,cpcv,Equity-option Greek Markowitz,gross,1.6813625277925965,1.3963952158471327,ok
+cpcv_06_09,cpcv,Greek Markowitz + VIX,gross,1.0879354174197444,2.085451173607993,ok
+cpcv_06_09,cpcv,Beta/delta-neutral + VIX,gross,1.102439313845197,1.8353586256730243,ok
+cpcv_06_09,cpcv,Equal premium,gross,0.31119897976852046,-0.31604620071952777,ok
+cpcv_06_09,cpcv,Equal risk,gross,0.5843645445887017,-0.10306275360391375,ok
+cpcv_06_09,cpcv,VIX hedge sleeve,gross,-0.2423803481488089,-8.209237665708237,ok
+cpcv_06_10,cpcv,Equity-option Greek Markowitz,gross,1.671197017020443,1.1094104083189722,ok
+cpcv_06_10,cpcv,Greek Markowitz + VIX,gross,1.1770988332288035,1.6952285663025548,ok
+cpcv_06_10,cpcv,Beta/delta-neutral + VIX,gross,1.136525011435329,1.68280243448264,ok
+cpcv_06_10,cpcv,Equal premium,gross,0.43709059565660363,-0.7490545845565736,ok
+cpcv_06_10,cpcv,Equal risk,gross,0.7493073462146264,-0.6921124247868702,ok
+cpcv_06_10,cpcv,VIX hedge sleeve,gross,-0.2429571552586591,-5.160000246565821,ok
+cpcv_06_11,cpcv,Equity-option Greek Markowitz,gross,1.9941183874904327,-0.056977464380569144,ok
+cpcv_06_11,cpcv,Greek Markowitz + VIX,gross,1.7513850306249132,0.7421042024938109,ok
+cpcv_06_11,cpcv,Beta/delta-neutral + VIX,gross,1.5259136040992127,0.40310315048620354,ok
+cpcv_06_11,cpcv,Equal premium,gross,0.47478436140433955,-0.8738824402123719,ok
+cpcv_06_11,cpcv,Equal risk,gross,0.700949517624269,-0.9938453758224262,ok
+cpcv_06_11,cpcv,VIX hedge sleeve,gross,-0.25459327720311303,-5.747466944583609,ok
+cpcv_07_08,cpcv,Equity-option Greek Markowitz,gross,1.936351779750533,0.6935450520391396,ok
+cpcv_07_08,cpcv,Greek Markowitz + VIX,gross,1.4854293421092313,0.7634388623450075,ok
+cpcv_07_08,cpcv,Beta/delta-neutral + VIX,gross,1.292154869431381,1.4690438584269976,ok
+cpcv_07_08,cpcv,Equal premium,gross,0.3010521981986866,0.27349700521336634,ok
+cpcv_07_08,cpcv,Equal risk,gross,0.5136099210138083,0.47947759742648605,ok
+cpcv_07_08,cpcv,VIX hedge sleeve,gross,-0.2508064075171451,-7.257278042271793,ok
+cpcv_07_09,cpcv,Equity-option Greek Markowitz,gross,1.9602923780154131,1.0172535857612468,ok
+cpcv_07_09,cpcv,Greek Markowitz + VIX,gross,1.249428398121545,1.6591472205903202,ok
+cpcv_07_09,cpcv,Beta/delta-neutral + VIX,gross,1.1413904998084121,1.9760914904047273,ok
+cpcv_07_09,cpcv,Equal premium,gross,0.29032540711171506,0.19242488471124894,ok
+cpcv_07_09,cpcv,Equal risk,gross,0.5213478510818282,0.6557518635069722,ok
+cpcv_07_09,cpcv,VIX hedge sleeve,gross,-0.25907125965974553,-7.018732261786696,ok
+cpcv_07_10,cpcv,Equity-option Greek Markowitz,gross,1.9002750809002313,0.5182816683336843,ok
+cpcv_07_10,cpcv,Greek Markowitz + VIX,gross,1.396997635397614,1.1338820576575255,ok
+cpcv_07_10,cpcv,Beta/delta-neutral + VIX,gross,1.1745953005795011,1.7865443903702631,ok
+cpcv_07_10,cpcv,Equal premium,gross,0.41870787414402993,-0.1439659559966656,ok
+cpcv_07_10,cpcv,Equal risk,gross,0.7530156472519787,-0.1113397465891455,ok
+cpcv_07_10,cpcv,VIX hedge sleeve,gross,-0.25964921783577144,-4.645754864095966,ok
+cpcv_07_11,cpcv,Equity-option Greek Markowitz,gross,2.125861341097005,-0.5040126480991675,ok
+cpcv_07_11,cpcv,Greek Markowitz + VIX,gross,1.958776944652899,-0.237945174377803,ok
+cpcv_07_11,cpcv,Beta/delta-neutral + VIX,gross,1.5463830887765695,0.7391685857551761,ok
+cpcv_07_11,cpcv,Equal premium,gross,0.45704740980543695,-0.36879997827944244,ok
+cpcv_07_11,cpcv,Equal risk,gross,0.6335472620644478,-0.46248820373359345,ok
+cpcv_07_11,cpcv,VIX hedge sleeve,gross,-0.2711122744351466,-5.136842047070891,ok
+cpcv_08_09,cpcv,Equity-option Greek Markowitz,gross,1.6342586268409862,1.3117906126639722,ok
+cpcv_08_09,cpcv,Greek Markowitz + VIX,gross,1.0429844785414175,1.9966571910590023,ok
+cpcv_08_09,cpcv,Beta/delta-neutral + VIX,gross,0.9581872166314774,1.6764704368027925,ok
+cpcv_08_09,cpcv,Equal premium,gross,0.1993423784266446,0.8053984840285562,ok
+cpcv_08_09,cpcv,Equal risk,gross,0.33725946566939635,1.3464715151858773,ok
+cpcv_08_09,cpcv,VIX hedge sleeve,gross,-0.24544040053400154,-20.122095267611243,ok
+cpcv_08_10,cpcv,Equity-option Greek Markowitz,gross,1.6162603860322022,1.327247849704336,ok
+cpcv_08_10,cpcv,Greek Markowitz + VIX,gross,1.1336286205823092,1.4609834880253418,ok
+cpcv_08_10,cpcv,Beta/delta-neutral + VIX,gross,1.0533713934076399,1.6348964758698388,ok
+cpcv_08_10,cpcv,Equal premium,gross,0.32830431381203073,0.4154566053164936,ok
+cpcv_08_10,cpcv,Equal risk,gross,0.5359837338600036,0.7025097295290863,ok
+cpcv_08_10,cpcv,VIX hedge sleeve,gross,-0.22760749809282313,-7.045666790655797,ok
+cpcv_08_11,cpcv,Equity-option Greek Markowitz,gross,1.8582638722555607,0.4997278741932503,ok
+cpcv_08_11,cpcv,Greek Markowitz + VIX,gross,1.6994497117559666,1.1198920503557677,ok
+cpcv_08_11,cpcv,Beta/delta-neutral + VIX,gross,1.441511125818911,1.4963304004310036,ok
+cpcv_08_11,cpcv,Equal premium,gross,0.36212780266075273,0.02022757800264539,ok
+cpcv_08_11,cpcv,Equal risk,gross,0.44548733758357073,0.2543396286480889,ok
+cpcv_08_11,cpcv,VIX hedge sleeve,gross,-0.2393954491671348,-8.293606152313956,ok
+cpcv_09_10,cpcv,Equity-option Greek Markowitz,gross,1.5630332115836942,1.8796866695703731,ok
+cpcv_09_10,cpcv,Greek Markowitz + VIX,gross,0.9823618660424207,2.6430642479723514,ok
+cpcv_09_10,cpcv,Beta/delta-neutral + VIX,gross,0.9571051386940432,2.4392644152410266,ok
+cpcv_09_10,cpcv,Equal premium,gross,0.2380409933757136,0.2957922537922777,ok
+cpcv_09_10,cpcv,Equal risk,gross,0.3921129833799926,0.682617920528517,ok
+cpcv_09_10,cpcv,VIX hedge sleeve,gross,-0.2698876458200781,-6.782875144258205,ok
+cpcv_09_11,cpcv,Equity-option Greek Markowitz,gross,1.815236925549743,1.2817345606778188,ok
+cpcv_09_11,cpcv,Greek Markowitz + VIX,gross,1.593849334547066,1.9365950460702759,ok
+cpcv_09_11,cpcv,Beta/delta-neutral + VIX,gross,1.3536180529285955,1.890144173159295,ok
+cpcv_09_11,cpcv,Equal premium,gross,0.3185180220975856,-0.04670277664261225,ok
+cpcv_09_11,cpcv,Equal risk,gross,0.385398524829347,0.0761402635669716,ok
+cpcv_09_11,cpcv,VIX hedge sleeve,gross,-0.2734822711092631,-8.02319951161864,ok
+cpcv_10_11,cpcv,Equity-option Greek Markowitz,gross,1.611791981497365,0.7292080821214365,ok
+cpcv_10_11,cpcv,Greek Markowitz + VIX,gross,1.4182266307803164,1.2252668704066854,ok
+cpcv_10_11,cpcv,Beta/delta-neutral + VIX,gross,1.261633196598999,1.2339513290165696,ok
+cpcv_10_11,cpcv,Equal premium,gross,0.36673401247801696,-0.3888947431652,ok
+cpcv_10_11,cpcv,Equal risk,gross,0.7210578745078003,-0.14413481585009186,ok
+cpcv_10_11,cpcv,VIX hedge sleeve,gross,-0.2979093821255176,-4.956711381776985,ok
+kfold_00,kfold,Equity-option Greek Markowitz,full_spread_post_cost,1.8943537180674512,-1.6879441089443843,ok
+kfold_00,kfold,Greek Markowitz + VIX,full_spread_post_cost,1.260239126207668,-2.209833671050622,ok
+kfold_00,kfold,Beta/delta-neutral + VIX,full_spread_post_cost,1.1430044267260688,-2.2922000638235174,ok
+kfold_00,kfold,Equal premium,full_spread_post_cost,0.19495161261111496,-0.9092156749372761,ok
+kfold_00,kfold,Equal risk,full_spread_post_cost,0.4073856661529102,-0.9947277198240858,ok
+kfold_00,kfold,VIX hedge sleeve,full_spread_post_cost,-0.36609210063910563,-2.383221282688009,ok
+kfold_01,kfold,Equity-option Greek Markowitz,full_spread_post_cost,1.6548879893979729,-0.5102647029758829,ok
+kfold_01,kfold,Greek Markowitz + VIX,full_spread_post_cost,1.5048521398194306,-1.0204238008759112,ok
+kfold_01,kfold,Beta/delta-neutral + VIX,full_spread_post_cost,1.4084042169219073,-1.194221454018219,ok
+kfold_01,kfold,Equal premium,full_spread_post_cost,0.20402125905118948,0.7459679148913773,ok
+kfold_01,kfold,Equal risk,full_spread_post_cost,0.4214744455730445,0.8158884993155202,ok
+kfold_01,kfold,VIX hedge sleeve,full_spread_post_cost,-0.3918278135150642,-1.5569388223302405,ok
+kfold_02,kfold,Equity-option Greek Markowitz,full_spread_post_cost,1.5180759626997995,2.0365734511889584,ok
+kfold_02,kfold,Greek Markowitz + VIX,full_spread_post_cost,1.194187693023186,1.8863799067800522,ok
+kfold_02,kfold,Beta/delta-neutral + VIX,full_spread_post_cost,1.155216757546698,1.4361462302564845,ok
+kfold_02,kfold,Equal premium,full_spread_post_cost,0.31910394866800135,0.06816622657703898,ok
+kfold_02,kfold,Equal risk,full_spread_post_cost,0.5056793597890445,0.6774433958156172,ok
+kfold_02,kfold,VIX hedge sleeve,full_spread_post_cost,-0.3871278134292312,0.0,ok
+kfold_03,kfold,Equity-option Greek Markowitz,full_spread_post_cost,1.997170502206331,-0.7264887552674609,ok
+kfold_03,kfold,Greek Markowitz + VIX,full_spread_post_cost,1.3619753491056605,-2.361292774564025,ok
+kfold_03,kfold,Beta/delta-neutral + VIX,full_spread_post_cost,1.3602037377044092,-2.7224947229003407,ok
+kfold_03,kfold,Equal premium,full_spread_post_cost,0.17182979412153454,-0.05616241277010174,ok
+kfold_03,kfold,Equal risk,full_spread_post_cost,0.41598763551804635,0.12435740034244552,ok
+kfold_03,kfold,VIX hedge sleeve,full_spread_post_cost,-0.4755939386165493,0.3609591896713812,ok
+kfold_04,kfold,Equity-option Greek Markowitz,full_spread_post_cost,1.6683087109116665,0.6875267793001597,ok
+kfold_04,kfold,Greek Markowitz + VIX,full_spread_post_cost,1.3504618224898925,-0.0931821561088999,ok
+kfold_04,kfold,Beta/delta-neutral + VIX,full_spread_post_cost,1.2488504024408493,0.4067006271111431,ok
+kfold_04,kfold,Equal premium,full_spread_post_cost,0.16465078235241676,-0.48637698902620186,ok
+kfold_04,kfold,Equal risk,full_spread_post_cost,0.4195291724954821,-0.40850125425620004,ok
+kfold_04,kfold,VIX hedge sleeve,full_spread_post_cost,-0.3627793651885651,0.2336670917306704,ok
+kfold_05,kfold,Equity-option Greek Markowitz,full_spread_post_cost,1.6572369612254088,2.1623628695939927,ok
+kfold_05,kfold,Greek Markowitz + VIX,full_spread_post_cost,1.3932667485721824,0.1318112509068664,ok
+kfold_05,kfold,Beta/delta-neutral + VIX,full_spread_post_cost,1.4871379701046703,-0.26449727903667947,ok
+kfold_05,kfold,Equal premium,full_spread_post_cost,0.04386280321839295,1.9317839846916385,ok
+kfold_05,kfold,Equal risk,full_spread_post_cost,0.24518542593002116,2.210340116057717,ok
+kfold_05,kfold,VIX hedge sleeve,full_spread_post_cost,-2.1876488320439935,0.9602926221538255,ok
+kfold_06,kfold,Equity-option Greek Markowitz,full_spread_post_cost,1.781972579423781,0.561447079360482,ok
+kfold_06,kfold,Greek Markowitz + VIX,full_spread_post_cost,1.3011002188523462,0.6067120509345151,ok
+kfold_06,kfold,Beta/delta-neutral + VIX,full_spread_post_cost,1.2879768519744728,0.1563428533661136,ok
+kfold_06,kfold,Equal premium,full_spread_post_cost,0.3390229711810874,-3.0115880593864213,ok
+kfold_06,kfold,Equal risk,full_spread_post_cost,0.6514512119407111,-2.583323749413926,ok
+kfold_06,kfold,VIX hedge sleeve,full_spread_post_cost,-0.31840037961661266,-1.3783982226178007,ok
+kfold_07,kfold,Equity-option Greek Markowitz,full_spread_post_cost,1.9895069467877937,-1.4856078053207125,ok
+kfold_07,kfold,Greek Markowitz + VIX,full_spread_post_cost,1.4842106921884093,-0.39622190702395255,ok
+kfold_07,kfold,Beta/delta-neutral + VIX,full_spread_post_cost,1.299832462347022,0.7515115945113159,ok
+kfold_07,kfold,Equal premium,full_spread_post_cost,0.32077308200426446,-0.845340444519681,ok
+kfold_07,kfold,Equal risk,full_spread_post_cost,0.6525278079053661,-0.9093765678543105,ok
+kfold_07,kfold,VIX hedge sleeve,full_spread_post_cost,-0.3340649841421922,-1.6269952707061772,ok
+kfold_08,kfold,Equity-option Greek Markowitz,full_spread_post_cost,1.7243724377337655,2.369549209106271,ok
+kfold_08,kfold,Greek Markowitz + VIX,full_spread_post_cost,1.2413003536101834,1.6954547651055782,ok
+kfold_08,kfold,Beta/delta-neutral + VIX,full_spread_post_cost,1.187676742884544,2.695990360481592,ok
+kfold_08,kfold,Equal premium,full_spread_post_cost,0.24096025535749066,0.22264773097571572,ok
+kfold_08,kfold,Equal risk,full_spread_post_cost,0.4570614659039181,-0.049808235235166906,ok
+kfold_08,kfold,VIX hedge sleeve,full_spread_post_cost,-0.3039484185023677,-2.4967033453465013,ok
+kfold_09,kfold,Equity-option Greek Markowitz,full_spread_post_cost,1.6200297138987971,2.5861014242540836,ok
+kfold_09,kfold,Greek Markowitz + VIX,full_spread_post_cost,1.052872134244847,1.4192347003638783,ok
+kfold_09,kfold,Beta/delta-neutral + VIX,full_spread_post_cost,1.0526340766309723,1.4196375205875127,ok
+kfold_09,kfold,Equal premium,full_spread_post_cost,0.2009976040035494,1.210554297443133,ok
+kfold_09,kfold,Equal risk,full_spread_post_cost,0.368728680712919,1.3380372575546498,ok
+kfold_09,kfold,VIX hedge sleeve,full_spread_post_cost,-0.3361026634234372,-1.4235403180511714,ok
+kfold_10,kfold,Equity-option Greek Markowitz,full_spread_post_cost,1.5978734238497405,1.2918828387970929,ok
+kfold_10,kfold,Greek Markowitz + VIX,full_spread_post_cost,1.1500100364854762,1.0676574793009623,ok
+kfold_10,kfold,Beta/delta-neutral + VIX,full_spread_post_cost,1.0963227982827901,1.2410323850649918,ok
+kfold_10,kfold,Equal premium,full_spread_post_cost,0.3151366051245014,-0.03624334570192267,ok
+kfold_10,kfold,Equal risk,full_spread_post_cost,0.5289166432344686,-0.6449418840485505,ok
+kfold_10,kfold,VIX hedge sleeve,full_spread_post_cost,-0.3366518806894758,-2.714257429871715,ok
+kfold_11,kfold,Equity-option Greek Markowitz,full_spread_post_cost,1.8484337222872516,-0.19124059154397532,ok
+kfold_11,kfold,Greek Markowitz + VIX,full_spread_post_cost,1.7234430454439247,0.12833555933706345,ok
+kfold_11,kfold,Beta/delta-neutral + VIX,full_spread_post_cost,1.4774116983879153,-0.050552836106536984,ok
+kfold_11,kfold,Equal premium,full_spread_post_cost,0.3461903378230406,-0.020879753534085527,ok
+kfold_11,kfold,Equal risk,full_spread_post_cost,0.47415490342517247,-0.22337681824797745,ok
+kfold_11,kfold,VIX hedge sleeve,full_spread_post_cost,-0.34685083194817257,-1.8476743963925213,ok
+cpcv_00_01,cpcv,Equity-option Greek Markowitz,full_spread_post_cost,1.8346524801045287,-0.9320776456701424,ok
+cpcv_00_01,cpcv,Greek Markowitz + VIX,full_spread_post_cost,1.5743502625046395,-1.6808880181149373,ok
+cpcv_00_01,cpcv,Beta/delta-neutral + VIX,full_spread_post_cost,1.3652712376659915,-1.6505072133311829,ok
+cpcv_00_01,cpcv,Equal premium,full_spread_post_cost,0.22511230840122495,0.10085711175606578,ok
+cpcv_00_01,cpcv,Equal risk,full_spread_post_cost,0.40976610825297033,0.11979130456731749,ok
+cpcv_00_01,cpcv,VIX hedge sleeve,full_spread_post_cost,-0.32571085875545763,-1.93058139147801,ok
+cpcv_00_02,cpcv,Equity-option Greek Markowitz,full_spread_post_cost,1.6658104987521922,0.5082336962622446,ok
+cpcv_00_02,cpcv,Greek Markowitz + VIX,full_spread_post_cost,1.1977692936989155,-0.61456180735833,ok
+cpcv_00_02,cpcv,Beta/delta-neutral + VIX,full_spread_post_cost,1.086695457246924,-0.5369034751443443,ok
+cpcv_00_02,cpcv,Equal premium,full_spread_post_cost,0.287502049773675,-0.4437606022009287,ok
+cpcv_00_02,cpcv,Equal risk,full_spread_post_cost,0.4644302709501029,-0.3187654655168713,ok
+cpcv_00_02,cpcv,VIX hedge sleeve,full_spread_post_cost,-0.3473699359695286,-1.538166445105002,ok
+cpcv_00_03,cpcv,Equity-option Greek Markowitz,full_spread_post_cost,2.2054915821787047,-1.5034296797014886,ok
+cpcv_00_03,cpcv,Greek Markowitz + VIX,full_spread_post_cost,1.4111119960291676,-2.205283416387992,ok
+cpcv_00_03,cpcv,Beta/delta-neutral + VIX,full_spread_post_cost,1.3387376814308916,-2.4135118158799824,ok
+cpcv_00_03,cpcv,Equal premium,full_spread_post_cost,0.11136708205163101,-0.3934979429703258,ok
+cpcv_00_03,cpcv,Equal risk,full_spread_post_cost,0.35670731748700896,-0.29152331962586164,ok
+cpcv_00_03,cpcv,VIX hedge sleeve,full_spread_post_cost,-0.4402398302502753,-0.5661292616638093,ok
+cpcv_00_04,cpcv,Equity-option Greek Markowitz,full_spread_post_cost,1.8424457019798128,0.07460290913179972,ok
+cpcv_00_04,cpcv,Greek Markowitz + VIX,full_spread_post_cost,1.381974434122308,-1.4901702896513978,ok
+cpcv_00_04,cpcv,Beta/delta-neutral + VIX,full_spread_post_cost,1.2143062798408353,-1.3499334448585882,ok
+cpcv_00_04,cpcv,Equal premium,full_spread_post_cost,0.10528326684856336,-0.5858445354052599,ok
+cpcv_00_04,cpcv,Equal risk,full_spread_post_cost,0.37281508213377806,-0.6517240691857361,ok
+cpcv_00_04,cpcv,VIX hedge sleeve,full_spread_post_cost,-0.32074384876523737,-0.7417806238174326,ok
+cpcv_00_05,cpcv,Equity-option Greek Markowitz,full_spread_post_cost,1.848531234477049,1.0056717021647021,ok
+cpcv_00_05,cpcv,Greek Markowitz + VIX,full_spread_post_cost,1.5977618607506716,-0.3337574082291168,ok
+cpcv_00_05,cpcv,Beta/delta-neutral + VIX,full_spread_post_cost,1.634340184853715,-0.36986331354628166,ok
+cpcv_00_05,cpcv,Equal premium,full_spread_post_cost,-0.04097036472511428,1.1647160897365652,ok
+cpcv_00_05,cpcv,Equal risk,full_spread_post_cost,0.10999275244897685,0.9096787636731829,ok
+cpcv_00_05,cpcv,VIX hedge sleeve,full_spread_post_cost,-2.2411093706847884,0.551107977809903,ok
+cpcv_00_06,cpcv,Equity-option Greek Markowitz,full_spread_post_cost,1.9254894398091227,0.3088599536469677,ok
+cpcv_00_06,cpcv,Greek Markowitz + VIX,full_spread_post_cost,1.2449911128274975,-0.5475512728457859,ok
+cpcv_00_06,cpcv,Beta/delta-neutral + VIX,full_spread_post_cost,1.1402672655803177,-0.5541992605366126,ok
+cpcv_00_06,cpcv,Equal premium,full_spread_post_cost,0.31012942296283813,-2.0175352478952457,ok
+cpcv_00_06,cpcv,Equal risk,full_spread_post_cost,0.6322313007895021,-1.6843808665767575,ok
+cpcv_00_06,cpcv,VIX hedge sleeve,full_spread_post_cost,-0.27400191609387187,-1.8583109265394975,ok
+cpcv_00_07,cpcv,Equity-option Greek Markowitz,full_spread_post_cost,2.256957993849526,-1.4376596426570627,ok
+cpcv_00_07,cpcv,Greek Markowitz + VIX,full_spread_post_cost,1.4317447695387386,-1.2255164347708052,ok
+cpcv_00_07,cpcv,Beta/delta-neutral + VIX,full_spread_post_cost,1.128993610286573,-0.7111204682415111,ok
+cpcv_00_07,cpcv,Equal premium,full_spread_post_cost,0.2884320772826192,-0.806074430925591,ok
+cpcv_00_07,cpcv,Equal risk,full_spread_post_cost,0.6435554850909486,-0.8413713527064426,ok
+cpcv_00_07,cpcv,VIX hedge sleeve,full_spread_post_cost,-0.29073827828201226,-2.0411556827956296,ok
+cpcv_00_08,cpcv,Equity-option Greek Markowitz,full_spread_post_cost,1.953110991907969,0.28404043341493634,ok
+cpcv_00_08,cpcv,Greek Markowitz + VIX,full_spread_post_cost,1.2993593239267147,-0.021904965328680415,ok
+cpcv_00_08,cpcv,Beta/delta-neutral + VIX,full_spread_post_cost,1.126738766160178,0.31749548375714365,ok
+cpcv_00_08,cpcv,Equal premium,full_spread_post_cost,0.19646941915960345,-0.2906059362996068,ok
+cpcv_00_08,cpcv,Equal risk,full_spread_post_cost,0.4228079623726217,-0.3341449059093593,ok
+cpcv_00_08,cpcv,VIX hedge sleeve,full_spread_post_cost,-0.2585951634653419,-2.340814052344721,ok
+cpcv_00_09,cpcv,Equity-option Greek Markowitz,full_spread_post_cost,1.8548534097304383,1.1886032940839164,ok
+cpcv_00_09,cpcv,Greek Markowitz + VIX,full_spread_post_cost,1.0762626855321924,-0.24925722583794768,ok
+cpcv_00_09,cpcv,Beta/delta-neutral + VIX,full_spread_post_cost,0.9851622711229718,-0.17638127766478134,ok
+cpcv_00_09,cpcv,Equal premium,full_spread_post_cost,0.1495420668007261,0.505062656900078,ok
+cpcv_00_09,cpcv,Equal risk,full_spread_post_cost,0.32655343403848786,0.3547016258386944,ok
+cpcv_00_09,cpcv,VIX hedge sleeve,full_spread_post_cost,-0.29303718461304457,-1.8682322427027584,ok
+cpcv_00_10,cpcv,Equity-option Greek Markowitz,full_spread_post_cost,1.7919173216242208,0.5833893783978826,ok
+cpcv_00_10,cpcv,Greek Markowitz + VIX,full_spread_post_cost,1.155962310389294,-0.4071276305635598,ok
+cpcv_00_10,cpcv,Beta/delta-neutral + VIX,full_spread_post_cost,1.0085798251634814,-0.5661318155545314,ok
+cpcv_00_10,cpcv,Equal premium,full_spread_post_cost,0.282748779756344,-0.22298398085992163,ok
+cpcv_00_10,cpcv,Equal risk,full_spread_post_cost,0.49685124719313245,-0.8177076085657308,ok
+cpcv_00_10,cpcv,VIX hedge sleeve,full_spread_post_cost,-0.29361747410255307,-2.5412680438344952,ok
+cpcv_00_11,cpcv,Equity-option Greek Markowitz,full_spread_post_cost,1.9931631597770174,-0.6373231063594749,ok
+cpcv_00_11,cpcv,Greek Markowitz + VIX,full_spread_post_cost,1.57817020320059,-1.1788415800295182,ok
+cpcv_00_11,cpcv,Beta/delta-neutral + VIX,full_spread_post_cost,1.3471362194783043,-0.8996401601909069,ok
+cpcv_00_11,cpcv,Equal premium,full_spread_post_cost,0.3186188776286603,-0.13871640011297046,ok
+cpcv_00_11,cpcv,Equal risk,full_spread_post_cost,0.4186429823383899,-0.30347650669897963,ok
+cpcv_00_11,cpcv,VIX hedge sleeve,full_spread_post_cost,-0.30474894677256753,-2.1717703842352427,ok
+cpcv_01_02,cpcv,Equity-option Greek Markowitz,full_spread_post_cost,1.5516907697401974,0.4034144100505252,ok
+cpcv_01_02,cpcv,Greek Markowitz + VIX,full_spread_post_cost,1.462339637630313,-0.5401222697938267,ok
+cpcv_01_02,cpcv,Beta/delta-neutral + VIX,full_spread_post_cost,1.3653705032238406,-0.3296844843749681,ok
+cpcv_01_02,cpcv,Equal premium,full_spread_post_cost,0.31885473596050357,0.4866159062569569,ok
+cpcv_01_02,cpcv,Equal risk,full_spread_post_cost,0.5008747642981528,0.734727716136935,ok
+cpcv_01_02,cpcv,VIX hedge sleeve,full_spread_post_cost,-0.3991377730996575,-1.0702225607693736,ok
+cpcv_01_03,cpcv,Equity-option Greek Markowitz,full_spread_post_cost,1.913474175279182,-1.310228243265332,ok
+cpcv_01_03,cpcv,Greek Markowitz + VIX,full_spread_post_cost,1.6064629083893236,-1.4821472491364047,ok
+cpcv_01_03,cpcv,Beta/delta-neutral + VIX,full_spread_post_cost,1.6087240386905157,-1.697435862031738,ok
+cpcv_01_03,cpcv,Equal premium,full_spread_post_cost,0.12387371782188786,0.3576151655971468,ok
+cpcv_01_03,cpcv,Equal risk,full_spread_post_cost,0.3715423451245236,0.5265588493522227,ok
+cpcv_01_03,cpcv,VIX hedge sleeve,full_spread_post_cost,-0.4689115166401011,-0.006938881076603558,ok
+cpcv_01_04,cpcv,Equity-option Greek Markowitz,full_spread_post_cost,1.6114007819934641,0.6256941636303899,ok
+cpcv_01_04,cpcv,Greek Markowitz + VIX,full_spread_post_cost,1.6287583683603253,-0.5849319923375861,ok
+cpcv_01_04,cpcv,Beta/delta-neutral + VIX,full_spread_post_cost,1.4743043135679417,-0.6773601076055086,ok
+cpcv_01_04,cpcv,Equal premium,full_spread_post_cost,0.11755548287610759,0.014921660298009242,ok
+cpcv_01_04,cpcv,Equal risk,full_spread_post_cost,0.3816272692506675,0.14706951958084877,ok
+cpcv_01_04,cpcv,VIX hedge sleeve,full_spread_post_cost,-0.34838013446965455,-0.13677434554367973,ok
+cpcv_01_05,cpcv,Equity-option Greek Markowitz,full_spread_post_cost,1.5615758996643503,1.2142643766319268,ok
+cpcv_01_05,cpcv,Greek Markowitz + VIX,full_spread_post_cost,1.5946130715399205,-0.23153228994236336,ok
+cpcv_01_05,cpcv,Beta/delta-neutral + VIX,full_spread_post_cost,1.7581336068916027,-0.46296878005455705,ok
+cpcv_01_05,cpcv,Equal premium,full_spread_post_cost,-0.024574232392453342,1.4032238125441665,ok
+cpcv_01_05,cpcv,Equal risk,full_spread_post_cost,0.18181267448065974,1.6247914645562385,ok
+cpcv_01_05,cpcv,VIX hedge sleeve,full_spread_post_cost,-2.366065594565133,0.644042848717932,ok
+cpcv_01_06,cpcv,Equity-option Greek Markowitz,full_spread_post_cost,1.7248384634474558,-0.18436517077498962,ok
+cpcv_01_06,cpcv,Greek Markowitz + VIX,full_spread_post_cost,1.5880376693915628,-0.19890726501153835,ok
+cpcv_01_06,cpcv,Beta/delta-neutral + VIX,full_spread_post_cost,1.4953491115932425,-0.41077491635614266,ok
+cpcv_01_06,cpcv,Equal premium,full_spread_post_cost,0.31807860537248667,-1.1453396125832411,ok
+cpcv_01_06,cpcv,Equal risk,full_spread_post_cost,0.6377601408539905,-0.8251824833664619,ok
+cpcv_01_06,cpcv,VIX hedge sleeve,full_spread_post_cost,-0.3011476942216749,-1.304118521778068,ok
+cpcv_01_07,cpcv,Equity-option Greek Markowitz,full_spread_post_cost,2.01744117447747,-1.2544057988911423,ok
+cpcv_01_07,cpcv,Greek Markowitz + VIX,full_spread_post_cost,1.7812442713521595,-0.6219510877127297,ok
+cpcv_01_07,cpcv,Beta/delta-neutral + VIX,full_spread_post_cost,1.4836400755169854,-0.31857967636502094,ok
+cpcv_01_07,cpcv,Equal premium,full_spread_post_cost,0.29678986774507365,-0.2322828180374283,ok
+cpcv_01_07,cpcv,Equal risk,full_spread_post_cost,0.6229131355740319,0.0588812571765513,ok
+cpcv_01_07,cpcv,VIX hedge sleeve,full_spread_post_cost,-0.3179585994046186,-1.5898018246486096,ok
+cpcv_01_08,cpcv,Equity-option Greek Markowitz,full_spread_post_cost,1.6647931969223455,0.650269279462664,ok
+cpcv_01_08,cpcv,Greek Markowitz + VIX,full_spread_post_cost,1.5305781066240112,0.07748825638350183,ok
+cpcv_01_08,cpcv,Beta/delta-neutral + VIX,full_spread_post_cost,1.3833696669537876,0.47763294344259694,ok
+cpcv_01_08,cpcv,Equal premium,full_spread_post_cost,0.20659003641926413,0.5242237626329791,ok
+cpcv_01_08,cpcv,Equal risk,full_spread_post_cost,0.4424502833655716,0.37119555489788275,ok
+cpcv_01_08,cpcv,VIX hedge sleeve,full_spread_post_cost,-0.28565942457430127,-2.0724937788773787,ok
+cpcv_01_09,cpcv,Equity-option Greek Markowitz,full_spread_post_cost,1.56735087117495,1.2849392683274392,ok
+cpcv_01_09,cpcv,Greek Markowitz + VIX,full_spread_post_cost,1.3238843935815992,-0.07984724330657404,ok
+cpcv_01_09,cpcv,Beta/delta-neutral + VIX,full_spread_post_cost,1.2478689416033562,0.056962910890153144,ok
+cpcv_01_09,cpcv,Equal premium,full_spread_post_cost,0.1605930919357951,1.0122692661572734,ok
+cpcv_01_09,cpcv,Equal risk,full_spread_post_cost,0.3408297935085158,1.0705767386790526,ok
+cpcv_01_09,cpcv,VIX hedge sleeve,full_spread_post_cost,-0.3201280147087456,-1.5257763243695632,ok
+cpcv_01_10,cpcv,Equity-option Greek Markowitz,full_spread_post_cost,1.5311782837173575,0.41345762310314416,ok
+cpcv_01_10,cpcv,Greek Markowitz + VIX,full_spread_post_cost,1.3930885260995434,-0.3732000270095147,ok
+cpcv_01_10,cpcv,Beta/delta-neutral + VIX,full_spread_post_cost,1.2604635886572637,-0.3520654188674648,ok
+cpcv_01_10,cpcv,Equal premium,full_spread_post_cost,0.291151392133948,0.21813435597367317,ok
+cpcv_01_10,cpcv,Equal risk,full_spread_post_cost,0.5048262102247227,-0.05859995242549259,ok
+cpcv_01_10,cpcv,VIX hedge sleeve,full_spread_post_cost,-0.32071344047169026,-2.1319382994937235,ok
+cpcv_01_11,cpcv,Equity-option Greek Markowitz,full_spread_post_cost,1.8514569802241367,-0.18690865250683564,ok
+cpcv_01_11,cpcv,Greek Markowitz + VIX,full_spread_post_cost,1.9553166014578012,-0.8486103623535071,ok
+cpcv_01_11,cpcv,Beta/delta-neutral + VIX,full_spread_post_cost,1.5871918865636376,-0.5663233944057001,ok
+cpcv_01_11,cpcv,Equal premium,full_spread_post_cost,0.3260795456766648,0.1424283400267123,ok
+cpcv_01_11,cpcv,Equal risk,full_spread_post_cost,0.4206450462213154,-0.07093719630169605,ok
+cpcv_01_11,cpcv,VIX hedge sleeve,full_spread_post_cost,-0.33161517218243247,-1.689468236769762,ok
+cpcv_02_03,cpcv,Equity-option Greek Markowitz,full_spread_post_cost,1.8085813434024964,-0.03860408198192223,ok
+cpcv_02_03,cpcv,Greek Markowitz + VIX,full_spread_post_cost,1.2268250881294338,-0.6587144560655923,ok
+cpcv_02_03,cpcv,Beta/delta-neutral + VIX,full_spread_post_cost,1.2230543261659956,-0.809795961052746,ok
+cpcv_02_03,cpcv,Equal premium,full_spread_post_cost,0.20218432767878883,-0.009032772694601557,ok
+cpcv_02_03,cpcv,Equal risk,full_spread_post_cost,0.3656124682089662,0.3355032782061606,ok
+cpcv_02_03,cpcv,VIX hedge sleeve,full_spread_post_cost,-0.4567186794847929,0.2607623426593508,ok
+cpcv_02_04,cpcv,Equity-option Greek Markowitz,full_spread_post_cost,1.4711209986640703,0.9866132686197224,ok
+cpcv_02_04,cpcv,Greek Markowitz + VIX,full_spread_post_cost,1.2514087808396426,0.1155506442095751,ok
+cpcv_02_04,cpcv,Beta/delta-neutral + VIX,full_spread_post_cost,1.1829217039068824,0.5361290342590552,ok
+cpcv_02_04,cpcv,Equal premium,full_spread_post_cost,0.25308571484884174,-0.3066123436888417,ok
+cpcv_02_04,cpcv,Equal risk,full_spread_post_cost,0.47206120030899473,0.18551084397080514,ok
+cpcv_02_04,cpcv,VIX hedge sleeve,full_spread_post_cost,-0.3435691516443607,0.16909644205637267,ok
+cpcv_02_05,cpcv,Equity-option Greek Markowitz,full_spread_post_cost,1.3456760001501271,1.4302975335701107,ok
+cpcv_02_05,cpcv,Greek Markowitz + VIX,full_spread_post_cost,1.245144197721733,0.07941937696394974,ok
+cpcv_02_05,cpcv,Beta/delta-neutral + VIX,full_spread_post_cost,1.3199940636798522,-0.20600589043423875,ok
+cpcv_02_05,cpcv,Equal premium,full_spread_post_cost,0.1256596757806375,1.2884183390501247,ok
+cpcv_02_05,cpcv,Equal risk,full_spread_post_cost,0.2819474605855774,1.4609241435027027,ok
+cpcv_02_05,cpcv,VIX hedge sleeve,full_spread_post_cost,-2.2260481131706733,0.6815441739333555,ok
+cpcv_02_06,cpcv,Equity-option Greek Markowitz,full_spread_post_cost,1.5955817626204372,0.6065003835179335,ok
+cpcv_02_06,cpcv,Greek Markowitz + VIX,full_spread_post_cost,1.2271583391297338,1.0192629194094105,ok
+cpcv_02_06,cpcv,Beta/delta-neutral + VIX,full_spread_post_cost,1.2185820151327966,0.6460172576461656,ok
+cpcv_02_06,cpcv,Equal premium,full_spread_post_cost,0.4405079319047133,-1.6729629052717174,ok
+cpcv_02_06,cpcv,Equal risk,full_spread_post_cost,0.7155614126482679,-0.9276361810780785,ok
+cpcv_02_06,cpcv,VIX hedge sleeve,full_spread_post_cost,-0.2965836880838489,-0.9579064671842891,ok
+cpcv_02_07,cpcv,Equity-option Greek Markowitz,full_spread_post_cost,1.8124470551471863,-0.7163611389168795,ok
+cpcv_02_07,cpcv,Greek Markowitz + VIX,full_spread_post_cost,1.4125359585286719,0.5119049682418224,ok
+cpcv_02_07,cpcv,Beta/delta-neutral + VIX,full_spread_post_cost,1.2091893980591184,0.6420897591405325,ok
+cpcv_02_07,cpcv,Equal premium,full_spread_post_cost,0.4222019504127783,-0.5506719556493487,ok
+cpcv_02_07,cpcv,Equal risk,full_spread_post_cost,0.7044482378862474,-0.15347895087464927,ok
+cpcv_02_07,cpcv,VIX hedge sleeve,full_spread_post_cost,-0.3133302912784351,-1.1132686729304062,ok
+cpcv_02_08,cpcv,Equity-option Greek Markowitz,full_spread_post_cost,1.5193263304692222,1.7359786729634226,ok
+cpcv_02_08,cpcv,Greek Markowitz + VIX,full_spread_post_cost,1.1544985335785711,1.5065319878552,ok
+cpcv_02_08,cpcv,Beta/delta-neutral + VIX,full_spread_post_cost,1.1171362430853446,2.210676346765294,ok
+cpcv_02_08,cpcv,Equal premium,full_spread_post_cost,0.33276074806409106,0.15804905454236423,ok
+cpcv_02_08,cpcv,Equal risk,full_spread_post_cost,0.511697440881015,0.47702968563398973,ok
+cpcv_02_08,cpcv,VIX hedge sleeve,full_spread_post_cost,-0.28115772615807794,-1.595424318104356,ok
+cpcv_02_09,cpcv,Equity-option Greek Markowitz,full_spread_post_cost,1.3900662852626577,1.662634810432898,ok
+cpcv_02_09,cpcv,Greek Markowitz + VIX,full_spread_post_cost,1.0009752478661296,0.9788233949287474,ok
+cpcv_02_09,cpcv,Beta/delta-neutral + VIX,full_spread_post_cost,0.9858232438323684,1.1010089467808537,ok
+cpcv_02_09,cpcv,Equal premium,full_spread_post_cost,0.2900262199363569,0.7953630013458436,ok
+cpcv_02_09,cpcv,Equal risk,full_spread_post_cost,0.43007267865707066,1.0760184579633287,ok
+cpcv_02_09,cpcv,VIX hedge sleeve,full_spread_post_cost,-0.31550777830987675,-0.9642432503942647,ok
+cpcv_02_10,cpcv,Equity-option Greek Markowitz,full_spread_post_cost,1.3638328574525318,2.0088274823745325,ok
+cpcv_02_10,cpcv,Greek Markowitz + VIX,full_spread_post_cost,1.0578112971038327,1.5273319013510371,ok
+cpcv_02_10,cpcv,Beta/delta-neutral + VIX,full_spread_post_cost,1.009481857174751,1.4279616796519252,ok
+cpcv_02_10,cpcv,Equal premium,full_spread_post_cost,0.41321058131248134,-0.010801486549090597,ok
+cpcv_02_10,cpcv,Equal risk,full_spread_post_cost,0.5959362808146567,-0.002433963612719984,ok
+cpcv_02_10,cpcv,VIX hedge sleeve,full_spread_post_cost,-0.3160903803570734,-1.6538080409936597,ok
+cpcv_02_11,cpcv,Equity-option Greek Markowitz,full_spread_post_cost,1.704811350858184,0.0579175454163098,ok
+cpcv_02_11,cpcv,Greek Markowitz + VIX,full_spread_post_cost,1.5788508703683375,0.8053402892216301,ok
+cpcv_02_11,cpcv,Beta/delta-neutral + VIX,full_spread_post_cost,1.3987234838477778,0.8332082613174594,ok
+cpcv_02_11,cpcv,Equal premium,full_spread_post_cost,0.4488335624447439,-0.005924478313125282,ok
+cpcv_02_11,cpcv,Equal risk,full_spread_post_cost,0.5873199900033833,-0.24073546755234446,ok
+cpcv_02_11,cpcv,VIX hedge sleeve,full_spread_post_cost,-0.3269836093962502,-1.21486877162387,ok
+cpcv_03_04,cpcv,Equity-option Greek Markowitz,full_spread_post_cost,1.7889748030813,-0.7103753703081569,ok
+cpcv_03_04,cpcv,Greek Markowitz + VIX,full_spread_post_cost,1.4157479795914552,-1.0449428825968856,ok
+cpcv_03_04,cpcv,Beta/delta-neutral + VIX,full_spread_post_cost,1.4419197639721935,-1.341001843643373,ok
+cpcv_03_04,cpcv,Equal premium,full_spread_post_cost,0.20892742784889334,-0.3151772105518603,ok
+cpcv_03_04,cpcv,Equal risk,full_spread_post_cost,0.42249395844208976,-0.18448646144568376,ok
+cpcv_03_04,cpcv,VIX hedge sleeve,full_spread_post_cost,-0.38908254606207565,0.308590776814203,ok
+cpcv_03_05,cpcv,Equity-option Greek Markowitz,full_spread_post_cost,1.9944408786687304,0.5503912193264853,ok
+cpcv_03_05,cpcv,Greek Markowitz + VIX,full_spread_post_cost,1.5013160441755664,-0.41976030216951676,ok
+cpcv_03_05,cpcv,Beta/delta-neutral + VIX,full_spread_post_cost,1.6467710866346632,-0.6789755871574764,ok
+cpcv_03_05,cpcv,Equal premium,full_spread_post_cost,-0.07445634530817634,1.248666306616575,ok
+cpcv_03_05,cpcv,Equal risk,full_spread_post_cost,0.16384614952244728,1.4455367348191492,ok
+cpcv_03_05,cpcv,VIX hedge sleeve,full_spread_post_cost,-4.332161220959098,0.7115064533998536,ok
+cpcv_03_06,cpcv,Equity-option Greek Markowitz,full_spread_post_cost,2.0578059949416394,-0.5710107691100487,ok
+cpcv_03_06,cpcv,Greek Markowitz + VIX,full_spread_post_cost,1.4197620785554668,-0.5500938790973029,ok
+cpcv_03_06,cpcv,Beta/delta-neutral + VIX,full_spread_post_cost,1.4445002097020736,-0.9770468012541473,ok
+cpcv_03_06,cpcv,Equal premium,full_spread_post_cost,0.28647062219050745,-1.5483085319524976,ok
+cpcv_03_06,cpcv,Equal risk,full_spread_post_cost,0.6331125706663837,-1.0761908369440674,ok
+cpcv_03_06,cpcv,VIX hedge sleeve,full_spread_post_cost,-0.3882137494472041,-0.32498320285695526,ok
+cpcv_03_07,cpcv,Equity-option Greek Markowitz,full_spread_post_cost,2.3671405882813326,-0.7246041341716604,ok
+cpcv_03_07,cpcv,Greek Markowitz + VIX,full_spread_post_cost,1.664771209364001,-0.915073489597234,ok
+cpcv_03_07,cpcv,Beta/delta-neutral + VIX,full_spread_post_cost,1.5067458534704063,-1.1928910040926612,ok
+cpcv_03_07,cpcv,Equal premium,full_spread_post_cost,0.2638837116105854,-0.5413289026535951,ok
+cpcv_03_07,cpcv,Equal risk,full_spread_post_cost,0.6393093279489585,-0.3768675863123333,ok
+cpcv_03_07,cpcv,VIX hedge sleeve,full_spread_post_cost,-0.40535335111430637,-0.16519496041045195,ok
+cpcv_03_08,cpcv,Equity-option Greek Markowitz,full_spread_post_cost,1.9498777816152446,0.4968086140260136,ok
+cpcv_03_08,cpcv,Greek Markowitz + VIX,full_spread_post_cost,1.3283733836317437,0.09598283764851315,ok
+cpcv_03_08,cpcv,Beta/delta-neutral + VIX,full_spread_post_cost,1.3214517025315016,0.3891014371226992,ok
+cpcv_03_08,cpcv,Equal premium,full_spread_post_cost,0.17102807890961072,0.06860348287291286,ok
+cpcv_03_08,cpcv,Equal risk,full_spread_post_cost,0.39720500718157936,0.0017863748727124454,ok
+cpcv_03_08,cpcv,VIX hedge sleeve,full_spread_post_cost,-0.37237274237389173,-0.25702471525916853,ok
+cpcv_03_09,cpcv,Equity-option Greek Markowitz,full_spread_post_cost,1.8280619158711295,1.0422526988714218,ok
+cpcv_03_09,cpcv,Greek Markowitz + VIX,full_spread_post_cost,1.134289891605041,0.3899100025936859,ok
+cpcv_03_09,cpcv,Beta/delta-neutral + VIX,full_spread_post_cost,1.153513192353663,0.16005646168659166,ok
+cpcv_03_09,cpcv,Equal premium,full_spread_post_cost,0.1229085355509382,0.6824778325171585,ok
+cpcv_03_09,cpcv,Equal risk,full_spread_post_cost,0.31639725423264276,0.7948876770374592,ok
+cpcv_03_09,cpcv,VIX hedge sleeve,full_spread_post_cost,-0.4071690549144802,0.08302540531379539,ok
+cpcv_03_10,cpcv,Equity-option Greek Markowitz,full_spread_post_cost,1.8875658834494722,-0.14046713396506977,ok
+cpcv_03_10,cpcv,Greek Markowitz + VIX,full_spread_post_cost,1.2782187969072814,-0.5981643136655127,ok
+cpcv_03_10,cpcv,Beta/delta-neutral + VIX,full_spread_post_cost,1.247885962777557,-0.8295564239180766,ok
+cpcv_03_10,cpcv,Equal premium,full_spread_post_cost,0.2589307651829161,-0.04099512466530048,ok
+cpcv_03_10,cpcv,Equal risk,full_spread_post_cost,0.4961232488987415,-0.19373195301937624,ok
+cpcv_03_10,cpcv,VIX hedge sleeve,full_spread_post_cost,-0.40777565424006823,-0.40907091333039824,ok
+cpcv_03_11,cpcv,Equity-option Greek Markowitz,full_spread_post_cost,2.1216134565419513,-0.4955608585842763,ok
+cpcv_03_11,cpcv,Greek Markowitz + VIX,full_spread_post_cost,1.9249042300017127,-0.7516482620081267,ok
+cpcv_03_11,cpcv,Beta/delta-neutral + VIX,full_spread_post_cost,1.6851264212569321,-1.311956659003922,ok
+cpcv_03_11,cpcv,Equal premium,full_spread_post_cost,0.29485529497561525,-0.02569344035877076,ok
+cpcv_03_11,cpcv,Equal risk,full_spread_post_cost,0.4639826682229526,-0.02832055748367138,ok
+cpcv_03_11,cpcv,VIX hedge sleeve,full_spread_post_cost,-0.4180971869625399,-0.23209638753113976,ok
+cpcv_04_05,cpcv,Equity-option Greek Markowitz,full_spread_post_cost,1.8200829449345146,1.6962042133969142,ok
+cpcv_04_05,cpcv,Greek Markowitz + VIX,full_spread_post_cost,1.4957273898103203,0.14577060192650695,ok
+cpcv_04_05,cpcv,Beta/delta-neutral + VIX,full_spread_post_cost,1.4725547453197025,-0.16712314756704874,ok
+cpcv_04_05,cpcv,Equal premium,full_spread_post_cost,-0.0622374809302893,1.087617188259368,ok
+cpcv_04_05,cpcv,Equal risk,full_spread_post_cost,0.18216620530573693,1.1918717456821497,ok
+cpcv_04_05,cpcv,VIX hedge sleeve,full_spread_post_cost,-2.5438183638664675,0.697158003011435,ok
+cpcv_04_06,cpcv,Equity-option Greek Markowitz,full_spread_post_cost,1.7442615442504334,0.6746610514508543,ok
+cpcv_04_06,cpcv,Greek Markowitz + VIX,full_spread_post_cost,1.3967971790514215,0.6204430337763396,ok
+cpcv_04_06,cpcv,Beta/delta-neutral + VIX,full_spread_post_cost,1.2995273690201956,0.5593791822750104,ok
+cpcv_04_06,cpcv,Equal premium,full_spread_post_cost,0.27413882553718155,-1.5783380832084566,ok
+cpcv_04_06,cpcv,Equal risk,full_spread_post_cost,0.6233286713204922,-1.1938813293274448,ok
+cpcv_04_06,cpcv,VIX hedge sleeve,full_spread_post_cost,-0.2693578174872803,-0.4641108230144611,ok
+cpcv_04_07,cpcv,Equity-option Greek Markowitz,full_spread_post_cost,2.133381000791328,-0.1862340581038112,ok
+cpcv_04_07,cpcv,Greek Markowitz + VIX,full_spread_post_cost,1.6782140104772718,-0.2842372488288145,ok
+cpcv_04_07,cpcv,Beta/delta-neutral + VIX,full_spread_post_cost,1.3368888010112652,0.36168163736902403,ok
+cpcv_04_07,cpcv,Equal premium,full_spread_post_cost,0.2519617667365972,-0.6898775552268556,ok
+cpcv_04_07,cpcv,Equal risk,full_spread_post_cost,0.6058789689799405,-0.7852665901897736,ok
+cpcv_04_07,cpcv,VIX hedge sleeve,full_spread_post_cost,-0.286287959373221,-0.3100191665752883,ok
+cpcv_04_08,cpcv,Equity-option Greek Markowitz,full_spread_post_cost,1.7216787624095407,1.5548264637779727,ok
+cpcv_04_08,cpcv,Greek Markowitz + VIX,full_spread_post_cost,1.3841903153823576,0.5214896944990486,ok
+cpcv_04_08,cpcv,Beta/delta-neutral + VIX,full_spread_post_cost,1.223186339146894,1.1369925202056812,ok
+cpcv_04_08,cpcv,Equal premium,full_spread_post_cost,0.16342608226195693,-0.2347699088600789,ok
+cpcv_04_08,cpcv,Equal risk,full_spread_post_cost,0.4003168596952165,-0.24398165298906688,ok
+cpcv_04_08,cpcv,VIX hedge sleeve,full_spread_post_cost,-0.2537747389761675,-0.4195141362000997,ok
+cpcv_04_09,cpcv,Equity-option Greek Markowitz,full_spread_post_cost,1.5512129458017887,2.248552912635541,ok
+cpcv_04_09,cpcv,Greek Markowitz + VIX,full_spread_post_cost,1.1535115753858525,0.8762120612547178,ok
+cpcv_04_09,cpcv,Beta/delta-neutral + VIX,full_spread_post_cost,1.069297117091317,0.8993595851771914,ok
+cpcv_04_09,cpcv,Equal premium,full_spread_post_cost,0.11696732782907583,0.35434953308015144,ok
+cpcv_04_09,cpcv,Equal risk,full_spread_post_cost,0.32384589399091396,0.5220362796225977,ok
+cpcv_04_09,cpcv,VIX hedge sleeve,full_spread_post_cost,-0.2886374642225752,-0.03787267311102673,ok
+cpcv_04_10,cpcv,Equity-option Greek Markowitz,full_spread_post_cost,1.5383291194907442,1.2138986578081652,ok
+cpcv_04_10,cpcv,Greek Markowitz + VIX,full_spread_post_cost,1.2390843469709198,0.6869369588529118,ok
+cpcv_04_10,cpcv,Beta/delta-neutral + VIX,full_spread_post_cost,1.11027492137845,0.7230006854725686,ok
+cpcv_04_10,cpcv,Equal premium,full_spread_post_cost,0.24789130911230167,-0.22918997176879152,ok
+cpcv_04_10,cpcv,Equal risk,full_spread_post_cost,0.49508385678740563,-0.44460873632141495,ok
+cpcv_04_10,cpcv,VIX hedge sleeve,full_spread_post_cost,-0.2892240443085649,-0.5870313683305961,ok
+cpcv_04_11,cpcv,Equity-option Greek Markowitz,full_spread_post_cost,1.9519039376938572,0.1471266060737215,ok
+cpcv_04_11,cpcv,Greek Markowitz + VIX,full_spread_post_cost,1.783963168116037,-0.06878759437094806,ok
+cpcv_04_11,cpcv,Beta/delta-neutral + VIX,full_spread_post_cost,1.534862310523803,-0.12115943996765663,ok
+cpcv_04_11,cpcv,Equal premium,full_spread_post_cost,0.2814566477284037,-0.15622287180903016,ok
+cpcv_04_11,cpcv,Equal risk,full_spread_post_cost,0.4418300573195099,-0.13151934250562228,ok
+cpcv_04_11,cpcv,VIX hedge sleeve,full_spread_post_cost,-0.3005304665992219,-0.3861786259142173,ok
+cpcv_05_06,cpcv,Equity-option Greek Markowitz,full_spread_post_cost,1.5636790134696887,1.8532631616284374,ok
+cpcv_05_06,cpcv,Greek Markowitz + VIX,full_spread_post_cost,1.314736172508567,0.1439110254484191,ok
+cpcv_05_06,cpcv,Beta/delta-neutral + VIX,full_spread_post_cost,1.4372164512968366,0.0020812618549738314,ok
+cpcv_05_06,cpcv,Equal premium,full_spread_post_cost,0.12392947494388963,0.5819517843349603,ok
+cpcv_05_06,cpcv,Equal risk,full_spread_post_cost,0.3185167258787249,0.7073768351073475,ok
+cpcv_05_06,cpcv,VIX hedge sleeve,full_spread_post_cost,-2.023353597885245,0.5879937409416193,ok
+cpcv_05_07,cpcv,Equity-option Greek Markowitz,full_spread_post_cost,1.8995321608876987,0.9403878885419621,ok
+cpcv_05_07,cpcv,Greek Markowitz + VIX,full_spread_post_cost,1.616097470666013,0.007670018035613945,ok
+cpcv_05_07,cpcv,Beta/delta-neutral + VIX,full_spread_post_cost,1.5619481090116656,-0.16744112513001128,ok
+cpcv_05_07,cpcv,Equal premium,full_spread_post_cost,0.11848872081402716,0.9537181903844065,ok
+cpcv_05_07,cpcv,Equal risk,full_spread_post_cost,0.4410718857290614,1.067766737024768,ok
+cpcv_05_07,cpcv,VIX hedge sleeve,full_spread_post_cost,-2.009941618951911,0.6197925968670793,ok
+cpcv_05_08,cpcv,Equity-option Greek Markowitz,full_spread_post_cost,1.6793092401019822,2.192761977432349,ok
+cpcv_05_08,cpcv,Greek Markowitz + VIX,full_spread_post_cost,1.3624101247429232,0.6633891074726445,ok
+cpcv_05_08,cpcv,Beta/delta-neutral + VIX,full_spread_post_cost,1.4917162342999366,0.3585313444085477,ok
+cpcv_05_08,cpcv,Equal premium,full_spread_post_cost,0.030306358724573722,1.305332573313382,ok
+cpcv_05_08,cpcv,Equal risk,full_spread_post_cost,0.2217711368662228,1.4441740081268273,ok
+cpcv_05_08,cpcv,VIX hedge sleeve,full_spread_post_cost,-1.8882596395046911,0.6069696435678971,ok
+cpcv_05_09,cpcv,Equity-option Greek Markowitz,full_spread_post_cost,1.5700532535887641,2.3889436148548295,ok
+cpcv_05_09,cpcv,Greek Markowitz + VIX,full_spread_post_cost,1.1772960050240837,0.4757784893967061,ok
+cpcv_05_09,cpcv,Beta/delta-neutral + VIX,full_spread_post_cost,1.2325525463489577,0.3698308188607902,ok
+cpcv_05_09,cpcv,Equal premium,full_spread_post_cost,-0.02014183466696468,1.5867663909693943,ok
+cpcv_05_09,cpcv,Equal risk,full_spread_post_cost,0.11402494787512706,1.7358992077041966,ok
+cpcv_05_09,cpcv,VIX hedge sleeve,full_spread_post_cost,-2.0125015375022297,0.6719658833332586,ok
+cpcv_05_10,cpcv,Equity-option Greek Markowitz,full_spread_post_cost,1.5402424928340261,1.5486707187960254,ok
+cpcv_05_10,cpcv,Greek Markowitz + VIX,full_spread_post_cost,1.2503597677490241,0.3415790998182429,ok
+cpcv_05_10,cpcv,Beta/delta-neutral + VIX,full_spread_post_cost,1.2413517596634938,-0.017311155931373882,ok
+cpcv_05_10,cpcv,Equal premium,full_spread_post_cost,0.11892936930613454,1.1738146518599448,ok
+cpcv_05_10,cpcv,Equal risk,full_spread_post_cost,0.30822429256658684,1.2383554422648548,ok
+cpcv_05_10,cpcv,VIX hedge sleeve,full_spread_post_cost,-2.016949206112294,0.5969165376072572,ok
+cpcv_05_11,cpcv,Equity-option Greek Markowitz,full_spread_post_cost,1.755235640866233,0.9390048120252534,ok
+cpcv_05_11,cpcv,Greek Markowitz + VIX,full_spread_post_cost,1.7115847312794383,0.44674954629125097,ok
+cpcv_05_11,cpcv,Beta/delta-neutral + VIX,full_spread_post_cost,1.570109632331991,0.009333778783157455,ok
+cpcv_05_11,cpcv,Equal premium,full_spread_post_cost,0.15045087767114165,1.01425421761135,ok
+cpcv_05_11,cpcv,Equal risk,full_spread_post_cost,0.30319016249283665,1.3549125043258796,ok
+cpcv_05_11,cpcv,VIX hedge sleeve,full_spread_post_cost,-2.039198302295635,0.6240709679214588,ok
+cpcv_06_07,cpcv,Equity-option Greek Markowitz,full_spread_post_cost,2.076581858308913,-0.7168151212456941,ok
+cpcv_06_07,cpcv,Greek Markowitz + VIX,full_spread_post_cost,1.4847699319264376,0.07579590938567105,ok
+cpcv_06_07,cpcv,Beta/delta-neutral + VIX,full_spread_post_cost,1.399605342090299,0.5633446284762211,ok
+cpcv_06_07,cpcv,Equal premium,full_spread_post_cost,0.4156250653956552,-1.7425800118540213,ok
+cpcv_06_07,cpcv,Equal risk,full_spread_post_cost,0.7596635417401767,-1.5158776006751693,ok
+cpcv_06_07,cpcv,VIX hedge sleeve,full_spread_post_cost,-0.26155226087447636,-1.4443173298975336,ok
+cpcv_06_08,cpcv,Equity-option Greek Markowitz,full_spread_post_cost,1.8333184297214522,1.1440454989811446,ok
+cpcv_06_08,cpcv,Greek Markowitz + VIX,full_spread_post_cost,1.3361314411039156,1.3056021986447763,ok
+cpcv_06_08,cpcv,Beta/delta-neutral + VIX,full_spread_post_cost,1.2907618165942665,1.664489772821257,ok
+cpcv_06_08,cpcv,Equal premium,full_spread_post_cost,0.3546085378567995,-1.5231031749001704,ok
+cpcv_06_08,cpcv,Equal risk,full_spread_post_cost,0.6716739168131592,-1.3166629265568595,ok
+cpcv_06_08,cpcv,VIX hedge sleeve,full_spread_post_cost,-0.20761997767194207,-1.648783235273241,ok
+cpcv_06_09,cpcv,Equity-option Greek Markowitz,full_spread_post_cost,1.6813625277925965,1.5492293337750476,ok
+cpcv_06_09,cpcv,Greek Markowitz + VIX,full_spread_post_cost,1.0879354174197444,1.2551158409894956,ok
+cpcv_06_09,cpcv,Beta/delta-neutral + VIX,full_spread_post_cost,1.102439313845197,1.310522536181116,ok
+cpcv_06_09,cpcv,Equal premium,full_spread_post_cost,0.31119897976852046,-0.6212520407149122,ok
+cpcv_06_09,cpcv,Equal risk,full_spread_post_cost,0.5843645445887017,-0.4145902419130852,ok
+cpcv_06_09,cpcv,VIX hedge sleeve,full_spread_post_cost,-0.2423803481488089,-1.227625454535757,ok
+cpcv_06_10,cpcv,Equity-option Greek Markowitz,full_spread_post_cost,1.671197017020443,1.1114158598785897,ok
+cpcv_06_10,cpcv,Greek Markowitz + VIX,full_spread_post_cost,1.1770988332288035,0.8634609669028958,ok
+cpcv_06_10,cpcv,Beta/delta-neutral + VIX,full_spread_post_cost,1.136525011435329,0.809553545851937,ok
+cpcv_06_10,cpcv,Equal premium,full_spread_post_cost,0.43709059565660363,-1.0994696399586368,ok
+cpcv_06_10,cpcv,Equal risk,full_spread_post_cost,0.7493073462146264,-1.3410286159182863,ok
+cpcv_06_10,cpcv,VIX hedge sleeve,full_spread_post_cost,-0.2429571552586591,-1.8352357591472337,ok
+cpcv_06_11,cpcv,Equity-option Greek Markowitz,full_spread_post_cost,1.9941183874904327,-0.25373130732324095,ok
+cpcv_06_11,cpcv,Greek Markowitz + VIX,full_spread_post_cost,1.7513850306249132,-0.10481712523988194,ok
+cpcv_06_11,cpcv,Beta/delta-neutral + VIX,full_spread_post_cost,1.5259136040992127,-0.5432870416574352,ok
+cpcv_06_11,cpcv,Equal premium,full_spread_post_cost,0.47478436140433955,-0.74787936611542,ok
+cpcv_06_11,cpcv,Equal risk,full_spread_post_cost,0.700949517624269,-1.0319131827819468,ok
+cpcv_06_11,cpcv,VIX hedge sleeve,full_spread_post_cost,-0.25459327720311303,-1.5504974411994539,ok
+cpcv_07_08,cpcv,Equity-option Greek Markowitz,full_spread_post_cost,1.936351779750533,0.8167183534161804,ok
+cpcv_07_08,cpcv,Greek Markowitz + VIX,full_spread_post_cost,1.4854293421092313,0.7301021213501805,ok
+cpcv_07_08,cpcv,Beta/delta-neutral + VIX,full_spread_post_cost,1.292154869431381,1.6609232118501775,ok
+cpcv_07_08,cpcv,Equal premium,full_spread_post_cost,0.3010521981986866,-0.4766539838486729,ok
+cpcv_07_08,cpcv,Equal risk,full_spread_post_cost,0.5136099210138083,-0.15836163673733825,ok
+cpcv_07_08,cpcv,VIX hedge sleeve,full_spread_post_cost,-0.2508064075171451,-2.043843587317646,ok
+cpcv_07_09,cpcv,Equity-option Greek Markowitz,full_spread_post_cost,1.9602923780154131,1.092721255230813,ok
+cpcv_07_09,cpcv,Greek Markowitz + VIX,full_spread_post_cost,1.249428398121545,0.9044006707047222,ok
+cpcv_07_09,cpcv,Beta/delta-neutral + VIX,full_spread_post_cost,1.1413904998084121,1.295950829837479,ok
+cpcv_07_09,cpcv,Equal premium,full_spread_post_cost,0.29032540711171506,0.11800366422776383,ok
+cpcv_07_09,cpcv,Equal risk,full_spread_post_cost,0.5213478510818282,0.4223145802093558,ok
+cpcv_07_09,cpcv,VIX hedge sleeve,full_spread_post_cost,-0.25907125965974553,-1.5028986822626207,ok
+cpcv_07_10,cpcv,Equity-option Greek Markowitz,full_spread_post_cost,1.9002750809002313,0.849116002703043,ok
+cpcv_07_10,cpcv,Greek Markowitz + VIX,full_spread_post_cost,1.396997635397614,0.9739080543620617,ok
+cpcv_07_10,cpcv,Beta/delta-neutral + VIX,full_spread_post_cost,1.1745953005795011,1.3295335371129517,ok
+cpcv_07_10,cpcv,Equal premium,full_spread_post_cost,0.41870787414402993,-0.40679315293612206,ok
+cpcv_07_10,cpcv,Equal risk,full_spread_post_cost,0.7530156472519787,-0.656664422116398,ok
+cpcv_07_10,cpcv,VIX hedge sleeve,full_spread_post_cost,-0.25964921783577144,-2.1787102842651556,ok
+cpcv_07_11,cpcv,Equity-option Greek Markowitz,full_spread_post_cost,2.125861341097005,0.12876007066617015,ok
+cpcv_07_11,cpcv,Greek Markowitz + VIX,full_spread_post_cost,1.958776944652899,-0.1998766388968873,ok
+cpcv_07_11,cpcv,Beta/delta-neutral + VIX,full_spread_post_cost,1.5463830887765695,0.00564375035429679,ok
+cpcv_07_11,cpcv,Equal premium,full_spread_post_cost,0.45704740980543695,-0.28424544474750224,ok
+cpcv_07_11,cpcv,Equal risk,full_spread_post_cost,0.6335472620644478,-0.4603547724738626,ok
+cpcv_07_11,cpcv,VIX hedge sleeve,full_spread_post_cost,-0.2711122744351466,-1.777507824577933,ok
+cpcv_08_09,cpcv,Equity-option Greek Markowitz,full_spread_post_cost,1.6342586268409862,2.1810748778916142,ok
+cpcv_08_09,cpcv,Greek Markowitz + VIX,full_spread_post_cost,1.0429844785414175,1.1675844906672954,ok
+cpcv_08_09,cpcv,Beta/delta-neutral + VIX,full_spread_post_cost,0.9581872166314774,1.6202109424528763,ok
+cpcv_08_09,cpcv,Equal premium,full_spread_post_cost,0.1993423784266446,0.8211458292860335,ok
+cpcv_08_09,cpcv,Equal risk,full_spread_post_cost,0.33725946566939635,0.835681493190916,ok
+cpcv_08_09,cpcv,VIX hedge sleeve,full_spread_post_cost,-0.24544040053400154,-2.0259022362619956,ok
+cpcv_08_10,cpcv,Equity-option Greek Markowitz,full_spread_post_cost,1.6162603860322022,1.759686707854194,ok
+cpcv_08_10,cpcv,Greek Markowitz + VIX,full_spread_post_cost,1.1336286205823092,1.784336674205946,ok
+cpcv_08_10,cpcv,Beta/delta-neutral + VIX,full_spread_post_cost,1.0533713934076399,2.3957125555996486,ok
+cpcv_08_10,cpcv,Equal premium,full_spread_post_cost,0.32830431381203073,0.03377848184993237,ok
+cpcv_08_10,cpcv,Equal risk,full_spread_post_cost,0.5359837338600036,-0.2810458337993551,ok
+cpcv_08_10,cpcv,VIX hedge sleeve,full_spread_post_cost,-0.22760749809282313,-2.6314174436019284,ok
+cpcv_08_11,cpcv,Equity-option Greek Markowitz,full_spread_post_cost,1.8582638722555607,0.42620990091967037,ok
+cpcv_08_11,cpcv,Greek Markowitz + VIX,full_spread_post_cost,1.6994497117559666,0.3875627233241449,ok
+cpcv_08_11,cpcv,Beta/delta-neutral + VIX,full_spread_post_cost,1.441511125818911,0.6652296992079361,ok
+cpcv_08_11,cpcv,Equal premium,full_spread_post_cost,0.36212780266075273,0.022179734796230362,ok
+cpcv_08_11,cpcv,Equal risk,full_spread_post_cost,0.44548733758357073,0.12740552775117583,ok
+cpcv_08_11,cpcv,VIX hedge sleeve,full_spread_post_cost,-0.2393954491671348,-2.1556584554359413,ok
+cpcv_09_10,cpcv,Equity-option Greek Markowitz,full_spread_post_cost,1.5630332115836942,2.2587899710201786,ok
+cpcv_09_10,cpcv,Greek Markowitz + VIX,full_spread_post_cost,0.9823618660424207,1.087993949385794,ok
+cpcv_09_10,cpcv,Beta/delta-neutral + VIX,full_spread_post_cost,0.9571051386940432,1.1492231360288228,ok
+cpcv_09_10,cpcv,Equal premium,full_spread_post_cost,0.2380409933757136,0.49206035729306696,ok
+cpcv_09_10,cpcv,Equal risk,full_spread_post_cost,0.3921129833799926,0.27551392469732067,ok
+cpcv_09_10,cpcv,VIX hedge sleeve,full_spread_post_cost,-0.2698876458200781,-2.0711101007510018,ok
+cpcv_09_11,cpcv,Equity-option Greek Markowitz,full_spread_post_cost,1.815236925549743,1.5076457081122527,ok
+cpcv_09_11,cpcv,Greek Markowitz + VIX,full_spread_post_cost,1.593849334547066,1.3469048955256497,ok
+cpcv_09_11,cpcv,Beta/delta-neutral + VIX,full_spread_post_cost,1.3536180529285955,1.4009526847925406,ok
+cpcv_09_11,cpcv,Equal premium,full_spread_post_cost,0.3185180220975856,0.3417037011606885,ok
+cpcv_09_11,cpcv,Equal risk,full_spread_post_cost,0.385398524829347,0.3322409513521866,ok
+cpcv_09_11,cpcv,VIX hedge sleeve,full_spread_post_cost,-0.2734822711092631,-1.6050747108687633,ok
+cpcv_10_11,cpcv,Equity-option Greek Markowitz,full_spread_post_cost,1.611791981497365,0.5663592291532944,ok
+cpcv_10_11,cpcv,Greek Markowitz + VIX,full_spread_post_cost,1.4182266307803164,0.22231988941623917,ok
+cpcv_10_11,cpcv,Beta/delta-neutral + VIX,full_spread_post_cost,1.261633196598999,-0.25795871322798547,ok
+cpcv_10_11,cpcv,Equal premium,full_spread_post_cost,0.36673401247801696,-0.026638540938909456,ok
+cpcv_10_11,cpcv,Equal risk,full_spread_post_cost,0.7210578745078003,-0.14441332290146616,ok
+cpcv_10_11,cpcv,VIX hedge sleeve,full_spread_post_cost,-0.2979093821255176,-2.3141602843965208,ok

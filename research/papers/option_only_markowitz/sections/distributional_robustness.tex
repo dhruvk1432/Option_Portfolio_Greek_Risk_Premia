@@ -1,0 +1,247 @@
+\section{Distributional robustness and cross-validation}
+\label{sec:distributional_robustness}
+
+\subsection{Motivation and claim boundary}
+
+The headline design fixes a train/test split and asks whether the option-only optimizer,
+cost layers, and settlement gates survive a single frozen out-of-sample path. This section
+asks a different question: how fragile are those conclusions to alternative month
+orderings, refit samples, and synthetic repricing worlds? The answer is reported through
+blocked cross-validation, combinatorial purged cross-validation (CPCV), resampled
+universes, and repriced Monte Carlo universes. The tables carry the numerical evidence;
+the text here records the design and the claim boundary.
+
+\begin{center}
+\fbox{\begin{minipage}{0.88\textwidth}
+\textbf{\color{journalgreen} Honesty box}\par
+CPCV is deliberately non-PIT. By construction it trains some folds on observations after
+the fold being tested, so it is a distributional-robustness and overfitting diagnostic
+(path distribution and PBO), not a tradable out-of-sample claim. The headline claim
+boundary from the results and conclusion sections is unchanged.\par
+\vspace{2pt}
+The contract-universe eligibility filter is also fixed at the headline anchor: contracts
+must have at least 36 training observations through the global
+\texttt{TRAIN\_END}. That same eligible universe is reused in every fold. This is benign
+for the diagnostic because the fold exercise is not a tradable signal, but it is disclosed
+because the fold membership is not re-estimated from each fold's own training set.\par
+\vspace{2pt}
+Per-fold CV refits cover the six option strategies that the option-contract evaluator can
+score: Equity-option Greek Markowitz, Greek Markowitz + VIX, Beta/delta-neutral + VIX,
+Equal premium, Equal risk, and the VIX hedge sleeve. Cost-aware Sortino + VIX is excluded
+from per-fold CV because its per-fold cost-aware solver is expensive; it is included in
+the fixed-weight Monte Carlo layer. Delta-matched equities and Underlying Markowitz remain
+headline-only in CV because their weight vectors are underlying weights, not option
+contract weights.
+\end{minipage}}
+\end{center}
+
+\subsection{Blocked folds and CPCV design}
+
+The realized monthly return grid is split into 12 contiguous groups. The blocked k-fold
+diagnostic tests one group at a time. The CPCV diagnostic tests \(k=2\) groups at a time,
+giving \(\binom{12}{2}=66\) splits. Complete CPCV paths are then assembled so that each
+path includes each return month exactly once; with this design the complete-path count is
+\(\binom{11}{1}=11\), while incomplete paths are kept in the ledger but excluded from the
+path distribution.
+
+The purge rule is intentionally simple and auditable. Option labels' payoffs realize at
+most 44 calendar days after the decision date. Each fold uses purge \(=1\) month and
+embargo \(=1\) month, which creates at least a two-snapshot train/test gap. In the shipped
+monthly grid that is at least 57 calendar days, and \(57>44\), so the payoff window of a
+test label cannot overlap a training label kept by the fold. The verifier recomputes this
+schedule invariant from the fold ledger rather than trusting this paragraph.
+
+Within each fold the option strategies are refit on the fold's training months and scored
+on the fold's test months. Strategy metrics use limited-liability absorption at zero, so a
+path that loses all wealth remains defaulted rather than sign-flipping. Table~\ref{tab:cv_fold_performance}
+reports the blocked k-fold refits, and Table~\ref{tab:cv_cpcv_distribution} reports the
+CPCV path distribution against the headline realized path.
+
+\clearpage
+
+\begin{table}[H]
+\centering
+\scriptsize
+\IfFileExists{tables/cv_fold_performance.tex}
+  {\resizebox{\textwidth}{!}{\input{tables/cv_fold_performance}}}
+  {\begin{tabular}{llll}\toprule Fold & Strategy & Gross Sharpe & Status \\\midrule Missing & Run \texttt{make robustness} & -- & -- \\\bottomrule\end{tabular}}
+\caption{Blocked k-fold refit performance. Rows are diagnostics for refitted option
+strategies and do not alter the headline out-of-sample claim.}
+\label{tab:cv_fold_performance}
+\end{table}
+
+\begin{figure}[H]
+\centering
+\IfFileExists{figures/cv_fold_sharpe_heatmap.pdf}
+  {\includegraphics[width=0.86\textwidth]{cv_fold_sharpe_heatmap.pdf}}
+  {\fbox{\parbox{0.78\textwidth}{Run \texttt{python -m research.papers.option_only_markowitz.analysis.run_empirics --stage robustness-figures} to generate the fold Sharpe heatmap.}}}
+\caption{Blocked k-fold gross Sharpe by strategy and chronological test window. The
+color scale is clipped at $\pm 3$ so cross-fold variation in the equity-option
+strategies stays visible; cell annotations report unclipped values (the hedge sleeve
+reaches $-20$ in the 2022--2024 folds).}
+\label{fig:cv_fold_sharpe_heatmap}
+\end{figure}
+
+\clearpage
+
+\begin{table}[H]
+\centering
+\scriptsize
+\IfFileExists{tables/cv_cpcv_distribution.tex}
+  {\resizebox{\textwidth}{!}{\input{tables/cv_cpcv_distribution}}}
+  {\begin{tabular}{llll}\toprule Strategy & Realized Sharpe & CPCV P50 & PBO \\\midrule Missing & Run \texttt{make robustness} & -- & -- \\\bottomrule\end{tabular}}
+\caption{CPCV complete-path distribution. The table compares realized-path metrics with
+the complete CPCV path distribution under gross and full-spread post-cost bases.}
+\label{tab:cv_cpcv_distribution}
+\end{table}
+
+\begin{figure}[H]
+\centering
+\IfFileExists{figures/cv_cpcv_sharpe_distribution.pdf}
+  {\includegraphics[width=0.86\textwidth]{cv_cpcv_sharpe_distribution.pdf}}
+  {\fbox{\parbox{0.78\textwidth}{Run \texttt{python -m research.papers.option_only_markowitz.analysis.run_empirics --stage robustness-figures} to generate the CPCV Sharpe distribution figure.}}}
+\caption{Complete-path CPCV Sharpe distributions with the realized static-split gross
+Sharpe marked for each CV strategy. The standalone VIX hedge sleeve (realized gross
+Sharpe $-6.4$) is omitted for scale; its fold-level values appear in
+Table~\ref{tab:cv_fold_performance} and Figure~\ref{fig:cv_fold_sharpe_heatmap}.}
+\label{fig:cv_cpcv_sharpe_distribution}
+\end{figure}
+
+\clearpage
+
+\subsection{Probability of backtest overfitting}
+
+The combinatorially symmetric cross-validation (CSCV) probability of backtest overfitting
+(PBO) partitions the strategy set into
+in-sample and out-of-sample halves, selects the best in-sample strategy, and records the
+logit rank it attains out of sample. PBO is the fraction of splits with below-median
+out-of-sample rank. In this paper the gross variant selects on gross in-sample Sharpe and
+evaluates gross out-of-sample Sharpe. The full-spread variant selects on gross in-sample
+Sharpe and evaluates full-spread post-cost out-of-sample Sharpe, so it asks whether
+pre-cost selection survives a conservative executable-cost spread layer.
+
+\subsection{Regime-tagged performance}
+
+CPCV path months are also tagged by VIX terciles and by three named event windows:
+Volmageddon in February--March 2018, the COVID crash in February--April 2020, and the
+2022 tightening bear market. The regime table is descriptive; the labels summarize path
+outcomes and do not enter expected returns, constraints, or strategy selection.
+
+\begin{table}[H]
+\centering
+\scriptsize
+\IfFileExists{tables/cv_regime_performance.tex}
+  {\resizebox{\textwidth}{!}{\input{tables/cv_regime_performance}}}
+  {\begin{tabular}{llll}\toprule Regime & Strategy & Metric & Estimate \\\midrule Missing & Run \texttt{make robustness} & -- & -- \\\bottomrule\end{tabular}}
+\caption{CPCV regime-tagged performance by VIX tercile and event window.}
+\label{tab:cv_regime_performance}
+\end{table}
+
+\clearpage
+
+\subsection{Resampled universes}
+
+The first Monte Carlo tier resamples month indices rather than individual strategy values:
+one circular block-bootstrap path is applied jointly to every strategy return frame, so
+cross-sectional dependence is preserved. The default fixed-weight tier uses 1,000 paths
+and evaluates the train-estimated portfolios. This measures robustness of the fixed
+portfolio actually used in the headline exercise.
+
+A separate refit tier uses 200 pseudo-training paths for Greek Markowitz + VIX and then
+scores each refit on the fixed realized test window. This is a procedure and
+estimation-risk diagnostic, not a replacement for the fixed-weight path distribution. In
+that refit tier, SPY beta and stress augmentation use slot-calendar dates while the moment
+inputs are slot-relabeled resampled months. The approximation can affect constraint bounds
+only; it never enters expected returns or realized P\&L.
+
+\begin{table}[H]
+\centering
+\scriptsize
+\IfFileExists{tables/mc_resampled_universes.tex}
+  {\resizebox{\textwidth}{!}{\input{tables/mc_resampled_universes}}}
+  {\begin{tabular}{llll}\toprule Family & Basis & Strategy & Path P50 \\\midrule Missing & Run \texttt{make robustness} & -- & -- \\\bottomrule\end{tabular}}
+\caption{Fixed-weight resampled-universe diagnostics.}
+\label{tab:mc_resampled_universes}
+\end{table}
+
+\begin{table}[H]
+\centering
+\scriptsize
+\IfFileExists{tables/mc_refit_stability.tex}
+  {\resizebox{\textwidth}{!}{\input{tables/mc_refit_stability}}}
+  {\begin{tabular}{llll}\toprule Strategy & Paths & P50 Sharpe & Status \\\midrule Missing & Run \texttt{make robustness} & -- & -- \\\bottomrule\end{tabular}}
+\caption{Refit-path stability diagnostic for Greek Markowitz + VIX.}
+\label{tab:mc_refit_stability}
+\end{table}
+
+\clearpage
+
+\subsection{Repriced synthetic universes}
+
+The second Monte Carlo tier builds a synthetic state world. Each spot-return, implied-vol
+level, and VIX-level dimension is fit with a GARCH(1,1) marginal when enough train-window
+observations are available; standardized innovations are then sampled jointly by circular
+block bootstrap. A Gaussian-copula sensitivity with 250 paths rank-maps innovations
+through the empirical marginal distributions. The default repriced stress tier uses 1,000
+paths and the same fixed train-estimated strategy weights as the headline portfolio.
+
+Synthetic contracts are one-step, one-month options: entry premiums and payoff horizons
+match. Equity options are priced with Black--Scholes at the simulated equity and IV state.
+VIX options are priced with Black--76 off the simulated VX-front state at entry and settled
+against the simulated VIX level at the next step. The generator's initial IV and VIX state
+levels use within-train forward/backward filling only (\texttt{loc[:TRAIN\_END]}), so the
+initial state never crosses into the test window.
+
+This repriced universe is a stress world, not a replay of market option premia. Entry
+premiums are model-priced from the simulated BS/Black--76 state, so the empirical
+variance-risk-premium wedge embedded in observed market premia is largely absent by
+construction. Strategies that harvest that premium should not be expected to retain their
+realized edge in this world. Rank changes versus the resampled universes are therefore
+evidence about premium-dependence, not evidence that the headline backtest failed.
+
+\begin{table}[H]
+\centering
+\scriptsize
+\IfFileExists{tables/mc_repriced_universes.tex}
+  {\resizebox{\textwidth}{!}{\input{tables/mc_repriced_universes}}}
+  {\begin{tabular}{llll}\toprule Strategy & Method & P50 Sharpe & P Default \\\midrule Missing & Run \texttt{make robustness} & -- & -- \\\bottomrule\end{tabular}}
+\caption{Repriced synthetic-universe diagnostics under the joint GARCH/block-bootstrap
+state model.}
+\label{tab:mc_repriced_universes}
+\end{table}
+
+\clearpage
+
+\begin{table}[H]
+\centering
+\scriptsize
+\IfFileExists{tables/mc_universe_comparison.tex}
+  {\resizebox{\textwidth}{!}{\input{tables/mc_universe_comparison}}}
+  {\begin{tabular}{llll}\toprule Strategy & Realized & Resampled P50 & Repriced P50 \\\midrule Missing & Run \texttt{make robustness} & -- & -- \\\bottomrule\end{tabular}}
+\caption{Comparison of realized, resampled, and repriced-universe Sharpe distributions.}
+\label{tab:mc_universe_comparison}
+\end{table}
+
+\begin{figure}[H]
+\centering
+\IfFileExists{figures/mc_universe_sharpe_distributions.pdf}
+  {\includegraphics[width=0.86\textwidth]{mc_universe_sharpe_distributions.pdf}}
+  {\fbox{\parbox{0.78\textwidth}{Run \texttt{python -m research.papers.option_only_markowitz.analysis.run_empirics --stage robustness-figures} to generate the Monte Carlo universe distribution figure.}}}
+\caption{Monte Carlo Sharpe distributions across resampled, regime-stratified,
+repriced no-VRP stress, and refit-stability universes, with realized gross Sharpes
+marked where applicable.}
+\label{fig:mc_universe_sharpe_distributions}
+\end{figure}
+
+\clearpage
+
+\subsection{Limitations}
+
+These diagnostics broaden the evidence surface but do not remove the central research
+limitations. CPCV is intentionally non-PIT. The eligible contract universe is fixed at the
+headline training anchor. Resampled universes preserve observed return rows rather than
+creating new contracts. Refit resampling uses a slot-calendar approximation for selected
+constraint inputs. The repriced universe simplifies contract geometry and removes much of
+the realized option-market premium wedge. For that reason, the section should be read as a
+robustness and failure-mode map around the headline point-in-time backtest, not as a
+stronger trading claim.

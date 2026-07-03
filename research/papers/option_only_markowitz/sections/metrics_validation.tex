@@ -1,4 +1,4 @@
-\section{Metrics and Validation}
+\section{Metrics and Validation}\label{sec:metrics}
 
 The validation design asks several different questions. The realized path asks what
 happened in the held-out monthly window. The point-in-time audit asks whether decisions
@@ -29,11 +29,56 @@ because cash is a numeraire in the model, not an alpha sleeve.
 
 The inference layer is intentionally conservative. Sharpe, Sortino, Calmar, Omega, regime
 statistics, and leave-one-out differences are reported with block-bootstrap intervals where
-meaningful. Factor alpha uses HAC/Newey--West standard errors. These intervals do not
+meaningful; the circular block bootstrap preserves short-run serial dependence in the
+spirit of the stationary bootstrap of \citet{politis_romano1994}. Factor alpha uses
+HAC/Newey--West standard errors \citep{neweywest1987}. These intervals do not
 prove economic significance, but they prevent the paper from reading point estimates as
 certainties. The pre-production extension also reports probabilistic Sharpe ratios,
 deflated Sharpe ratios, and a block-bootstrap max-Sharpe screen across the tested gross and
-executable-cost variants.
+executable-cost variants. The headline estimator is stated formally so its units and
+conventions are not left implicit.
+
+\begin{definition}[Sharpe estimator and annualization]\label{def:sharpe}
+Let \(x_1,\dots,x_n\) denote the monthly ledger-grid strategy returns: marks and expiry
+proceeds are struck on the monthly rebalance grid, and intra-month expiry proceeds are held
+at the financing rate \(r_{f,t}\) until month end, so each observation spans exactly one
+month (the baseline sets \(r_{f,t}=0\); Remark~\ref{rem:zero_financing}). With sample mean
+\(\bar x=n^{-1}\sum_{t}x_t\) and standard deviation
+\(s_x=\bigl[(n-1)^{-1}\sum_{t}(x_t-\bar x)^2\bigr]^{1/2}\), the reported annualized Sharpe
+ratio is
+\[
+  \widehat{\SR}=\sqrt{12}\,\frac{\bar x}{s_x}.
+\]
+\end{definition}
+
+Three reporting conventions follow from Definition~\ref{def:sharpe} and prevent
+misreadings of the more extreme table entries. First, annualized returns are arithmetic:
+the monthly mean is scaled by twelve, not compounded, so annualized returns below
+\(-100\%\) per year are possible and several appear in the conservative stress-cost layer
+of Table~\ref{tab:performance}. Second, compounded wealth paths are floored at zero, an
+absorbing default state: once a path loses its NAV it stays at zero rather than going
+negative or rebounding. The always-long VIX hedge sleeve hits this floor in the realized
+sample, which is why its maximum drawdown and Calmar entries are undefined (``--'') in the
+gross diagnostics (Table~\ref{tab:performance_diag_app}). Third, the tail-path simulation
+tables report the share of simulated paths absorbed at zero as an explicit
+``defaulted path share'' column (Table~\ref{tab:simulation_summary_app}), so
+divergent sleeves appear as default frequencies rather than as astronomical terminal-wealth
+statistics. The predicted-versus-realized volatility calibration of the Greek risk model
+itself is reported in Table~\ref{tab:risk_calibration}.
+
+The \(\sqrt{12}\) scaling is exact only when monthly returns are serially independent;
+under serial dependence, square-root-of-time annualization can bias the ratio in either
+direction \citep{lo2002sharpe}. Probabilistic and deflated Sharpe ratios follow
+\citet{bailey_lopezdeprado2014} and are computed in per-period (monthly) units. The
+deflation trial set for each variant is the strategy family evaluated at the \emph{same}
+cost basis (gross, midpoint, half-spread, or full-spread), and the trial count is reported
+per row: pooling near-perfectly correlated cost replicas of the same strategy would
+mechanically inflate the trial variance and hence the deflation hurdle. The multiple-testing screen is a
+centered max-statistic block bootstrap in the spirit of the reality check of
+\citet{white2000reality} and the superior-predictive-ability test of \citet{hansen2005spa}:
+each variant's monthly returns are demeaned to impose the null of no skill, the maximum
+Sharpe statistic across the variant set is bootstrapped on circular blocks, and the
+headline variant's statistic is compared against that null distribution.
 
 \begin{figure}[H]
 \centering
@@ -46,6 +91,14 @@ Greek-Markowitz-plus-VIX sleeve. The exhibit asks whether optimization adds info
 beyond arbitrary feasible option exposure.}
 \label{fig:random_sharpe}
 \end{figure}
+
+The supplemental ``rolling 36-month'' diagnostic in the appendix
+(Table~\ref{tab:rolling_app}) is a genuine walk-forward exercise: at each evaluation date
+the representative contracts, conditional premia, and covariances are re-estimated on the
+trailing 36-month window ending at that date, and weights come from the same constrained
+maximum-Sharpe solver as the headline strategies. An earlier draft of this table silently
+truncated every training window at the global 2020-12-31 split; the pipeline now threads
+explicit window bounds and asserts that no training observation postdates the window end.
 
 The point-in-time contract is strict. Decision dates precede return dates. State snapshots,
 Greeks, forecasts, covariances, residuals, betas, borrow proxies, and cost inputs are drawn

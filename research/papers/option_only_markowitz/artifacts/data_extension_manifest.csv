@@ -1,0 +1,5 @@
+dataset,location,size_approx,status,reason,artifacts_produced
+opra_surface_full_day_cbbo,data/feature_store/cbbo_spread_surface.parquet,"6,371 rows",integrated,CBBO spread cost surface refines default spreads,cost_input_ledger.csv; cost_input_spread_source_coverage.csv
+opra_vix_chain_*,data/databento_cache/opra_vix_chain_*.parquet,"137 files; 15,059,144 bytes",extended,state features + regime diagnostics; expected-return feed-in deferred,vix_chain_state_features.csv; vol_of_vol_regime_performance.csv
+opra_{UND}_slices_*,data/databento_cache/opra_{UND}_slices_*.parquet,not regenerated in this pipeline,deferred,IWM/QQQ universe expansion requires regenerating option_greek_proxy_panel in the sibling-repo pipeline; META/TSLA already in universe,none
+sibling DATA_ANALYSIS loaders,DATA_ANALYSIS loaders; data_ingestion,referenced source code,referenced,OSI parser vendored into data_ingestion,data_ingestion/build_cbbo_cost_surface.py

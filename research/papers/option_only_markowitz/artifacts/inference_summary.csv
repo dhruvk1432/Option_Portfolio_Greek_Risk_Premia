@@ -3,79 +3,89 @@ Equity-option Greek Markowitz,Sharpe,0.8421194565895301,0.08286049481709633,1.67
 Equity-option Greek Markowitz,Sortino,1.7700811621300996,0.1411643581553934,4.581229180754739,60,circular block bootstrap,8,20260625,Gross before costs
 Equity-option Greek Markowitz,Calmar,1.0204897200736813,0.08276189705556036,2.8277551240293115,60,circular block bootstrap,8,20260625,Gross before costs
 Equity-option Greek Markowitz,Omega,1.887746709782267,1.063963614184675,3.5456046497012426,60,circular block bootstrap,8,20260625,Gross before costs
-Equity-option Greek Markowitz,Information Ratio,0.6930925432045966,,,60,circular block bootstrap,8,20260625,Gross before costs
-Greek Markowitz + VIX,Sharpe,1.3743885779509968,0.6019356939056014,2.2221110679532936,60,circular block bootstrap,8,20260625,Gross before costs
-Greek Markowitz + VIX,Sortino,3.3852591193963497,1.1880950462344213,7.275242499493286,60,circular block bootstrap,8,20260625,Gross before costs
-Greek Markowitz + VIX,Calmar,2.033918612174948,0.6999464606731237,4.900702719053138,60,circular block bootstrap,8,20260625,Gross before costs
-Greek Markowitz + VIX,Omega,2.7843631987725814,1.5623431488381105,5.251302790139909,60,circular block bootstrap,8,20260625,Gross before costs
-Greek Markowitz + VIX,Information Ratio,1.1921755210050058,,,60,circular block bootstrap,8,20260625,Gross before costs
-Beta/delta-neutral + VIX,Sharpe,1.4135236431740843,0.6764953049818128,2.2198699946271336,60,circular block bootstrap,8,20260625,Gross before costs
-Beta/delta-neutral + VIX,Sortino,3.4101063613903215,1.3346556640483547,6.54122431403779,60,circular block bootstrap,8,20260625,Gross before costs
-Beta/delta-neutral + VIX,Calmar,2.057353788525215,0.700973856982537,5.611194664148469,60,circular block bootstrap,8,20260625,Gross before costs
-Beta/delta-neutral + VIX,Omega,2.947600334500001,1.6930484302588225,5.3330536773563395,60,circular block bootstrap,8,20260625,Gross before costs
-Beta/delta-neutral + VIX,Information Ratio,1.2194014443050085,,,60,circular block bootstrap,8,20260625,Gross before costs
+Equity-option Greek Markowitz,Information Ratio,0.5982743778565097,-0.430415433343867,1.5710928919087985,60,circular block bootstrap,8,20260625,Gross before costs
+Greek Markowitz + VIX,Sharpe,1.374388539995489,0.6019356731328067,2.2221110280578986,60,circular block bootstrap,8,20260625,Gross before costs
+Greek Markowitz + VIX,Sortino,3.3852590273086602,1.1880950225031564,7.275242034421805,60,circular block bootstrap,8,20260625,Gross before costs
+Greek Markowitz + VIX,Calmar,2.033918581869829,0.6999464323977481,4.900702570351873,60,circular block bootstrap,8,20260625,Gross before costs
+Greek Markowitz + VIX,Omega,2.784363176427202,1.5623431345234524,5.251302913713684,60,circular block bootstrap,8,20260625,Gross before costs
+Greek Markowitz + VIX,Information Ratio,1.199800632912324,0.3473029247765785,2.128839061050149,60,circular block bootstrap,8,20260625,Gross before costs
+Beta/delta-neutral + VIX,Sharpe,1.4135317239912606,0.6765039384157695,2.2198812406535313,60,circular block bootstrap,8,20260625,Gross before costs
+Beta/delta-neutral + VIX,Sortino,3.4101311218593846,1.334650399809175,6.541262642278694,60,circular block bootstrap,8,20260625,Gross before costs
+Beta/delta-neutral + VIX,Calmar,2.0573541792299705,0.7009889677442398,5.611181581133467,60,circular block bootstrap,8,20260625,Gross before costs
+Beta/delta-neutral + VIX,Omega,2.947610573038661,1.6930562846992603,5.333097340856716,60,circular block bootstrap,8,20260625,Gross before costs
+Beta/delta-neutral + VIX,Information Ratio,1.147073121558933,0.3317073345459576,1.962492702213115,60,circular block bootstrap,8,20260625,Gross before costs
+Cost-aware Sortino + VIX,Sharpe,1.0144053186224946,0.46607078190171575,1.568320946062528,60,circular block bootstrap,8,20260625,Gross before costs
+Cost-aware Sortino + VIX,Sortino,3.349185377713025,1.2501229320901301,6.124163739193549,60,circular block bootstrap,8,20260625,Gross before costs
+Cost-aware Sortino + VIX,Calmar,4.992611798187288,0.05311473754066423,5.601755484156836,60,circular block bootstrap,8,20260625,Gross before costs
+Cost-aware Sortino + VIX,Omega,2.471099899395961,1.510253066105695,4.021298654289045,60,circular block bootstrap,8,20260625,Gross before costs
+Cost-aware Sortino + VIX,Information Ratio,0.9711886304435532,0.37331130632654325,1.518390374847711,60,circular block bootstrap,8,20260625,Gross before costs
 Equal premium,Sharpe,-0.02955676336526383,-0.6351534571669278,0.43735358200118707,60,circular block bootstrap,8,20260625,Gross before costs
 Equal premium,Sortino,-0.0553100763144544,-0.9456092999704553,0.9198042974718018,60,circular block bootstrap,8,20260625,Gross before costs
 Equal premium,Calmar,-0.05553271091792252,-1.051137508271007,0.8490697670553664,60,circular block bootstrap,8,20260625,Gross before costs
 Equal premium,Omega,0.9771765473237329,0.623627115981652,1.4163568378608473,60,circular block bootstrap,8,20260625,Gross before costs
-Equal premium,Information Ratio,-0.25988934564558414,,,60,circular block bootstrap,8,20260625,Gross before costs
-Equal risk,Sharpe,0.0818308658646486,-0.55782774609022,0.6266506927005958,60,circular block bootstrap,8,20260625,Gross before costs
-Equal risk,Sortino,0.14638589036582478,-0.8214178181123382,1.3050767165111161,60,circular block bootstrap,8,20260625,Gross before costs
-Equal risk,Calmar,0.10693488072634062,-0.667324325059536,0.9539953801382411,60,circular block bootstrap,8,20260625,Gross before costs
-Equal risk,Omega,1.0641387065829713,0.6623386693075592,1.6206235810919172,60,circular block bootstrap,8,20260625,Gross before costs
-Equal risk,Information Ratio,-0.1509316051414049,,,60,circular block bootstrap,8,20260625,Gross before costs
+Equal premium,Information Ratio,-0.11981879207294609,-0.7793407028424163,0.3513233575872384,60,circular block bootstrap,8,20260625,Gross before costs
+Equal risk,Sharpe,0.08183086586465663,-0.5578277460902168,0.6266506927006052,60,circular block bootstrap,8,20260625,Gross before costs
+Equal risk,Sortino,0.1463858903658394,-0.8214178181123396,1.3050767165111419,60,circular block bootstrap,8,20260625,Gross before costs
+Equal risk,Calmar,0.10693488072635121,-0.6673243250595106,0.9539953801382596,60,circular block bootstrap,8,20260625,Gross before costs
+Equal risk,Omega,1.0641387065829775,0.6623386693075592,1.6206235810919276,60,circular block bootstrap,8,20260625,Gross before costs
+Equal risk,Information Ratio,-0.057746568749947165,-0.7316998437222435,0.48452273933816165,60,circular block bootstrap,8,20260625,Gross before costs
 VIX hedge sleeve,Sharpe,-6.429184989935395,-9.004431245721454,-4.920989495177015,60,circular block bootstrap,8,20260625,Gross before costs
 VIX hedge sleeve,Sortino,-3.0892753979009937,-3.252777817283031,-2.9036866999102133,60,circular block bootstrap,8,20260625,Gross before costs
 VIX hedge sleeve,Calmar,,-10.058048292684333,-8.261921769281258,60,circular block bootstrap,8,20260625,Gross before costs
 VIX hedge sleeve,Omega,0.04042569095025844,0.015524072165735174,0.0708892035525902,60,circular block bootstrap,8,20260625,Gross before costs
-VIX hedge sleeve,Information Ratio,-6.343536743469085,,,60,circular block bootstrap,8,20260625,Gross before costs
-Delta-matched equities,Sharpe,1.1763702582317712,0.37211823642566366,2.182421511461844,60,circular block bootstrap,8,20260625,Gross before costs
-Delta-matched equities,Sortino,2.31736748845411,0.6145471630884706,5.885987405536526,60,circular block bootstrap,8,20260625,Gross before costs
-Delta-matched equities,Calmar,1.2251171795483853,0.3881993756019669,3.7164863186503045,60,circular block bootstrap,8,20260625,Gross before costs
-Delta-matched equities,Omega,2.3666100859776584,1.3007957702413377,5.182450081262719,60,circular block bootstrap,8,20260625,Gross before costs
-Delta-matched equities,Information Ratio,0.9945409223282815,,,60,circular block bootstrap,8,20260625,Gross before costs
+VIX hedge sleeve,Information Ratio,-6.13214961326551,-8.857837117862907,-4.690614782569907,60,circular block bootstrap,8,20260625,Gross before costs
+Delta-matched equities,Sharpe,1.1763702732937484,0.372118243728776,2.1824215508516502,60,circular block bootstrap,8,20260625,Gross before costs
+Delta-matched equities,Sortino,2.3173675259176236,0.6145471766261599,5.885987591554511,60,circular block bootstrap,8,20260625,Gross before costs
+Delta-matched equities,Calmar,1.2251172051670711,0.3881993998016802,3.7164863225283935,60,circular block bootstrap,8,20260625,Gross before costs
+Delta-matched equities,Omega,2.3666101024791955,1.3007957765352867,5.182449958721676,60,circular block bootstrap,8,20260625,Gross before costs
+Delta-matched equities,Information Ratio,1.040748481927679,0.18895370112114815,2.0718886080546355,60,circular block bootstrap,8,20260625,Gross before costs
 Underlying Markowitz,Sharpe,0.9088833301008382,0.1027785508236578,1.8123811817417679,60,circular block bootstrap,8,20260625,Gross before costs
 Underlying Markowitz,Sortino,1.8560338426832312,0.1723800154539207,4.957990850567326,60,circular block bootstrap,8,20260625,Gross before costs
 Underlying Markowitz,Calmar,0.5902286749234765,0.04546681416770189,2.5444203812380253,60,circular block bootstrap,8,20260625,Gross before costs
 Underlying Markowitz,Omega,1.9287455618155838,1.0741066695959622,3.877341403362404,60,circular block bootstrap,8,20260625,Gross before costs
-Underlying Markowitz,Information Ratio,0.16572124516234446,,,60,circular block bootstrap,8,20260625,Gross before costs
+Underlying Markowitz,Information Ratio,0.07169818618150268,-0.7956763799367803,0.8659986674748782,60,circular block bootstrap,8,20260625,Gross before costs
 Equity-option Greek Markowitz,Sharpe,-1.442585677117047,-2.209243482335091,-1.1643543540132144,60,circular block bootstrap,8,20260625,Post-cost research
 Equity-option Greek Markowitz,Sortino,-1.3471878495145793,-1.8951247629601622,-1.1230560197470787,60,circular block bootstrap,8,20260625,Post-cost research
 Equity-option Greek Markowitz,Calmar,-6.356658815018495,-11.009150468912068,-1.8563503191618593,60,circular block bootstrap,8,20260625,Post-cost research
 Equity-option Greek Markowitz,Omega,0.09800577717135502,0.04458601227307895,0.2184442384233519,60,circular block bootstrap,8,20260625,Post-cost research
-Equity-option Greek Markowitz,Information Ratio,-1.4917153546996853,,,60,circular block bootstrap,8,20260625,Post-cost research
-Greek Markowitz + VIX,Sharpe,-1.2592747851402206,-1.8711067162878015,-0.9944290312010422,60,circular block bootstrap,8,20260625,Post-cost research
-Greek Markowitz + VIX,Sortino,-1.1981033261325031,-1.683320983251012,-0.9710831926665761,60,circular block bootstrap,8,20260625,Post-cost research
-Greek Markowitz + VIX,Calmar,-5.136469038324506,-8.116515178439498,-1.0874744682291182,60,circular block bootstrap,8,20260625,Post-cost research
-Greek Markowitz + VIX,Omega,0.11622100388756064,0.05396875376354462,0.2688365149262866,60,circular block bootstrap,8,20260625,Post-cost research
-Greek Markowitz + VIX,Information Ratio,-1.3026348977762172,,,60,circular block bootstrap,8,20260625,Post-cost research
-Beta/delta-neutral + VIX,Sharpe,-1.371490849754813,-1.9608757258483511,-1.0942816825017003,60,circular block bootstrap,8,20260625,Post-cost research
-Beta/delta-neutral + VIX,Sortino,-1.2999084061958948,-1.790065424774495,-1.0732975166153655,60,circular block bootstrap,8,20260625,Post-cost research
-Beta/delta-neutral + VIX,Calmar,-3.895060150280959,-6.03313626720775,-1.2892476491865863,60,circular block bootstrap,8,20260625,Post-cost research
-Beta/delta-neutral + VIX,Omega,0.15086515889622643,0.07535031551414521,0.3211616074748618,60,circular block bootstrap,8,20260625,Post-cost research
-Beta/delta-neutral + VIX,Information Ratio,-1.417624007160791,,,60,circular block bootstrap,8,20260625,Post-cost research
+Equity-option Greek Markowitz,Information Ratio,-1.544955254902082,-2.5319310266660984,-1.238369444233579,60,circular block bootstrap,8,20260625,Post-cost research
+Greek Markowitz + VIX,Sharpe,-1.2592748083601788,-1.8711067730636652,-0.9944290344534663,60,circular block bootstrap,8,20260625,Post-cost research
+Greek Markowitz + VIX,Sortino,-1.1981033458433377,-1.6833210262367044,-0.9710832101238212,60,circular block bootstrap,8,20260625,Post-cost research
+Greek Markowitz + VIX,Calmar,-5.136469179668392,-8.116515640796925,-1.087474497430847,60,circular block bootstrap,8,20260625,Post-cost research
+Greek Markowitz + VIX,Omega,0.11622100338698009,0.05396875192153493,0.2688365111100662,60,circular block bootstrap,8,20260625,Post-cost research
+Greek Markowitz + VIX,Information Ratio,-1.3453259440549588,-2.133094294903324,-1.0690670496215557,60,circular block bootstrap,8,20260625,Post-cost research
+Beta/delta-neutral + VIX,Sharpe,-1.3714847793351141,-1.960857972048883,-1.094277749641946,60,circular block bootstrap,8,20260625,Post-cost research
+Beta/delta-neutral + VIX,Sortino,-1.2999034649609709,-1.790069519888723,-1.0732910462822036,60,circular block bootstrap,8,20260625,Post-cost research
+Beta/delta-neutral + VIX,Calmar,-3.8950330395731037,-6.033078857210709,-1.2892416595777665,60,circular block bootstrap,8,20260625,Post-cost research
+Beta/delta-neutral + VIX,Omega,0.15086581843819935,0.07535108987652361,0.3211654379225907,60,circular block bootstrap,8,20260625,Post-cost research
+Beta/delta-neutral + VIX,Information Ratio,-1.5080323717123751,-2.2540420869389326,-1.2340144575400198,60,circular block bootstrap,8,20260625,Post-cost research
+Cost-aware Sortino + VIX,Sharpe,-1.0567132667203922,-2.0189278348990918,-0.9611519404266239,60,circular block bootstrap,8,20260625,Post-cost research
+Cost-aware Sortino + VIX,Sortino,-1.0186424677783532,-1.7558470219101308,-0.9334653345988145,60,circular block bootstrap,8,20260625,Post-cost research
+Cost-aware Sortino + VIX,Calmar,-1.9847185281253923,-4.3758605515195885,-0.44138783075797,60,circular block bootstrap,8,20260625,Post-cost research
+Cost-aware Sortino + VIX,Omega,0.015778064451988608,0.006735757115676524,0.03169919408481711,60,circular block bootstrap,8,20260625,Post-cost research
+Cost-aware Sortino + VIX,Information Ratio,-1.0026092637818416,-2.0167405854321094,-0.9023036553710702,60,circular block bootstrap,8,20260625,Post-cost research
 Equal premium,Sharpe,-1.330690549566593,-1.9751752845136257,-0.8159366622406804,60,circular block bootstrap,8,20260625,Post-cost research
 Equal premium,Sortino,-1.5020650005200507,-1.9225963231374747,-1.0660175165703891,60,circular block bootstrap,8,20260625,Post-cost research
 Equal premium,Calmar,-3.050792184587271,-4.188878310374215,-1.5430229821804902,60,circular block bootstrap,8,20260625,Post-cost research
 Equal premium,Omega,0.3586917280794587,0.20607026984127386,0.5465605634201788,60,circular block bootstrap,8,20260625,Post-cost research
-Equal premium,Information Ratio,-1.6189472095935726,,,60,circular block bootstrap,8,20260625,Post-cost research
-Equal risk,Sharpe,-0.9335193813966629,-1.5760837298624744,-0.4860286614968324,60,circular block bootstrap,8,20260625,Post-cost research
-Equal risk,Sortino,-1.1985255495635303,-1.7140204591546448,-0.6970942593298745,60,circular block bootstrap,8,20260625,Post-cost research
-Equal risk,Calmar,-1.2762792101660625,-1.9624681447817118,-0.6851126316370524,60,circular block bootstrap,8,20260625,Post-cost research
-Equal risk,Omega,0.5054778989222619,0.3262184596913863,0.7023266872473467,60,circular block bootstrap,8,20260625,Post-cost research
-Equal risk,Information Ratio,-1.2251421224848102,,,60,circular block bootstrap,8,20260625,Post-cost research
+Equal premium,Information Ratio,-1.3715229440502075,-2.081183581300195,-0.8326542636201483,60,circular block bootstrap,8,20260625,Post-cost research
+Equal risk,Sharpe,-0.9335193813966584,-1.5760837298624866,-0.4860286614968271,60,circular block bootstrap,8,20260625,Post-cost research
+Equal risk,Sortino,-1.1985255495635239,-1.7140204591546395,-0.6970942593298566,60,circular block bootstrap,8,20260625,Post-cost research
+Equal risk,Calmar,-1.2762792101660554,-1.9624681447817198,-0.685112631637024,60,circular block bootstrap,8,20260625,Post-cost research
+Equal risk,Omega,0.5054778989222641,0.3262184596913849,0.7023266872473475,60,circular block bootstrap,8,20260625,Post-cost research
+Equal risk,Information Ratio,-1.0823191591288364,-1.7635244714943001,-0.6258119939495328,60,circular block bootstrap,8,20260625,Post-cost research
 VIX hedge sleeve,Sharpe,-3.4125568446064882,-7.713646848202053,-2.675824441195185,60,circular block bootstrap,8,20260625,Post-cost research
 VIX hedge sleeve,Sortino,-2.4446025526741058,-3.1712098393995864,-2.130500281384222,60,circular block bootstrap,8,20260625,Post-cost research
 VIX hedge sleeve,Calmar,-12.391265152890583,-15.461458734885014,-7.145363772374745,60,circular block bootstrap,8,20260625,Post-cost research
 VIX hedge sleeve,Omega,0.015722168256542882,0.004396128726541446,0.03193413513482595,60,circular block bootstrap,8,20260625,Post-cost research
-VIX hedge sleeve,Information Ratio,-3.401816512338465,,,60,circular block bootstrap,8,20260625,Post-cost research
-Delta-matched equities,Sharpe,1.1763702582317712,0.37211823642566366,2.182421511461844,60,circular block bootstrap,8,20260625,Post-cost research
-Delta-matched equities,Sortino,2.31736748845411,0.6145471630884706,5.885987405536526,60,circular block bootstrap,8,20260625,Post-cost research
-Delta-matched equities,Calmar,1.2251171795483853,0.3881993756019669,3.7164863186503045,60,circular block bootstrap,8,20260625,Post-cost research
-Delta-matched equities,Omega,2.3666100859776584,1.3007957702413377,5.182450081262719,60,circular block bootstrap,8,20260625,Post-cost research
-Delta-matched equities,Information Ratio,0.9945409223282815,,,60,circular block bootstrap,8,20260625,Post-cost research
+VIX hedge sleeve,Information Ratio,-3.3573450435990235,-7.2745090385885725,-2.6731555492415766,60,circular block bootstrap,8,20260625,Post-cost research
+Delta-matched equities,Sharpe,1.1763702732937484,0.372118243728776,2.1824215508516502,60,circular block bootstrap,8,20260625,Post-cost research
+Delta-matched equities,Sortino,2.3173675259176236,0.6145471766261599,5.885987591554511,60,circular block bootstrap,8,20260625,Post-cost research
+Delta-matched equities,Calmar,1.2251172051670711,0.3881993998016802,3.7164863225283935,60,circular block bootstrap,8,20260625,Post-cost research
+Delta-matched equities,Omega,2.3666101024791955,1.3007957765352867,5.182449958721676,60,circular block bootstrap,8,20260625,Post-cost research
+Delta-matched equities,Information Ratio,1.040748481927679,0.18895370112114815,2.0718886080546355,60,circular block bootstrap,8,20260625,Post-cost research
 Underlying Markowitz,Sharpe,0.9088833301008382,0.1027785508236578,1.8123811817417679,60,circular block bootstrap,8,20260625,Post-cost research
 Underlying Markowitz,Sortino,1.8560338426832312,0.1723800154539207,4.957990850567326,60,circular block bootstrap,8,20260625,Post-cost research
 Underlying Markowitz,Calmar,0.5902286749234765,0.04546681416770189,2.5444203812380253,60,circular block bootstrap,8,20260625,Post-cost research
 Underlying Markowitz,Omega,1.9287455618155838,1.0741066695959622,3.877341403362404,60,circular block bootstrap,8,20260625,Post-cost research
-Underlying Markowitz,Information Ratio,0.16572124516234446,,,60,circular block bootstrap,8,20260625,Post-cost research
+Underlying Markowitz,Information Ratio,0.07169818618150268,-0.7956763799367803,0.8659986674748782,60,circular block bootstrap,8,20260625,Post-cost research

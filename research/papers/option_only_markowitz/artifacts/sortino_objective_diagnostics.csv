@@ -1,0 +1,2 @@
+status,method_used,objective,net_mean,gross_mean,entry_cost,downside_deviation,sortino_net,target,n_scenarios,degenerate_downside_free,n_train_scenarios
+optimal,linprog_net_mean_downside_free,max_sortino_net_of_costs,0.14711607241660263,0.18371031995898984,0.0365942475423872,0.35719543921340957,0.4118643640595501,0.0,69,True,69

@@ -15,6 +15,7 @@ import platform
 import sys
 from dataclasses import asdict, dataclass
 from pathlib import Path
+from typing import Sequence
 
 import numpy as np
 import pandas as pd
@@ -38,6 +39,48 @@ class ResearchCostConfig:
     short_option_margin_floor: float = 0.15
     stress_margin_rate: float = 0.25
     assignment_penalty_bps: float = 10.0
+    use_cbbo_spread_surface: bool = True
+    cbbo_spread_surface_path: str = "data/feature_store/cbbo_spread_surface.parquet"
+
+
+CBBO_SPREAD_SURFACE_COLUMNS = [
+    "underlying",
+    "snap_date",
+    "moneyness_bucket",
+    "tenor_bucket",
+    "n_quotes",
+    "n_contracts",
+    "median_relative_spread",
+    "p25_relative_spread",
+    "p75_relative_spread",
+    "median_mid",
+    "median_displayed_size",
+]
+
+
+def _empty_cbbo_spread_surface() -> pd.DataFrame:
+    return pd.DataFrame(columns=CBBO_SPREAD_SURFACE_COLUMNS)
+
+
+def load_cbbo_spread_surface(root: Path, path: str | None = None) -> pd.DataFrame:
+    rel_path = path or ResearchCostConfig().cbbo_spread_surface_path
+    surface_path = Path(rel_path)
+    if not surface_path.is_absolute():
+        surface_path = root / surface_path
+    if not surface_path.exists():
+        return _empty_cbbo_spread_surface()
+    df = pd.read_parquet(surface_path)
+    out = df[[c for c in CBBO_SPREAD_SURFACE_COLUMNS if c in df.columns]].copy()
+    for col in CBBO_SPREAD_SURFACE_COLUMNS:
+        if col not in out:
+            out[col] = np.nan
+    out = out[CBBO_SPREAD_SURFACE_COLUMNS].copy()
+    out["snap_date"] = pd.to_datetime(out["snap_date"], errors="coerce").dt.normalize()
+    out["underlying"] = out["underlying"].astype(str).str.upper()
+    out["moneyness_bucket"] = out["moneyness_bucket"].astype(str)
+    out["tenor_bucket"] = out["tenor_bucket"].astype(str)
+    out["median_relative_spread"] = pd.to_numeric(out["median_relative_spread"], errors="coerce")
+    return out.replace([np.inf, -np.inf], np.nan)
 
 
 def load_borrow_proxy(root: Path = ROOT) -> pd.DataFrame:
@@ -62,6 +105,8 @@ def build_cost_input_ledger(
     return_detail: pd.DataFrame,
     root: Path = ROOT,
     config: ResearchCostConfig = ResearchCostConfig(),
+    *,
+    spread_surface: pd.DataFrame | None = None,
 ) -> pd.DataFrame:
     if return_detail.empty:
         return pd.DataFrame()
@@ -69,17 +114,20 @@ def build_cost_input_ledger(
     for col in ["return_date", "decision_date", "expiry"]:
         if col in detail:
             detail[col] = pd.to_datetime(detail[col], errors="coerce").dt.normalize()
+    rep_col_candidates = [
+        "snap_date",
+        "asset_id",
+        "symbol",
+        "volume",
+        "open_interest",
+        "cbbo_median_relative_spread",
+        "moneyness_bucket",
+    ]
+    if spread_surface is not None and not spread_surface.empty:
+        rep_col_candidates.extend(["underlying", "expiry", "tenor_days", "expiry_days"])
     rep_cols = [
         c
-        for c in [
-            "snap_date",
-            "asset_id",
-            "symbol",
-            "volume",
-            "open_interest",
-            "cbbo_median_relative_spread",
-            "moneyness_bucket",
-        ]
+        for c in rep_col_candidates
         if c in reps.columns
     ]
     reps_slim = reps[rep_cols].copy() if rep_cols else pd.DataFrame(columns=["snap_date", "asset_id"])
@@ -94,6 +142,11 @@ def build_cost_input_ledger(
     )
     if "symbol_rep" in cost:
         cost["symbol"] = cost["symbol"].where(cost["symbol"].notna(), cost["symbol_rep"])
+    if spread_surface is not None and not spread_surface.empty:
+        for col in ["underlying", "moneyness_bucket"]:
+            rep_col = f"{col}_rep"
+            if col in cost and rep_col in cost:
+                cost[col] = cost[col].where(cost[col].notna(), cost[rep_col])
     borrow = load_borrow_proxy(root)
     if not borrow.empty and {"symbol", "snap_date", "borrow_rate_proxy"}.issubset(borrow.columns):
         cost = cost.merge(
@@ -117,12 +170,233 @@ def build_cost_input_ledger(
         rel = pd.Series(np.nan, index=cost.index, dtype=float)
     is_vix = cost.get("asset_class", pd.Series("", index=cost.index)).astype(str).eq("vix_option")
     defaults = np.where(is_vix, config.default_vix_option_rel_spread, config.default_equity_option_rel_spread)
-    cost["relative_spread"] = rel.where(rel.gt(0), defaults).clip(lower=0.0, upper=1.5)
+    panel_mask = rel.gt(0)
+    surface_rel = _surface_relative_spread(cost, spread_surface) if spread_surface is not None else pd.Series(np.nan, index=cost.index, dtype=float)
+    surface_mask = (~panel_mask) & surface_rel.gt(0)
+    cost["relative_spread"] = rel.where(panel_mask, surface_rel.where(surface_mask, defaults)).clip(lower=0.0, upper=1.5)
+    cost["relative_spread_source"] = np.select(
+        [panel_mask, surface_mask],
+        ["panel_cbbo", "surface_cbbo"],
+        default="default",
+    )
     cost["borrow_rate_proxy"] = pd.to_numeric(cost["borrow_rate_proxy"], errors="coerce").fillna(0.0).clip(lower=0.0, upper=1.0)
     cost["holding_years"] = pd.to_numeric(cost.get("expiry_days", 21), errors="coerce").fillna(21.0).clip(lower=0.0) / 365.0
     cost["available_volume_contracts"] = cost["volume"].fillna(0.0).clip(lower=0.0)
     cost["available_oi_contracts"] = cost["open_interest"].fillna(np.inf)
     return cost.replace([np.inf, -np.inf], np.nan)
+
+
+def _surface_relative_spread(cost: pd.DataFrame, spread_surface: pd.DataFrame | None) -> pd.Series:
+    if spread_surface is None or spread_surface.empty or cost.empty:
+        return pd.Series(np.nan, index=cost.index, dtype=float)
+    required = {"underlying", "snap_date", "moneyness_bucket", "tenor_bucket", "median_relative_spread"}
+    if not required.issubset(spread_surface.columns):
+        return pd.Series(np.nan, index=cost.index, dtype=float)
+
+    surface = spread_surface[list(required)].copy()
+    surface["underlying"] = surface["underlying"].astype(str).str.upper()
+    surface["snap_date"] = pd.to_datetime(surface["snap_date"], errors="coerce").dt.normalize()
+    surface["moneyness_bucket"] = surface["moneyness_bucket"].astype(str)
+    surface["tenor_bucket"] = surface["tenor_bucket"].astype(str)
+    surface["median_relative_spread"] = pd.to_numeric(surface["median_relative_spread"], errors="coerce")
+    surface = (
+        surface.dropna(subset=["underlying", "snap_date", "moneyness_bucket", "tenor_bucket", "median_relative_spread"])
+        .drop_duplicates(["underlying", "snap_date", "moneyness_bucket", "tenor_bucket"])
+    )
+    if surface.empty:
+        return pd.Series(np.nan, index=cost.index, dtype=float)
+
+    lookup = pd.DataFrame(index=cost.index)
+    lookup["underlying"] = cost.get("underlying", pd.Series(np.nan, index=cost.index)).astype(str).str.upper()
+    lookup["snap_date"] = pd.to_datetime(cost.get("decision_date", pd.Series(pd.NaT, index=cost.index)), errors="coerce").dt.normalize()
+    lookup["moneyness_bucket"] = cost.get("moneyness_bucket", pd.Series(np.nan, index=cost.index)).astype(str)
+    lookup["tenor_bucket"] = _tenor_bucket_for_cost_rows(cost)
+    lookup["_row"] = cost.index
+    joined = lookup.merge(
+        surface[["underlying", "snap_date", "moneyness_bucket", "tenor_bucket", "median_relative_spread"]],
+        on=["underlying", "snap_date", "moneyness_bucket", "tenor_bucket"],
+        how="left",
+    )
+    return joined.set_index("_row")["median_relative_spread"].reindex(cost.index).astype(float)
+
+
+def _tenor_bucket_for_cost_rows(cost: pd.DataFrame) -> pd.Series:
+    if "tenor_bucket" in cost:
+        existing = cost["tenor_bucket"].astype(str)
+        valid = existing.notna() & ~existing.isin(["", "nan", "NaT", "None", "<NA>"])
+    else:
+        existing = pd.Series(pd.NA, index=cost.index, dtype="object")
+        valid = pd.Series(False, index=cost.index)
+    days = _tenor_days_for_cost_rows(cost)
+    derived = days.map(_assign_cbbo_tenor_bucket)
+    return existing.where(valid, derived).astype(str)
+
+
+def _tenor_days_for_cost_rows(cost: pd.DataFrame) -> pd.Series:
+    for col in ("expiry_days", "tenor_days", "dte", "days_to_expiry"):
+        if col in cost:
+            days = pd.to_numeric(cost[col], errors="coerce")
+            if days.notna().any():
+                return days
+    if {"expiry", "decision_date"}.issubset(cost.columns):
+        expiry = pd.to_datetime(cost["expiry"], errors="coerce")
+        decision = pd.to_datetime(cost["decision_date"], errors="coerce")
+        return (expiry - decision).dt.days.astype(float)
+    return pd.Series(np.nan, index=cost.index, dtype=float)
+
+
+def _assign_cbbo_tenor_bucket(days_to_expiry: object) -> object:
+    try:
+        days = float(days_to_expiry)
+    except (TypeError, ValueError):
+        return pd.NA
+    if not np.isfinite(days):
+        return pd.NA
+    if days <= 45:
+        return "le_45d"
+    if days <= 120:
+        return "46_120d"
+    return "gt_120d"
+
+
+def _is_vix_option_asset(asset_id: object, rows: pd.DataFrame | None = None) -> bool:
+    if rows is not None and not rows.empty:
+        if "asset_class" in rows and rows["asset_class"].astype(str).eq("vix_option").any():
+            return True
+        if "underlying" in rows and rows["underlying"].astype(str).str.upper().isin(["VIX", "VX_FRONT"]).any():
+            return True
+    aid = str(asset_id).upper()
+    return "VIX" in aid or "VX_FRONT" in aid
+
+
+def _option_fee_return(mark: float, config: ResearchCostConfig) -> float:
+    denom = float(mark) * float(config.option_multiplier)
+    fee = float(config.fee_per_contract_per_side)
+    if np.isfinite(denom) and denom > 0 and np.isfinite(fee) and fee >= 0:
+        return fee / denom
+    return 0.0
+
+
+def derive_entry_cost_series(
+    cost_inputs: pd.DataFrame,
+    contracts: Sequence[str],
+    *,
+    train_end: pd.Timestamp,
+    config: ResearchCostConfig = ResearchCostConfig(),
+) -> tuple[pd.Series, pd.DataFrame]:
+    """Derive point-in-time one-way entry costs for Sortino optimization.
+
+    Costs are expressed as return-on-premium: half the quoted relative spread
+    plus one per-side contract fee scaled by ``mark * option_multiplier``.
+    Only rows with ``return_date <= train_end`` are used. Rows with non-finite
+    or non-positive marks, or non-finite/negative relative spreads, are dropped
+    before averaging because they cannot define a finite quoted entry cost.
+    Contracts without surviving training rows use the class default spread
+    (equity vs. VIX option) plus a fee term based on the median training mark
+    for that class; if the class has no finite positive training marks, the fee
+    term is skipped.
+    """
+
+    contract_list = list(contracts)
+    out_index = pd.Index(contract_list)
+    empty_diag_cols = [
+        "asset_id",
+        "n_train_rows",
+        "mean_relative_spread",
+        "mean_mark",
+        "entry_cost",
+        "source",
+    ]
+    if len(contract_list) == 0:
+        return pd.Series(dtype=float, index=out_index), pd.DataFrame(columns=empty_diag_cols)
+
+    if cost_inputs.empty:
+        pool = pd.DataFrame(columns=["asset_id", "return_date", "mark", "relative_spread"])
+    else:
+        pool = cost_inputs.copy()
+        pool["return_date"] = pd.to_datetime(pool.get("return_date"), errors="coerce")
+        pool = pool.loc[pool["return_date"].le(pd.Timestamp(train_end))]
+
+    if pool.empty:
+        valid = pd.DataFrame(columns=list(pool.columns) + ["entry_cost", "asset_class_derived"])
+    else:
+        pool["mark"] = pd.to_numeric(pool.get("mark", np.nan), errors="coerce")
+        pool["relative_spread"] = pd.to_numeric(pool.get("relative_spread", np.nan), errors="coerce")
+        finite_mark = np.isfinite(pool["mark"]) & pool["mark"].gt(0)
+        finite_spread = np.isfinite(pool["relative_spread"]) & pool["relative_spread"].ge(0)
+        valid = pool.loc[finite_mark & finite_spread].copy()
+        if valid.empty:
+            valid["entry_cost"] = pd.Series(dtype=float)
+            valid["asset_class_derived"] = pd.Series(dtype=object)
+        else:
+            valid["entry_cost"] = 0.5 * valid["relative_spread"] + valid["mark"].map(
+                lambda mark: _option_fee_return(float(mark), config)
+            )
+            valid["asset_class_derived"] = [
+                "vix_option" if _is_vix_option_asset(aid, valid.loc[[idx]]) else "equity_option"
+                for idx, aid in valid["asset_id"].items()
+            ]
+
+    if valid.empty:
+        observed = pd.DataFrame(columns=empty_diag_cols).set_index("asset_id")
+        class_median_mark = pd.Series(dtype=float)
+    else:
+        observed = (
+            valid.groupby("asset_id")
+            .agg(
+                n_train_rows=("entry_cost", "size"),
+                mean_relative_spread=("relative_spread", "mean"),
+                mean_mark=("mark", "mean"),
+                entry_cost=("entry_cost", "mean"),
+            )
+            .sort_index()
+        )
+        class_median_mark = valid.groupby("asset_class_derived")["mark"].median()
+
+    diagnostics = []
+    entry_costs = []
+    for asset_id in contract_list:
+        if asset_id in observed.index:
+            row = observed.loc[asset_id]
+            cost = max(float(row["entry_cost"]), 0.0)
+            diagnostics.append(
+                {
+                    "asset_id": asset_id,
+                    "n_train_rows": int(row["n_train_rows"]),
+                    "mean_relative_spread": float(row["mean_relative_spread"]),
+                    "mean_mark": float(row["mean_mark"]),
+                    "entry_cost": cost,
+                    "source": "train_observed",
+                }
+            )
+            entry_costs.append(cost)
+            continue
+
+        asset_rows = pool.loc[pool.get("asset_id", pd.Series(dtype=object)).astype(str).eq(str(asset_id))] if not pool.empty else pd.DataFrame()
+        asset_class = "vix_option" if _is_vix_option_asset(asset_id, asset_rows) else "equity_option"
+        default_spread = (
+            config.default_vix_option_rel_spread
+            if asset_class == "vix_option"
+            else config.default_equity_option_rel_spread
+        )
+        median_mark = float(class_median_mark.get(asset_class, np.nan))
+        cost = max(0.5 * float(default_spread) + _option_fee_return(median_mark, config), 0.0)
+        diagnostics.append(
+            {
+                "asset_id": asset_id,
+                "n_train_rows": 0,
+                "mean_relative_spread": np.nan,
+                "mean_mark": median_mark if np.isfinite(median_mark) else np.nan,
+                "entry_cost": cost,
+                "source": "default_imputed",
+            }
+        )
+        entry_costs.append(cost)
+
+    entry_series = pd.Series(entry_costs, index=out_index, dtype=float)
+    entry_series = entry_series.replace([np.inf, -np.inf], np.nan).fillna(0.0).clip(lower=0.0)
+    diag = pd.DataFrame(diagnostics, columns=empty_diag_cols)
+    return entry_series, diag
 
 
 def _assignment_risk(row: pd.Series, short_position: bool) -> bool:
@@ -161,6 +435,12 @@ def compute_strategy_cost_ledgers(
         net[strategy] = gross_returns[strategy] if strategy in gross_returns else np.nan
         for return_date in gross_returns.index:
             gross_cost = 0.0
+            # Fail-closed accounting mirror of execution_cost_scenarios: when a
+            # position cannot be costed (unusable mark), it cannot keep its
+            # gross P&L, so its w_i * r_it contribution is excluded from the
+            # month's net return.  Positions with no ledger row at all
+            # correspond to zero-filled test returns (contribution already 0).
+            excluded_gross = 0.0
             margin_req = 0.0
             stress_margin = 0.0
             assignment_notional = 0.0
@@ -176,6 +456,11 @@ def compute_strategy_cost_ledgers(
                     row = row.iloc[0]
                 mark = float(row.get("mark", np.nan))
                 if not np.isfinite(mark) or mark <= 0:
+                    try:
+                        asset_return = float(row.get("option_return", np.nan))
+                    except (TypeError, ValueError):
+                        asset_return = np.nan
+                    excluded_gross += w * asset_return if np.isfinite(asset_return) else 0.0
                     continue
                 rel_spread = float(row.get("relative_spread", 0.10))
                 holding_years = float(row.get("holding_years", 21 / 365))
@@ -246,7 +531,9 @@ def compute_strategy_cost_ledgers(
                         }
                     )
             if strategy in net:
-                net.loc[return_date, strategy] = gross_returns.loc[return_date, strategy] - gross_cost
+                net.loc[return_date, strategy] = (
+                    gross_returns.loc[return_date, strategy] - gross_cost - excluded_gross
+                )
             margin_rows.append(
                 {
                     "return_date": return_date,
@@ -254,6 +541,7 @@ def compute_strategy_cost_ledgers(
                     "margin_requirement_nav": margin_req,
                     "stress_margin_nav": stress_margin,
                     "assignment_notional_nav": assignment_notional / config.nav_for_capacity if config.nav_for_capacity else np.nan,
+                    "excluded_gross_return_nav": excluded_gross,
                     "margin_model": "conservative_research_simulation",
                 }
             )
@@ -318,5 +606,6 @@ __all__ = [
     "compute_strategy_cost_ledgers",
     "cost_diagnostics_table",
     "load_borrow_proxy",
+    "load_cbbo_spread_surface",
     "write_environment_lock",
 ]

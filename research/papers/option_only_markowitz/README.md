@@ -70,7 +70,20 @@ make verify
 make test
 ```
 
-The verifier checks data lineage, point-in-time timing, optimizer constraints, settlement coverage, cost ledgers, figures, bibliography scope, PDF rendering, and claim boundaries. The latest verification report is in `verification/verification_report.md`.
+The verifier records the current check count in `verification/verification_summary.json` and covers data lineage, point-in-time timing, optimizer constraints, settlement coverage, cost ledgers, figures, bibliography scope, PDF rendering, and claim boundaries, including independent recomputation of the reported performance metrics and ordering checks on every bootstrap confidence interval. The latest verification report is in `verification/verification_report.md`.
+
+## New Research Diagnostics
+
+The pipeline also emits repaired execution-sensitivity scenarios, a cost-aware Sortino variant, a CBBO spread cost surface, and VIX chain state diagnostics. The repaired scenarios use `_repaired` labels and are execution-sensitivity analysis only; they are deliberately excluded from headline growth tables and the reality-check family. The `Cost-aware Sortino + VIX` strategy uses train-window-only entry-cost estimates and is diagnostic rather than a headline or simulation strategy, although its gross and scenario columns expand the reality-check family. `make cbbo-surface` builds `data/feature_store/cbbo_spread_surface.parquet` from the local OPRA full-day CBBO cache when available, refining rows that otherwise fall back to class-default spreads. VIX chain features and vol-of-vol regime tables are diagnostics only and do not feed expected returns. All of these outputs remain research simulation evidence, not live tradability evidence.
+
+### Distributional Robustness Stage
+
+Run `make robustness` to build the distributional-robustness layer. The stage takes roughly
+35-40 minutes on the publication machine, uses fixed seeds recorded in
+`tables/distributional_robustness_summary.json`, and writes `artifacts/cv_*.csv`,
+`artifacts/mc_*.csv`, `tables/cv_*.tex`, `tables/mc_*.tex`, and the summary JSON. CPCV in
+this layer is intentionally non-PIT: it is an overfitting and path-distribution diagnostic,
+not a tradable out-of-sample claim.
 
 ## Claim Boundary
 

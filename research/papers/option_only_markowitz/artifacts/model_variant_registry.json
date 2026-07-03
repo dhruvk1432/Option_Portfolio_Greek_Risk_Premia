@@ -21,6 +21,13 @@
     "Seed":20260625
   },
   {
+    "Variant":"Cost-aware Sortino + VIX::gross",
+    "Basis":"gross",
+    "OOS start":"2021-01-29",
+    "OOS end":"2026-04-30",
+    "Seed":20260625
+  },
+  {
     "Variant":"Equal premium::gross",
     "Basis":"gross",
     "OOS start":"2021-01-29",
@@ -77,6 +84,13 @@
     "Seed":20260625
   },
   {
+    "Variant":"Cost-aware Sortino + VIX::mid",
+    "Basis":"mid",
+    "OOS start":"2021-01-29",
+    "OOS end":"2026-04-30",
+    "Seed":20260625
+  },
+  {
     "Variant":"Equal premium::mid",
     "Basis":"mid",
     "OOS start":"2021-01-29",
@@ -119,6 +133,13 @@
     "Seed":20260625
   },
   {
+    "Variant":"Cost-aware Sortino + VIX::half_spread",
+    "Basis":"half_spread",
+    "OOS start":"2021-01-29",
+    "OOS end":"2026-04-30",
+    "Seed":20260625
+  },
+  {
     "Variant":"Equal premium::half_spread",
     "Basis":"half_spread",
     "OOS start":"2021-01-29",
@@ -155,6 +176,13 @@
   },
   {
     "Variant":"Beta\/delta-neutral + VIX::full_spread",
+    "Basis":"full_spread",
+    "OOS start":"2021-01-29",
+    "OOS end":"2026-04-30",
+    "Seed":20260625
+  },
+  {
+    "Variant":"Cost-aware Sortino + VIX::full_spread",
     "Basis":"full_spread",
     "OOS start":"2021-01-29",
     "OOS end":"2026-04-30",

@@ -1,4 +1,4 @@
-\section{Conclusions}
+\section{Conclusions}\label{sec:conclusion}
 
 The durable contribution is the option cashflow and risk-accounting framework. A listed
 option enters the allocation problem only after it has been represented as a premium-funded
@@ -10,8 +10,9 @@ Greek-induced covariance matrix replace ordinary asset means and covariances.
 The validation layer supports a coherent point-in-time research implementation, not
 production tradability. Gross Sharpe, VIX hedge behavior, and option convexity are not
 enough. They must survive premium accounting, exact settlement controls, post-cost
-research accounting, beta and Greek attribution, inference, leave-one-out tests, and
-no-lookahead checks. VIX options are useful in the framework because they are volatility
+accounting at both the executable-cost and stress-cost layers, beta and Greek attribution,
+inference with family-wise corrections, leave-one-out tests, cross-validation and
+synthetic-universe robustness diagnostics, and no-lookahead checks. VIX options are useful in the framework because they are volatility
 instruments rather than equity substitutes, but their expiry P\&L becomes headline-grade
 only when exact VRO/SOQ settlement supports the rows being reported.
 

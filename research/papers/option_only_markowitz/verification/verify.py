@@ -21,7 +21,7 @@ import sys
 import tempfile
 from dataclasses import asdict, dataclass
 from pathlib import Path
-from typing import Any, Iterable
+from typing import Any, Iterable, Sequence
 
 import numpy as np
 import pandas as pd
@@ -248,9 +248,37 @@ def regenerate_artifacts(v: Verifier, skip: bool) -> None:
         v.check("empirical regeneration skipped", "producer", True, details="Fast audit mode explicitly skipped regeneration.", severity=WARNING)
         return
     cmd = [sys.executable, "-m", "research.papers.option_only_markowitz.analysis.run_empirics"]
-    res = _run(cmd, ROOT, timeout=900)
+    res = _run(cmd, ROOT, timeout=1800)
     v.check(
         "empirical runner exits cleanly",
+        "producer",
+        res.returncode == 0,
+        observed=f"exit={res.returncode}",
+        expected="exit=0",
+        details=res.stdout[-1200:],
+    )
+
+
+def regenerate_robustness_artifacts(v: Verifier, skip: bool) -> None:
+    if skip:
+        v.check(
+            "robustness regeneration skipped",
+            "producer",
+            True,
+            details="Robustness regeneration is opt-in; pass --with-robustness to rerun the long stage.",
+            severity=WARNING,
+        )
+        return
+    cmd = [
+        sys.executable,
+        "-m",
+        "research.papers.option_only_markowitz.analysis.run_empirics",
+        "--stage",
+        "robustness",
+    ]
+    res = _run(cmd, ROOT, timeout=3600)
+    v.check(
+        "robustness runner exits cleanly",
         "producer",
         res.returncode == 0,
         observed=f"exit={res.returncode}",
@@ -308,6 +336,12 @@ def load_summary(v: Verifier) -> dict[str, Any]:
             "performance_post_cost",
             "post_cost_survival",
             "cost_scenario_diagnostics",
+            "execution_repair_diagnostics",
+            "execution_repair_comparison",
+            "repair_config",
+            "sortino_diagnostics",
+            "sortino_entry_cost_summary",
+            "cost_input_spread_sources",
             "liquidity_tier_performance",
             "liquidity_tier_diagnostics",
             "forecast_ablation_performance",
@@ -322,6 +356,9 @@ def load_summary(v: Verifier) -> dict[str, Any]:
             "vix_settlement_coverage",
             "vix_settlement_audit",
             "vix_required_settlement_download_audit",
+            "vix_chain_feature_summary",
+            "vol_of_vol_regime_performance",
+            "data_extension_manifest",
         }
         v.check("empirical summary schema", "artifacts", required.issubset(summary.keys()), observed=sorted(summary.keys()), expected=sorted(required))
         return summary
@@ -340,6 +377,10 @@ def check_required_outputs(v: Verifier) -> None:
         TABLE_DIR / "portfolio_performance.tex",
         TABLE_DIR / "inference_summary.tex",
         TABLE_DIR / "cost_capacity_margin_diagnostics.tex",
+        TABLE_DIR / "cost_input_spread_source_coverage.tex",
+        TABLE_DIR / "sortino_objective_diagnostics.tex",
+        TABLE_DIR / "execution_repair_diagnostics.tex",
+        TABLE_DIR / "execution_repair_comparison.tex",
         TABLE_DIR / "vix_settlement_coverage.tex",
         TABLE_DIR / "vix_settlement_audit.tex",
         TABLE_DIR / "vix_required_settlement_download_audit.tex",
@@ -356,11 +397,21 @@ def check_required_outputs(v: Verifier) -> None:
         ART_DIR / "strategy_returns.csv",
         ART_DIR / "strategy_returns_post_cost.csv",
         ART_DIR / "net_strategy_returns_by_cost_scenario.csv",
+        ART_DIR / "net_strategy_returns_by_cost_scenario_repaired.csv",
         ART_DIR / "required_capital_returns.csv",
         ART_DIR / "cost_ledger.csv",
         ART_DIR / "cost_scenario_ledger.csv",
+        ART_DIR / "cost_scenario_ledger_repaired.csv",
         ART_DIR / "rejected_trade_ledger.csv",
+        ART_DIR / "rejected_trade_ledger_repaired.csv",
         ART_DIR / "required_capital_ledger.csv",
+        ART_DIR / "required_capital_ledger_repaired.csv",
+        ART_DIR / "repaired_trade_ledger.csv",
+        ART_DIR / "execution_repair_diagnostics.csv",
+        ART_DIR / "execution_repair_comparison.csv",
+        ART_DIR / "sortino_entry_costs.csv",
+        ART_DIR / "sortino_objective_diagnostics.csv",
+        ART_DIR / "cost_input_spread_source_coverage.csv",
         ART_DIR / "capacity_ledger.csv",
         ART_DIR / "research_margin_ledger.csv",
         ART_DIR / "assignment_risk_ledger.csv",
@@ -381,6 +432,9 @@ def check_required_outputs(v: Verifier) -> None:
         ART_DIR / "vix_settlement_audit.csv",
         ART_DIR / "vro_soq_download_audit.csv",
         ART_DIR / "vix_required_settlement_download_audit.csv",
+        ART_DIR / "vix_chain_state_features.csv",
+        ART_DIR / "vol_of_vol_regime_performance.csv",
+        ART_DIR / "data_extension_manifest.csv",
         ART_DIR / "strategy_weights.csv",
         ART_DIR / "holding_return_detail.csv",
         ART_DIR / "vix_holding_return_detail.csv",
@@ -397,6 +451,7 @@ def check_required_outputs(v: Verifier) -> None:
         TABLE_DIR / "drawdown_breach_rates.tex",
         TABLE_DIR / "simulation_assumptions.tex",
         TABLE_DIR / "capacity_market_impact_diagnostics.tex",
+        TABLE_DIR / "vol_of_vol_regime_performance.tex",
         ART_DIR / "simulation_summary.csv",
         ART_DIR / "simulation_assumptions.csv",
         ART_DIR / "drawdown_breach_rates.csv",
@@ -447,7 +502,9 @@ def check_inputs_and_data(v: Verifier, summary: dict[str, Any]) -> None:
             panel, reps, returns = emp.load_bucket_panel()
             v.check("filtered equity panel row count", "data", len(panel) > 100_000, observed=len(panel), expected=">100000")
             v.check("equity representative choices", "data", len(reps) > 1_000, observed=len(reps), expected=">1000")
-            v.check("equity return cells finite", "data", np.isfinite(returns.stack().to_numpy(float)).all(), observed=int(returns.count().sum()))
+            # Missing bucket-months are legitimate panel sparsity; the check guards
+            # against infinities among observed cells (stack() keeps NaN under pandas>=3).
+            v.check("equity return cells finite", "data", np.isfinite(returns.stack().dropna().to_numpy(float)).all(), observed=int(returns.count().sum()))
             v.check("equity return lower bound", "data", float(np.nanmin(returns.to_numpy(float))) >= -1.0000001, observed=float(np.nanmin(returns.to_numpy(float))), expected=">=-1")
             v.check("primary underlyings present", "data", set(PRIMARY).issubset(set(panel["underlying"].unique())), observed=sorted(panel["underlying"].unique()))
             finite_cols = ["close", "spot", "strike", "delta", "gamma", "vega", "theta", "iv_proxy"]
@@ -819,6 +876,835 @@ def check_empirical_reproduction(v: Verifier, summary: dict[str, Any]) -> None:
     v.check("rolling 36M OOS recorded", "empirical", float(rolling.get("Rolling 36M OOS months", 0)) > 0, observed=rolling.get("Rolling 36M OOS months"))
 
 
+def _read_artifact_csv(v: Verifier, path: Path, label: str) -> pd.DataFrame | None:
+    if not path.exists():
+        return None
+    try:
+        return pd.read_csv(path)
+    except pd.errors.EmptyDataError:
+        return pd.DataFrame()
+    except Exception as exc:
+        v.check(f"{label} parses", "empirical", False, observed=path, details=f"{type(exc).__name__}: {exc}")
+        return None
+
+
+ROBUSTNESS_ARTIFACTS = [
+    "artifacts/cv_fold_schedule.csv",
+    "artifacts/cv_fold_ledger.csv",
+    "artifacts/cv_split_is_oos.csv",
+    "artifacts/cv_cpcv_path_metrics.csv",
+    "artifacts/cv_cpcv_path_month_returns.csv",
+    "artifacts/cv_pbo_summary.csv",
+    "artifacts/cv_regime_performance.csv",
+    "artifacts/cv_runtime_log.csv",
+    "artifacts/cv_context_consistency.csv",
+    "artifacts/mc_resampled_fixed_paths.csv",
+    "artifacts/mc_resampled_summary.csv",
+    "artifacts/mc_refit_paths.csv",
+    "artifacts/mc_refit_summary.csv",
+    "artifacts/mc_resampled_assumptions.csv",
+    "artifacts/mc_repriced_paths.csv",
+    "artifacts/mc_repriced_summary.csv",
+    "artifacts/mc_repriced_paths_gauss_copula.csv",
+    "artifacts/mc_repriced_summary_gauss_copula.csv",
+    "artifacts/mc_repriced_assumptions.csv",
+    "artifacts/mc_universe_comparison.csv",
+]
+
+ROBUSTNESS_TABLES = [
+    "tables/cv_fold_performance.tex",
+    "tables/cv_cpcv_distribution.tex",
+    "tables/cv_regime_performance.tex",
+    "tables/mc_resampled_universes.tex",
+    "tables/mc_refit_stability.tex",
+    "tables/mc_repriced_universes.tex",
+    "tables/mc_universe_comparison.tex",
+    "tables/mc_repriced_assumptions.tex",
+]
+
+ROBUSTNESS_FIGURES = [
+    "figures/cv_cpcv_sharpe_distribution.pdf",
+    "figures/cv_fold_sharpe_heatmap.pdf",
+    "figures/mc_universe_sharpe_distributions.pdf",
+]
+
+ROBUSTNESS_SUMMARY = "tables/distributional_robustness_summary.json"
+
+ROBUSTNESS_SUMMARY_KEYS = {
+    "cv_config",
+    "cv_fold_schedule",
+    "cv_fold_ledger",
+    "cv_cpcv_path_metrics",
+    "cv_pbo",
+    "cv_regime_performance",
+    "cv_context_consistency",
+    "mc_resampled_summary",
+    "mc_refit_summary",
+    "mc_repriced_summary",
+    "mc_repriced_assumptions",
+    "mc_universe_comparison",
+    "runtime_seconds",
+    "seeds",
+}
+
+
+def check_distributional_robustness(v: Verifier, paper_dir: Path = PAPER) -> None:
+    """Audit robustness-stage artifacts when they are present.
+
+    Fresh clones may not ship the 35-40 minute robustness outputs.  If every
+    robustness artifact is absent, this records a warning-level pass and leaves
+    the headline verifier usable.  Once any robustness output exists, the
+    complete artifact contract is enforced.
+    """
+
+    base = Path(paper_dir)
+    required_rel = ROBUSTNESS_ARTIFACTS + ROBUSTNESS_TABLES + ROBUSTNESS_FIGURES + [ROBUSTNESS_SUMMARY]
+    existing = [rel for rel in required_rel if (base / rel).exists()]
+    if not existing:
+        v.check(
+            "distributional robustness artifacts absent",
+            "robustness",
+            True,
+            observed="absent",
+            expected="optional long-running stage",
+            details="Run make robustness or pass --with-robustness to the verifier to generate these diagnostics.",
+            severity=WARNING,
+        )
+        return
+
+    missing = [rel for rel in required_rel if not (base / rel).exists()]
+    v.check(
+        "distributional robustness outputs exist",
+        "robustness",
+        not missing,
+        observed=missing,
+        expected="all cv_*/mc_* artifacts, tables, figures, and summary JSON",
+    )
+
+    summary_path = base / ROBUSTNESS_SUMMARY
+    summary: dict[str, Any] = {}
+    if summary_path.exists():
+        try:
+            summary = json.loads(summary_path.read_text(encoding="utf-8"))
+            v.check(
+                "distributional robustness summary schema",
+                "robustness",
+                ROBUSTNESS_SUMMARY_KEYS.issubset(summary.keys()),
+                observed=sorted(summary.keys()),
+                expected=sorted(ROBUSTNESS_SUMMARY_KEYS),
+            )
+        except Exception as exc:
+            v.check("distributional robustness summary parses", "robustness", False, observed=type(exc).__name__, details=str(exc))
+            return
+    else:
+        v.check("distributional robustness summary exists", "robustness", False, observed=summary_path)
+        return
+
+    art = base / "artifacts"
+    table = base / "tables"
+    schedule = _read_csv_for_check(v, art / "cv_fold_schedule.csv", "CV fold schedule", "robustness")
+    fold_ledger = _read_csv_for_check(v, art / "cv_fold_ledger.csv", "CV fold ledger", "robustness")
+    path_metrics = _read_csv_for_check(v, art / "cv_cpcv_path_metrics.csv", "CPCV path metrics", "robustness")
+    path_returns = _read_csv_for_check(v, art / "cv_cpcv_path_month_returns.csv", "CPCV path month returns", "robustness")
+    pbo = _read_csv_for_check(v, art / "cv_pbo_summary.csv", "CV PBO summary", "robustness")
+    context = _read_csv_for_check(v, art / "cv_context_consistency.csv", "CV context consistency", "robustness")
+
+    _check_cv_combinatorics(v, summary, schedule, path_metrics)
+    _check_cv_purge_embargo(v, summary, schedule, fold_ledger, path_returns)
+    _check_cpcv_path_coverage(v, path_metrics, path_returns)
+    _check_pbo_bounds(v, summary, pbo)
+    _check_cv_context_consistency(v, context)
+    _check_mc_path_counts(v, summary, art)
+    _check_repriced_assumptions(v, summary, art / "mc_repriced_assumptions.csv")
+    _check_robustness_tex_headers(v, [table / Path(rel).name for rel in ROBUSTNESS_TABLES])
+
+
+def _read_csv_for_check(v: Verifier, path: Path, label: str, category: str) -> pd.DataFrame | None:
+    if not path.exists():
+        return None
+    try:
+        return pd.read_csv(path)
+    except pd.errors.EmptyDataError:
+        v.check(f"{label} is nonempty", category, False, observed=path)
+        return pd.DataFrame()
+    except Exception as exc:
+        v.check(f"{label} parses", category, False, observed=path, details=f"{type(exc).__name__}: {exc}")
+        return None
+
+
+def _check_cv_combinatorics(
+    v: Verifier,
+    summary: dict[str, Any],
+    schedule: pd.DataFrame | None,
+    path_metrics: pd.DataFrame | None,
+) -> None:
+    config = summary.get("cv_config", {}) if isinstance(summary.get("cv_config"), dict) else {}
+    try:
+        n_groups = int(config.get("n_groups"))
+        n_test_groups = int(config.get("n_test_groups"))
+    except Exception:
+        v.check("CV config has combinatoric fields", "robustness", False, observed=config)
+        return
+
+    if schedule is not None and not schedule.empty and {"scheme", "fold_id"}.issubset(schedule.columns):
+        kfold_count = int(schedule.loc[schedule["scheme"].astype(str).eq("kfold"), "fold_id"].nunique())
+        cpcv_count = int(schedule.loc[schedule["scheme"].astype(str).eq("cpcv"), "fold_id"].nunique())
+        v.check("blocked k-fold count matches config", "robustness", kfold_count == n_groups, observed=kfold_count, expected=n_groups)
+        v.check(
+            "CPCV split count matches config",
+            "robustness",
+            cpcv_count == math.comb(n_groups, n_test_groups),
+            observed=cpcv_count,
+            expected=math.comb(n_groups, n_test_groups),
+        )
+    else:
+        v.check("CV schedule has scheme/fold_id columns", "robustness", False, observed=list(schedule.columns) if schedule is not None else "missing")
+
+    if path_metrics is not None and not path_metrics.empty and {"path_id", "status"}.issubset(path_metrics.columns):
+        status = path_metrics["status"].astype(str)
+        complete_count = int(path_metrics.loc[status.eq("complete"), "path_id"].nunique())
+        expected_paths = math.comb(n_groups - 1, n_test_groups - 1)
+        v.check(
+            "complete CPCV path count matches config",
+            "robustness",
+            complete_count == expected_paths,
+            observed={"complete": complete_count, "status_counts": status.value_counts().to_dict()},
+            expected=expected_paths,
+        )
+    else:
+        v.check("CPCV path metrics have path_id/status columns", "robustness", False, observed=list(path_metrics.columns) if path_metrics is not None else "missing")
+
+
+def _check_cv_purge_embargo(
+    v: Verifier,
+    summary: dict[str, Any],
+    schedule: pd.DataFrame | None,
+    fold_ledger: pd.DataFrame | None,
+    path_returns: pd.DataFrame | None,
+) -> None:
+    config = summary.get("cv_config", {}) if isinstance(summary.get("cv_config"), dict) else {}
+    try:
+        n_groups = int(config.get("n_groups"))
+        purge = int(config.get("purge_months", 0))
+        embargo = int(config.get("embargo_months", 0))
+    except Exception:
+        v.check("CV purge config available", "robustness", False, observed=config)
+        return
+    if schedule is None or schedule.empty:
+        v.check("CV purge schedule available", "robustness", False, observed="missing")
+        return
+    if path_returns is None or path_returns.empty or "return_date" not in path_returns.columns:
+        v.check("CPCV path returns provide month grid", "robustness", False, observed=list(path_returns.columns) if path_returns is not None else "missing")
+        return
+
+    month_grid = pd.DatetimeIndex(pd.to_datetime(path_returns["return_date"], errors="coerce").dropna().unique()).sort_values()
+    if len(month_grid) == 0:
+        v.check("CPCV path returns month grid nonempty", "robustness", False, observed=0)
+        return
+    group_ids = np.empty(len(month_grid), dtype=int)
+    for group_id, positions in enumerate(np.array_split(np.arange(len(month_grid)), n_groups)):
+        group_ids[positions] = group_id
+    pos_by_date = {pd.Timestamp(dt): pos for pos, dt in enumerate(month_grid)}
+
+    violations: list[dict[str, Any]] = []
+    checked = 0
+    for _, row in schedule.iterrows():
+        fold_id = str(row.get("fold_id", ""))
+        groups = _parse_group_ids(row.get("test_groups", ""))
+        if not groups:
+            violations.append({"fold_id": fold_id, "issue": "missing test_groups"})
+            continue
+        test_pos = sorted(int(pos) for pos, gid in enumerate(group_ids) if int(gid) in groups)
+        if not test_pos:
+            violations.append({"fold_id": fold_id, "issue": "empty reconstructed test positions", "groups": groups})
+            continue
+        expected_purge_pos: set[int] = set()
+        expected_embargo_pos: set[int] = set()
+        for start, end in _contiguous_position_blocks(test_pos):
+            expected_purge_pos.update(range(max(0, start - purge), min(len(month_grid) - 1, end + purge) + 1))
+            expected_embargo_pos.update(range(end + purge + 1, min(len(month_grid) - 1, end + purge + embargo) + 1))
+        test_set = set(test_pos)
+        expected_purge_pos.difference_update(test_set)
+        expected_embargo_pos.difference_update(test_set)
+        expected_embargo_pos.difference_update(expected_purge_pos)
+
+        parsed_purge = _parse_semicolon_dates(row.get("purged_dates", ""))
+        parsed_embargo = _parse_semicolon_dates(row.get("embargoed_dates", ""))
+        parsed_purge_pos = {pos_by_date[dt] for dt in parsed_purge if dt in pos_by_date}
+        parsed_embargo_pos = {pos_by_date[dt] for dt in parsed_embargo if dt in pos_by_date}
+        unknown_dates = sorted((parsed_purge | parsed_embargo).difference(pos_by_date))
+        train_pos = set(range(len(month_grid))).difference(test_set).difference(parsed_purge_pos).difference(parsed_embargo_pos)
+        n_train_observed = _maybe_int(row.get("n_train"))
+
+        if expected_purge_pos != parsed_purge_pos:
+            violations.append(
+                {
+                    "fold_id": fold_id,
+                    "issue": "purged_dates mismatch",
+                    "missing": _dates_from_positions(month_grid, expected_purge_pos - parsed_purge_pos),
+                    "extra": _dates_from_positions(month_grid, parsed_purge_pos - expected_purge_pos),
+                }
+            )
+        if expected_embargo_pos != parsed_embargo_pos:
+            violations.append(
+                {
+                    "fold_id": fold_id,
+                    "issue": "embargoed_dates mismatch",
+                    "missing": _dates_from_positions(month_grid, expected_embargo_pos - parsed_embargo_pos),
+                    "extra": _dates_from_positions(month_grid, parsed_embargo_pos - expected_embargo_pos),
+                }
+            )
+        leaked = sorted(train_pos.intersection(expected_purge_pos | expected_embargo_pos))
+        if leaked:
+            violations.append({"fold_id": fold_id, "issue": "train month inside purge/embargo window", "dates": _dates_from_positions(month_grid, leaked)})
+        if unknown_dates:
+            violations.append({"fold_id": fold_id, "issue": "scheduled date outside month grid", "dates": [dt.strftime("%Y-%m-%d") for dt in unknown_dates]})
+        if n_train_observed is not None and int(n_train_observed) != len(train_pos):
+            violations.append({"fold_id": fold_id, "issue": "n_train mismatch", "observed": int(n_train_observed), "recomputed": len(train_pos)})
+        checked += 1
+
+    ledger_folds = int(fold_ledger["fold_id"].nunique()) if fold_ledger is not None and "fold_id" in fold_ledger else 0
+    v.check(
+        "CV purge/embargo invariant recomputed from schedule",
+        "robustness",
+        checked > 0 and not violations,
+        observed=violations[:10],
+        expected=f"no train month within purge={purge}/embargo={embargo} windows; ledger_folds={ledger_folds}",
+    )
+
+
+def _check_cpcv_path_coverage(
+    v: Verifier,
+    path_metrics: pd.DataFrame | None,
+    path_returns: pd.DataFrame | None,
+) -> None:
+    needed = {"path_id", "strategy", "basis", "status"}
+    if path_metrics is None or path_metrics.empty or not needed.issubset(path_metrics.columns):
+        v.check("CPCV path metrics schema for coverage", "robustness", False, observed=list(path_metrics.columns) if path_metrics is not None else "missing", expected=sorted(needed))
+        return
+    needed_returns = {"path_id", "return_date", "strategy", "basis"}
+    if path_returns is None or path_returns.empty or not needed_returns.issubset(path_returns.columns):
+        v.check("CPCV path returns schema for coverage", "robustness", False, observed=list(path_returns.columns) if path_returns is not None else "missing", expected=sorted(needed_returns))
+        return
+
+    ret = path_returns.copy()
+    ret["return_date"] = pd.to_datetime(ret["return_date"], errors="coerce")
+    month_grid = set(pd.DatetimeIndex(ret["return_date"].dropna().unique()))
+    complete = path_metrics[path_metrics["status"].astype(str).eq("complete")]
+    violations: list[dict[str, Any]] = []
+    checked = 0
+    for _, row in complete[["path_id", "strategy", "basis"]].drop_duplicates().iterrows():
+        mask = (
+            ret["path_id"].astype(str).eq(str(row["path_id"]))
+            & ret["strategy"].astype(str).eq(str(row["strategy"]))
+            & ret["basis"].astype(str).eq(str(row["basis"]))
+        )
+        sub = ret.loc[mask, "return_date"].dropna()
+        counts = sub.value_counts()
+        missing = sorted(month_grid.difference(set(sub)))
+        duplicated = sorted(counts[counts > 1].index)
+        if len(sub) != len(month_grid) or missing or duplicated:
+            violations.append(
+                {
+                    "path_id": row["path_id"],
+                    "strategy": row["strategy"],
+                    "basis": row["basis"],
+                    "rows": int(len(sub)),
+                    "months": int(len(month_grid)),
+                    "missing": [pd.Timestamp(dt).strftime("%Y-%m-%d") for dt in missing[:5]],
+                    "duplicated": [pd.Timestamp(dt).strftime("%Y-%m-%d") for dt in duplicated[:5]],
+                }
+            )
+        checked += 1
+    v.check(
+        "complete CPCV paths cover every month exactly once",
+        "robustness",
+        checked > 0 and not violations,
+        observed=violations[:10],
+        expected="one row per return month for each complete path/strategy/basis",
+    )
+
+
+def _check_pbo_bounds(v: Verifier, summary: dict[str, Any], pbo_csv: pd.DataFrame | None) -> None:
+    pbo = pd.DataFrame(summary.get("cv_pbo", []))
+    if pbo.empty and pbo_csv is not None:
+        pbo = pbo_csv
+    if pbo.empty or "PBO" not in pbo.columns:
+        v.check("PBO summary schema", "robustness", False, observed=list(pbo.columns), expected="PBO")
+        return
+    values = pd.to_numeric(pbo["PBO"], errors="coerce")
+    ok = bool(values.notna().all() and ((values >= 0.0) & (values <= 1.0)).all())
+    v.check("PBO values bounded", "robustness", ok, observed=values.to_list(), expected="[0, 1]")
+
+
+def _check_cv_context_consistency(v: Verifier, context: pd.DataFrame | None) -> None:
+    if context is None or context.empty or not {"status", "max_abs_diff"}.issubset(context.columns):
+        v.check("CV context consistency schema", "robustness", False, observed=list(context.columns) if context is not None else "missing", expected="status/max_abs_diff")
+        return
+    ok_rows = context[context["status"].astype(str).eq("ok")]
+    values = pd.to_numeric(ok_rows["max_abs_diff"], errors="coerce")
+    passed = bool(values.notna().all() and (values < 1e-8).all())
+    v.check(
+        "CV context consistency diffs are negligible",
+        "robustness",
+        passed,
+        observed={"max": float(values.max()) if len(values) else np.nan, "rows": int(len(ok_rows))},
+        expected="<1e-8 for status ok",
+    )
+
+
+def _check_mc_path_counts(v: Verifier, summary: dict[str, Any], art: Path) -> None:
+    expected = _expected_mc_counts(summary, art)
+    fixed = _read_csv_for_check(v, art / "mc_resampled_fixed_paths.csv", "MC fixed paths", "robustness")
+    refit = _read_csv_for_check(v, art / "mc_refit_paths.csv", "MC refit paths", "robustness")
+    repriced = _read_csv_for_check(v, art / "mc_repriced_paths.csv", "MC repriced paths", "robustness")
+    gauss = _read_csv_for_check(v, art / "mc_repriced_paths_gauss_copula.csv", "MC gaussian-copula repriced paths", "robustness")
+
+    if fixed is not None and not fixed.empty and {"universe_family", "basis", "path_id"}.issubset(fixed.columns):
+        counts = fixed.groupby(["universe_family", "basis"], dropna=False)["path_id"].nunique()
+        target = expected.get("fixed")
+        v.check("MC fixed-weight path counts match config", "robustness", target is not None and bool((counts == target).all()), observed=counts.to_dict(), expected=target)
+    else:
+        v.check("MC fixed-weight path schema", "robustness", False, observed=list(fixed.columns) if fixed is not None else "missing")
+
+    if refit is not None and not refit.empty and "path_id" in refit.columns:
+        count = int(refit["path_id"].nunique())
+        target = expected.get("refit")
+        v.check("MC refit path count matches config", "robustness", target is not None and count == target, observed=count, expected=target)
+    else:
+        v.check("MC refit path schema", "robustness", False, observed=list(refit.columns) if refit is not None else "missing")
+
+    if repriced is not None and not repriced.empty and {"method", "path_id"}.issubset(repriced.columns):
+        counts = repriced.groupby("method", dropna=False)["path_id"].nunique()
+        target = expected.get("reprice")
+        joint_ok = target is not None and bool((counts == target).all())
+        v.check("MC repriced path counts match config", "robustness", joint_ok, observed=counts.to_dict(), expected=target)
+    else:
+        v.check("MC repriced path schema", "robustness", False, observed=list(repriced.columns) if repriced is not None else "missing")
+
+    if gauss is not None and not gauss.empty and {"method", "path_id"}.issubset(gauss.columns):
+        counts = gauss.groupby("method", dropna=False)["path_id"].nunique()
+        target = expected.get("reprice_sensitivity")
+        v.check("MC gaussian-copula path counts match config", "robustness", target is not None and bool((counts == target).all()), observed=counts.to_dict(), expected=target)
+    else:
+        v.check("MC gaussian-copula path schema", "robustness", False, observed=list(gauss.columns) if gauss is not None else "missing")
+
+
+def _check_repriced_assumptions(v: Verifier, summary: dict[str, Any], csv_path: Path) -> None:
+    assumptions = pd.DataFrame(summary.get("mc_repriced_assumptions", []))
+    if assumptions.empty and csv_path.exists():
+        assumptions = pd.read_csv(csv_path)
+    if assumptions.empty:
+        v.check("repriced assumptions available", "robustness", False, observed=csv_path)
+        return
+    text = " ".join(assumptions.fillna("").astype(str).stack().tolist()).lower()
+    has_one_step = "pricing tenor rule" in text and "one-step" in text and "1-month" in text
+    has_vx_front = "vix forward convention" in text and ("vx-front" in text or "vx_front" in text) and "vix level" in text
+    v.check("repriced assumptions include one-step tenor row", "robustness", has_one_step, observed="Pricing Tenor Rule", expected="one-step 1-month")
+    v.check("repriced assumptions include VX-front convention row", "robustness", has_vx_front, observed="VIX Forward Convention", expected="VX-front premium / VIX-level settlement")
+
+
+def _check_robustness_tex_headers(v: Verifier, paths: list[Path]) -> None:
+    violations = []
+    parsed = 0
+    for path in paths:
+        if not path.exists():
+            continue
+        header, _rows = _parse_tex_table(path)
+        if not header:
+            violations.append({"table": path.name, "issue": "no parsed header"})
+            continue
+        parsed += 1
+        raw = [cell for cell in header if re.search(r"(?<!\\)_", cell)]
+        if raw:
+            violations.append({"table": path.name, "raw_underscore_headers": raw})
+    v.check(
+        "robustness table headers escape underscores",
+        "robustness",
+        parsed > 0 and not violations,
+        observed=violations,
+        expected="no raw underscore in parsed header rows",
+    )
+
+
+def _expected_mc_counts(summary: dict[str, Any], art: Path) -> dict[str, int | None]:
+    resample_config = _first_mapping(summary, ["resample_config", "mc_resample_config", "mc_config"])
+    reprice_config = _first_mapping(summary, ["reprice_config", "mc_reprice_config", "mc_config"])
+    out: dict[str, int | None] = {
+        "fixed": _first_int(resample_config, ["n_paths", "fixed_weight_path_count", "fixed_paths", "mc_paths", "resample_paths"]),
+        "refit": _first_int(resample_config, ["n_refit_paths", "refit_path_count", "mc_refit_paths", "refit_paths"]),
+        "reprice": _first_int(reprice_config, ["n_paths", "reprice_path_count", "mc_reprice_paths", "reprice_paths"]),
+        "reprice_sensitivity": _first_int(reprice_config, ["n_sensitivity_paths", "sensitivity_path_count", "gaussian_copula_paths"]),
+    }
+    resampled_assumptions = art / "mc_resampled_assumptions.csv"
+    if resampled_assumptions.exists():
+        frame = pd.read_csv(resampled_assumptions)
+        out["fixed"] = out["fixed"] or _assumption_int(frame, "Fixed Weight Path Count")
+        out["refit"] = out["refit"] or _assumption_int(frame, "Refit Path Count")
+    reprice_assumptions = pd.DataFrame(summary.get("mc_repriced_assumptions", []))
+    if reprice_assumptions.empty and (art / "mc_repriced_assumptions.csv").exists():
+        reprice_assumptions = pd.read_csv(art / "mc_repriced_assumptions.csv")
+    if not reprice_assumptions.empty:
+        out["reprice"] = out["reprice"] or _assumption_int(reprice_assumptions, "Path Count")
+    # The current summary schema records the default repriced count but not the
+    # gaussian-copula sensitivity count.  Keep the stable stage default as the
+    # fallback so the shipped artifact inventory remains auditable.
+    out["reprice_sensitivity"] = out["reprice_sensitivity"] or 250
+    return out
+
+
+def _first_mapping(summary: dict[str, Any], keys: list[str]) -> dict[str, Any]:
+    for key in keys:
+        value = summary.get(key)
+        if isinstance(value, dict):
+            return value
+    return {}
+
+
+def _first_int(mapping: dict[str, Any], keys: list[str]) -> int | None:
+    for key in keys:
+        if key in mapping:
+            val = _maybe_int(mapping[key])
+            if val is not None:
+                return val
+    return None
+
+
+def _assumption_int(frame: pd.DataFrame, item: str) -> int | None:
+    if frame.empty:
+        return None
+    key_col = "Assumption" if "Assumption" in frame.columns else "Item" if "Item" in frame.columns else None
+    if key_col is None or "Value" not in frame.columns:
+        return None
+    match = frame[frame[key_col].astype(str).str.lower().eq(item.lower())]
+    if match.empty:
+        return None
+    return _maybe_int(match["Value"].iloc[0])
+
+
+def _maybe_int(value: Any) -> int | None:
+    try:
+        if pd.isna(value):
+            return None
+        return int(float(value))
+    except Exception:
+        return None
+
+
+def _parse_group_ids(value: Any) -> set[int]:
+    return {int(x) for x in re.findall(r"\d+", str(value))}
+
+
+def _parse_semicolon_dates(value: Any) -> set[pd.Timestamp]:
+    if value is None or (isinstance(value, float) and math.isnan(value)):
+        return set()
+    out: set[pd.Timestamp] = set()
+    for part in str(value).split(";"):
+        text = part.strip()
+        if not text:
+            continue
+        ts = pd.to_datetime(text, errors="coerce")
+        if not pd.isna(ts):
+            out.add(pd.Timestamp(ts))
+    return out
+
+
+def _contiguous_position_blocks(positions: Sequence[int]) -> list[tuple[int, int]]:
+    ordered = sorted(int(p) for p in positions)
+    if not ordered:
+        return []
+    blocks: list[tuple[int, int]] = []
+    start = prev = ordered[0]
+    for pos in ordered[1:]:
+        if pos == prev + 1:
+            prev = pos
+            continue
+        blocks.append((start, prev))
+        start = prev = pos
+    blocks.append((start, prev))
+    return blocks
+
+
+def _dates_from_positions(month_grid: pd.DatetimeIndex, positions: Iterable[int]) -> list[str]:
+    return [pd.Timestamp(month_grid[int(pos)]).strftime("%Y-%m-%d") for pos in sorted(positions)]
+
+
+def _ledger_key_set(frame: pd.DataFrame, columns: list[str]) -> set[tuple[str, ...]]:
+    if frame is None or frame.empty or not set(columns).issubset(frame.columns):
+        return set()
+    out = frame[columns].copy()
+    if "return_date" in out:
+        out["return_date"] = pd.to_datetime(out["return_date"], errors="coerce").dt.strftime("%Y-%m-%d")
+    return set(map(tuple, out.fillna("").astype(str).to_numpy()))
+
+
+def check_pipeline_extension_artifacts(v: Verifier) -> None:
+    repaired_path = ART_DIR / "repaired_trade_ledger.csv"
+    repaired = _read_artifact_csv(v, repaired_path, "repaired trade ledger")
+    if repaired is not None:
+        required_cols = {
+            "return_date",
+            "strategy",
+            "scenario",
+            "asset_id",
+            "repair_reason",
+            "decision_mark",
+            "effective_fill_price",
+            "fill_fraction",
+        }
+        has_cols = required_cols.issubset(repaired.columns)
+        v.check("repaired trade ledger schema", "empirical", has_cols, observed=list(repaired.columns), expected=sorted(required_cols))
+        if "scenario" in repaired:
+            labels = sorted(set(repaired["scenario"].dropna().astype(str)))
+            bad = [label for label in labels if not label.endswith("_repaired")]
+            v.check("repaired trade ledger scenarios are suffixed", "empirical", not bad, observed=bad, expected="all scenario labels end with _repaired")
+        if "repair_reason" in repaired:
+            hard_pattern = r"missing_cost_input|assignment|dividend|exercise|deep_itm|hard_to_borrow"
+            reasons = repaired["repair_reason"].fillna("").astype(str).str.lower()
+            hard_rows = repaired.loc[reasons.str.contains(hard_pattern, regex=True, na=False)]
+            v.check(
+                "repaired trade ledger excludes hard-gate reasons",
+                "empirical",
+                hard_rows.empty,
+                observed=hard_rows[["return_date", "strategy", "scenario", "asset_id", "repair_reason"]].head(10).to_dict(orient="records") if has_cols else int(len(hard_rows)),
+                expected="no missing_cost_input, assignment, dividend, exercise, deep-ITM, or hard-to-borrow repair reasons",
+            )
+        if {"repair_reason", "decision_mark", "effective_fill_price", "fill_fraction"}.issubset(repaired.columns):
+            reasons = repaired["repair_reason"].fillna("").astype(str)
+            quote_reasons = (
+                reasons.str.replace("capacity_partial_fill", "", regex=False)
+                .str.replace("+", "", regex=False)
+                .str.strip()
+            )
+            quote_mask = quote_reasons.ne("")
+            marks = pd.to_numeric(repaired["decision_mark"], errors="coerce")
+            fills = pd.to_numeric(repaired["effective_fill_price"], errors="coerce")
+            deviation = (fills / marks - 1.0).abs()
+            quote_dev = deviation.loc[quote_mask]
+            quote_ok = bool(quote_dev.notna().all() and (quote_dev <= 0.10 + 1e-9).all())
+            v.check(
+                "quote repairs respect 10 percent fill band",
+                "empirical",
+                quote_ok,
+                observed=float(quote_dev.max()) if len(quote_dev) else 0.0,
+                expected="<=0.10 + 1e-9",
+            )
+            capacity_mask = reasons.str.contains("capacity_partial_fill", regex=False, na=False)
+            fractions = pd.to_numeric(repaired.loc[capacity_mask, "fill_fraction"], errors="coerce")
+            frac_ok = bool(fractions.notna().all() and ((fractions >= 0.10 - 1e-9) & (fractions <= 1.0 + 1e-9)).all())
+            v.check(
+                "capacity partial repairs respect fill fraction bounds",
+                "empirical",
+                frac_ok,
+                observed={"min": float(fractions.min()) if len(fractions) else 1.0, "max": float(fractions.max()) if len(fractions) else 1.0},
+                expected="[0.10 - 1e-9, 1.0 + 1e-9]",
+            )
+
+    net_repaired_path = ART_DIR / "net_strategy_returns_by_cost_scenario_repaired.csv"
+    net_repaired = _read_artifact_csv(v, net_repaired_path, "repaired scenario returns")
+    if net_repaired is not None:
+        scenario_labels = sorted({str(c).rsplit("::", 1)[-1] for c in net_repaired.columns if "::" in str(c)})
+        bad = [label for label in scenario_labels if not label.endswith("_repaired")]
+        v.check(
+            "repaired scenario return columns are suffixed",
+            "empirical",
+            bool(scenario_labels) and not bad,
+            observed=bad if bad else scenario_labels,
+            expected="all scenario labels end with _repaired",
+        )
+
+    rejected_repaired = _read_artifact_csv(v, ART_DIR / "rejected_trade_ledger_repaired.csv", "repaired rejected trade ledger")
+    if repaired is not None and rejected_repaired is not None:
+        hard_pattern = r"missing_cost_input|assignment|dividend|exercise|deep_itm|hard_to_borrow"
+        if {"return_date", "strategy", "scenario", "asset_id"}.issubset(repaired.columns) and {"return_date", "strategy", "scenario", "asset_id", "reject_reason"}.issubset(rejected_repaired.columns):
+            hard_rejected = rejected_repaired.loc[
+                rejected_repaired["reject_reason"].fillna("").astype(str).str.lower().str.contains(hard_pattern, regex=True, na=False)
+            ]
+            key_cols = ["return_date", "strategy", "scenario", "asset_id"]
+            overlap = _ledger_key_set(repaired, key_cols) & _ledger_key_set(hard_rejected, key_cols)
+            v.check(
+                "repaired trades are not hard-gate rejections",
+                "empirical",
+                not overlap,
+                observed=sorted(overlap)[:10],
+                expected="no repaired row also rejected for missing_cost_input or assignment/dividend hard gates",
+            )
+
+    sortino_costs = _read_artifact_csv(v, ART_DIR / "sortino_entry_costs.csv", "Sortino entry costs")
+    if sortino_costs is not None:
+        has_entry_cost = "entry_cost" in sortino_costs.columns
+        v.check("Sortino entry cost schema", "empirical", has_entry_cost, observed=list(sortino_costs.columns), expected="entry_cost")
+        if has_entry_cost:
+            entry_cost = pd.to_numeric(sortino_costs["entry_cost"], errors="coerce")
+            vals = entry_cost.to_numpy(float)
+            ok = bool(np.isfinite(vals).all() and (vals >= 0.0).all())
+            v.check(
+                "Sortino entry costs finite nonnegative",
+                "empirical",
+                ok,
+                observed={"min": float(entry_cost.min()) if len(entry_cost) else 0.0, "max": float(entry_cost.max()) if len(entry_cost) else 0.0},
+                expected="finite and >= 0",
+            )
+
+    spread_sources = _read_artifact_csv(v, ART_DIR / "cost_input_spread_source_coverage.csv", "cost input spread source coverage")
+    if spread_sources is not None:
+        has_source = "relative_spread_source" in spread_sources.columns
+        v.check("cost input spread source coverage schema", "empirical", has_source, observed=list(spread_sources.columns), expected="relative_spread_source")
+        if has_source:
+            sources = set(spread_sources["relative_spread_source"].dropna().astype(str))
+            allowed = {"panel_cbbo", "surface_cbbo", "default"}
+            v.check("cost input spread sources are recognized", "empirical", sources.issubset(allowed), observed=sorted(sources), expected=sorted(allowed))
+
+    manifest = _read_artifact_csv(v, ART_DIR / "data_extension_manifest.csv", "data extension manifest")
+    if manifest is not None:
+        has_dataset = "dataset" in manifest.columns
+        v.check("data extension manifest schema", "empirical", has_dataset, observed=list(manifest.columns), expected="dataset")
+        if has_dataset:
+            datasets = set(manifest["dataset"].dropna().astype(str))
+            required = {"opra_surface_full_day_cbbo", "opra_vix_chain_*", "opra_{UND}_slices_*"}
+            v.check(
+                "data extension manifest records expected dataset families",
+                "empirical",
+                required.issubset(datasets),
+                observed=sorted(datasets),
+                expected=sorted(required),
+            )
+
+
+def _parse_tex_table(path: Path) -> tuple[list[str], list[list[str]]]:
+    """Parse a booktabs tabular written by ``_write_latex_table``."""
+
+    if not path.exists():
+        return [], []
+    lines = [ln.strip() for ln in path.read_text(encoding="utf-8").splitlines()]
+    header: list[str] = []
+    rows: list[list[str]] = []
+    seen_toprule = False
+    seen_midrule = False
+    for ln in lines:
+        if ln.startswith("\\toprule"):
+            seen_toprule = True
+            continue
+        if ln.startswith("\\midrule"):
+            seen_midrule = True
+            continue
+        if ln.startswith("\\bottomrule"):
+            break
+        if not ln.endswith("\\\\"):
+            continue
+        cells = [c.strip() for c in ln[:-2].split("&")]
+        if seen_toprule and not seen_midrule and not header:
+            header = cells
+        elif seen_midrule:
+            rows.append(cells)
+    return header, rows
+
+
+def _tex_cell_float(cell: str) -> float:
+    text = str(cell).strip().replace("\\%", "%")
+    if text in {"", "--", "nan", "NaN"}:
+        return float("nan")
+    try:
+        return float(text)
+    except ValueError:
+        return float("nan")
+
+
+def _tex_cell_text(cell: str) -> str:
+    return str(cell).strip().replace("\\_", "_").replace("\\&", "&").replace("\\%", "%")
+
+
+def check_independent_stat_recomputation(v: Verifier) -> None:
+    """Raw-numpy re-implementation of Sharpe/ann. return/vol vs published table.
+
+    Deliberately avoids the producer modules' performance functions: the
+    statistics are recomputed from artifacts/strategy_returns*.csv with plain
+    numpy (mean*12, std(ddof=1)*sqrt(12), ratio) and compared against
+    tables/portfolio_performance.tex within rounding tolerance.
+    """
+
+    perf_path = TABLE_DIR / "portfolio_performance.tex"
+    gross_path = ART_DIR / "strategy_returns.csv"
+    net_path = ART_DIR / "strategy_returns_post_cost.csv"
+    if not (perf_path.exists() and gross_path.exists() and net_path.exists()):
+        v.check("independent stat recompute inputs available", "inference", False, observed=str(perf_path))
+        return
+    header, rows = _parse_tex_table(perf_path)
+    if not header or "Strategy" not in header:
+        v.check("portfolio performance table parses", "inference", False, observed=header)
+        return
+    idx = {name: i for i, name in enumerate(header)}
+    frames = {
+        "Gross before costs": pd.read_csv(gross_path, parse_dates=["snap_date"]).set_index("snap_date"),
+        "Post-cost research": pd.read_csv(net_path, parse_dates=["snap_date"]).set_index("snap_date"),
+    }
+    tol = 2e-3  # published table is rounded to 3 decimals
+    checked = 0
+    for cells in rows:
+        basis = _tex_cell_text(cells[idx["Return basis"]]) if "Return basis" in idx else "Gross before costs"
+        strategy = _tex_cell_text(cells[idx["Strategy"]])
+        frame = frames.get(basis)
+        if frame is None or strategy not in frame.columns:
+            v.check(f"independent recompute source column exists: {basis}/{strategy}", "inference", False, observed=strategy)
+            continue
+        x = frame[strategy].to_numpy(dtype=float)
+        x = x[np.isfinite(x)]
+        ann_ret = float(np.mean(x) * 12.0)
+        ann_vol = float(np.std(x, ddof=1) * np.sqrt(12.0))
+        sharpe = ann_ret / ann_vol if ann_vol > 0 else float("nan")
+        for label, observed in [("Ann. return", ann_ret), ("Ann. vol", ann_vol), ("Sharpe", sharpe)]:
+            published = _tex_cell_float(cells[idx[label]]) if label in idx else float("nan")
+            ok = _close_or_both_nan(observed, published, tol=tol)
+            v.check(
+                f"independent numpy stat matches table: {basis} / {strategy} / {label}",
+                "inference",
+                ok,
+                observed=observed,
+                expected=published,
+            )
+            checked += 1
+    v.check("independent stat recompute coverage", "inference", checked >= 24, observed=checked, expected=">=24")
+
+
+def check_ci_pairs_ordered(v: Verifier) -> None:
+    """Every emitted 'CI lo'/'CI hi' pair in published tables must satisfy lo <= hi."""
+
+    tables_with_ci = 0
+    for tex in sorted(TABLE_DIR.glob("*.tex")):
+        header, rows = _parse_tex_table(tex)
+        if not header:
+            continue
+        pairs = []
+        for i, name in enumerate(header):
+            clean = _tex_cell_text(name)
+            if "CI lo" in clean:
+                target = clean.replace("CI lo", "CI hi")
+                for j, other in enumerate(header):
+                    if _tex_cell_text(other) == target:
+                        pairs.append((clean, i, j))
+                        break
+        if not pairs:
+            continue
+        tables_with_ci += 1
+        violations = []
+        for cells in rows:
+            for label, i, j in pairs:
+                if i >= len(cells) or j >= len(cells):
+                    continue
+                lo = _tex_cell_float(cells[i])
+                hi = _tex_cell_float(cells[j])
+                if np.isfinite(lo) and np.isfinite(hi) and lo > hi + 1e-9:
+                    violations.append({"table": tex.name, "column": label, "lo": lo, "hi": hi})
+        v.check(
+            f"CI lo <= CI hi in {tex.name}",
+            "inference",
+            not violations,
+            observed=violations[:5],
+            expected="all CI pairs ordered",
+        )
+    v.check("CI ordering audit covers tables", "inference", tables_with_ci >= 4, observed=tables_with_ci, expected=">=4 tables with CI pairs")
+
+
 def _independent_factor_regression(returns: pd.DataFrame, factors: pd.DataFrame) -> pd.DataFrame:
     factor_cols = [emp.SPY_UNDERLYING] + PRIMARY + ["VX_FRONT", "dVIX", "dVVIX"]
     x = factors.reindex(returns.index).reindex(columns=factor_cols)
@@ -1025,9 +1911,16 @@ def build_hash_manifest(v: Verifier) -> pd.DataFrame:
     return manifest
 
 
-def run_verification(skip_regenerate: bool = False, skip_compile: bool = False, skip_render: bool = False) -> Verifier:
+def run_verification(
+    skip_regenerate: bool = False,
+    skip_compile: bool = False,
+    skip_render: bool = False,
+    with_robustness: bool = False,
+    skip_robustness: bool = False,
+) -> Verifier:
     v = Verifier()
     regenerate_artifacts(v, skip_regenerate)
+    regenerate_robustness_artifacts(v, skip=(skip_robustness or not with_robustness))
     compile_paper(v, skip_compile)
     check_required_outputs(v)
     summary = load_summary(v)
@@ -1035,6 +1928,10 @@ def run_verification(skip_regenerate: bool = False, skip_compile: bool = False, 
     check_pit_ledgers(v)
     check_math_and_optimizer(v)
     check_empirical_reproduction(v, summary)
+    check_pipeline_extension_artifacts(v)
+    check_distributional_robustness(v)
+    check_independent_stat_recomputation(v)
+    check_ci_pairs_ordered(v)
     check_claims_and_bibliography(v)
     check_paper_quality(v, skip_render, skip_compile=skip_compile)
     manifest = build_hash_manifest(v)
@@ -1046,11 +1943,17 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--skip-regenerate", action="store_true", help="Do not rerun the empirical artifact producer.")
     parser.add_argument("--skip-compile", action="store_true", help="Do not rerun pdflatex/bibtex compilation.")
     parser.add_argument("--skip-render", action="store_true", help="Do not render PDF pages to PNG.")
+    parser.add_argument("--with-robustness", action="store_true", help="Regenerate the long distributional-robustness stage before checking artifacts.")
+    parser.add_argument("--skip-robustness", action="store_true", help="Explicitly skip robustness regeneration (the default).")
     args = parser.parse_args(argv)
+    if args.with_robustness and args.skip_robustness:
+        parser.error("--with-robustness and --skip-robustness are mutually exclusive")
     v, manifest = run_verification(
         skip_regenerate=args.skip_regenerate,
         skip_compile=args.skip_compile,
         skip_render=args.skip_render,
+        with_robustness=args.with_robustness,
+        skip_robustness=args.skip_robustness,
     )
     v.write_outputs(" ".join([Path(sys.executable).name, "-m", "research.papers.option_only_markowitz.verification.verify"] + (argv or sys.argv[1:])), manifest)
     return 1 if v.fail_count(critical_only=True) else 0

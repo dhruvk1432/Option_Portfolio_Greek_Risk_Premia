@@ -15,6 +15,8 @@ import json
 import numpy as np
 import pandas as pd
 
+from .repair import REPAIR_ACTIONS, REPAIR_LEDGER_COLUMNS
+
 
 @dataclass
 class ProductionCheck:
@@ -57,6 +59,8 @@ class ProductionVerifier:
         settlement = self._read_csv("settlement_ledger.csv")
         execution = self._read_csv("execution_ledger.csv")
         fills = self._read_csv("fill_ledger.csv")
+        repair_path = self.output_dir / "repair_ledger.csv"
+        repair = self._read_csv("repair_ledger.csv")
         margin = self._read_csv("margin_ledger.csv")
         assignment = self._read_csv("assignment_ledger.csv")
         recon = self._read_csv("data_reconciliation_ledger.csv")
@@ -64,6 +68,7 @@ class ProductionVerifier:
 
         self._check_settlement(settlement)
         self._check_execution_and_fills(execution, fills)
+        self._check_repair(repair, repair_path.exists())
         self._check_margin(execution, margin)
         self._check_assignment(execution, assignment)
         self._check_reconciliation(recon, broker_recon)
@@ -96,6 +101,30 @@ class ProductionVerifier:
                 self.check("no optimistic midpoint fill model", "execution", not bool(optimistic), observed=fills["fill_model"].value_counts().to_dict())
                 self.check("positive fill prices", "execution", pd.to_numeric(fills["price"], errors="coerce").gt(0).all(), observed=fills["price"].describe().to_dict())
                 self.check("nonnegative explicit fees", "execution", pd.to_numeric(fills["fees"], errors="coerce").ge(0).all(), observed=fills["fees"].describe().to_dict())
+
+    def _check_repair(self, repair: pd.DataFrame, exists: bool) -> None:
+        if not exists:
+            self.check("repair ledger optional", "repair", True, critical=False, observed="absent", expected="optional repair_ledger.csv")
+            return
+        expected_columns = list(REPAIR_LEDGER_COLUMNS)
+        exact_schema = list(repair.columns) == expected_columns
+        self.check("repair ledger schema", "repair", exact_schema, observed=list(repair.columns), expected=expected_columns)
+        if not exact_schema:
+            return
+        allowed_actions = set(REPAIR_ACTIONS)
+        actions_ok = repair["action"].astype(str).isin(allowed_actions).all()
+        self.check("repair ledger actions allowed", "repair", bool(actions_ok), observed=repair["action"].value_counts().to_dict(), expected=sorted(allowed_actions))
+        replaced = repair[repair["action"].astype(str).str.startswith("replaced_")]
+        if not replaced.empty:
+            drift = pd.to_numeric(replaced["adverse_drift_bps"], errors="coerce")
+            max_adverse_drift_bps = 100.0
+            self.check(
+                "repair replaced rows within adverse drift bound",
+                "repair",
+                drift.le(max_adverse_drift_bps).all(),
+                observed=drift.describe().to_dict(),
+                expected={"max_adverse_drift_bps": max_adverse_drift_bps},
+            )
 
     def _check_margin(self, execution: pd.DataFrame, margin: pd.DataFrame) -> None:
         self.check("margin ledger exists", "margin", not margin.empty, observed=len(margin), expected=">0 rows")

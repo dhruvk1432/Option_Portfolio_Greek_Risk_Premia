@@ -1,5 +1,5 @@
 
-\section{Data}
+\section{Data}\label{sec:data}
 
 The empirical design is a monthly, point-in-time allocation study over listed equity options
 and VIX options. The investable equity-option universe is restricted to AAPL, AMZN, GOOGL,
@@ -19,19 +19,27 @@ count, train/test split, settlement status, and post-cost layer used in the base
   Equity options & OPRA/Databento-derived single-name option panels \\
   VIX options & raw VIX chain shards with VX-forward alignment \\\bottomrule\end{tabular}}
 \caption{Empirical design summary. The table identifies the option universe, monthly
-snapshots, train/test split, VIX settlement status, and post-cost convention used in this
-sample and under these conventions.}
+snapshots, train/test split, VIX settlement status, and post-cost conventions used in the
+baseline run.}
 \label{tab:data_summary}
 \end{table}
 
 The train/test split is frozen at December 31, 2020. Training observations through that date
 estimate expected option returns, covariance objects, residual risk, factor exposures, and
 implementation screens. Test observations after that date are reserved for out-of-sample
-portfolio evaluation. Rebalancing is monthly. At each decision date, the research
-implementation sees only the option panel, state variables, underlying prices, VX curve,
-forecast inputs, and cost inputs observable at or before that date. The realized option
-return is then measured at the next monthly realization date or at listed expiry, according
-to the holding ledger.
+portfolio evaluation. The out-of-sample window runs from January 29, 2021 to April 30,
+2026: 60 monthly snapshots spanning 64 calendar months. Four calendar months (May 2021,
+March 2022, March 2024, and March 2025) have no ledger row because no representative
+contract passed the eligibility screens at those decision dates; they are absent from the
+return series rather than imputed. Months in which the book holds only cash collateral are
+recorded at the zero financing rate, that is, as exact zero returns under the
+zero-financing numeraire of Remark~\ref{rem:zero_financing}; the counterfactual
+hurdle/no-trade ledger (\path{artifacts/no_trade_periods.csv}) additionally records, for
+each snapshot, the expected-return hurdles at which the optimizer would have stood aside
+entirely. Rebalancing is monthly. At each decision date, the research implementation sees
+only the option panel, state variables, underlying prices, VX curve, forecast inputs, and
+cost inputs observable at or before that date. The realized option return is then measured
+at the next monthly realization date or at listed expiry, according to the holding ledger.
 
 Equity-option rolling buckets convert expiring contracts into stable empirical objects
 without pretending that options are perpetual assets. For each underlying, right,
@@ -51,6 +59,18 @@ VIX3M enter only as state variables. Exact VRO/SOQ settlement is a claim gate: a
 becomes headline-grade only when the expiry row uses \texttt{vro\_soq\_exact}. Proxy rows,
 if any, remain appendix diagnostics and cannot support listed-settlement claims.
 
+The settlement gate has a selection cost that should be stated plainly. Of the 630
+representative VIX option rows selected by the monthly screens, 536 (about 85\%) carry a
+parsed exact VRO/SOQ settlement and enter the holding ledger; the remaining 94 rows (about
+15\%) lack a parsed exact settlement and are \emph{excluded} from settlement-gated
+evidence rather than proxied with the VIX close. The exclusions are concentrated in
+2015--2018---including 20 required 2017 expiries whose SOQ files could not be parsed
+exactly (Table~\ref{tab:vix_download_audit_app})---so the retained VIX rows
+under-represent an eventful era for the VIX complex, and the training-window VIX evidence
+carries a potential coverage bias in the direction of calmer settlement prints. The
+expiry-level exact-versus-proxy comparison is written to the machine-readable audit
+\path{artifacts/vix_settlement_audit.csv}.
+
 \begin{table}[H]
 \centering
 \scriptsize
@@ -58,17 +78,24 @@ if any, remain appendix diagnostics and cannot support listed-settlement claims.
   {\resizebox{0.62\textwidth}{!}{\input{tables/vix_settlement_coverage}}}
   {\begin{tabular}{lll}\toprule Source & Rows & Claim status \\\midrule
   VIX close proxy & generated if VRO absent & diagnostic only \\\bottomrule\end{tabular}}
-\caption{VIX settlement coverage. VIX option evidence is headline-grade only when every
-VIX expiry row used in headline tables has \texttt{vro\_soq\_exact} settlement.}
+\caption{VIX settlement coverage. VIX option evidence supports listed-settlement claims
+only when every VIX expiry row used in the main tables has \texttt{vro\_soq\_exact}
+settlement.}
 \label{tab:vix_settlement}
 \end{table}
 
 Marks, payoffs, settlement, and costs are treated as first-order design choices. Option
 weights are premium exposures per dollar of NAV. The mark source, payoff date, settlement
 source, Greek model, state snapshot, and train-end date are recorded before performance is
-reported. Post-cost research returns use three executable-cost scenarios, explicit fees,
-spread haircuts, no-fill rules, capacity limits, simulated margin/stress capital, borrow
-proxies, and assignment-risk flags. These conventions are adequate for a research paper on
+reported. Post-cost evidence is produced at two deliberately different intensities. The
+\emph{executable-cost scenarios} charge entry frictions only: midpoint, half-spread, and
+full-spread quoted-spread crossing plus explicit fees, with no-fill rules and capacity
+limits. The \emph{conservative stress-cost layer} additionally charges round-trip spread
+crossing, slippage, borrow proxies, capacity penalties, simulated margin/stress-capital
+funding, and assignment-risk penalties; it is a stress bound rather than an execution
+estimate. Section~\ref{sec:results} reconciles the two layers, and
+Table~\ref{tab:option_accounting_contract} summarizes the accounting contract each
+instrument must satisfy. These conventions are adequate for a research paper on
 allocation mechanics because they test whether the option-only Markowitz object can be
 constructed, audited, stress-screened, and evaluated out of sample. They are not adequate
 for production trading claims because they do not contain broker-routed orders, live quote
@@ -86,10 +113,14 @@ Equity option & Premium weight times mark or payoff return & Treats the option a
 Short option & Premium received plus future liability & Hides tail and assignment exposure \\
 VIX option & Black--76 exposure to matched VX forward & Treats spot VIX as tradable \\
 Cash/collateral & NAV numeraire, not optimized asset & Converts the model into a stock-cash allocation \\
-Post-cost layer & Spreads, fees, slippage, borrow, capacity, margin, assignment flags & Promotes gross research returns to false trading evidence \\
+Executable-cost scenarios & Mid/half/full quoted-spread entry frictions plus fees & Overstates net returns if spreads are crossed in full \\
+Stress-cost layer & Round-trip spreads, fees, slippage, borrow, capacity, margin funding, assignment flags & Promotes gross research returns to false trading evidence \\
 \bottomrule
 \end{tabularx}
 \caption{Option accounting contract. Each object is represented by the cashflow convention
-that must be specified before the optimizer can compare it with another option.}
+that must be specified before the optimizer can compare it with another option. The two
+post-cost rows are distinct layers: the executable-cost scenarios are the realistic
+research estimate, the stress-cost layer is a conservative bound
+(Section~\ref{sec:results}).}
 \label{tab:option_accounting_contract}
 \end{table}

@@ -1,33 +1,33 @@
 Return basis,Strategy,Requested method,Simulation,Breach 10%,Breach 25%,Breach 50%,Breach 75%,Breach 90%
 Gross before costs,Equity-option Greek Markowitz,circular_block_bootstrap,circular_block_bootstrap,1.0,1.0,0.983,0.77,0.298
-Gross before costs,Equity-option Greek Markowitz,egarch_or_ewma,ewma_residual_fallback_insufficient_egarch_obs,1.0,1.0,0.987,0.708,0.296
+Gross before costs,Equity-option Greek Markowitz,egarch_or_ewma,garch11_residual_fallback_insufficient_egarch_obs,1.0,1.0,0.976,0.742,0.424
 Gross before costs,Greek Markowitz + VIX,circular_block_bootstrap,circular_block_bootstrap,1.0,0.996,0.795,0.135,0.005
-Gross before costs,Greek Markowitz + VIX,egarch_or_ewma,ewma_residual_fallback_insufficient_egarch_obs,1.0,0.999,0.884,0.379,0.136
+Gross before costs,Greek Markowitz + VIX,egarch_or_ewma,garch11_residual_fallback_insufficient_egarch_obs,1.0,0.996,0.814,0.373,0.146
 Gross before costs,Beta/delta-neutral + VIX,circular_block_bootstrap,circular_block_bootstrap,1.0,0.996,0.585,0.063,0.001
-Gross before costs,Beta/delta-neutral + VIX,egarch_or_ewma,ewma_residual_fallback_insufficient_egarch_obs,1.0,0.996,0.671,0.176,0.037
+Gross before costs,Beta/delta-neutral + VIX,egarch_or_ewma,garch11_residual_fallback_insufficient_egarch_obs,1.0,0.969,0.592,0.176,0.053
 Gross before costs,Delta-matched equities,circular_block_bootstrap,circular_block_bootstrap,1.0,1.0,0.902,0.548,0.175
-Gross before costs,Delta-matched equities,egarch_or_ewma,ewma_residual_fallback_insufficient_egarch_obs,1.0,1.0,0.896,0.358,0.069
+Gross before costs,Delta-matched equities,egarch_or_ewma,garch11_residual_fallback_insufficient_egarch_obs,1.0,0.998,0.778,0.282,0.068
 Gross before costs,Underlying Markowitz,circular_block_bootstrap,circular_block_bootstrap,0.981,0.432,0.013,0.0,0.0
-Gross before costs,Underlying Markowitz,egarch_or_ewma,ewma_residual_fallback_insufficient_egarch_obs,0.981,0.272,0.002,0.0,0.0
+Gross before costs,Underlying Markowitz,egarch_or_ewma,garch11_residual_fallback_insufficient_egarch_obs,0.962,0.3,0.011,0.0,0.0
 Gross before costs,Equal premium,circular_block_bootstrap,circular_block_bootstrap,1.0,1.0,1.0,0.999,0.995
-Gross before costs,Equal premium,egarch_or_ewma,ewma_residual_fallback_insufficient_egarch_obs,0.986,0.986,0.986,0.986,0.985
+Gross before costs,Equal premium,egarch_or_ewma,garch11_residual_fallback_insufficient_egarch_obs,1.0,1.0,1.0,1.0,0.999
 Gross before costs,Equal risk,circular_block_bootstrap,circular_block_bootstrap,1.0,1.0,1.0,0.973,0.841
-Gross before costs,Equal risk,egarch_or_ewma,ewma_residual_fallback_insufficient_egarch_obs,1.0,1.0,1.0,0.993,0.937
-Gross before costs,VIX hedge sleeve,circular_block_bootstrap,circular_block_bootstrap,0.437,0.437,0.437,0.437,0.437
-Gross before costs,VIX hedge sleeve,egarch_or_ewma,ewma_residual_fallback_insufficient_egarch_obs,1.0,1.0,1.0,1.0,1.0
-Full-spread post-cost,Equity-option Greek Markowitz,circular_block_bootstrap,circular_block_bootstrap,1.0,1.0,0.986,0.789,0.343
-Full-spread post-cost,Equity-option Greek Markowitz,egarch_or_ewma,ewma_residual_fallback_insufficient_egarch_obs,1.0,1.0,0.993,0.756,0.359
-Full-spread post-cost,Greek Markowitz + VIX,circular_block_bootstrap,circular_block_bootstrap,1.0,0.997,0.913,0.374,0.06
-Full-spread post-cost,Greek Markowitz + VIX,egarch_or_ewma,ewma_residual_fallback_insufficient_egarch_obs,1.0,1.0,0.948,0.503,0.181
-Full-spread post-cost,Beta/delta-neutral + VIX,circular_block_bootstrap,circular_block_bootstrap,1.0,1.0,0.799,0.251,0.035
-Full-spread post-cost,Beta/delta-neutral + VIX,egarch_or_ewma,ewma_residual_fallback_insufficient_egarch_obs,1.0,1.0,0.85,0.295,0.068
+Gross before costs,Equal risk,egarch_or_ewma,garch11_residual_fallback_insufficient_egarch_obs,1.0,1.0,1.0,0.993,0.938
+Gross before costs,VIX hedge sleeve,circular_block_bootstrap,circular_block_bootstrap,1.0,1.0,1.0,1.0,1.0
+Gross before costs,VIX hedge sleeve,egarch_or_ewma,garch11_residual_fallback_insufficient_egarch_obs,1.0,1.0,1.0,1.0,1.0
+Full-spread post-cost,Equity-option Greek Markowitz,circular_block_bootstrap,circular_block_bootstrap,1.0,0.857,0.269,0.006,0.001
+Full-spread post-cost,Equity-option Greek Markowitz,egarch_or_ewma,garch11_residual_fallback_insufficient_egarch_obs,1.0,0.973,0.533,0.091,0.006
+Full-spread post-cost,Greek Markowitz + VIX,circular_block_bootstrap,circular_block_bootstrap,1.0,1.0,0.858,0.232,0.009
+Full-spread post-cost,Greek Markowitz + VIX,egarch_or_ewma,garch11_residual_fallback_insufficient_egarch_obs,1.0,0.999,0.933,0.645,0.337
+Full-spread post-cost,Beta/delta-neutral + VIX,circular_block_bootstrap,circular_block_bootstrap,1.0,1.0,0.535,0.034,0.0
+Full-spread post-cost,Beta/delta-neutral + VIX,egarch_or_ewma,garch11_residual_fallback_insufficient_egarch_obs,1.0,0.991,0.768,0.315,0.083
 Full-spread post-cost,Delta-matched equities,circular_block_bootstrap,circular_block_bootstrap,1.0,1.0,0.902,0.548,0.175
-Full-spread post-cost,Delta-matched equities,egarch_or_ewma,ewma_residual_fallback_insufficient_egarch_obs,1.0,1.0,0.896,0.358,0.069
+Full-spread post-cost,Delta-matched equities,egarch_or_ewma,garch11_residual_fallback_insufficient_egarch_obs,1.0,0.998,0.778,0.282,0.068
 Full-spread post-cost,Underlying Markowitz,circular_block_bootstrap,circular_block_bootstrap,0.981,0.432,0.013,0.0,0.0
-Full-spread post-cost,Underlying Markowitz,egarch_or_ewma,ewma_residual_fallback_insufficient_egarch_obs,0.981,0.272,0.002,0.0,0.0
-Full-spread post-cost,Equal premium,circular_block_bootstrap,circular_block_bootstrap,1.0,1.0,1.0,1.0,0.999
-Full-spread post-cost,Equal premium,egarch_or_ewma,ewma_residual_fallback_insufficient_egarch_obs,0.986,0.986,0.986,0.986,0.986
-Full-spread post-cost,Equal risk,circular_block_bootstrap,circular_block_bootstrap,1.0,1.0,1.0,0.989,0.938
-Full-spread post-cost,Equal risk,egarch_or_ewma,ewma_residual_fallback_insufficient_egarch_obs,1.0,1.0,1.0,1.0,0.984
-Full-spread post-cost,VIX hedge sleeve,circular_block_bootstrap,circular_block_bootstrap,0.471,0.471,0.471,0.471,0.471
-Full-spread post-cost,VIX hedge sleeve,egarch_or_ewma,ewma_residual_fallback_insufficient_egarch_obs,1.0,1.0,1.0,1.0,1.0
+Full-spread post-cost,Underlying Markowitz,egarch_or_ewma,garch11_residual_fallback_insufficient_egarch_obs,0.962,0.3,0.011,0.0,0.0
+Full-spread post-cost,Equal premium,circular_block_bootstrap,circular_block_bootstrap,1.0,1.0,1.0,0.99,0.908
+Full-spread post-cost,Equal premium,egarch_or_ewma,garch11_residual_fallback_insufficient_egarch_obs,1.0,1.0,1.0,0.999,0.979
+Full-spread post-cost,Equal risk,circular_block_bootstrap,circular_block_bootstrap,1.0,1.0,0.996,0.869,0.56
+Full-spread post-cost,Equal risk,egarch_or_ewma,garch11_residual_fallback_insufficient_egarch_obs,1.0,1.0,0.997,0.857,0.508
+Full-spread post-cost,VIX hedge sleeve,circular_block_bootstrap,circular_block_bootstrap,1.0,1.0,1.0,1.0,1.0
+Full-spread post-cost,VIX hedge sleeve,egarch_or_ewma,garch11_residual_fallback_insufficient_egarch_obs,1.0,1.0,1.0,0.999,0.993

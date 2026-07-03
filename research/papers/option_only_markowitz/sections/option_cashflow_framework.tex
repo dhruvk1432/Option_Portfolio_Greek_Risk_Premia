@@ -1,8 +1,8 @@
-\section{Option Cashflow and Risk Framework}
+\section{Option Cashflow and Risk Framework}\label{sec:cashflow}
 
 The central modeling step is to express every option as a NAV-normalized cashflow. Let
 \(W_t\) be beginning portfolio NAV, \(q_{i,t}\) the signed premium weight assigned to option
-\(i\), and \(C_{i,t}>0\) the decision-date mark. The contract count is
+\(i\in\{1,\dots,n\}\), and \(C_{i,t}>0\) the decision-date mark. The contract count is
 \[
   N_{i,t}=\frac{q_{i,t}W_t}{C_{i,t}}.
 \]
@@ -10,67 +10,202 @@ Ignoring transaction costs and slippage for the gross theory object, but not ign
 option purchase price, the next-period NAV contribution is
 \[
   \frac{\Delta W_{i,t+1}}{W_t}
-  =q_{i,t}\frac{C_{i,t+1}-C_{i,t}}{C_{i,t}}.
+  =q_{i,t}\frac{C_{i,t+1}-C_{i,t}}{C_{i,t}}
+  =q_{i,t}\,r_{i,t+1},
+  \qquad
+  r_{i,t+1}:=\frac{C_{i,t+1}-C_{i,t}}{C_{i,t}},
 \]
-These are premium weights. A long option whose mark falls to zero loses exactly the paid
-premium weight. A short option is scaled by the premium it sold and then pays the future
-mark or payoff liability.
+which defines the one-period option mark return \(r_{i,t+1}\). These are premium weights. A
+long option whose mark falls to zero loses exactly the paid premium weight. A short option
+is scaled by the premium it sold and then pays the future mark or payoff liability. Summing
+over contracts and the residual cash account turns the contribution into an exact NAV
+recursion.
 
-For a call or put on equity underlying \(u\), the local mark change is approximated by the
-same Ito--Taylor accounting that underlies Black--Scholes--Merton option valuation
+\begin{proposition}[NAV accounting identity]\label{prop:nav}
+Let \(q_t\in\R^n\) be the premium-weight vector, \(r_{t+1}\) the option mark-return vector,
+and \(r_{f,t}\) the one-period financing rate earned on the residual cash
+\(W_t(1-\one^\top q_t)\). Then
+\[
+  \frac{W_{t+1}}{W_t}-1
+  =q_t^\top r_{t+1}+\bigl(1-\one^\top q_t\bigr)r_{f,t},
+  \qquad
+  \frac{W_{t+1}}{W_t}-1-r_{f,t}
+  =q_t^\top\bigl(r_{t+1}-r_{f,t}\one\bigr).
+\]
+\end{proposition}
+
+\begin{proof}
+At \(t+1\) the option book is worth
+\(\sum_i N_{i,t}C_{i,t+1}=W_t\sum_i q_{i,t}(1+r_{i,t+1})\) and the cash account is worth
+\(W_t(1-\one^\top q_t)(1+r_{f,t})\). Adding the two, dividing by \(W_t\), and subtracting
+\(1\) (and then \(r_{f,t}\)) gives both displays.
+\end{proof}
+
+\begin{remark}[Zero-financing numeraire]\label{rem:zero_financing}
+The baseline empirical run sets \(r_{f,t}=0\): residual cash and intra-month expiry
+proceeds earn nothing. Every Sharpe object reported in the paper is therefore a raw-return
+Sharpe ratio measured against a zero threshold, not an excess-of-cash Sharpe ratio. With
+\(r_{f,t}\neq0\), Proposition~\ref{prop:nav} shows the correct objective is the excess
+return \(q^\top(r_{t+1}-r_{f,t}\one)\), and the unconstrained maximum-Sharpe direction
+(Proposition~\ref{prop:maxsharpe}) becomes
+\(\Sigma_{O,t}^{-1}(\mu_{O,t}-r_{f,t}\one)\). Over the 2021--2026 sample, short rates were
+materially positive for much of the window, so the zero-financing convention forgoes
+collateral yield in the numerator while also applying a zero rather than a positive hurdle
+in the excess return; the two effects act in opposite directions. All strategies and
+benchmarks are reported under the same convention, so comparisons remain internally
+consistent, and readers can restate any row against a cash hurdle using the identity above.
+\end{remark}
+
+Two notational conventions apply throughout. The operator \(\Delta\) applied to a state
+variable always denotes a one-rebalance-period difference, for example
+\(\Delta S_u=S_{u,t+1}-S_{u,t}\) and \(\Delta\sigma_i=\sigma_{i,t+1}-\sigma_{i,t}\); the
+Black--Scholes and Black--76 hedge ratios carry a superscript,
+\(\Delta^{\mathrm{BS}}_i\) for equity options and \(\Delta^{VX}_j\) for VIX options, so the
+two uses never collide. The underlying simple return is \(R_u=\Delta S_u/S_u\).
+
+For a call or put on equity underlying \(u\), the mark change is decomposed by the same
+Ito--Taylor accounting that underlies Black--Scholes--Merton option valuation
 \citep{blackscholes1973,merton1973,shreve2004stochasticii}:
 \[
   \Delta C_i
-  \approx
-  \Delta_i \Delta S_u
+  =
+  \Delta^{\mathrm{BS}}_i\,\Delta S_u
   +\frac12\Gamma_i(\Delta S_u)^2
-  +\nu_i\Delta\sigma_i
-  +\Theta_i\Delta t
-  +\eta_i.
+  +\nu_i\,\Delta\sigma_i
+  +\Theta_i\,\Delta t
+  +\eta_i,
 \]
-The paper does not require Black--Scholes to be a globally correct pricing model for
-American single-name options. It uses the weaker local statement: an option mark can be
-expanded in spot, volatility, and time, with residual marking error left in \(\eta_i\).
+where \(\eta_i\) is \emph{defined} as the exact remainder, so the display holds with
+equality rather than approximately. The paper does not require Black--Scholes to be a
+globally correct pricing model for American single-name options. It uses the weaker local
+statement: an option mark can be expanded in spot, volatility, and time, with vanna, volga,
+higher-order terms, early-exercise premium movement, and marking error left in \(\eta_i\).
 
-Dividing by the option mark gives the return exposure map
+Dividing by the decision-date mark \(C_{i,t}\) gives the return exposure map
 \[
- r_i
+ r_{i,t+1}
  =
- \underbrace{\frac{\Delta_i S_u}{C_i}}_{b^\Delta_{i,u}}R_u
- +\underbrace{\frac12\frac{\Gamma_i S_u^2}{C_i}}_{b^\Gamma_{i,u}}R_u^2
- +\underbrace{\frac{\nu_i}{C_i}}_{b^\nu_{i,u}}\Delta\sigma_i
- +\underbrace{\frac{\Theta_i\Delta t}{C_i}}_{\theta_i^\ast}
- +\epsilon_i .
+ \underbrace{\frac{\Delta^{\mathrm{BS}}_i S_u}{C_{i,t}}}_{b^\Delta_{i,t}}R_u
+ +\underbrace{\frac{\Gamma_i S_u^2}{2C_{i,t}}}_{b^\Gamma_{i,t}}R_u^2
+ +\underbrace{\frac{\nu_i}{C_{i,t}}}_{b^\nu_{i,t}}\Delta\sigma_i
+ +\underbrace{\frac{\Theta_i\Delta t}{C_{i,t}}}_{\theta^{\ast}_{i,t}}
+ +\epsilon_{i,t+1},
+ \qquad
+ \epsilon_{i,t+1}=\frac{\eta_i}{C_{i,t}},
 \]
+again with equality because the scaled remainder is retained. The contract-level implied-vol
+change is mapped to its underlying's at-the-money factor through
+\(\Delta\sigma_i=\beta^{\sigma}_{i,t}\,\Delta\sigma^{\mathrm{ATM}}_{u(i)}
++(\text{smile remainder})\), with the smile remainder absorbed into \(\epsilon_{i,t+1}\).
 The coefficients are dimensionless option-return exposures. Deep out-of-the-money options
 can have large return exposure because the premium denominator is small. That is not a
-numerical nuisance. It is the reason option-only portfolios need explicit gross, per-contract,
-Greek, beta, and stress budgets.
+numerical nuisance. It is the reason option-only portfolios need explicit gross,
+per-contract, Greek, beta, and stress budgets.
 
-Stacking contracts gives the factor form
+\begin{remark}[Unit conventions]\label{rem:units}
+Marks \(C_{i,t}\) and Greeks are quoted per share; contract-level quantities carry the
+100-share multiplier, which cancels in every premium-weight ratio above. Volatilities are
+in decimal units (one vol point \(=0.01\)), \(\Theta_i\) is annualized, and \(\Delta t\) is
+the rebalance horizon in year fractions. Contract counts \(N_{i,t}=q_{i,t}W_t/C_{i,t}\) are
+fractional in the theory object; rounding to integer contracts perturbs each premium weight
+by at most \(C_{i,t}/W_t\) per contract, which the implementation treats as part of the
+cost and capacity layer rather than of the risk model.
+\end{remark}
+
+Stacking contracts gives the conditional factor form. The factor vector collects underlying
+returns, centered squared returns, at-the-money implied-volatility shocks, skew and
+tail-slope shocks, and the matched VX-forward returns with their centered squares,
 \[
-  r_O=\mu_{O,t}+B_t f_{t+1}+\varepsilon_{t+1},
-  \qquad
-  \Sigma_{O,t}=B_t\Omega_tB_t^\top+\Sigma_{\varepsilon,t}.
+\begin{aligned}
+  f_{t+1}
+  =\Bigl(\,&R_{u},\;
+  R_{u}^{2}-\E_t\bigl[R_{u}^{2}\bigr],\;
+  \Delta\sigma^{\mathrm{ATM}}_{u},\;
+  \Delta\mathrm{skew}_{u},\;
+  \Delta\mathrm{tail}_{u},\\
+  &R^{VX}_{T},\;
+  \bigl(R^{VX}_{T}\bigr)^{2}-\E_t\bigl[(R^{VX}_{T})^{2}\bigr]
+  \Bigr)_{u\in\mathcal U,\;T\in\mathcal T},
+\end{aligned}
 \]
-Here \(f\) contains underlying returns, centered squared returns, and implied-volatility
-shocks; \(B_t\) contains delta-return, gamma-return, and vega-return loadings; and
-\(\Sigma_{\varepsilon,t}\) is the residual option-return covariance. The residual term is part
-of the model. Omitting it would assume that Greeks span all marking risk.
+where \(\mathcal U\) is the set of equity underlyings and \(\mathcal T\) the set of
+VX-forward maturities. The matching rows of \(B_t\) are
+\(\bigl(b^\Delta_{i,t},\,b^\Gamma_{i,t},\,b^\nu_{i,t},\,b^{skew}_{i,t},\,b^{tail}_{i,t},\,
+b^{\Delta,VX}_{i,t},\,b^{\Gamma,VX}_{i,t}\bigr)\). Writing
+\(\Omega_t=\Var_t(f_{t+1})\) for the conditional factor covariance,
+\[
+  r_{O,t+1}=\mu_{O,t}+B_t f_{t+1}+\varepsilon_{t+1},
+  \qquad
+  \Sigma_{O,t}=B_t\Omega_tB_t^\top+\Sigma_{\varepsilon,t},
+\]
+where \(\Sigma_{\varepsilon,t}=\Var_t(\varepsilon_{t+1})\) is the residual option-return
+covariance. The residual term is part of the model. Omitting it would assume that Greeks
+span all marking risk. The covariance identity requires one formal statement about what
+\(\varepsilon_{t+1}\) is.
+
+\begin{assumption}[Projection-residual definition of the residual]\label{assump:projection}
+\(\Omega_t=\Var_t(f_{t+1})\succ0\), and \(B_t\) and \(\varepsilon_{t+1}\) are defined by
+the population linear projection of the centered option return on the factors,
+\[
+  B_t:=\Cov_t\bigl(r_{O,t+1},f_{t+1}\bigr)\,\Omega_t^{-1},
+  \qquad
+  \varepsilon_{t+1}:=r_{O,t+1}-\mu_{O,t}-B_t f_{t+1}.
+\]
+Consequently \(\Cov_t(f_{t+1},\varepsilon_{t+1})=0\) holds by construction, and
+\(\Sigma_{O,t}=B_t\Omega_tB_t^\top+\Sigma_{\varepsilon,t}\) is an identity
+(Proposition~\ref{prop:cov_psd}), not an approximation.
+\end{assumption}
+
+\begin{remark}[The Greek map is an estimator of \(B_t\), not its definition]\label{rem:greekmap}
+The analytic loadings in the return exposure map are the structural estimator of the
+projection coefficient \(B_t\). The wedge between the two---vanna and volga terms, the
+higher-order Taylor remainder, and early-exercise premium movement in American
+contracts---is measured empirically in the approximation-diagnostics table
+(Table~\ref{tab:approx_app}). If \(B_t\) were instead \emph{fixed} at the analytic Greek
+loadings, the residual would in general correlate with the factors and the covariance
+would acquire the omitted cross term
+\(B_t\Sigma_{f\varepsilon,t}+\Sigma_{f\varepsilon,t}^\top B_t^\top\). The paper therefore
+treats the Greek map as an estimator whose adequacy is reported, rather than assuming the
+cross term away.
+\end{remark}
+
+\begin{remark}[Rebalance-horizon approximation]\label{rem:horizon}
+The Taylor decomposition is applied at the monthly rebalance horizon with decision-date
+Greeks held fixed; it is a working risk model whose adequacy is tested empirically in the
+approximation diagnostics, not an asymptotic small-\(\Delta t\) statement.
+\end{remark}
 
 VIX options require a separate convention. They are not options on an equity spot. The
 traded forward-risk anchor is the matched VX futures curve, and Black's futures-option
-logic is the natural local model \citep{black1976commodity}. For VIX option \(j\), the
-local approximation is
+logic is the natural local model \citep{black1976commodity}. For VIX option \(j\) with
+matched forward \(F^{VX}_{T_j}\), the local decomposition is
 \[
   \Delta C^{VIX}_j
-  \approx
-  \Delta^{VX}_j\Delta F^{VX}_{T_j}
-  +\frac12\Gamma^{VX}_j(\Delta F^{VX}_{T_j})^2
-  +\nu^{VIX}_j\Delta\sigma^{VIX}_j
-  +\Theta^{VIX}_j\Delta t.
+  =
+  \Delta^{VX}_j\,\Delta F^{VX}_{T_j}
+  +\frac12\Gamma^{VX}_j\bigl(\Delta F^{VX}_{T_j}\bigr)^2
+  +\nu^{VIX}_j\,\Delta\sigma^{VIX}_j
+  +\Theta^{VIX}_j\,\Delta t
+  +\eta^{VIX}_j,
 \]
-VIX, VVIX, and term-structure indices are useful state variables; VX futures and VIX
-options are the traded volatility instruments. Exact VRO/SOQ settlement is required before
-VIX option expiry P\&L can be promoted from settlement proxy to headline listed-settlement
-evidence.
+with \(\eta^{VIX}_j\) the exact remainder. Dividing by the mark \(C_{j,t}\) gives the
+premium-normalized form that enters the factor model,
+\[
+  r_{j,t+1}
+  =b^{\Delta,VX}_{j,t}R^{VX}_{T_j}
+  +b^{\Gamma,VX}_{j,t}\bigl(R^{VX}_{T_j}\bigr)^2
+  +b^{\nu,VX}_{j,t}\,\Delta\sigma^{VIX}_j
+  +\theta^{\ast}_{j,t}
+  +\epsilon_{j,t+1},
+\]
+\[
+  b^{\Delta,VX}_{j,t}=\frac{\Delta^{VX}_j F^{VX}_{T_j}}{C_{j,t}},\qquad
+  b^{\Gamma,VX}_{j,t}=\frac{\Gamma^{VX}_j\bigl(F^{VX}_{T_j}\bigr)^2}{2C_{j,t}},\qquad
+  b^{\nu,VX}_{j,t}=\frac{\nu^{VIX}_j}{C_{j,t}},
+\]
+where \(R^{VX}_{T_j}=\Delta F^{VX}_{T_j}/F^{VX}_{T_j}\) is the matched VX-forward return
+entering \(f_{t+1}\) on equal footing with the equity underlyings, and
+\(\epsilon_{j,t+1}=\eta^{VIX}_j/C_{j,t}\). VIX, VVIX, and term-structure indices are useful
+state variables; VX futures and VIX options are the traded volatility instruments. Exact
+VRO/SOQ settlement is required before VIX option expiry P\&L can be promoted from
+settlement proxy to headline listed-settlement evidence.

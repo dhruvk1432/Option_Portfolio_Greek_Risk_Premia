@@ -33,18 +33,42 @@ def clean_returns(returns: pd.Series | np.ndarray) -> pd.Series:
 
 
 def performance_metrics(returns: pd.Series | np.ndarray, periods: int = 12) -> dict[str, float | int]:
+    """Path metrics with limited-liability (absorbing default) wealth.
+
+    Wealth compounds multiplicatively; once path wealth reaches zero or below
+    (a period return <= -100%), the path is absorbed at zero: terminal wealth
+    is 0, the maximum drawdown is -100%, and the annualized return is -100%.
+    This prevents sign-flipping cumulative products from returns below -1.
+    """
+
     r = clean_returns(returns)
     if r.empty:
         return {"n_obs": 0}
-    total = float((1.0 + r).prod() - 1.0)
-    ann_return = float((1.0 + total) ** (periods / len(r)) - 1.0) if total > -1.0 else -1.0
+    growth = (1.0 + r).to_numpy(float)
+    wealth = np.empty(len(growth), dtype=float)
+    current = 1.0
+    defaulted = False
+    for i, g in enumerate(growth):
+        if not defaulted:
+            current *= g
+            if current <= 0.0:
+                current = 0.0
+                defaulted = True
+        wealth[i] = current
+    terminal = float(wealth[-1])
+    if defaulted:
+        ann_return = -1.0
+        max_dd = -1.0
+    else:
+        total = terminal - 1.0
+        ann_return = float((1.0 + total) ** (periods / len(r)) - 1.0)
+        wealth_series = pd.Series(wealth, index=r.index)
+        max_dd = float((wealth_series / wealth_series.cummax() - 1.0).min())
     ann_vol = float(r.std(ddof=1) * math.sqrt(periods)) if len(r) > 1 else 0.0
     sharpe = float(r.mean() * periods / max(ann_vol, 1e-12))
     downside = np.minimum(r.to_numpy(float), 0.0)
     down_dev = float(np.sqrt(np.mean(downside * downside)) * math.sqrt(periods))
     sortino = float("nan") if down_dev <= 1e-12 else float(r.mean() * periods / down_dev)
-    wealth = (1.0 + r).cumprod()
-    max_dd = float((wealth / wealth.cummax() - 1.0).min())
     q05 = float(r.quantile(0.05))
     cvar = float(-r[r <= q05].mean()) if (r <= q05).any() else float("nan")
     return {
@@ -56,7 +80,8 @@ def performance_metrics(returns: pd.Series | np.ndarray, periods: int = 12) -> d
         "max_drawdown": max_dd,
         "var_95": -q05,
         "cvar_95": cvar,
-        "terminal_wealth": float(wealth.iloc[-1]),
+        "terminal_wealth": terminal,
+        "defaulted": bool(defaulted),
     }
 
 
@@ -128,11 +153,11 @@ def volatility_clustered_path_distribution(
     if len(r) < 12:
         return pd.DataFrame([{"status": "not_applicable", "method": "egarch_or_ewma", "reason": "insufficient_observations"}])
     if len(r) < int(min_egarch_obs):
-        return _ewma_residual_paths(r, n_paths, seed, "insufficient_egarch_obs", periods=periods)
+        return _garch_residual_paths(r, n_paths, seed, "insufficient_egarch_obs", periods=periods)
     try:
         from arch import arch_model
     except Exception as exc:  # pragma: no cover - depends on optional package availability
-        return _ewma_residual_paths(r, n_paths, seed, f"arch_import_failed:{exc}", periods=periods)
+        return _garch_residual_paths(r, n_paths, seed, f"arch_import_failed:{exc}", periods=periods)
 
     y = (r * 100.0).astype(float)
     try:  # pragma: no cover - exercised when arch is available and enough data exist
@@ -142,7 +167,7 @@ def volatility_clustered_path_distribution(
                 disp="off", update_freq=0, show_warning=False
             )
     except Exception as exc:  # pragma: no cover
-        return _ewma_residual_paths(r, n_paths, seed, f"egarch_fit_failed:{exc}", periods=periods)
+        return _garch_residual_paths(r, n_paths, seed, f"egarch_fit_failed:{exc}", periods=periods)
 
     params = fit.params
     mu = float(params.get("mu", params.get("Const", y.mean())))
@@ -152,7 +177,7 @@ def volatility_clustered_path_distribution(
     beta = float(params.get("beta[1]", 0.90))
     nu = float(max(params.get("nu", 8.0), 2.1))
     if not all(np.isfinite([mu, omega, alpha, gamma, beta, nu])):
-        return _ewma_residual_paths(r, n_paths, seed, "egarch_fit_nonfinite_parameters", periods=periods)
+        return _garch_residual_paths(r, n_paths, seed, "egarch_fit_nonfinite_parameters", periods=periods)
 
     std_resid = pd.Series(fit.std_resid).replace([np.inf, -np.inf], np.nan).dropna().astype(float)
     std_resid = std_resid[np.abs(std_resid) < 25.0]
@@ -201,11 +226,13 @@ def summarize_paths(paths: pd.DataFrame, simulation: str) -> dict[str, object]:
 
     method = str(ok["method"].iloc[0]) if "method" in ok.columns else simulation
     reason = str(ok["reason"].iloc[0]) if "reason" in ok.columns and ok["reason"].notna().any() else ""
+    defaulted_share = float(ok["defaulted"].astype(bool).mean()) if "defaulted" in ok.columns else 0.0
     return {
         "Status": "ok",
         "Simulation": method,
         "Reason": reason,
         "N paths": int(len(ok)),
+        "Defaulted path share": defaulted_share,
         "Ann. return p05": q("annualized_return", 0.05),
         "Ann. return p50": q("annualized_return", 0.50),
         "Ann. return p95": q("annualized_return", 0.95),
@@ -255,9 +282,9 @@ def run_tail_path_simulations(
             for requested_method, paths in methods.items():
                 actual_method = _actual_method(paths, requested_method)
                 assumptions = simulation_assumptions(returns, strategy=strategy, basis=basis, method=actual_method, config=config)
-                if requested_method == "egarch_or_ewma" and actual_method.startswith("ewma_residual_fallback"):
+                if requested_method == "egarch_or_ewma" and actual_method.startswith(("ewma_residual_fallback", "garch11_residual_fallback")):
                     assumptions["Status"] = "fallback"
-                    assumptions["Reason"] = actual_method.replace("ewma_residual_fallback_", "")
+                    assumptions["Reason"] = actual_method.replace("garch11_residual_fallback_", "").replace("ewma_residual_fallback_", "")
                 assumption_rows.append(assumptions)
                 summary_rows.append(
                     {
@@ -284,7 +311,7 @@ def run_tail_path_simulations(
 
 
 def compact_simulation_summary(summary: pd.DataFrame) -> pd.DataFrame:
-    cols = ["Return basis", "Strategy", "Simulation", "N paths", "Ann. return p50", "Sortino p50", "Max DD p05", "Max DD p50", "Terminal wealth p05"]
+    cols = ["Return basis", "Strategy", "Simulation", "N paths", "Ann. return p50", "Sortino p50", "Max DD p05", "Max DD p50", "Terminal wealth p05", "Defaulted path share"]
     return summary.reindex(columns=cols)
 
 
@@ -297,27 +324,40 @@ def _path_metrics(sample: pd.Series, path_id: int, method: str, source_obs: int,
     return {"path_id": int(path_id), "method": method, "n_source_obs": int(source_obs), "status": "ok", **performance_metrics(sample, periods)}
 
 
-def _ewma_residual_paths(returns: pd.Series, n_paths: int, seed: int, reason: str, periods: int = 12) -> pd.DataFrame:
+def _garch_residual_paths(returns: pd.Series, n_paths: int, seed: int, reason: str, periods: int = 12) -> pd.DataFrame:
+    """Fixed-parameter GARCH(1,1) residual-bootstrap fallback paths.
+
+    This was previously mislabeled "EWMA": the volatility recursion is a
+    fixed-parameter GARCH(1,1) (alpha=0.08, beta=0.90) driven by resampled
+    standardized residuals; EWMA volatility is used only to standardize the
+    historical residuals.  Simulated returns include the historical mean
+    return (``mu``), which was previously dropped; the reconstruction is
+    ``r*_t = mu + sigma_t * eps*_t`` (documented behavior).
+    """
+
     r = clean_returns(returns)
-    base_vol = max(float(r.std(ddof=1)), 1e-4)
-    vol = r.ewm(span=6, min_periods=6).std().bfill().fillna(base_vol).clip(lower=0.25 * base_vol)
-    resid = (r / vol).replace([np.inf, -np.inf], np.nan).dropna().clip(lower=-10.0, upper=10.0)
+    mu = float(r.mean())
+    centered = r - mu
+    base_vol = max(float(centered.std(ddof=1)), 1e-4)
+    vol = centered.ewm(span=6, min_periods=6).std().bfill().fillna(base_vol).clip(lower=0.25 * base_vol)
+    resid = (centered / vol).replace([np.inf, -np.inf], np.nan).dropna().clip(lower=-10.0, upper=10.0)
     if len(resid) < 12:
-        return pd.DataFrame([{"status": "not_applicable", "method": "ewma_residual_fallback", "reason": "insufficient_residuals"}])
+        return pd.DataFrame([{"status": "not_applicable", "method": "garch11_residual_fallback", "reason": "insufficient_residuals"}])
     rng = np.random.default_rng(seed)
     alpha, beta = 0.08, 0.90
-    omega = max(float(r.var()) * (1.0 - alpha - beta), 1e-10)
+    omega = max(float(centered.var()) * (1.0 - alpha - beta), 1e-10)
     rows: list[dict[str, object]] = []
     for path_id in range(int(n_paths)):
         eps = rng.choice(resid.to_numpy(float), size=len(r), replace=True)
         sigma2 = np.empty(len(r))
         sim = np.empty(len(r))
-        sigma2[0] = max(float(r.var()), 1e-10)
-        sim[0] = math.sqrt(sigma2[0]) * eps[0]
+        sigma2[0] = max(float(centered.var()), 1e-10)
+        sim[0] = mu + math.sqrt(sigma2[0]) * eps[0]
         for t in range(1, len(r)):
-            sigma2[t] = max(omega + alpha * sim[t - 1] ** 2 + beta * sigma2[t - 1], 1e-10)
-            sim[t] = math.sqrt(sigma2[t]) * eps[t]
-        row = _path_metrics(pd.Series(sim), path_id, f"ewma_residual_fallback_{reason}", len(r), periods)
+            shock = sim[t - 1] - mu
+            sigma2[t] = max(omega + alpha * shock * shock + beta * sigma2[t - 1], 1e-10)
+            sim[t] = mu + math.sqrt(sigma2[t]) * eps[t]
+        row = _path_metrics(pd.Series(sim), path_id, f"garch11_residual_fallback_{reason}", len(r), periods)
         row["reason"] = reason
         rows.append(row)
     return pd.DataFrame(rows)

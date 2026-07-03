@@ -5,6 +5,13 @@ They convert the existing point-in-time option holding ledgers into three
 explicit fill assumptions: midpoint-plus-fees, half-spread, and full-spread.
 Every row records quote-quality and capacity gates so headline net results can
 fail closed instead of silently assuming fills in untradeable contracts.
+
+Order repair (:class:`RepairConfig`) optionally replaces hard rejections with
+executable fallbacks: quote-quality rejects are filled at the actually
+available touch price when it sits within a band of the decision mark, and
+capacity breaches become pro-rata partial fills with the unfilled remainder
+still failing closed.  Repair decisions use only the same decision-date
+cost-input row that fired the original gate (point-in-time discipline).
 """
 
 from __future__ import annotations
@@ -48,6 +55,100 @@ class ExecutionCostScenarioConfig:
         )
 
 
+@dataclass(frozen=True)
+class RepairConfig:
+    """Order-repair policy for :func:`build_execution_cost_scenarios`.
+
+    Repair replaces hard fail-closed rejections with executable fallbacks
+    whenever the trade is still worth taking at the actually-available price.
+    Every repair decision uses ONLY the decision/return-date cost-input row
+    that already drives the rejection (point-in-time discipline: nothing else
+    may be consulted).  ``missing_cost_input`` (no row, cannot price) and
+    assignment/dividend-risk gates (hard risk limits) are never repaired.
+
+    price_band_frac
+        Maximum tolerated deviation of the effective fill price from the
+        decision-date mark, as a fraction of the mark.  The effective fill
+        price crosses from mid to the touch: ``mark * (1 + 0.5 *
+        relative_spread)`` for buys, ``mark * (1 - 0.5 * relative_spread)``
+        for sells, so a quote-quality rejection is repairable only when
+        ``0.5 * relative_spread <= price_band_frac``.  Default 0.10 (fill may
+        deviate at most 10% from the mark).
+    max_rel_spread
+        Sanity cap for junk quotes: never cross a quoted relative spread wider
+        than this, even when the price band would allow it.  Default 0.50.
+    partial_fill_capacity
+        When True (default), a capacity breach (``capacity_ratio > 1``) is
+        filled pro-rata at ``fill_fraction = 1 / capacity_ratio`` instead of
+        being rejected outright; the UNFILLED remainder still fails closed and
+        forfeits its pro-rata gross return contribution.
+    min_fill_frac
+        Partial fills below this fraction are treated as full rejections (a
+        sliver fill is operationally meaningless).  Default 0.10.
+    """
+
+    price_band_frac: float = 0.10
+    max_rel_spread: float = 0.50
+    partial_fill_capacity: bool = True
+    min_fill_frac: float = 0.10
+
+
+REPAIRED_LEDGER_COLUMNS = (
+    "return_date",
+    "strategy",
+    "scenario",
+    "asset_id",
+    "repair_reason",
+    "decision_mark",
+    "effective_fill_price",
+    "extra_cost_nav",
+    "fill_fraction",
+    "foregone_gross_return_nav",
+)
+
+
+class ExecutionScenarioResult(tuple):
+    """Backward-compatible result of :func:`build_execution_cost_scenarios`.
+
+    Unpacks exactly like the historical 6-tuple ``(net, cost_ledger,
+    rejected, capital, assignment, required_capital_returns)`` so existing
+    callers (e.g. ``run_empirics.py``) are unaffected.  The order-repair
+    ledger is attached as the extra ``repaired_rows`` attribute (empty
+    DataFrame when repair is disabled or nothing was repaired).
+    """
+
+    repaired_rows: pd.DataFrame
+
+    def __new__(cls, items: tuple, repaired_rows: pd.DataFrame | None = None):
+        obj = super().__new__(cls, items)
+        obj.repaired_rows = pd.DataFrame() if repaired_rows is None else repaired_rows
+        return obj
+
+    @property
+    def net(self) -> pd.DataFrame:
+        return self[0]
+
+    @property
+    def cost_ledger(self) -> pd.DataFrame:
+        return self[1]
+
+    @property
+    def rejected(self) -> pd.DataFrame:
+        return self[2]
+
+    @property
+    def capital(self) -> pd.DataFrame:
+        return self[3]
+
+    @property
+    def assignment(self) -> pd.DataFrame:
+        return self[4]
+
+    @property
+    def required_capital_returns(self) -> pd.DataFrame:
+        return self[5]
+
+
 def _scenario_spread_fraction(scenario: str) -> float:
     if scenario == "mid":
         return 0.0
@@ -89,6 +190,26 @@ def _assignment_or_dividend_risk(row: pd.Series, is_short: bool) -> tuple[bool, 
     return False, ""
 
 
+def _gross_return_contribution(row: pd.Series | None, weight: float) -> float:
+    """Per-asset gross return contribution ``w_i * r_it`` from the cost ledger.
+
+    The cost-input ledger carries the realized ``option_return`` for each
+    (return_date, asset_id) holding, so a rejected/no-fill position's gross
+    P&L can be removed from the strategy return.  When the ledger row is
+    missing entirely (reject reason ``missing_cost_input``) the strategy's
+    gross return frame was built from zero-filled test returns, so the
+    contribution is already zero and 0.0 is returned (documented behavior).
+    """
+
+    if row is None:
+        return 0.0
+    try:
+        r = float(row.get("option_return", np.nan))
+    except (TypeError, ValueError):
+        r = np.nan
+    return float(weight) * r if np.isfinite(r) else 0.0
+
+
 def _capital_terms(weight: float, row: pd.Series, config: ExecutionCostScenarioConfig) -> tuple[float, float, float]:
     mark = max(float(row.get("mark", np.nan)), 1e-12)
     spot = float(row.get("start_spot", np.nan))
@@ -110,18 +231,46 @@ def build_execution_cost_scenarios(
     *,
     config: ExecutionCostScenarioConfig = ExecutionCostScenarioConfig(),
     scenarios: tuple[str, ...] = SCENARIOS,
-) -> tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame, pd.DataFrame, pd.DataFrame, pd.DataFrame]:
-    """Return scenario net returns and execution/accounting ledgers."""
+    repair: RepairConfig | None = None,
+) -> ExecutionScenarioResult:
+    """Return scenario net returns and execution/accounting ledgers.
+
+    With ``repair=None`` (default) the historical fail-closed behavior is
+    preserved exactly: gated orders (missing cost input, bad quote, capacity
+    breach, assignment risk) are rejected and forfeit their gross return
+    contribution.
+
+    With a :class:`RepairConfig`, quote-quality rejections that still have a
+    usable quote are executed at the actually-available touch price whenever
+    that price deviates from the decision mark by at most ``price_band_frac``
+    and the quoted relative spread does not exceed ``max_rel_spread``; the
+    trade is charged the ACTUAL spread-crossing cost implied by the quote
+    (half the quoted relative spread) rather than the scenario's idealized
+    spread fraction, and keeps its gross return contribution.  Capacity
+    breaches become pro-rata partial fills (``fill_fraction = 1 /
+    capacity_ratio`` when at least ``min_fill_frac``); the unfilled remainder
+    forfeits its pro-rata gross contribution.  ``missing_cost_input`` and
+    assignment/dividend-risk gates are never repaired.  Repaired scenarios are
+    emitted under ``<scenario>_repaired`` labels so both variants can coexist
+    in one table, and each repaired order is logged in the ``repaired_rows``
+    ledger attached to the result (see :data:`REPAIRED_LEDGER_COLUMNS`).
+
+    The result unpacks exactly like the historical 6-tuple ``(net,
+    cost_ledger, rejected, capital, assignment, required_capital_returns)``.
+    """
 
     if cost_inputs.empty:
         empty_long = pd.DataFrame()
-        return (
-            pd.DataFrame(index=gross_returns.index),
-            empty_long,
-            empty_long,
-            empty_long,
-            empty_long,
-            empty_long,
+        return ExecutionScenarioResult(
+            (
+                pd.DataFrame(index=gross_returns.index),
+                empty_long,
+                empty_long,
+                empty_long,
+                empty_long,
+                empty_long,
+            ),
+            pd.DataFrame(columns=list(REPAIRED_LEDGER_COLUMNS)) if repair is not None else pd.DataFrame(),
         )
     indexed = cost_inputs.copy()
     indexed["return_date"] = pd.to_datetime(indexed["return_date"], errors="coerce").dt.normalize()
@@ -130,19 +279,27 @@ def build_execution_cost_scenarios(
     net = pd.DataFrame(index=gross_returns.index)
     cost_rows: list[dict[str, object]] = []
     rejected_rows: list[dict[str, object]] = []
+    repaired_rows_log: list[dict[str, object]] = []
     capital_rows: list[dict[str, object]] = []
     assignment_rows: list[dict[str, object]] = []
     hurdle_rows: list[dict[str, object]] = []
 
     for scenario in scenarios:
         spread_fraction = _scenario_spread_fraction(scenario)
+        # Repaired scenarios get their own labels so repaired and unrepaired
+        # runs can coexist in one table without key collisions.
+        scenario_label = f"{scenario}_repaired" if repair is not None else scenario
         for strategy, weights in strategies.items():
             if strategy not in gross_returns:
                 continue
-            out_col = f"{strategy}::{scenario}"
+            out_col = f"{strategy}::{scenario_label}"
             net[out_col] = gross_returns[strategy]
             for return_date in gross_returns.index:
                 total_cost = 0.0
+                # Fail-closed accounting: a rejected/no-fill position cannot
+                # keep its gross P&L, so its w_i * r_it contribution is
+                # excluded from the scenario net return for the month.
+                excluded_gross = 0.0
                 premium_capital = 0.0
                 margin_capital = 0.0
                 stress_capital = 0.0
@@ -153,13 +310,18 @@ def build_execution_cost_scenarios(
                         continue
                     key = (pd.Timestamp(return_date).normalize(), asset_id)
                     if key not in indexed.index:
+                        # Never repaired: without a cost-input row the order
+                        # cannot be priced at all, so it fails closed.
+                        foregone = _gross_return_contribution(None, weight)
+                        excluded_gross += foregone
                         rejected_rows.append(
                             {
                                 "return_date": return_date,
                                 "strategy": strategy,
-                                "scenario": scenario,
+                                "scenario": scenario_label,
                                 "asset_id": asset_id,
                                 "reject_reason": "missing_cost_input",
+                                "foregone_gross_return_nav": foregone,
                             }
                         )
                         rejected_for_date += 1
@@ -182,60 +344,112 @@ def build_execution_cost_scenarios(
                         reasons.append("missing_volume")
                     if config.missing_liquidity_is_reject and (not np.isfinite(oi) or oi <= 0):
                         reasons.append("missing_open_interest")
+                    repaired_quote = False
+                    quote_repair_reasons: list[str] = []
                     if reasons:
-                        for reason in reasons:
-                            rejected_rows.append(
-                                {
-                                    "return_date": return_date,
-                                    "strategy": strategy,
-                                    "scenario": scenario,
-                                    "asset_id": asset_id,
-                                    "reject_reason": reason,
-                                }
-                            )
-                        rejected_for_date += 1
-                        continue
+                        # ORDER REPAIR (quote quality): PIT-safe by
+                        # construction — uses only the same decision-date
+                        # cost-input row that fired the gate.  A usable quote
+                        # (finite positive mark, finite non-negative spread)
+                        # is filled at the touch when the crossed half-spread
+                        # keeps the fill price inside the band and the quote
+                        # is not junk-wide.
+                        usable_quote = (
+                            np.isfinite(mark)
+                            and mark > 0
+                            and np.isfinite(rel_spread)
+                            and rel_spread >= 0
+                        )
+                        if (
+                            repair is not None
+                            and usable_quote
+                            and 0.5 * rel_spread <= repair.price_band_frac
+                            and rel_spread <= repair.max_rel_spread
+                        ):
+                            repaired_quote = True
+                            quote_repair_reasons = list(reasons)
+                        else:
+                            foregone = _gross_return_contribution(row, weight)
+                            excluded_gross += foregone
+                            for reason in reasons:
+                                rejected_rows.append(
+                                    {
+                                        "return_date": return_date,
+                                        "strategy": strategy,
+                                        "scenario": scenario_label,
+                                        "asset_id": asset_id,
+                                        "reject_reason": reason,
+                                        "foregone_gross_return_nav": foregone,
+                                    }
+                                )
+                            rejected_for_date += 1
+                            continue
 
                     tick_cost = min(_tick_size(mark, config) / max(mark, 1e-12), 1.0)
                     fee_cost = 2.0 * config.fee_per_contract_per_side / (mark * config.option_multiplier)
-                    spread_cost = spread_fraction * rel_spread
+                    # Repaired fills pay the ACTUAL spread-crossing cost
+                    # implied by the quote (mid to touch = half the quoted
+                    # spread), not the scenario's idealized spread fraction.
+                    spread_cost = 0.5 * rel_spread if repaired_quote else spread_fraction * rel_spread
                     estimated_contracts = abs(weight) * config.nav_for_capacity / (mark * config.option_multiplier)
                     volume_cap = volume * config.max_volume_participation if np.isfinite(volume) and volume > 0 else np.inf
                     oi_cap = oi * config.max_oi_participation if np.isfinite(oi) and oi > 0 else np.inf
                     capacity_contracts = min(volume_cap, oi_cap)
                     capacity_ratio = estimated_contracts / capacity_contracts if np.isfinite(capacity_contracts) and capacity_contracts > 0 else 0.0
+                    fill_fraction = 1.0
+                    capacity_partial = False
                     if np.isfinite(capacity_ratio) and capacity_ratio > 1.0:
-                        rejected_rows.append(
-                            {
-                                "return_date": return_date,
-                                "strategy": strategy,
-                                "scenario": scenario,
-                                "asset_id": asset_id,
-                                "reject_reason": "capacity_exceeded_no_fill",
-                            }
-                        )
-                        rejected_for_date += 1
-                        continue
-                    prem, margin, stress = _capital_terms(weight, row, config)
+                        candidate_fraction = 1.0 / capacity_ratio
+                        if (
+                            repair is not None
+                            and repair.partial_fill_capacity
+                            and candidate_fraction >= repair.min_fill_frac
+                        ):
+                            # ORDER REPAIR (capacity): pro-rata partial fill;
+                            # the unfilled remainder fails closed below.
+                            fill_fraction = min(1.0, candidate_fraction)
+                            capacity_partial = True
+                        else:
+                            foregone = _gross_return_contribution(row, weight)
+                            excluded_gross += foregone
+                            rejected_rows.append(
+                                {
+                                    "return_date": return_date,
+                                    "strategy": strategy,
+                                    "scenario": scenario_label,
+                                    "asset_id": asset_id,
+                                    "reject_reason": "capacity_exceeded_no_fill",
+                                    "foregone_gross_return_nav": foregone,
+                                }
+                            )
+                            rejected_for_date += 1
+                            continue
+                    prem, margin, stress = _capital_terms(weight * fill_fraction, row, config)
                     premium_capital += prem
                     margin_capital += margin
                     stress_capital += stress
                     assignment_flag, assignment_reason = _assignment_or_dividend_risk(row, weight < 0)
                     if assignment_flag:
+                        # Never repaired: assignment/dividend risk is a hard
+                        # risk gate, so the whole order fails closed even when
+                        # a quote repair or partial fill was available.
+                        foregone = _gross_return_contribution(row, weight)
+                        excluded_gross += foregone
                         rejected_rows.append(
                             {
                                 "return_date": return_date,
                                 "strategy": strategy,
-                                "scenario": scenario,
+                                "scenario": scenario_label,
                                 "asset_id": asset_id,
                                 "reject_reason": assignment_reason,
+                                "foregone_gross_return_nav": foregone,
                             }
                         )
                         assignment_rows.append(
                             {
                                 "return_date": return_date,
                                 "strategy": strategy,
-                                "scenario": scenario,
+                                "scenario": scenario_label,
                                 "asset_id": asset_id,
                                 "assignment_risk_flag": True,
                                 "reason": assignment_reason,
@@ -245,34 +459,66 @@ def build_execution_cost_scenarios(
                         rejected_for_date += 1
                         continue
                     unit_cost = fee_cost + spread_cost + tick_cost
-                    cost_nav = abs(weight) * unit_cost
+                    filled_nav = abs(weight) * fill_fraction
+                    cost_nav = filled_nav * unit_cost
                     total_cost += cost_nav
-                    cost_rows.append(
-                        {
-                            "return_date": return_date,
-                            "strategy": strategy,
-                            "scenario": scenario,
-                            "asset_id": asset_id,
-                            "weight": weight,
-                            "mark": mark,
-                            "relative_spread": rel_spread,
-                            "fee_cost_nav": abs(weight) * fee_cost,
-                            "spread_cost_nav": abs(weight) * spread_cost,
-                            "tick_rounding_cost_nav": abs(weight) * tick_cost,
-                            "total_cost_nav": cost_nav,
-                            "estimated_contracts": estimated_contracts,
-                            "capacity_contracts": capacity_contracts,
-                            "capacity_ratio": capacity_ratio,
-                            "fill_status": "filled_research_proxy",
-                        }
-                    )
-                net.loc[return_date, out_col] = gross_returns.loc[return_date, strategy] - total_cost
+                    foregone_remainder = 0.0
+                    if fill_fraction < 1.0:
+                        # Fail-closed remainder: the unfilled share of a
+                        # partial fill forfeits its pro-rata gross return.
+                        foregone_remainder = (1.0 - fill_fraction) * _gross_return_contribution(row, weight)
+                        excluded_gross += foregone_remainder
+                    cost_entry = {
+                        "return_date": return_date,
+                        "strategy": strategy,
+                        "scenario": scenario_label,
+                        "asset_id": asset_id,
+                        "weight": weight,
+                        "mark": mark,
+                        "relative_spread": rel_spread,
+                        "fee_cost_nav": filled_nav * fee_cost,
+                        "spread_cost_nav": filled_nav * spread_cost,
+                        "tick_rounding_cost_nav": filled_nav * tick_cost,
+                        "total_cost_nav": cost_nav,
+                        "estimated_contracts": estimated_contracts,
+                        "capacity_contracts": capacity_contracts,
+                        "capacity_ratio": capacity_ratio,
+                        "fill_status": "repaired_fill" if (repaired_quote or capacity_partial) else "filled_research_proxy",
+                    }
+                    if repair is not None:
+                        cost_entry["fill_fraction"] = fill_fraction
+                    cost_rows.append(cost_entry)
+                    if repaired_quote or capacity_partial:
+                        # extra_cost_nav: actual charged cost minus what the
+                        # scenario would have charged for the same filled size
+                        # absent repair (isolates the cost of repairing).
+                        intended_unit_cost = fee_cost + spread_fraction * rel_spread + tick_cost
+                        side = 1.0 if weight > 0 else -1.0
+                        repaired_rows_log.append(
+                            {
+                                "return_date": return_date,
+                                "strategy": strategy,
+                                "scenario": scenario_label,
+                                "asset_id": asset_id,
+                                "repair_reason": "+".join(
+                                    quote_repair_reasons + (["capacity_partial_fill"] if capacity_partial else [])
+                                ),
+                                "decision_mark": mark,
+                                "effective_fill_price": mark * (1.0 + side * spread_cost),
+                                "extra_cost_nav": filled_nav * (unit_cost - intended_unit_cost),
+                                "fill_fraction": fill_fraction,
+                                "foregone_gross_return_nav": foregone_remainder,
+                            }
+                        )
+                net.loc[return_date, out_col] = (
+                    gross_returns.loc[return_date, strategy] - total_cost - excluded_gross
+                )
                 required_capital = max(premium_capital, margin_capital, stress_capital, 1e-12)
                 capital_rows.append(
                     {
                         "return_date": return_date,
                         "strategy": strategy,
-                        "scenario": scenario,
+                        "scenario": scenario_label,
                         "premium_paid_nav": premium_capital,
                         "simulated_margin_nav": margin_capital,
                         "stress_capital_nav": stress_capital,
@@ -280,6 +526,7 @@ def build_execution_cost_scenarios(
                         "nav_return": net.loc[return_date, out_col],
                         "required_capital_return": net.loc[return_date, out_col] / required_capital,
                         "rejected_trades": rejected_for_date,
+                        "excluded_gross_return_nav": excluded_gross,
                     }
                 )
 
@@ -309,7 +556,14 @@ def build_execution_cost_scenarios(
     if not required_capital_returns.empty:
         required_capital_returns.columns = [f"{a}::{b}" for a, b in required_capital_returns.columns]
         required_capital_returns = required_capital_returns.sort_index()
-    return net, cost_ledger, rejected, capital, assignment, required_capital_returns
+    if repair is not None:
+        repaired = pd.DataFrame(repaired_rows_log, columns=list(REPAIRED_LEDGER_COLUMNS))
+    else:
+        repaired = pd.DataFrame(repaired_rows_log)
+    return ExecutionScenarioResult(
+        (net, cost_ledger, rejected, capital, assignment, required_capital_returns),
+        repaired,
+    )
 
 
 def apply_trade_hurdles(
@@ -343,10 +597,27 @@ def apply_trade_hurdles(
     return pd.DataFrame(rows), pd.DataFrame(no_trade)
 
 
-def liquidity_tier_labels(cost_inputs: pd.DataFrame) -> pd.DataFrame:
+def liquidity_tier_labels(cost_inputs: pd.DataFrame, train_end: pd.Timestamp | None = None) -> pd.DataFrame:
+    """Classify assets into liquidity tiers.
+
+    ``train_end`` restricts classification to rows with
+    ``return_date <= train_end`` so tiers are point-in-time (no end-of-sample
+    liquidity leaks into the training-period universe definition).  When
+    ``train_end`` is None the legacy full-sample behavior is kept for backward
+    compatibility, which uses each asset's LAST observed row and therefore
+    leaks end-of-sample liquidity; callers should pass the pipeline's
+    TRAIN_END.
+    """
+
     if cost_inputs.empty:
         return pd.DataFrame(columns=["asset_id", "liquidity_tier"])
-    last = cost_inputs.sort_values("return_date").groupby("asset_id", as_index=False).tail(1).copy()
+    pool = cost_inputs.copy()
+    if train_end is not None:
+        dates = pd.to_datetime(pool["return_date"], errors="coerce")
+        pool = pool.loc[dates <= pd.Timestamp(train_end)]
+        if pool.empty:
+            return pd.DataFrame(columns=["asset_id", "liquidity_tier"])
+    last = pool.sort_values("return_date").groupby("asset_id", as_index=False).tail(1).copy()
     volume = pd.to_numeric(last.get("available_volume_contracts", np.nan), errors="coerce")
     oi = pd.to_numeric(last.get("available_oi_contracts", np.nan), errors="coerce")
     spread = pd.to_numeric(last.get("relative_spread", np.nan), errors="coerce")
@@ -497,6 +768,87 @@ def capacity_market_impact_diagnostics(
     return pd.DataFrame(rows)
 
 
+def repair_diagnostics_table(repaired_rows: pd.DataFrame) -> pd.DataFrame:
+    """Per-scenario aggregate diagnostics for the order-repair ledger.
+
+    One row per (repaired) scenario: number of repaired orders, number of
+    partial fills, average extra execution cost per repaired order (actual
+    charged cost minus the scenario's idealized cost for the same filled
+    size, as a NAV fraction; negative means the actual touch was cheaper than
+    the scenario's spread assumption), and the total gross return forfeited
+    by unfilled partial-fill remainders (NAV fraction).
+    """
+
+    columns = [
+        "Scenario",
+        "Repaired orders",
+        "Partial fills",
+        "Avg extra cost per repaired order",
+        "Foregone gross from unfilled remainders",
+    ]
+    if repaired_rows is None or repaired_rows.empty:
+        return pd.DataFrame(columns=columns)
+    rows = []
+    for scenario, grp in repaired_rows.groupby("scenario", observed=True):
+        rows.append(
+            {
+                "Scenario": scenario,
+                "Repaired orders": int(len(grp)),
+                "Partial fills": int((grp["fill_fraction"].astype(float) < 1.0 - 1e-12).sum()),
+                "Avg extra cost per repaired order": float(grp["extra_cost_nav"].astype(float).mean()),
+                "Foregone gross from unfilled remainders": float(grp["foregone_gross_return_nav"].astype(float).sum()),
+            }
+        )
+    return pd.DataFrame(rows, columns=columns)
+
+
+def execution_repair_comparison_table(
+    net_legacy: pd.DataFrame,
+    net_repaired: pd.DataFrame,
+    *,
+    periods_per_year: float = 12.0,
+) -> pd.DataFrame:
+    """Compare fail-closed and repaired execution scenario performance."""
+
+    columns = [
+        "Strategy",
+        "Scenario",
+        "Fail-closed Sharpe",
+        "Repaired Sharpe",
+        "Fail-closed ann. return",
+        "Repaired ann. return",
+        "Repair uplift (ann.)",
+    ]
+    if net_legacy is None or net_repaired is None or net_legacy.empty or net_repaired.empty:
+        return pd.DataFrame(columns=columns)
+    rows = []
+    repaired_columns = set(net_repaired.columns)
+    for legacy_col in net_legacy.columns:
+        label = str(legacy_col)
+        if "::" not in label:
+            continue
+        strategy, scenario = label.rsplit("::", 1)
+        repaired_col = f"{strategy}::{scenario}_repaired"
+        if repaired_col not in repaired_columns:
+            continue
+        legacy_stats = performance_stats(net_legacy[legacy_col], periods_per_year)
+        repaired_stats = performance_stats(net_repaired[repaired_col], periods_per_year)
+        legacy_ann = legacy_stats["ann_return"]
+        repaired_ann = repaired_stats["ann_return"]
+        rows.append(
+            {
+                "Strategy": strategy,
+                "Scenario": scenario,
+                "Fail-closed Sharpe": legacy_stats["sharpe"],
+                "Repaired Sharpe": repaired_stats["sharpe"],
+                "Fail-closed ann. return": legacy_ann,
+                "Repaired ann. return": repaired_ann,
+                "Repair uplift (ann.)": repaired_ann - legacy_ann,
+            }
+        )
+    return pd.DataFrame(rows, columns=columns)
+
+
 def post_cost_survival_table(
     gross_performance: pd.DataFrame,
     net_scenario_returns: pd.DataFrame,
@@ -546,12 +898,17 @@ def post_cost_survival_table(
 
 __all__ = [
     "ExecutionCostScenarioConfig",
+    "ExecutionScenarioResult",
+    "REPAIRED_LEDGER_COLUMNS",
+    "RepairConfig",
     "SCENARIOS",
     "apply_trade_hurdles",
     "build_execution_cost_scenarios",
     "capacity_market_impact_diagnostics",
+    "execution_repair_comparison_table",
     "forecast_ablation_tables",
     "liquidity_tier_labels",
     "liquidity_tier_performance",
     "post_cost_survival_table",
+    "repair_diagnostics_table",
 ]

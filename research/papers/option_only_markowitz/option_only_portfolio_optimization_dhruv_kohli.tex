@@ -131,9 +131,10 @@ In this sample and under these conventions, the empirical evidence is intentiona
 The framework is coherent, point-in-time, and auditable. Gross option-only portfolios can
 look attractive, but gross Sharpe is a research diagnostic, not a trading result. VIX options
 can improve the design as volatility instruments only when VX-forward modeling and exact
-VRO/SOQ settlement support the relevant rows. Post-cost accounting, liquidity screens, beta
-and Greek budgets, inference, and short-option risk controls make the deployable
-interpretation much more conditional. The portfolio-construction contribution is therefore
+VRO/SOQ settlement support the relevant rows. Post-cost survival is scenario-dependent:
+the leading sleeves remain profitable under executable-cost scenarios but fail under a
+conservative stress-cost layer, and family-wise multiple-testing corrections cannot
+certify skill on sixty months of data. The portfolio-construction contribution is therefore
 not a live-trading claim. It is a disciplined way to decide whether convexity, volatility
 exposure, or short-premium risk deserves capital after premium accounting, costs,
 settlement, beta audits, Greek budgets, and out-of-sample validation.
@@ -145,9 +146,10 @@ settlement, beta audits, Greek budgets, and out-of-sample validation.
   \begin{itemize}
     \item Option-only Markowitz is feasible when options are treated as premium-funded
     cashflows with Greek-induced covariance, not as generic return columns.
-    \item Gross option portfolios can appear attractive, but post-cost research
-    accounting, settlement gates, and short-option risk controls sharply limit what can be
-    claimed.
+    \item Gross option portfolios can appear attractive, but post-cost survival is
+    scenario-dependent: the leading sleeves survive executable-cost scenarios, fail the
+    conservative stress-cost layer, and do not clear family-wise multiple-testing
+    hurdles.
     \item VIX options are useful as conditional volatility instruments only when
     VX-forward modeling and exact VRO/SOQ settlement support the evidence.
   \end{itemize}
@@ -175,6 +177,7 @@ settlement, beta audits, Greek budgets, and out-of-sample validation.
 \input{sections/portfolio_model}
 \input{sections/metrics_validation}
 \input{sections/results_discussion}
+\input{sections/distributional_robustness}
 \input{sections/conclusion}
 
 \section*{Data availability statement}
@@ -182,8 +185,8 @@ The reproduction package contains code, generated tables, figures, verification 
 schemas, and artifact hashes. Raw licensed OPRA/Databento data are not redistributed.
 Users with the necessary data rights and API keys can rebuild the local feature panels with
 the documented data-pull commands and environment template. Exact VRO/SOQ files, when
-provided locally, are versioned by source hash before VIX option rows become
-headline-grade.
+provided locally, are versioned by source hash before VIX option rows can enter
+settlement-gated tables.
 
 \bibliographystyle{abbrvnat}
 \bibliography{references}

@@ -2,7 +2,7 @@ PYTHON ?= .venv/bin/python
 PAPER_DIR := research/papers/option_only_markowitz
 PAPER_STEM := option_only_portfolio_optimization_dhruv_kohli
 
-.PHONY: help install data-plan data-validate data-public data-paid option-paper paper verify test clean
+.PHONY: help install data-plan data-validate data-public data-paid cbbo-surface robustness option-paper paper verify test clean
 
 help:
 	@echo "Targets:"
@@ -11,6 +11,8 @@ help:
 	@echo "  data-validate  Validate expected local input files without network calls"
 	@echo "  data-public    Execute credential-free/public data pulls"
 	@echo "  data-paid      Execute the full option-paper pull plan, including paid Databento jobs"
+	@echo "  cbbo-surface   Build the derived OPRA CBBO spread cost surface"
+	@echo "  robustness     Run distributional-robustness diagnostics for the option-only paper"
 	@echo "  option-paper   Regenerate option-only paper artifacts"
 	@echo "  paper          Regenerate artifacts and compile the option-only paper PDF"
 	@echo "  verify         Run the independent option-only paper verifier"
@@ -32,8 +34,16 @@ data-public:
 data-paid:
 	$(PYTHON) -m data_pull.pull --preset option-paper --execute --allow-paid
 
+cbbo-surface:
+	$(PYTHON) -m data_ingestion.build_cbbo_cost_surface
+
+robustness:
+	$(PYTHON) -m research.papers.option_only_markowitz.analysis.run_empirics --stage robustness
+
 option-paper:
 	$(PYTHON) -m research.papers.option_only_markowitz.analysis.run_empirics --stage all
+	$(PYTHON) -m research.papers.option_only_markowitz.analysis.run_empirics --stage robustness
+	$(PYTHON) -m research.papers.option_only_markowitz.analysis.regenerate_from_artifacts
 
 paper: option-paper
 	cd $(PAPER_DIR) && lualatex -interaction=nonstopmode $(PAPER_STEM).tex && bibtex $(PAPER_STEM) && lualatex -interaction=nonstopmode $(PAPER_STEM).tex && lualatex -interaction=nonstopmode $(PAPER_STEM).tex && lualatex -interaction=nonstopmode $(PAPER_STEM).tex
@@ -42,7 +52,7 @@ verify:
 	$(PYTHON) -m research.papers.option_only_markowitz.verification.verify
 
 test:
-	$(PYTHON) -m pytest tests/test_data_pull_cli.py tests/test_option_only_markowitz_model.py tests/test_option_only_markowitz_verification.py tests/test_option_only_publication_upgrade.py tests/test_option_portfolio_production.py -q -p no:cacheprovider
+	$(PYTHON) -m pytest tests/test_data_pull_cli.py tests/test_option_only_markowitz_model.py tests/test_option_only_markowitz_verification.py tests/test_option_only_publication_upgrade.py tests/test_option_portfolio_production.py tests/test_cbbo_cost_surface.py tests/test_vix_chain_features.py tests/test_option_only_cross_validation.py tests/test_option_only_resampled_universes.py tests/test_option_only_mc_repricing.py tests/test_option_only_robustness_wiring.py -q -p no:cacheprovider
 
 clean:
 	find . -type d -name __pycache__ -prune -exec rm -rf {} +

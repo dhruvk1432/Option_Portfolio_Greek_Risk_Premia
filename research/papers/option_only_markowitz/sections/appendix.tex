@@ -13,11 +13,14 @@ needed:\par
 \end{minipage}}
 \end{center}
 
-\subsection{Additional realized-path and optimizer results}
+\subsection{Exposures, attribution, and realized-path diagnostics}
 
-This supplement begins with realized-path and optimizer diagnostics. The exhibits use the
-same held-out panel as the body tables and compare allocation behavior rather than
-re-estimating a separate experiment.
+This first group records what the strategies actually held and where the P\&L came from.
+Figure~\ref{fig:growth_all_app} keeps every generated strategy visible on one growth
+panel, Figure~\ref{fig:risk_calibration_app} compares predicted and realized volatility,
+Tables~\ref{tab:premium_exposure_app} and~\ref{tab:greek_exposure_app} record premium and
+Greek exposures, and Table~\ref{tab:pnl_attribution_app} decomposes mean P\&L into Greek
+and residual components.
 
 \begin{figure}[H]
 \centering
@@ -59,11 +62,31 @@ sold, and netted before the strategy return is realized.}
 \label{tab:greek_exposure_app}
 \end{table}
 
-\subsection{Option, VIX, cost, and settlement diagnostics}
+\begin{table}[H]
+\centering
+\scriptsize
+\IfFileExists{tables/pnl_attribution.tex}
+  {\resizebox{\textwidth}{!}{\input{tables/pnl_attribution}}}
+  {\begin{tabular}{llll}\toprule Strategy & Delta & Vega & Residual \\\midrule Missing & -- & -- & -- \\\bottomrule\end{tabular}}
+\caption{Annualized mean P\&L attribution. Equity-option Greeks and VIX-forward Greeks
+are separated; components reconcile to realized mean after the residual term.}
+\label{tab:pnl_attribution_app}
+\end{table}
 
-The option results are reported only after timing, settlement, and cost conventions are
-visible. This is where the paper records the distinction between gross theory returns,
-post-cost research returns, and production claims that are not made.
+\subsection{Costs, capacity, and settlement diagnostics}
+
+The second group makes timing, settlement, and cost conventions visible before any
+post-cost number is interpreted. Table~\ref{tab:timing_app} records return-construction
+timing, Table~\ref{tab:trading_audit_app} audits the point-in-time holding model, and
+Table~\ref{tab:vix_download_audit_app} documents which required VIX expiries have parsed
+exact VRO/SOQ settlement. The expiry-level exact-versus-proxy settlement comparison spans
+110 expiries and is too long to typeset here; it ships as the machine-readable artifact
+\path{artifacts/vix_settlement_audit.csv} (mirrored in
+\path{tables/vix_settlement_audit.tex}). Table~\ref{tab:costs_app} itemizes the
+conservative stress-cost layer, Table~\ref{tab:capacity_market_impact_app} reports the
+executable-cost scenarios, and Tables~\ref{tab:performance_diag_app}
+and~\ref{tab:performance_net_diag_app} give the gross and stress-cost NAV diagnostics,
+including the bootstrap Sharpe confidence intervals quoted in Section~\ref{sec:results}.
 
 \begin{table}[H]
 \centering
@@ -93,7 +116,9 @@ settlement-source flags; proxy rows, if present, remain diagnostic.}
   {\resizebox{0.86\textwidth}{!}{\input{tables/vix_required_settlement_download_audit}}}
   {\begin{tabular}{llll}\toprule Year & Exact & Component & Expiries \\\midrule Missing & -- & -- & -- \\\bottomrule\end{tabular}}
 \caption{Public Cboe VRO/SOQ download audit for required VIX expiries. Rows with
-\texttt{Exact scalar parsed = False} are not used in headline VIX option returns.}
+\texttt{Exact scalar parsed = False} are not used in settlement-gated VIX option returns;
+the excluded expiries cluster in 2015--2018 (Section~\ref{sec:data} discusses the resulting coverage
+bias).}
 \label{tab:vix_download_audit_app}
 \end{table}
 
@@ -103,9 +128,11 @@ settlement-source flags; proxy rows, if present, remain diagnostic.}
 \IfFileExists{tables/cost_capacity_margin_diagnostics.tex}
   {\resizebox{\textwidth}{!}{\input{tables/cost_capacity_margin_diagnostics}}}
   {\begin{tabular}{llll}\toprule Strategy & Cost & Capacity & Margin \\\midrule Missing & -- & -- & -- \\\bottomrule\end{tabular}}
-\caption{Research cost and capital diagnostics. Costs include transaction costs, spread
+\caption{Conservative stress-cost layer diagnostics. Costs include round-trip spread
 crossing, explicit fees, slippage, borrow, capacity penalties, simulated margin funding,
-and assignment-risk penalties where flagged. These are not live broker fills.}
+and assignment-risk penalties where flagged; this is the layer behind the ``Post-cost
+research'' rows of Table~\ref{tab:performance}, not the executable-cost scenarios of
+Table~\ref{tab:capacity_market_impact_app}. These are not live broker fills.}
 \label{tab:costs_app}
 \end{table}
 
@@ -115,11 +142,76 @@ and assignment-risk penalties where flagged. These are not live broker fills.}
 \IfFileExists{tables/capacity_market_impact_diagnostics.tex}
   {\resizebox{\textwidth}{!}{\input{tables/capacity_market_impact_diagnostics}}}
   {\begin{tabular}{llll}\toprule Strategy & Scenario & Contracts & Capacity \\\midrule Missing & -- & -- & -- \\\bottomrule\end{tabular}}
-\caption{Executable-cost, capacity, and market-impact diagnostics by scenario. Rows are
-generated from the cost-scenario ledger and record no-fill/capacity failures rather than
-assuming midpoint execution.}
+\caption{Executable-cost, capacity, and market-impact diagnostics by scenario
+(entry-friction layer). Rows are generated from the cost-scenario ledger and record
+no-fill/capacity failures rather than assuming midpoint execution.}
 \label{tab:capacity_market_impact_app}
 \end{table}
+
+The CBBO surface is an optional research-cost refinement: panel CBBO spreads take
+precedence, then exact decision-date surface spreads, then class-default spreads. The
+coverage table records which source supplied the relative spread by asset class.
+
+\begin{table}[H]
+\centering
+\scriptsize
+\IfFileExists{tables/cost_input_spread_source_coverage.tex}
+  {\resizebox{0.84\textwidth}{!}{\input{tables/cost_input_spread_source_coverage}}}
+  {\begin{tabular}{llll}\toprule Source & Asset class & Rows & Spread \\\midrule Missing & -- & -- & -- \\\bottomrule\end{tabular}}
+\caption{Cost-input spread-source coverage. Rows distinguish direct panel CBBO spreads,
+derived CBBO surface spreads, and class-default spread assumptions.}
+\label{tab:cost_input_spread_source_app}
+\end{table}
+
+The repaired execution scenarios are execution-sensitivity diagnostics. They use the same
+decision-date cost-input row that fired the original gate; missing cost input and
+assignment or dividend hard gates are not repaired.
+
+\begin{table}[H]
+\centering
+\scriptsize
+\IfFileExists{tables/execution_repair_diagnostics.tex}
+  {\resizebox{0.86\textwidth}{!}{\input{tables/execution_repair_diagnostics}}}
+  {\begin{tabular}{llll}\toprule Scenario & Repairs & Partial fills & Cost \\\midrule Missing & -- & -- & -- \\\bottomrule\end{tabular}}
+\caption{Execution-repair diagnostics for \texttt{\_repaired} scenarios. Counts and
+costs are diagnostics only and are not headline performance results.}
+\label{tab:execution_repair_diagnostics_app}
+\end{table}
+
+The comparison table reports how repaired execution-sensitivity scenarios differ from the
+fail-closed cost scenarios. It is a sensitivity check around the execution gates, not a
+claim that the repaired fills are broker-executed.
+
+\begin{table}[H]
+\centering
+\scriptsize
+\IfFileExists{tables/execution_repair_comparison.tex}
+  {\resizebox{\textwidth}{!}{\input{tables/execution_repair_comparison}}}
+  {\begin{tabular}{llll}\toprule Strategy & Scenario & Fail closed & Repaired \\\midrule Missing & -- & -- & -- \\\bottomrule\end{tabular}}
+\caption{Fail-closed versus repaired execution-sensitivity performance. Repaired columns
+remain outside the headline growth exhibits and the reality-check family.}
+\label{tab:execution_repair_comparison_app}
+\end{table}
+
+\clearpage
+
+The cost-aware Sortino variant uses train-window entry-cost estimates before solving the
+Sortino objective. It is included as a research diagnostic and is not part of the headline
+strategy set or tail-path simulation set.
+
+\begin{table}[H]
+\centering
+\scriptsize
+\IfFileExists{tables/sortino_objective_diagnostics.tex}
+  {\resizebox{0.78\textwidth}{!}{\input{tables/sortino_objective_diagnostics}}}
+  {\begin{tabular}{llll}\toprule Objective & Status & Value & Assets \\\midrule Missing & -- & -- & -- \\\bottomrule\end{tabular}}
+\caption{Cost-aware Sortino objective diagnostics. Entry costs are estimated from the
+training window and imputed from class defaults when an asset has no train-window cost
+observation.}
+\label{tab:sortino_objective_diagnostics_app}
+\end{table}
+
+\clearpage
 
 \begin{table}[H]
 \centering
@@ -127,7 +219,9 @@ assuming midpoint execution.}
 \IfFileExists{tables/portfolio_performance_diagnostics.tex}
   {\resizebox{\textwidth}{!}{\input{tables/portfolio_performance_diagnostics}}}
   {\begin{tabular}{llll}\toprule Strategy & Downside & Drawdown & NAV \\\midrule Missing & -- & -- & -- \\\bottomrule\end{tabular}}
-\caption{Gross performance diagnostics and NAV accounting.}
+\caption{Gross performance diagnostics and NAV accounting. The VIX hedge sleeve's maximum
+drawdown is undefined (``--'') because its compounded wealth path is absorbed at zero
+(Section~\ref{sec:metrics}).}
 \label{tab:performance_diag_app}
 \end{table}
 
@@ -137,67 +231,26 @@ assuming midpoint execution.}
 \IfFileExists{tables/portfolio_performance_net_diagnostics.tex}
   {\resizebox{\textwidth}{!}{\input{tables/portfolio_performance_net_diagnostics}}}
   {\begin{tabular}{llll}\toprule Strategy & Downside & Drawdown & NAV \\\midrule Missing & -- & -- & -- \\\bottomrule\end{tabular}}
-\caption{Post-cost performance diagnostics and NAV accounting.}
+\caption{Stress-cost performance diagnostics and NAV accounting.}
 \label{tab:performance_net_diag_app}
 \end{table}
 
-\subsection{Validation, inference, and robustness additional results}
+\subsection{Inference and multiple testing}
 
-The validation appendix keeps uncertain evidence in view. The bootstrap intervals and
-leave-one-underlying-out tests are uncertainty screens, not proof that a premium is stable.
-
-\begin{table}[H]
-\centering
-\scriptsize
-\IfFileExists{tables/liquidity_tier_performance.tex}
-  {\resizebox{\textwidth}{!}{\input{tables/liquidity_tier_performance}}}
-  {\begin{tabular}{llll}\toprule Tier & Strategy & Sharpe & Calmar \\\midrule Missing & -- & -- & -- \\\bottomrule\end{tabular}}
-\caption{Liquidity-tier performance. The tiers test whether the option allocation survives
-when the universe is restricted to high-volume, tight-spread, high-open-interest, or jointly
-liquid contracts.}
-\label{tab:liquidity_tiers_app}
-\end{table}
-
-\begin{table}[H]
-\centering
-\scriptsize
-\IfFileExists{tables/pnl_attribution.tex}
-  {\resizebox{\textwidth}{!}{\input{tables/pnl_attribution}}}
-  {\begin{tabular}{llll}\toprule Strategy & Delta & Vega & Residual \\\midrule Missing & -- & -- & -- \\\bottomrule\end{tabular}}
-\caption{Annualized mean P\&L attribution. Equity-option Greeks and VIX-forward Greeks
-are separated; components reconcile to realized mean after the residual term.}
-\label{tab:pnl_attribution_app}
-\end{table}
-
-\begin{table}[H]
-\centering
-\scriptsize
-\IfFileExists{tables/regime_performance.tex}
-  {\resizebox{\textwidth}{!}{\input{tables/regime_performance}}}
-  {\begin{tabular}{llll}\toprule Regime & Strategy & Return & Sharpe \\\midrule Missing & -- & -- & -- \\\bottomrule\end{tabular}}
-\caption{Performance by SPY-return tercile. Down, flat, and up regimes are descriptive
-cuts of the held-out sample, not fitted optimizer inputs.}
-\label{tab:regime_performance_app}
-\end{table}
-
-\begin{table}[H]
-\centering
-\scriptsize
-\IfFileExists{tables/forecast_ablation_performance.tex}
-  {\resizebox{0.86\textwidth}{!}{\input{tables/forecast_ablation_performance}}}
-  {\begin{tabular}{llll}\toprule Ablation & Return & Sharpe & Calmar \\\midrule Missing & -- & -- & -- \\\bottomrule\end{tabular}}
-\caption{Forecast ablation performance. Each row isolates one economically identified
-component of the conditional option-premium forecast.}
-\label{tab:forecast_ablation_app}
-\end{table}
+The third group carries the statistical evidence discussed in Section~\ref{sec:results}.
+Table~\ref{tab:inference_app} is the full bootstrap interval ledger,
+Table~\ref{tab:reality_check_app} reports per-variant probabilistic and deflated Sharpe
+ratios with the centered reality-check family statistics, and
+Table~\ref{tab:factor_regression_full_app} is the complete factor-regression ledger behind
+the headline regression table.
 
 \begin{table}[H]
 \centering
 \scriptsize
 \IfFileExists{tables/inference_summary.tex}
-  {\resizebox{\textwidth}{!}{\input{tables/inference_summary}}}
-  {\begin{tabular}{llll}\toprule Strategy & Metric & Estimate & Interval \\\midrule Missing & -- & -- & -- \\\bottomrule\end{tabular}}
-\caption{Full bootstrap inference ledger for gross and post-cost strategy metrics.}
+  {\resizebox{0.92\textwidth}{!}{\input{tables/inference_summary}}}
+  {\begin{tabular}{llll}\toprule Strategy & Metric & Estimate & Interval \\\midrule Missing & Run the empirical pipeline & -- & -- \\\bottomrule\end{tabular}}
+\caption{Full bootstrap inference ledger for gross and stress-cost strategy metrics.}
 \label{tab:inference_app}
 \end{table}
 
@@ -207,20 +260,41 @@ component of the conditional option-premium forecast.}
 \IfFileExists{tables/reality_check_inference.tex}
   {\resizebox{\textwidth}{!}{\input{tables/reality_check_inference}}}
   {\begin{tabular}{llll}\toprule Variant & Sharpe & PSR & DSR \\\midrule Missing & -- & -- & -- \\\bottomrule\end{tabular}}
-\caption{Reality-check inference across gross and executable-cost variants.}
+\caption{Reality-check inference across gross and executable-cost variants. Probabilistic
+and deflated Sharpe ratios are computed in per-month units; the centered max statistic and
+its bootstrap 95th percentile define the family-wise reality check (\(p=0.078\) for this
+variant family).}
 \label{tab:reality_check_app}
 \end{table}
 
+\begin{table}[H]
+\centering
+\scriptsize
+\IfFileExists{tables/factor_regression.tex}
+  {\resizebox{\textwidth}{!}{\input{tables/factor_regression}}}
+  {\begin{tabular}{llll}\toprule Strategy & Alpha & Controls & Status \\\midrule Missing & -- & -- & -- \\\bottomrule\end{tabular}}
+\caption{Full factor regression ledger, including SPY, all eight underlying equities, VX
+front returns, VIX changes, and VVIX changes. The delta-matched-equities and
+underlying-Markowitz benchmark rows are exact linear combinations of the regressors
+(\(R^2=1.000\), zero residual variance); their alpha \(t\)-statistics are numerical
+artifacts of near-zero standard errors and should be ignored.}
+\label{tab:factor_regression_full_app}
+\end{table}
 
-\subsubsection{Tail-path simulation diagnostics}
+\subsection{Tail-path simulation diagnostics}
 
 The next tables simulate alternative out-of-sample paths from the realized monthly strategy
 returns. They are path-risk diagnostics only: simulated returns do not enter contract
 selection, optimizer weights, expected-return forecasts, or any trading decision. The block
 bootstrap preserves short-run dependence in the realized option return path. The
-volatility-clustered simulation fits EGARCH(1,1)-t only when the OOS sample is long enough;
-otherwise it reports an EWMA residual fallback rather than pretending that the EGARCH
-parameters are precisely estimated.
+volatility-clustered simulation fits an EGARCH(1,1)-\(t\) model \citep{nelson1991} only
+when the OOS sample is long enough; otherwise it reports a fixed-parameter GARCH(1,1)
+residual-bootstrap fallback rather than pretending that the EGARCH parameters are precisely
+estimated. Simulated wealth paths
+are floored at zero (absorbing default), and the summary reports the defaulted-path share
+directly. Table~\ref{tab:simulation_breach_app} gives drawdown-breach probabilities,
+Table~\ref{tab:simulation_summary_app} summarizes path centers and left tails, and
+Table~\ref{tab:simulation_assumptions_app} records the fitted model status per strategy.
 
 \begin{table}[H]
 \centering
@@ -242,7 +316,8 @@ experience large drawdowns.}
   {\begin{tabular}{llll}\toprule Basis & Strategy & Simulation & Max DD \\\midrule Missing & -- & -- & -- \\\bottomrule\end{tabular}}
 \caption{Tail-path simulation summary. Median return and Sortino describe the simulated
 path center; the fifth-percentile maximum drawdown and terminal wealth columns describe the
-left tail of realized-path resampling.}
+left tail of realized-path resampling. Paths that lose all NAV are absorbed at zero
+wealth and counted in the defaulted-path share column.}
 \label{tab:simulation_summary_app}
 \end{table}
 
@@ -253,10 +328,58 @@ left tail of realized-path resampling.}
   {\resizebox{\textwidth}{!}{\input{tables/simulation_assumptions}}}
   {\begin{tabular}{llll}\toprule Basis & Strategy & Method & Status \\\midrule Missing & -- & -- & -- \\\bottomrule\end{tabular}}
 \caption{Simulation assumptions and model status. Fallback rows are deliberate diagnostics:
-when the monthly OOS sample is too short for EGARCH estimation, the appendix uses an EWMA
-residual bootstrap and records the reason.}
+when the monthly OOS sample is too short for EGARCH estimation, the appendix uses a
+fixed-parameter GARCH(1,1) residual bootstrap and records the reason.}
 \label{tab:simulation_assumptions_app}
 \end{table}
+
+\subsection{Additional robustness results}
+
+The final group holds the robustness cuts: liquidity tiers
+(Table~\ref{tab:liquidity_tiers_app}), SPY-return regimes
+(Table~\ref{tab:regime_performance_app}, Figure~\ref{fig:regime_sharpes_app}), VIX-level
+regimes (Table~\ref{tab:vix_regime_app}, Figure~\ref{fig:vix_regime_sharpes_app}),
+forecast ablations
+(Table~\ref{tab:forecast_ablation_app}), leave-one-underlying-out tests
+(Table~\ref{tab:loo_app}, Figure~\ref{fig:loo_app}), and the walk-forward rolling
+diagnostic (Table~\ref{tab:rolling_app}). These are uncertainty screens, not proof that a
+premium is stable.
+
+\begin{table}[H]
+\centering
+\scriptsize
+\IfFileExists{tables/liquidity_tier_performance.tex}
+  {\resizebox{\textwidth}{!}{\input{tables/liquidity_tier_performance}}}
+  {\begin{tabular}{llll}\toprule Tier & Strategy & Sharpe & Calmar \\\midrule Missing & -- & -- & -- \\\bottomrule\end{tabular}}
+\caption{Liquidity-tier performance. The tiers test whether the option allocation survives
+when the universe is restricted to high-volume, tight-spread, high-open-interest, or jointly
+liquid contracts. Tier membership is classified point-in-time from liquidity observed
+through the training-window end (2020-12-31), so an allocator at the decision date could
+have known the tier labels; an earlier draft classified tiers on end-of-sample liquidity.}
+\label{tab:liquidity_tiers_app}
+\end{table}
+
+\begin{table}[H]
+\centering
+\scriptsize
+\IfFileExists{tables/regime_performance.tex}
+  {\resizebox{\textwidth}{!}{\input{tables/regime_performance}}}
+  {\begin{tabular}{llll}\toprule Regime & Strategy & Return & Sharpe \\\midrule Missing & -- & -- & -- \\\bottomrule\end{tabular}}
+\caption{Performance by SPY-return tercile. Down, flat, and up regimes are descriptive
+cuts of the held-out sample, not fitted optimizer inputs.}
+\label{tab:regime_performance_app}
+\end{table}
+
+\begin{figure}[H]
+\centering
+\IfFileExists{figures/regime_sharpes.pdf}
+  {\includegraphics[width=0.86\textwidth]{regime_sharpes.pdf}}
+  {\fbox{\parbox{0.78\textwidth}{Run the empirical pipeline to generate the regime Sharpe figure.}}}
+\caption{Sharpe ratios by SPY-return tercile. The figure visualizes
+Table~\ref{tab:regime_performance_app}. Values below $-8$ are clipped and annotated
+with the true Sharpe so that a single failed sleeve does not compress the axis.}
+\label{fig:regime_sharpes_app}
+\end{figure}
 
 \begin{table}[H]
 \centering
@@ -268,15 +391,41 @@ residual bootstrap and records the reason.}
 \label{tab:vix_regime_app}
 \end{table}
 
+\begin{figure}[H]
+\centering
+\IfFileExists{figures/vix_regime_sharpes.pdf}
+  {\includegraphics[width=0.86\textwidth]{vix_regime_sharpes.pdf}}
+  {\fbox{\parbox{0.78\textwidth}{Run the empirical pipeline to generate the VIX regime Sharpe figure.}}}
+\caption{Sharpe ratios by VIX-level tercile. The figure visualizes
+Table~\ref{tab:vix_regime_app}; values below $-8$ would be clipped and annotated as in
+Figure~\ref{fig:regime_sharpes_app}.}
+\label{fig:vix_regime_sharpes_app}
+\end{figure}
+
+The vol-of-vol regime diagnostic conditions on the prior decision date's VIX chain
+feature. These features are not optimizer inputs; the table is a descriptive robustness
+screen for realized returns after the feature was observable.
 
 \begin{table}[H]
 \centering
 \scriptsize
-\IfFileExists{tables/factor_regression.tex}
-  {\resizebox{\textwidth}{!}{\input{tables/factor_regression}}}
-  {\begin{tabular}{llll}\toprule Strategy & Alpha & Controls & Status \\\midrule Missing & -- & -- & -- \\\bottomrule\end{tabular}}
-\caption{Full factor regression ledger, including SPY, all eight underlying equities, VX front returns, VIX changes, and VVIX changes.}
-\label{tab:factor_regression_full_app}
+\IfFileExists{tables/vol_of_vol_regime_performance.tex}
+  {\resizebox{\textwidth}{!}{\input{tables/vol_of_vol_regime_performance}}}
+  {\begin{tabular}{llll}\toprule Strategy & Regime & Months & Sharpe \\\midrule Missing & -- & -- & -- \\\bottomrule\end{tabular}}
+\caption{VIX chain vol-of-vol regime performance. Regime labels use the prior decision
+date's diagnostic feature and do not feed expected-return forecasts.}
+\label{tab:vol_of_vol_regime_app}
+\end{table}
+
+\begin{table}[H]
+\centering
+\scriptsize
+\IfFileExists{tables/forecast_ablation_performance.tex}
+  {\resizebox{0.86\textwidth}{!}{\input{tables/forecast_ablation_performance}}}
+  {\begin{tabular}{llll}\toprule Ablation & Return & Sharpe & Calmar \\\midrule Missing & -- & -- & -- \\\bottomrule\end{tabular}}
+\caption{Forecast ablation performance. Each row isolates one economically identified
+component of the conditional option-premium forecast.}
+\label{tab:forecast_ablation_app}
 \end{table}
 
 \begin{table}[H]
@@ -295,17 +444,21 @@ portfolio.}
 \IfFileExists{figures/leave_one_out_sharpe.pdf}
   {\includegraphics[width=0.88\textwidth]{leave_one_out_sharpe.pdf}}
   {\fbox{\parbox{0.78\textwidth}{Run the empirical pipeline to generate the leave-one-out figure.}}}
-\caption{Out-of-sample Sharpe ratios for leave-one-underlying-out variants.}
+\caption{Out-of-sample Sharpe ratios for leave-one-underlying-out variants
+(Table~\ref{tab:loo_app}).}
 \label{fig:loo_app}
 \end{figure}
 
 \begin{table}[H]
 \centering
-\scriptsize
+\small
 \IfFileExists{tables/rolling_oos.tex}
-  {\resizebox{0.72\textwidth}{!}{\input{tables/rolling_oos}}}
+  {\input{tables/rolling_oos}}
   {\begin{tabular}{lll}\toprule Check & Value & Status \\\midrule Missing & -- & -- \\\bottomrule\end{tabular}}
-\caption{Supplemental rolling 36-month OOS diagnostic.}
+\caption{Walk-forward rolling 36-month out-of-sample diagnostic. At each evaluation date
+the representative contracts, conditional premia, and covariances are re-estimated on the
+trailing 36-month window and weights come from the same constrained maximum-Sharpe solver
+as the headline strategies (Section~\ref{sec:metrics}).}
 \label{tab:rolling_app}
 \end{table}
 
@@ -323,22 +476,84 @@ the haircut, raises the stress or capacity penalty, or downgrades the claim. Thi
 paper can show VIX option diagnostics without treating proxy settlement as exact listed
 settlement.
 
-\subsection{Proof sketches, solver reductions, and implementation notes}
+\subsection{Proofs, solver reductions, and implementation notes}
 
-The covariance identity follows from the factor representation. If
-\(r_O=\mu_O+Bf+\varepsilon\), \(\Cov(f,\varepsilon)=0\),
-\(\Omega=\Var(f)\), and \(\Sigma_\varepsilon=\Var(\varepsilon)\), then
+\begin{proposition}[Greek-factor covariance identity and positive definiteness]\label{prop:cov_psd}
+Under Assumption~\ref{assump:projection}, with \(\Omega_t=\Var_t(f_{t+1})\) and
+\(\Sigma_{\varepsilon,t}=\Var_t(\varepsilon_{t+1})\),
 \[
-  \Var(r_O)=B\Omega B^\top+\Sigma_\varepsilon.
+  \Var_t(r_{O,t+1})=B_t\Omega_tB_t^\top+\Sigma_{\varepsilon,t},
 \]
-The matrix is positive semidefinite because both terms are positive semidefinite. This is
-the option-risk-model analogue of an equity factor covariance model.
+and the sum is positive semidefinite. If in addition \(\Sigma_{\varepsilon,t}\succ0\),
+then \(\Sigma_{O,t}\succ0\).
+\end{proposition}
 
-The tangency result is the standard Markowitz argument. Sharpe is homogeneous of degree
-zero, so impose \(q^\top\Sigma_Oq=1\) and maximize \(q^\top\mu_O\). The Lagrangian first-order
-condition gives \(\mu_O=2\lambda\Sigma_Oq\), hence
-\(q\propto\Sigma_O^{-1}\mu_O\). Constraints replace this closed-form direction with a
-fractional program over the feasible set.
+\begin{proof}
+\(\Var_t(B_tf_{t+1}+\varepsilon_{t+1})
+=B_t\Omega_tB_t^\top+\Sigma_{\varepsilon,t}
++B_t\Sigma_{f\varepsilon,t}+\Sigma_{f\varepsilon,t}^\top B_t^\top\), and
+\(\Sigma_{f\varepsilon,t}=\Cov_t(f_{t+1},\varepsilon_{t+1})=0\) by the projection
+construction. Both remaining terms are covariance forms, hence positive semidefinite. For
+any \(x\neq0\),
+\(x^\top\Sigma_{O,t}x\ge x^\top\Sigma_{\varepsilon,t}x
+\ge\lambda_{\min}(\Sigma_{\varepsilon,t})\|x\|^2>0\).
+\end{proof}
+
+This is the population statement, the option-risk-model analogue of an equity factor
+covariance model. As recorded in Section~\ref{sec:portfolio}, the estimated
+\(\widehat\Sigma_{\varepsilon,t}\), built from pairwise-complete residual moments on an
+unbalanced contract panel, need not be positive semidefinite in finite samples and is
+projected onto the PSD cone before entering \(\widehat\Sigma_{O,t}\).
+
+\begin{proposition}[Unconstrained maximum Sharpe]\label{prop:maxsharpe}
+Let \(\Sigma\succ0\) and \(\mu\neq0\), and define
+\(\SR(q)=q^\top\mu/\sqrt{q^\top\Sigma q}\) on the domain \(q\neq0\). Then
+(i) \(\SR(cq)=\SR(q)\) for all \(c>0\);
+(ii) the stationary points of \(\SR\) restricted to \(\{q:q^\top\Sigma q=1\}\) are
+\(q_\pm=\pm\,\Sigma^{-1}\mu/\sqrt{\mu^\top\Sigma^{-1}\mu}\);
+(iii) the maximizer is the positive root \(q_+\), unique up to positive scaling, with
+optimal value \(\SR^{\ast}=\sqrt{\mu^\top\Sigma^{-1}\mu}\).
+\end{proposition}
+
+\begin{proof}
+(i) is immediate. By (i) it suffices to maximize \(q^\top\mu\) on the compact ellipsoid
+\(\{q:q^\top\Sigma q=1\}\), where a maximizer exists. The Lagrange condition
+\(\mu=2\lambda\Sigma q\) with \(\Sigma\succ0\) gives \(q=\Sigma^{-1}\mu/(2\lambda)\), and
+\(q^\top\Sigma q=1\) forces \(2\lambda=\pm\sqrt{\mu^\top\Sigma^{-1}\mu}\neq0\) because
+\(\mu\neq0\). The objective at \(q_\pm\) equals \(\pm\sqrt{\mu^\top\Sigma^{-1}\mu}\), so the
+maximum is attained at \(q_+\) and (iii) follows.
+\end{proof}
+
+\begin{proposition}[Conic reduction of the constrained problem]\label{prop:conic}
+Let \(K\subseteq\R^n\) be a closed convex cone containing some \(q\) with
+\(q^\top\mu>0\), and let \(\Sigma\succ0\). Then
+\[
+  \sup_{q\in K\setminus\{0\}}\SR(q)
+  =\max\bigl\{\,y^\top\mu:\ y\in K,\ y^\top\Sigma y\le1\,\bigr\},
+\]
+and the right-hand side is a convex quadratically constrained program (the
+Charnes--Cooper transformation).
+\end{proposition}
+
+\begin{proof}
+For \(q\in K\setminus\{0\}\), the point \(y=q/\sqrt{q^\top\Sigma q}\) lies in \(K\)
+(cone), satisfies \(y^\top\Sigma y=1\), and has \(y^\top\mu=\SR(q)\), so the right side is
+at least the left. Conversely, the right side is positive by assumption, and any feasible
+\(y\) with \(y^\top\mu>0\) has
+\(\SR(y)=y^\top\mu/\sqrt{y^\top\Sigma y}\ge y^\top\mu\), so the left side is at least the
+right. The feasible set is closed, convex, and bounded because \(\Sigma\succ0\), and the
+objective is linear, so the maximum is attained.
+\end{proof}
+
+The budget functionals defining \(\mathcal K_t\) in Section~\ref{sec:portfolio} are positively homogeneous
+of degree one with strictly positive limits (gross NAV, short premium, per-contract,
+per-underlying, Greek, beta, and stress budgets), so they fix the admissible scale along
+the optimal ray of Proposition~\ref{prop:ray}; genuinely directional restrictions, such as
+a long-only sleeve, form the conic part to which Proposition~\ref{prop:conic} applies. The
+implemented solver accordingly either maximizes the ratio directly over \(\mathcal K_t\)
+under a gross-NAV normalization or solves the reduced convex program
+\(\max\{\mu^\top y: y^\top\Sigma y\le1,\ y\in\mathcal K_t\}\) and rescales the solution to
+the gross budget.
 
 The reproducibility package exposes the model code, empirical pipeline, publication tables,
 figures, strategy-return ledgers, factor regressions, attribution, regime splits, VIX
@@ -362,3 +577,28 @@ reconciliation would be required for production claims. Those claims are not mad
 article. The current contribution is the option-only theory object, a point-in-time research
 implementation, and an audit layer that prevents stronger wording when the data do not
 support it.
+
+\clearpage
+
+\subsection{Distributional-robustness assumptions and ledgers}
+
+Table~\ref{tab:mc_repriced_assumptions_app} records the state-model and repricing
+assumptions behind Section~\ref{sec:distributional_robustness}. In particular, it
+documents the one-step pricing-tenor convention, the VIX forward convention, the path
+count, the block length, and the seed used by the synthetic repricing tier.
+
+\begin{table}[H]
+\centering
+\scriptsize
+\IfFileExists{tables/mc_repriced_assumptions.tex}
+  {\resizebox{\textwidth}{!}{\input{tables/mc_repriced_assumptions}}}
+  {\begin{tabular}{llll}\toprule Section & Item & Value & Notes \\\midrule Missing & Run \texttt{make robustness} & -- & -- \\\bottomrule\end{tabular}}
+\caption{Repriced-universe state-model and pricing assumptions.}
+\label{tab:mc_repriced_assumptions_app}
+\end{table}
+
+The full fold schedule is intentionally not typeset because the blocked and CPCV ledgers
+are large. The machine-readable schedule and fold ledger ship as
+\path{artifacts/cv_fold_schedule.csv} and \path{artifacts/cv_fold_ledger.csv}; the split
+membership, CPCV path metrics, path-month returns, PBO summary, regime tags, runtime log,
+and context-consistency checks are in the adjacent \path{artifacts/cv_*.csv} files.

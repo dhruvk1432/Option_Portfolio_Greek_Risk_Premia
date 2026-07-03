@@ -1,19 +1,21 @@
 
-\section{Results and Discussion}
+\section{Results and Discussion}\label{sec:results}
 
-The strongest result is conceptual rather than promotional. In this sample and under these
-conventions, the option-only Markowitz object is coherent, auditable, and measurable. The
-empirical investment result is more conditional. Gross option portfolios can look
-attractive, but gross Sharpe is a research diagnostic rather than a trading result. VIX
-options improve the design as volatility instruments and hedge candidates only when exact
-VRO/SOQ settlement coverage supports the headline rows.
+The strongest result is conceptual rather than promotional: the option-only Markowitz
+object is coherent, auditable, and measurable on the held-out panel. The empirical
+investment result is more conditional. Gross option portfolios can look attractive, but
+gross Sharpe is a research diagnostic rather than a trading result. VIX options can improve
+the design as volatility instruments and hedge candidates only when exact VRO/SOQ settlement
+coverage supports the reported rows.
 
-The body keeps the central evidence in view: out-of-sample performance, full-spread
-post-cost survival, factor exposure, the realized path in Figure~\ref{fig:growth}, the
-random feasible comparison in Figure~\ref{fig:random_sharpe}, the VIX settlement gate in
-Table~\ref{tab:vix_settlement}, claim strength, and the claim audit. Detailed liquidity,
-attribution, regime, forecast-ablation, and multiple-testing diagnostics appear in
-Appendix A.
+The body keeps the central evidence in view: out-of-sample performance in
+Table~\ref{tab:performance}, post-cost survival in Table~\ref{tab:post_cost_survival},
+factor exposure in Table~\ref{tab:factor_regression}, the realized path in
+Figure~\ref{fig:growth}, the random feasible comparison in Figure~\ref{fig:random_sharpe},
+the VIX settlement gate in Table~\ref{tab:vix_settlement}, claim strength in
+Table~\ref{tab:claim_strength}, and the claim audit in Table~\ref{tab:claim_audit}.
+Detailed exposure, liquidity, attribution, regime, forecast-ablation, simulation, and
+multiple-testing diagnostics appear in Appendix A.
 
 \subsection{Headline evidence}
 
@@ -24,18 +26,105 @@ Appendix A.
   {\resizebox{\textwidth}{!}{\input{tables/portfolio_performance}}}
   {\begin{tabular}{llll}\toprule Strategy & Return & Sharpe & Claim status \\\midrule
   Missing & Run the empirical pipeline & -- & -- \\\bottomrule\end{tabular}}
-\caption{Gross and post-cost out-of-sample performance. Gross rows test the option-only
-Markowitz object; post-cost rows are research simulations that subtract spreads, fees,
-slippage, borrow, capacity, simulated margin funding, and assignment-risk penalties.}
+\caption{Gross and stress-cost out-of-sample performance. Gross rows test the option-only
+Markowitz object before frictions. The ``Post-cost research'' rows apply the
+\emph{conservative stress-cost layer}: full spread crossing on every leg, explicit fees,
+slippage, borrow, capacity penalties, simulated margin funding, and assignment-risk
+penalties, compounded monthly. This layer is a stress bound, not an execution estimate;
+the milder \emph{executable-cost scenarios} appear in
+Table~\ref{tab:post_cost_survival}. Annualized returns are arithmetic monthly means
+scaled by twelve, so stressed rows can fall below \(-100\%\) per year
+(Section~\ref{sec:metrics} records the conventions).}
 \label{tab:performance}
 \end{table}
 
-The table separates two questions. The gross rows ask whether the mathematical allocation
-object works on held-out option returns. The post-cost rows ask whether the same object
-still looks economically attractive after conservative implementation frictions. The
-pre-production layer then asks whether the result survives midpoint, half-spread, and
-full-spread executable-cost scenarios, required-capital denominators, no-fill diagnostics,
-and margin/stress-capital screens. Gross Sharpe is not treated as a trading result.
+Table~\ref{tab:performance} separates two questions. The gross rows ask whether the
+mathematical allocation object works on held-out option returns. The stress-cost rows ask
+whether the same object would still look attractive if every implementation friction were
+charged at its most conservative research setting simultaneously. Between those poles,
+Table~\ref{tab:post_cost_survival} asks whether the result survives midpoint, half-spread,
+and full-spread executable-cost scenarios with required-capital denominators, no-fill
+diagnostics, and margin/stress-capital screens. Gross Sharpe is not treated as a trading
+result under any of these readings.
+
+On the gross ledger, the three optimizer-based option sleeves earn annualized returns of
+\(0.894\), \(1.246\), and \(1.172\) (per unit of NAV) at annualized volatilities near
+\(0.8\)--\(1.1\): out-of-sample Sharpe ratios of \(0.842\) for the equity-option Greek
+Markowitz sleeve, \(1.374\) with the VIX overlay, and \(1.414\) for the beta/delta-neutral
+variant. The circular-block-bootstrap 90\% confidence intervals are wide---\([0.083,
+1.679]\), \([0.602, 2.222]\), and \([0.677, 2.220]\) respectively
+(Table~\ref{tab:performance_diag_app} and the full ledger in
+Table~\ref{tab:inference_app})---so the point estimates should be read as one draw from a
+sixty-month window, not as stable population quantities. The naive allocations confirm
+that construction, not option exposure per se, drives the result: equal-premium and
+equal-risk books earn gross Sharpe ratios of \(-0.030\) and \(0.082\), and the always-long
+VIX hedge sleeve loses its premium almost every month (Sharpe \(-6.429\), maximum drawdown
+undefined because the compounded path absorbs at zero wealth).
+
+The benchmark comparison is closer than the option-sleeve numbers alone suggest. The
+delta-matched equity benchmark, which holds the same underlying names at the sleeves'
+decision-date delta exposure without any options, earns a gross Sharpe of \(1.176\); the
+plain underlying Markowitz portfolio earns \(0.909\). The option sleeves' advantage over
+delta-matched equities is therefore roughly \(0.2\) Sharpe units at the point estimate,
+well inside the bootstrap intervals. The framework's contribution is the accounting and
+the risk decomposition, not a claim that these particular sleeves dominate their equity
+shadows.
+
+\subsection{Two cost layers}
+
+The paper reports two deliberately different post-cost accountings, and they must not be
+conflated. The \emph{executable-cost scenarios}
+(Tables~\ref{tab:post_cost_survival} and~\ref{tab:capacity_market_impact_app}) charge
+entry frictions only---quoted spread at midpoint, half, or full crossing plus explicit
+fees---at an average monthly cost, under full-spread crossing, of roughly \(0.7\%\) to
+\(3.2\%\) of NAV for the option sleeves (about \(8\%\) to \(38\%\) annualized). These
+scenarios fail closed: a position rejected for missing quotes, capacity, or
+assignment risk forfeits its gross return contribution instead of keeping it, so a
+rejection can move net performance in either direction. The
+\emph{conservative stress-cost layer} (the ``Post-cost research'' rows of
+Table~\ref{tab:performance}, with components in Table~\ref{tab:costs_app}) additionally
+charges round-trip spread on every rebalance leg, slippage, borrow, capacity penalties,
+simulated margin funding on gross margin of roughly \(1\) to \(4.6\) times NAV, and
+assignment-risk penalties. Its annualized cost drag is \(5.1\) to \(8.8\) NAV units per
+year for the optimizer sleeves---one to two orders of magnitude larger than the executable
+scenarios---which is why the same strategies show net Sharpe ratios of \(+0.91\),
+\(+0.29\), and \(+0.68\) in Table~\ref{tab:post_cost_survival} but \(-1.44\), \(-1.26\),
+and \(-1.37\) (with annualized returns as extreme as \(-790\%\) under the
+arithmetic-mean convention) in Table~\ref{tab:performance}.
+
+The reconciliation is a statement about claims, not about arithmetic. The executable-cost
+scenarios are the realistic post-cost evidence for a small, patient allocator paying
+quoted spreads once per month; under them the leading sleeves survive with full-spread
+Sharpe ratios of \(0.913\), \(0.294\), and \(0.678\), while the naive books and the hedge
+sleeve fail. Two features of these numbers deserve comment. The equity-option sleeve's
+net Sharpe exceeds its gross because the trades the fill screens reject were, on net,
+losers for that sleeve; and the VIX overlay pays the largest toll because its wing
+positions cross the widest spreads and hit capacity screens most often. The stress-cost
+layer is a bound: it shows that if margin funding, capacity,
+and round-trip frictions are all charged at conservative research settings, no option
+sleeve in this study survives. The realistic post-cost outcome likely lies between the two
+layers and is scenario-dependent; the claim audit (Table~\ref{tab:claim_audit}) therefore records
+post-cost viability as a conditional research finding rather than a robust result, and no
+wording in this paper should be read as post-cost survival under all cost assumptions.
+
+\subsection{Inference and multiple testing}
+
+The inference layer keeps the gross numbers honest. In per-month units, the probabilistic
+Sharpe ratios of the leading gross sleeves are high---\(0.979\), \(0.999\), and \(1.000\)
+for the equity-option, VIX-overlay, and beta/delta-neutral variants---so each sleeve's
+Sharpe is individually distinguishable from zero at conventional levels
+(Table~\ref{tab:reality_check_app}). Two multiple-testing corrections then remove most of
+that comfort. First, the centered reality-check family \(p\)-value across all evaluated
+variants is \(0.078\): the observed maximum studentized statistic of \(3.161\) sits below
+the bootstrap 95th percentile of \(3.424\), so the family-wise test fails the 5\% hurdle.
+Second, the deflated Sharpe ratio is \(0.000\) for every gross variant and at most
+\(0.51\) across the executable-cost variants. After
+deflating by the dispersion of the evaluated variant set---which includes the
+\(-6.4\)-Sharpe hedge sleeve and therefore a very wide cross-sectional spread---no
+variant's Sharpe ratio is distinguishable from the expected maximum under the null of no
+skill. These corrections support, rather than undermine, the paper's restrained thesis:
+sixty months of data cannot certify skill for any variant in this family, and the paper
+does not claim otherwise.
 
 \begin{table}[H]
 \centering
@@ -44,11 +133,16 @@ and margin/stress-capital screens. Gross Sharpe is not treated as a trading resu
   {\resizebox{\textwidth}{!}{\input{tables/post_cost_survival}}}
   {\begin{tabular}{llllll}\toprule Strategy & Gross Sharpe & Net Sharpe & Net Calmar & Cost & Survives \\\midrule
   Missing & Run the empirical pipeline & -- & -- & -- & -- \\\bottomrule\end{tabular}}
-\caption{Post-cost survival under the full-spread executable-cost scenario. A strategy
-survives only if net performance remains positive after conservative research frictions,
-capacity screens, settlement gates, and risk-capital checks.}
+\caption{Post-cost survival under the full-spread executable-cost scenario. This layer
+charges entry frictions only (quoted spread crossed in full plus fees); it is the milder
+of the two cost layers and is distinct from the conservative stress-cost layer of
+Table~\ref{tab:performance}. A strategy survives only if net performance remains positive
+after these frictions together with capacity screens, settlement gates, and risk-capital
+checks.}
 \label{tab:post_cost_survival}
 \end{table}
+
+\subsection{Factor exposure and benchmarks}
 
 \begin{table}[H]
 \centering
@@ -57,17 +151,49 @@ capacity screens, settlement gates, and risk-capital checks.}
   {\resizebox{\textwidth}{!}{\input{tables/factor_regression_headline}}}
   {\begin{tabular}{llll}\toprule Strategy & Alpha & Beta controls & HAC t-stat \\\midrule
   Missing & Run the empirical pipeline & -- & -- \\\bottomrule\end{tabular}}
-\caption{Headline factor regressions. The table asks whether option returns are explained
-by equity drift or volatility state controls before any alpha language is considered; the
-full eight-underlying regression appears in Appendix A.}
+\caption{Headline factor regressions with HAC (Newey--West) standard errors. The table
+asks whether option returns are explained by equity drift or volatility state controls
+before any alpha language is considered; the full eight-underlying regression appears in
+Appendix A (Table~\ref{tab:factor_regression_full_app}). The two equity benchmark rows are
+exact linear combinations of the regressors (\(R^2=1.000\), zero residual variance), so
+their alpha \(t\)-statistics are numerical artifacts and should be ignored.}
 \label{tab:factor_regression}
 \end{table}
 
-The regression is an audit, not a causal proof. If the option book is only a levered
-large-cap equity book, SPY and single-name betas should explain it. If it is mainly a
-volatility trade, VX, VIX, and VVIX controls should reveal that. A high point estimate
-without credible inference, low exposure, and post-cost robustness is not promoted to an
-option-alpha claim.
+The regression is an audit, not a causal proof. Against SPY, the eight underlying
+equities, VX front returns, and VIX/VVIX changes, the annualized alphas of the three
+optimizer sleeves are \(0.405\) (HAC \(t=1.005\)), \(0.675\) (\(t=1.814\)), and \(0.845\)
+(\(t=2.425\)), with \(R^2\) of \(0.618\), \(0.513\), and \(0.429\) and residual annualized
+volatility near \(0.6\)---the factor block explains roughly half of the option-book
+variance and leaves an economically large unexplained remainder
+(Table~\ref{tab:factor_regression_full_app}). The \(t\)-statistics carry the
+small-sample \(n/(n-k)\) HAC correction and are referred to a \(t(n-k)\) distribution.
+Only the beta/delta-neutral variant clears
+a conventional two-sided 5\% threshold, and none of these point estimates survives the
+family-wise corrections above, so the paper treats them as exposure diagnostics rather
+than alpha claims. The delta-matched-equities and underlying-Markowitz rows are spanned by
+the regressors by construction; their reported \(0.000\) alphas carry numerical-artifact
+\(t\)-statistics from dividing by near-zero standard errors and are excluded from any
+inference.
+
+\subsection{Robustness reading}
+
+Two robustness cuts summarize the appendix evidence. Leaving out any single underlying
+moves the VIX-enabled Greek Markowitz gross Sharpe within a narrow \(1.311\)--\(1.476\)
+band around the baseline \(1.374\), while excluding META, NVDA, and TSLA jointly lowers it
+to \(1.115\) (Table~\ref{tab:loo_app}); the result is not a one-name artifact, but it does
+lean on the volatile mega-cap complex. Across SPY-return terciles, the VIX overlay earns
+its keep in down markets (Sharpe \(0.888\) down, \(0.747\) flat, \(2.421\) up, versus
+\(-0.973\) down for the equity-option sleeve without the overlay), and the delta-matched
+equity benchmark loses in the same states (\(-2.753\) down)
+(Table~\ref{tab:regime_performance_app}, Figure~\ref{fig:regime_sharpes_app}). The
+walk-forward rolling 36-month diagnostic re-estimates the whole stack each quarter and
+still finds a positive out-of-sample Sharpe (Table~\ref{tab:rolling_app}), though on only
+twenty evaluation months. The
+regime split is descriptive---terciles are formed on the realized sample---but it is the
+pattern a volatility-instrument overlay should produce.
+
+\subsection{Claim audit}
 
 \begin{table}[H]
 \centering

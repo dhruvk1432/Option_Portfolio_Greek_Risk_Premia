@@ -1,4 +1,4 @@
-\section{Introduction}
+\section{Introduction}\label{sec:intro}
 
 An investor restricted to listed options has a simple question with a difficult answer:
 which calls and puts actually deserve premium capital? The usual asset-allocation template
@@ -24,8 +24,8 @@ every instrument is a funded, expiring, state-contingent cashflow rather than a 
 asset return column? The proposed answer is a premium-weighted option-only Markowitz
 framework that maps listed options into NAV-normalized cashflows, payoff and settlement
 conventions, Greeks, residual risk, conditional option-risk-premium forecasts,
-implementation screens, and portfolio constraints. In this sample and under these
-conventions, the validated empirical claim is that the framework is coherent,
+implementation screens, and portfolio constraints. On the sixty-month held-out sample, the
+validated empirical claim is that the framework is coherent,
 point-in-time, auditable, and useful for diagnosing whether option convexity, VIX exposure,
 or short-premium risk deserves capital. The non-claim is equally important: the article does
 not claim live alpha, production tradability, broker-executed performance, live margin
@@ -69,6 +69,19 @@ maps, not a complete physical-measure portfolio allocation rule. The present fra
 those maps to translate options into delta, gamma, vega, theta, VIX-forward exposure, and
 residual risk before applying Markowitz geometry.
 
+The closest antecedents optimize option portfolios directly.
+\citet{faias_santaclara2017} construct optimal option portfolios by simulating option
+returns to expiry and maximizing expected utility over the simulated distribution, and
+\citet{driessen_maenhout2007} evaluate option-pricing anomalies from an empirical
+portfolio perspective, asking how much of an investor's wealth optimally flows into index
+puts and straddles. This paper differs on both inputs: risk comes from a Greek-induced
+covariance matrix rather than simulated return distributions, and positions are
+premium-funded NAV weights rather than expiry-payoff shares, so the same machinery prices
+long and short option capital symmetrically. The premium-weight convention matters
+economically because option premia embed leverage that varies enormously across strikes
+and tenors \citep{frazzini_pedersen2022}; a premium weight is the natural unit in which
+that embedded leverage is charged against the portfolio budget.
+
 Expected option returns have their own economic sources. Empirical option-return research
 links compensation to carry, volatility risk premia, skew, crash insurance, and tail-risk
 states \citep{coval_shumway2001,bakshi_kapadia2003,carr_wu2009,
@@ -91,18 +104,24 @@ accounting and allocation framework for arbitrary listed options before asking w
 option sleeve deserves capital.
 
 The empirical result is intentionally mixed. The gross point-in-time backtest tests whether
-the option-only Markowitz object behaves coherently on the local OPRA-derived panel. The
-post-cost research layer subtracts conservative spreads, fees, slippage, borrow, capacity,
-simulated margin funding, and assignment-risk penalties. VIX options are included as
-volatility derivatives with VX-forward Black--76 Greeks, but VIX option evidence is
-headline-grade only when exact VRO/SOQ settlement supports the relevant rows. If the
-coverage table reports proxy rows, the same evidence is reported only as diagnostic
-hedge-sleeve evidence rather than a listed-settlement claim.
+the option-only Markowitz object behaves coherently on the local OPRA-derived panel.
+Post-cost evidence is reported at two intensities: executable-cost scenarios that charge
+entry frictions only, and a conservative stress-cost layer that additionally charges
+round-trip spreads, slippage, borrow, capacity, simulated margin funding, and
+assignment-risk penalties. VIX options are included as volatility derivatives with
+VX-forward Black--76 Greeks, but VIX option evidence supports listed-settlement claims
+only when exact VRO/SOQ settlement covers the relevant rows. If the coverage table reports
+proxy rows, the same evidence is reported only as diagnostic hedge-sleeve evidence rather
+than a listed-settlement claim.
 
-The article proceeds in the same order as the research workflow. Section 2 defines the data
-and empirical design. Section 3 builds the option cashflow and Greek-risk framework.
-Section 4 describes the conditional portfolio construction model. Section 5 sets out the
-metrics, point-in-time validation, inference, and claim gates. Section 6 reports the
-empirical results and negative evidence. Section 7 concludes with the limits of the current
-research implementation. Appendix A contains supplemental figures, option/VIX diagnostics,
+The article proceeds in the same order as the research workflow.
+Section~\ref{sec:data} defines the data and empirical design.
+Section~\ref{sec:cashflow} builds the option cashflow and Greek-risk framework.
+Section~\ref{sec:portfolio} describes the conditional portfolio construction model.
+Section~\ref{sec:metrics} sets out the metrics, point-in-time validation, inference, and
+claim gates. Section~\ref{sec:results} reports the empirical results and negative evidence.
+Section~\ref{sec:distributional_robustness} probes distributional robustness through blocked
+and combinatorial purged cross-validation and resampled and repriced Monte Carlo universes.
+Section~\ref{sec:conclusion} concludes with the limits of the current research
+implementation. Appendix~A contains supplemental figures, option/VIX diagnostics,
 robustness tables, instrument conventions, proof sketches, and reproducibility notes.

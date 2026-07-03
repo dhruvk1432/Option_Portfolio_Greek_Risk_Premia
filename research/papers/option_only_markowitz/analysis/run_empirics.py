@@ -8,12 +8,21 @@ machine-readable number used by the paper's LaTeX root.
 from __future__ import annotations
 
 import argparse
+import dataclasses
 import json
+import os
 import sys
+import time
 from pathlib import Path
 from typing import Sequence
 
+os.environ.setdefault("MPLCONFIGDIR", "/tmp/option_only_markowitz_mplconfig")
+Path(os.environ["MPLCONFIGDIR"]).mkdir(parents=True, exist_ok=True)
+import matplotlib
+
+matplotlib.use("Agg")
 import matplotlib.pyplot as plt
+from matplotlib.colors import TwoSlopeNorm
 import numpy as np
 import pandas as pd
 
@@ -30,7 +39,6 @@ from src.portfolio.option_only_markowitz_model import (  # noqa: E402
     OptionMarkowitzConstraints,
     OptionOnlyMarkowitzModel,
     OptionOnlySpec,
-    bootstrap_sharpe_ci,
     nearest_psd,
     performance_stats,
 )
@@ -41,13 +49,27 @@ from research.papers.option_only_markowitz.analysis.conditional_premia import ( 
 )
 from research.papers.option_only_markowitz.analysis.execution_cost_scenarios import (  # noqa: E402
     ExecutionCostScenarioConfig,
+    RepairConfig,
     apply_trade_hurdles,
     build_execution_cost_scenarios,
     capacity_market_impact_diagnostics,
+    execution_repair_comparison_table,
     forecast_ablation_tables,
     liquidity_tier_labels,
-    liquidity_tier_performance,
     post_cost_survival_table,
+    repair_diagnostics_table,
+)
+from research.papers.option_only_markowitz.analysis.cross_validation import (  # noqa: E402
+    CVConfig,
+    CVResults,
+    CV_STRATEGIES,
+    EVENT_WINDOWS,
+    assemble_cpcv_paths,
+    build_folds,
+    cpcv_regime_table,
+    evaluate_folds,
+    probability_of_backtest_overfitting,
+    tag_regimes,
 )
 from research.papers.option_only_markowitz.analysis.inference import (  # noqa: E402
     BootstrapConfig,
@@ -57,13 +79,35 @@ from research.papers.option_only_markowitz.analysis.inference import (  # noqa: 
     sharpe_reality_check,
     strategy_metric_inference,
 )
+from research.papers.option_only_markowitz.analysis.monte_carlo_repricing import (  # noqa: E402
+    RepriceConfig,
+    contract_static_params,
+    fit_joint_state_model,
+    reprice_assumptions,
+    reprice_contract_returns,
+    repriced_strategy_paths,
+    repriced_summary,
+    simulate_state_paths,
+    universe_comparison_table,
+)
 from research.papers.option_only_markowitz.analysis.publication_costs import (  # noqa: E402
     ResearchCostConfig,
     artifact_hash_manifest,
     build_cost_input_ledger,
     compute_strategy_cost_ledgers,
     cost_diagnostics_table,
+    derive_entry_cost_series,
+    load_cbbo_spread_surface,
     write_environment_lock,
+)
+from research.papers.option_only_markowitz.analysis.resampled_universes import (  # noqa: E402
+    ResampleConfig,
+    fixed_weight_universe_distribution,
+    refit_universe_distribution,
+    resample_assumptions,
+    resampled_summary,
+    stratified_month_index_paths,
+    month_index_paths,
 )
 from research.papers.option_only_markowitz.analysis.simulation import (  # noqa: E402
     SimulationConfig,
@@ -74,8 +118,11 @@ from research.papers.option_only_markowitz.analysis.simulation import (  # noqa:
 from research.papers.option_only_markowitz.analysis.vix_option_panel import (  # noqa: E402
     VIX_FACTOR,
     build_vix_option_bucket_panel,
-    front_vx_price_series,
     vix_state_panel,
+)
+from research.papers.option_only_markowitz.analysis.vix_chain_features import (  # noqa: E402
+    build_vix_chain_state_features,
+    vol_of_vol_regime_table,
 )
 
 
@@ -86,6 +133,12 @@ TRAIN_END = pd.Timestamp("2020-12-31")
 VIX_OPTION_UNDERLYINGS = [VIX_FACTOR]
 PERIODS_PER_YEAR = 12.0
 JOURNAL_COLORS = ["#00552B", "#2F6F9F", "#8B1E3F", "#7A6A2B", "#4C566A", "#A65E2E", "#4F7C45", "#6B4E71"]
+MC_ROBUSTNESS_STRATEGIES = (
+    "Greek Markowitz + VIX",
+    "Equity-option Greek Markowitz",
+    "Beta/delta-neutral + VIX",
+    "Cost-aware Sortino + VIX",
+)
 HEADLINE_GROWTH_STRATEGIES = [
     "Equity-option Greek Markowitz",
     "Greek Markowitz + VIX",
@@ -112,6 +165,19 @@ def _ensure_dirs() -> None:
         path.mkdir(parents=True, exist_ok=True)
 
 
+def _write_hash_manifest() -> None:
+    write_environment_lock(PAPER / "environment_lock.json")
+    hash_paths = []
+    for directory in (TABLE_DIR, FIG_DIR, ART_DIR):
+        hash_paths.extend([p for p in directory.rglob("*") if p.is_file()])
+    hash_paths.extend([
+        PAPER / "option_only_portfolio_optimization_dhruv_kohli.tex",
+        PAPER / "REPRODUCIBILITY.md",
+        PAPER / "environment_lock.json",
+    ])
+    artifact_hash_manifest(hash_paths, PAPER).to_csv(PAPER / "artifact_hash_manifest.csv", index=False)
+
+
 def _latex_escape(value: object) -> str:
     text = str(value)
     return (
@@ -122,9 +188,9 @@ def _latex_escape(value: object) -> str:
     )
 
 
-def _write_latex_table(df: pd.DataFrame, path: Path, float_format: str = "%.3f") -> None:
+def _write_latex_table(df: pd.DataFrame, path: Path, float_format: str = "%.3f", na_rep: str = "") -> None:
     path.write_text(
-        df.to_latex(index=False, escape=False, float_format=float_format, na_rep=""),
+        df.to_latex(index=False, escape=False, float_format=float_format, na_rep=na_rep),
         encoding="utf-8",
     )
 
@@ -135,6 +201,20 @@ def _escape_object_columns(df: pd.DataFrame) -> pd.DataFrame:
         if pd.api.types.is_object_dtype(out[col]) or pd.api.types.is_string_dtype(out[col]):
             out[col] = out[col].map(_latex_escape)
     return out
+
+
+def _json_safe_value(value: object) -> object:
+    if isinstance(value, np.generic):
+        value = value.item()
+    if isinstance(value, float) and not np.isfinite(value):
+        return None
+    if isinstance(value, pd.Timestamp):
+        return value.isoformat()
+    return value
+
+
+def _json_safe_dict(values: dict) -> dict:
+    return {str(k): _json_safe_value(v) for k, v in values.items()}
 
 
 def _nearest_split_ratio(value: float) -> float | None:
@@ -427,8 +507,23 @@ def _split_adjust_selected_spots(spot: pd.DataFrame, universe: Sequence[str]) ->
     return out
 
 
-def representative_specs(reps: pd.DataFrame, returns: pd.DataFrame) -> pd.DataFrame:
-    train_reps = reps[reps["snap_date"].le(TRAIN_END)]
+def representative_specs(
+    reps: pd.DataFrame,
+    returns: pd.DataFrame,
+    train_start: pd.Timestamp | None = None,
+    train_end: pd.Timestamp | None = None,
+) -> pd.DataFrame:
+    """Latest in-training-window representative contract per asset.
+
+    ``train_end`` defaults to the global TRAIN_END for backward compatibility;
+    rolling estimations must pass their own window bounds so the specs roll.
+    """
+
+    end = TRAIN_END if train_end is None else pd.Timestamp(train_end)
+    mask = reps["snap_date"].le(end)
+    if train_start is not None:
+        mask &= reps["snap_date"].ge(pd.Timestamp(train_start))
+    train_reps = reps[mask]
     rows = []
     for asset_id, grp in train_reps.groupby("asset_id"):
         last = grp.sort_values("snap_date").iloc[-1]
@@ -512,10 +607,24 @@ def make_model(
     returns: pd.DataFrame,
     reps: pd.DataFrame,
     underlyings: Sequence[str] | None = None,
+    train_start: pd.Timestamp | None = None,
+    train_end: pd.Timestamp | None = None,
+    under_ret: pd.DataFrame | None = None,
+    vol_shocks: pd.DataFrame | None = None,
 ) -> tuple[OptionOnlyMarkowitzModel, pd.DataFrame]:
     universe = list(underlyings or PRIMARY_UNDERLYINGS)
-    train_returns = returns.loc[:TRAIN_END, spec.index].dropna(how="all")
-    under_ret, vol_shocks = factor_panels(reps, universe)
+    # Explicit training bounds; TRAIN_END remains the default so the headline
+    # pipeline is unchanged while rolling estimations get a real roll.
+    end = TRAIN_END if train_end is None else pd.Timestamp(train_end)
+    start = pd.Timestamp(train_start) if train_start is not None else None
+    train_returns = returns.loc[start:end, spec.index].dropna(how="all")
+    if len(train_returns):
+        assert pd.Timestamp(train_returns.index.max()) <= end, (
+            f"training returns leak past train_end={end.date()}: "
+            f"max index {pd.Timestamp(train_returns.index.max()).date()}"
+        )
+    if under_ret is None or vol_shocks is None:
+        under_ret, vol_shocks = factor_panels(reps, universe)
     train_under = under_ret.loc[train_returns.index].dropna(how="all").fillna(0.0)
     train_vol = vol_shocks.loc[train_returns.index].dropna(how="all").fillna(0.0)
     under_cov = train_under.cov().reindex(index=universe, columns=universe).fillna(0.0)
@@ -575,12 +684,50 @@ def make_model(
     return model, residuals
 
 
+def _solve_weights_with_guard(model: OptionOnlyMarkowitzModel, label: str = "") -> pd.Series:
+    """Defensive wrapper around ``solve_max_sharpe`` that respects ``status``.
+
+    Contract: status in {'optimal', 'feasible_suboptimal', 'infeasible'};
+    'infeasible' means the max constraint violation exceeds 1e-5.  On an
+    infeasible solve the strategy holds zero weights (cash) and the event is
+    logged.  Works whether or not the solver reports the new status field.
+    """
+
+    res = model.solve_max_sharpe()
+    status = getattr(res, "status", "optimal")
+    if str(status) == "infeasible":
+        print(f"[run_empirics] infeasible max-Sharpe solve ({label or 'unnamed'}); using zero weights")
+        return pd.Series(0.0, index=model.contracts, name="weight")
+    return res.weights
+
+
+def _sortino_weights_with_guard(
+    model: OptionOnlyMarkowitzModel,
+    train_scenarios: pd.DataFrame,
+    entry_costs: pd.Series,
+    label: str = "",
+) -> tuple[pd.Series, dict]:
+    res = model.solve_max_sortino(train_scenarios, entry_costs=entry_costs, target=0.0)
+    status = getattr(res, "status", "optimal")
+    if str(status) == "infeasible":
+        print(f"[run_empirics] infeasible max-Sortino solve ({label or 'unnamed'}); using zero weights")
+        return pd.Series(0.0, index=model.contracts, name="weight"), {"status": "infeasible"}
+    return (
+        res.weights,
+        {
+            "status": str(status),
+            "method_used": getattr(res, "solver", "") or "",
+            **(res.objective_stats or {}),
+        },
+    )
+
+
 def strategy_weights(
     model: OptionOnlyMarkowitzModel,
     underlyings: Sequence[str] | None = None,
 ) -> dict[str, pd.Series]:
     universe = list(underlyings or PRIMARY_UNDERLYINGS)
-    opt = model.solve_max_sharpe().weights
+    opt = _solve_weights_with_guard(model, "greek_markowitz")
     equal = model.equal_premium_weights()
     erisk = model.equal_risk_weights()
 
@@ -603,7 +750,7 @@ def strategy_weights(
         covariance_shrinkage=0.20,
     )
     delta_model.option_cov = model.option_cov
-    dneutral = delta_model.solve_max_sharpe().weights
+    dneutral = _solve_weights_with_guard(delta_model, "delta_neutral")
 
     return {
         "Greek Markowitz": opt,
@@ -854,6 +1001,7 @@ def regime_performance_table(ret_frame: pd.DataFrame, spy_returns: pd.Series) ->
         for regime in ["Down", "Flat", "Up"]:
             r = ret_frame.loc[regimes.eq(regime), name].dropna()
             st = performance_stats(r, PERIODS_PER_YEAR, benchmark_returns=spy_returns.reindex(r.index))
+            sharpe_ci = block_bootstrap_metric_ci(r, "sharpe", BootstrapConfig(n_boot=500))
             rows.append(
                 {
                     "Strategy": name,
@@ -862,8 +1010,8 @@ def regime_performance_table(ret_frame: pd.DataFrame, spy_returns: pd.Series) ->
                     "Ann. return": st["ann_return"],
                     "Ann. vol": st["ann_vol"],
                     "Sharpe": st["sharpe"],
-                    "Sharpe CI lo": block_bootstrap_metric_ci(r, "sharpe", BootstrapConfig(n_boot=500))[1],
-                    "Sharpe CI hi": block_bootstrap_metric_ci(r, "sharpe", BootstrapConfig(n_boot=500))[2],
+                    "Sharpe CI lo": sharpe_ci[1],
+                    "Sharpe CI hi": sharpe_ci[2],
                     "Sortino": st["sortino"],
                     "Calmar": st["calmar"],
                     "Omega": st["omega"],
@@ -1131,29 +1279,57 @@ def plot_growth(
     plt.savefig(path)
     plt.close(fig)
 
-def plot_regime_sharpes(regime: pd.DataFrame, path: Path) -> None:
+def plot_regime_sharpes(
+    regime: pd.DataFrame,
+    path: Path,
+    title: str = "Performance by SPY market regime",
+    clip_floor: float = -8.0,
+) -> None:
+    # Preserve the regime order in which the table was built; hardcoding
+    # Down/Flat/Up silently blanked the Low/Mid/High VIX variant of this plot.
+    regime_order = list(pd.unique(regime["Regime"]))
     pivot = regime.pivot(index="Strategy", columns="Regime", values="Sharpe").reindex(
-        columns=["Down", "Flat", "Up"]
+        columns=regime_order
     )
+    # Clip extreme negative outliers so one failed sleeve does not compress
+    # every other strategy onto a single pixel row; annotate the true value.
+    clipped = pivot.where(pivot >= clip_floor)
+    clip_notes = pivot[pivot < clip_floor]
     fig, ax = plt.subplots(figsize=(9, 4.8))
     x = np.arange(len(pivot.columns))
     colors = plt.get_cmap("tab10").colors
     n = len(pivot)
-    for i, (name, row) in enumerate(pivot.iterrows()):
+    for i, (name, row) in enumerate(clipped.iterrows()):
         x_jitter = x + (i - (n - 1) / 2.0) * 0.012
+        vals = row.to_numpy(float)
         ax.plot(
             x_jitter,
-            row.to_numpy(float),
+            vals,
             label=name,
             color=colors[i % len(colors)],
             linewidth=1.8,
             marker="o",
             markersize=4,
         )
+        if name in clip_notes.index:
+            for j, col in enumerate(clipped.columns):
+                true_val = clip_notes.loc[name, col] if col in clip_notes.columns else np.nan
+                if np.isfinite(true_val):
+                    ax.plot(x_jitter[j], clip_floor, marker="v", color=colors[i % len(colors)], markersize=6)
+                    ax.annotate(
+                        f"{true_val:.1f}",
+                        (x_jitter[j], clip_floor),
+                        textcoords="offset points",
+                        xytext=(4, 4),
+                        fontsize=7,
+                        color=colors[i % len(colors)],
+                    )
+    if not clip_notes.dropna(how="all").empty:
+        ax.set_ylim(bottom=clip_floor - 0.6)
     ax.set_xticks(x)
     ax.set_xticklabels(pivot.columns)
     ax.set_ylabel("Sharpe")
-    ax.set_title("Performance by SPY market regime")
+    ax.set_title(title)
     ax.grid(True, axis="y", alpha=0.25)
     ax.legend(loc="upper center", bbox_to_anchor=(0.5, -0.18), ncol=3, fontsize=8, frameon=False)
     plt.tight_layout(rect=(0, 0.08, 1, 1))
@@ -1173,6 +1349,432 @@ def plot_leave_one_out(leave_one: pd.DataFrame, path: Path) -> None:
     ax.grid(True, axis="y", alpha=0.25)
     plt.tight_layout()
     plt.savefig(path)
+    plt.close(fig)
+
+
+def _first_existing_column(frame: pd.DataFrame, candidates: Sequence[str]) -> str | None:
+    for col in candidates:
+        if col in frame.columns:
+            return col
+    return None
+
+
+def _strategy_order_from_frame(frame: pd.DataFrame, preferred: Sequence[str]) -> list[str]:
+    strategy_col = _first_existing_column(frame, ["strategy", "Strategy"])
+    if strategy_col is None:
+        return []
+    present = set(frame[strategy_col].dropna().astype(str))
+    ordered = [strategy for strategy in preferred if strategy in present]
+    ordered.extend(sorted(present.difference(ordered)))
+    return ordered
+
+
+def _realized_sharpe_lookup(realized: pd.DataFrame, basis: str = "gross") -> dict[str, float]:
+    if realized.empty:
+        return {}
+    strategy_col = _first_existing_column(realized, ["strategy", "Strategy"])
+    sharpe_col = _first_existing_column(realized, ["sharpe", "Sharpe", "Realized Gross Sharpe", "Sharpe Realized"])
+    if strategy_col is None or sharpe_col is None:
+        return {}
+    frame = realized.copy()
+    if "basis" in frame.columns:
+        frame = frame[frame["basis"].astype(str).eq(basis)]
+    elif "Basis" in frame.columns:
+        frame = frame[frame["Basis"].astype(str).eq(basis)]
+    frame[sharpe_col] = pd.to_numeric(frame[sharpe_col], errors="coerce")
+    frame = frame.dropna(subset=[strategy_col, sharpe_col])
+    return frame.groupby(frame[strategy_col].astype(str))[sharpe_col].first().to_dict()
+
+
+def _realized_gross_sharpes_from_returns(ret_frame: pd.DataFrame) -> pd.DataFrame:
+    rows = []
+    for strategy in ret_frame.columns:
+        stats = performance_stats(pd.Series(ret_frame[strategy]).dropna(), PERIODS_PER_YEAR)
+        rows.append({"strategy": strategy, "basis": "gross", "sharpe": float(stats.get("sharpe", np.nan))})
+    return pd.DataFrame(rows)
+
+
+def _realized_gross_sharpes_from_empirical_summary(summary_path: Path) -> pd.DataFrame:
+    """Load realized static-split gross Sharpes from empirical_summary.json."""
+
+    if not summary_path.exists():
+        raise FileNotFoundError(
+            f"Missing realized-Sharpe source: {summary_path.relative_to(PAPER)}. "
+            "Run the empirical stage before regenerating robustness figures."
+        )
+    payload = json.loads(summary_path.read_text(encoding="utf-8"))
+    rows = []
+    for row in payload.get("performance", []):
+        if str(row.get("Return basis", "")) != "Gross before costs":
+            continue
+        rows.append(
+            {
+                "strategy": row.get("Strategy"),
+                "basis": "gross",
+                "sharpe": row.get("Sharpe"),
+            }
+        )
+    out = pd.DataFrame(rows, columns=["strategy", "basis", "sharpe"])
+    if not out.empty:
+        out["sharpe"] = pd.to_numeric(out["sharpe"], errors="coerce")
+    return out
+
+
+def _attach_realized_sharpes(paths: pd.DataFrame, realized: pd.DataFrame) -> pd.DataFrame:
+    out = paths.copy()
+    lookup = _realized_sharpe_lookup(realized, "gross")
+    if "strategy" in out.columns and lookup:
+        out["realized_sharpe"] = out["strategy"].astype(str).map(lookup)
+    return out
+
+
+def _realized_lookup_from_paths(*frames: pd.DataFrame) -> dict[str, float]:
+    lookup: dict[str, float] = {}
+    for frame in frames:
+        if frame.empty or not {"strategy", "realized_sharpe"}.issubset(frame.columns):
+            continue
+        sub = frame[["strategy", "realized_sharpe"]].copy()
+        sub["realized_sharpe"] = pd.to_numeric(sub["realized_sharpe"], errors="coerce")
+        sub = sub.dropna(subset=["strategy", "realized_sharpe"])
+        lookup.update(sub.groupby(sub["strategy"].astype(str))["realized_sharpe"].first().to_dict())
+    return lookup
+
+
+def _finite_sharpes(frame: pd.DataFrame) -> pd.Series:
+    if frame.empty or "sharpe" not in frame.columns:
+        return pd.Series(dtype=float)
+    return pd.to_numeric(frame["sharpe"], errors="coerce").replace([np.inf, -np.inf], np.nan).dropna()
+
+
+def _set_common_sharpe_xlim(axes: Sequence[plt.Axes], values: Sequence[float]) -> None:
+    finite = np.asarray([float(v) for v in values if np.isfinite(v)], dtype=float)
+    if finite.size == 0:
+        lo, hi = -1.0, 1.0
+    else:
+        lo = min(float(finite.min()), 0.0)
+        hi = max(float(finite.max()), 0.0)
+        pad = max((hi - lo) * 0.08, 0.25)
+        lo -= pad
+        hi += pad
+    for ax in axes:
+        ax.set_xlim(lo, hi)
+
+
+def plot_cpcv_sharpe_distribution(
+    path_metrics: pd.DataFrame,
+    realized: pd.DataFrame,
+    out_path: Path,
+) -> None:
+    """Plot complete CPCV path Sharpes against realized static-split gross Sharpe."""
+
+    out_path.parent.mkdir(parents=True, exist_ok=True)
+    fig, ax = plt.subplots(figsize=(8.8, 4.8))
+    strategy_order = _strategy_order_from_frame(path_metrics, CV_STRATEGIES)
+    strategy_order = [strategy for strategy in CV_STRATEGIES if strategy in strategy_order]
+    if not strategy_order:
+        strategy_order = list(CV_STRATEGIES)
+    # The standalone hedge sleeve's realized Sharpe (~-6.4) would compress the
+    # x-axis and hide the interesting dispersion; it stays in the fold table.
+    strategy_order = [s for s in strategy_order if s != "VIX hedge sleeve"] or strategy_order
+
+    frame = path_metrics.copy()
+    if "status" in frame.columns:
+        frame = frame[frame["status"].astype(str).eq("complete")]
+    frame = frame[frame.get("strategy", pd.Series(dtype=object)).astype(str).isin(strategy_order)]
+    realized_lookup = _realized_sharpe_lookup(realized, "gross")
+
+    basis_specs = [
+        ("gross", "Gross CPCV", JOURNAL_COLORS[0], -0.10),
+        ("full_spread_post_cost", "Full-spread CPCV", JOURNAL_COLORS[2], 0.10),
+    ]
+    y_positions = np.arange(len(strategy_order), dtype=float)
+    for basis, _label, color, offset in basis_specs:
+        basis_frame = frame[frame.get("basis", pd.Series(dtype=object)).astype(str).eq(basis)]
+        for i, strategy in enumerate(strategy_order):
+            sub = basis_frame[basis_frame["strategy"].astype(str).eq(strategy)].sort_values("path_id")
+            sharpe = _finite_sharpes(sub)
+            if sharpe.empty:
+                continue
+            jitter = np.linspace(-0.035, 0.035, len(sharpe)) if len(sharpe) > 1 else np.array([0.0])
+            ax.scatter(
+                sharpe.to_numpy(float),
+                np.full(len(sharpe), y_positions[i] + offset) + jitter,
+                s=28,
+                color=color,
+                alpha=0.78,
+                edgecolor="white",
+                linewidth=0.35,
+                zorder=3,
+            )
+    for i, strategy in enumerate(strategy_order):
+        marker = realized_lookup.get(strategy, np.nan)
+        if np.isfinite(marker):
+            ax.scatter(
+                marker,
+                y_positions[i],
+                marker="D",
+                s=48,
+                color=JOURNAL_COLORS[1],
+                edgecolor="#24313A",
+                linewidth=0.55,
+                zorder=4,
+            )
+
+    all_values = _finite_sharpes(frame).to_list() + [
+        v for s, v in realized_lookup.items() if s in strategy_order and np.isfinite(v)
+    ]
+    _set_common_sharpe_xlim([ax], all_values)
+    ax.axvline(0.0, color="#555", linestyle="--", linewidth=1.0, alpha=0.70, zorder=1)
+    ax.set_yticks(y_positions)
+    ax.set_yticklabels(strategy_order)
+    ax.invert_yaxis()
+    ax.set_xlabel("Sharpe")
+    ax.set_ylabel("Strategy")
+    ax.grid(True, axis="x", alpha=0.22, linewidth=0.7)
+    ax.grid(True, axis="y", alpha=0.07, linewidth=0.5)
+    handles = [
+        plt.Line2D([0], [0], marker="o", color="none", markerfacecolor=JOURNAL_COLORS[0], markeredgecolor="white", markersize=6, label="Gross CPCV"),
+        plt.Line2D([0], [0], marker="o", color="none", markerfacecolor=JOURNAL_COLORS[2], markeredgecolor="white", markersize=6, label="Full-spread CPCV"),
+        plt.Line2D([0], [0], marker="D", color="none", markerfacecolor=JOURNAL_COLORS[1], markeredgecolor="#24313A", markersize=6, label="Realized gross"),
+    ]
+    ax.legend(handles=handles, loc="upper center", bbox_to_anchor=(0.5, -0.14), ncol=3, fontsize=8, frameon=False)
+    plt.tight_layout(rect=(0, 0.08, 1, 1))
+    plt.savefig(out_path)
+    plt.close(fig)
+
+
+def _fold_window_label(row: pd.Series) -> str:
+    start = pd.to_datetime(row.get("test_start"), errors="coerce")
+    end = pd.to_datetime(row.get("test_end"), errors="coerce")
+    if pd.isna(start) or pd.isna(end):
+        return str(row.get("fold_id", ""))
+    return f"{start:%Y-%m}..{end:%Y-%m}"
+
+
+def plot_fold_sharpe_heatmap(
+    fold_ledger: pd.DataFrame,
+    fold_schedule: pd.DataFrame,
+    out_path: Path,
+) -> None:
+    """Plot blocked k-fold gross Sharpe values as a strategy-by-window heatmap."""
+
+    out_path.parent.mkdir(parents=True, exist_ok=True)
+    schedule = fold_schedule.copy()
+    if not schedule.empty and "scheme" in schedule.columns:
+        schedule = schedule[schedule["scheme"].astype(str).eq("kfold")]
+    if not schedule.empty and "test_start" in schedule.columns:
+        schedule = schedule.assign(_test_start=pd.to_datetime(schedule["test_start"], errors="coerce"))
+        schedule = schedule.sort_values(["_test_start", "fold_id"])
+    fold_ids = schedule.get("fold_id", pd.Series(dtype=object)).astype(str).tolist()
+    labels = [_fold_window_label(row) for _, row in schedule.iterrows()]
+
+    ledger = fold_ledger.copy()
+    if not ledger.empty:
+        if "scheme" in ledger.columns:
+            ledger = ledger[ledger["scheme"].astype(str).eq("kfold")]
+        if "basis" in ledger.columns:
+            ledger = ledger[ledger["basis"].astype(str).eq("gross")]
+        if "status" in ledger.columns:
+            ledger = ledger[ledger["status"].astype(str).eq("ok")]
+    strategies = [strategy for strategy in CV_STRATEGIES if strategy in set(ledger.get("strategy", pd.Series(dtype=object)).astype(str))]
+    if not strategies:
+        strategies = list(CV_STRATEGIES)
+    if not fold_ids:
+        fold_ids = sorted(ledger.get("fold_id", pd.Series(dtype=object)).astype(str).unique())
+        labels = fold_ids
+
+    pivot = (
+        ledger.assign(sharpe=pd.to_numeric(ledger.get("sharpe", pd.Series(dtype=float)), errors="coerce"))
+        .pivot_table(index="strategy", columns="fold_id", values="sharpe", aggfunc="first")
+        .reindex(index=strategies, columns=fold_ids)
+    )
+    values = pivot.to_numpy(float) if not pivot.empty else np.empty((len(strategies), len(fold_ids)))
+    finite = values[np.isfinite(values)]
+    # Clip the color scale at +/-3: the hedge sleeve's extreme fold Sharpes
+    # (~-20) would otherwise wash out every other cell.  Annotations keep the
+    # true values, and the caption discloses the clipping.
+    vmax = min(max(float(np.nanmax(np.abs(finite))) if finite.size else 1.0, 1.0), 3.0)
+    cmap = plt.get_cmap("RdBu_r").with_extremes(bad="#F1F1F1")
+    norm = TwoSlopeNorm(vmin=-vmax, vcenter=0.0, vmax=vmax)
+
+    fig, ax = plt.subplots(figsize=(12.0, 6.0))
+    im = ax.imshow(np.ma.masked_invalid(values), aspect="auto", cmap=cmap, norm=norm)
+    ax.set_xticks(np.arange(len(fold_ids)))
+    ax.set_xticklabels(labels, rotation=45, ha="right")
+    ax.set_yticks(np.arange(len(strategies)))
+    ax.set_yticklabels(strategies)
+    ax.set_xlabel("Test window")
+    ax.set_ylabel("Strategy")
+    ax.set_xticks(np.arange(-0.5, len(fold_ids), 1), minor=True)
+    ax.set_yticks(np.arange(-0.5, len(strategies), 1), minor=True)
+    ax.grid(which="minor", color="white", linewidth=0.8)
+    ax.tick_params(which="minor", bottom=False, left=False)
+    for i in range(values.shape[0]):
+        for j in range(values.shape[1]):
+            val = values[i, j]
+            if np.isfinite(val):
+                text_color = "white" if abs(val) > 0.58 * vmax else "#222"
+                ax.text(j, i, f"{val:.1f}", ha="center", va="center", fontsize=7, color=text_color)
+    cbar = fig.colorbar(im, ax=ax, fraction=0.025, pad=0.015)
+    cbar.set_label("Gross Sharpe")
+    plt.tight_layout()
+    plt.savefig(out_path)
+    plt.close(fig)
+
+
+def _mc_distribution_values(
+    paths: pd.DataFrame,
+    strategy: str,
+    *,
+    universe_family: str | None = None,
+    basis: str | None = None,
+    method: str | None = None,
+) -> pd.Series:
+    frame = paths.copy()
+    if universe_family is not None and "universe_family" in frame.columns:
+        frame = frame[frame["universe_family"].astype(str).eq(universe_family)]
+    if basis is not None and "basis" in frame.columns:
+        frame = frame[frame["basis"].astype(str).eq(basis)]
+    if method is not None and "method" in frame.columns:
+        frame = frame[frame["method"].astype(str).eq(method)]
+    if "status" in frame.columns:
+        frame = frame[frame["status"].astype(str).eq("ok")]
+    if "strategy" not in frame.columns:
+        return pd.Series(dtype=float)
+    frame = frame[frame["strategy"].astype(str).eq(strategy)]
+    return _finite_sharpes(frame)
+
+
+def _plot_strategy_violins(
+    ax: plt.Axes,
+    paths: pd.DataFrame,
+    strategies: Sequence[str],
+    realized_lookup: dict[str, float],
+    *,
+    universe_family: str | None = None,
+    basis: str | None = None,
+    method: str | None = None,
+) -> list[float]:
+    positions: list[int] = []
+    data: list[np.ndarray] = []
+    colors: list[str] = []
+    all_values: list[float] = []
+    for i, strategy in enumerate(strategies):
+        vals = _mc_distribution_values(paths, strategy, universe_family=universe_family, basis=basis, method=method)
+        if vals.empty:
+            continue
+        arr = vals.to_numpy(float)
+        positions.append(i)
+        data.append(arr)
+        colors.append(JOURNAL_COLORS[i % len(JOURNAL_COLORS)])
+        all_values.extend(arr.tolist())
+    if data:
+        parts = ax.violinplot(data, positions=positions, orientation="horizontal", widths=0.72, showmedians=True, showextrema=False)
+        for body, color in zip(parts["bodies"], colors):
+            body.set_facecolor(color)
+            body.set_edgecolor("#263238")
+            body.set_alpha(0.45)
+            body.set_linewidth(0.55)
+        if "cmedians" in parts:
+            parts["cmedians"].set_color("#202020")
+            parts["cmedians"].set_linewidth(1.0)
+    for i, strategy in enumerate(strategies):
+        marker = realized_lookup.get(strategy, np.nan)
+        if np.isfinite(marker):
+            ax.scatter(
+                marker,
+                i,
+                marker="D",
+                s=30,
+                color=JOURNAL_COLORS[2],
+                edgecolor="#202020",
+                linewidth=0.45,
+                zorder=4,
+            )
+            all_values.append(float(marker))
+    ax.axvline(0.0, color="#555", linestyle="--", linewidth=0.9, alpha=0.65, zorder=1)
+    ax.set_yticks(np.arange(len(strategies)))
+    ax.set_yticklabels(strategies)
+    ax.set_xlabel("Sharpe")
+    ax.grid(True, axis="x", alpha=0.22, linewidth=0.7)
+    ax.grid(True, axis="y", alpha=0.06, linewidth=0.5)
+    return all_values
+
+
+def plot_mc_universe_distributions(
+    fixed_paths: pd.DataFrame,
+    repriced_paths: pd.DataFrame,
+    refit_paths: pd.DataFrame,
+    out_path: Path,
+) -> None:
+    """Plot resampled, repriced, and refit Sharpe distributions."""
+
+    out_path.parent.mkdir(parents=True, exist_ok=True)
+    strategies = _strategy_order_from_frame(fixed_paths, MC_ROBUSTNESS_STRATEGIES)
+    strategies = [strategy for strategy in MC_ROBUSTNESS_STRATEGIES if strategy in strategies]
+    if not strategies:
+        strategies = list(MC_ROBUSTNESS_STRATEGIES)
+    realized_lookup = _realized_lookup_from_paths(fixed_paths, repriced_paths, refit_paths)
+
+    fig, axes = plt.subplots(2, 2, figsize=(12.0, 7.6))
+    top_values = []
+    top_values.extend(
+        _plot_strategy_violins(
+            axes[0, 0],
+            fixed_paths,
+            strategies,
+            realized_lookup,
+            universe_family="resampled",
+            basis="gross",
+        )
+    )
+    top_values.extend(
+        _plot_strategy_violins(
+            axes[0, 1],
+            fixed_paths,
+            strategies,
+            realized_lookup,
+            universe_family="resampled_stratified",
+            basis="gross",
+        )
+    )
+    repriced_values = _plot_strategy_violins(
+        axes[1, 0],
+        repriced_paths,
+        strategies,
+        realized_lookup,
+        method="joint_garch_block",
+    )
+
+    refit_strategy = "Greek Markowitz + VIX"
+    refit_vals = _mc_distribution_values(refit_paths, refit_strategy)
+    axes[1, 1].hist(refit_vals, bins=min(28, max(8, int(np.sqrt(max(len(refit_vals), 1))))), color="#D6E0DF", edgecolor="#40534C", linewidth=0.6, alpha=0.95)
+    refit_realized = realized_lookup.get(refit_strategy, np.nan)
+    refit_values = refit_vals.to_list()
+    if np.isfinite(refit_realized):
+        axes[1, 1].axvline(refit_realized, color=JOURNAL_COLORS[2], linewidth=2.4, label="Realized gross", zorder=4)
+        refit_values.append(float(refit_realized))
+    axes[1, 1].axvline(0.0, color="#555", linestyle="--", linewidth=0.9, alpha=0.65)
+    axes[1, 1].set_xlabel("Sharpe")
+    axes[1, 1].set_ylabel("Refit paths")
+    axes[1, 1].grid(True, axis="y", alpha=0.22, linewidth=0.7)
+
+    axes[0, 0].set_title("A. Resampled universe", fontsize=10, pad=7)
+    axes[0, 1].set_title("B. Regime-stratified resampling", fontsize=10, pad=7)
+    axes[1, 0].set_title("C. Repriced universe", fontsize=10, pad=7)
+    axes[1, 1].set_title("D. Refit stability", fontsize=10, pad=7)
+    axes[0, 1].set_ylabel("")
+    axes[1, 0].set_ylabel("")
+    axes[1, 1].legend(fontsize=8, frameon=False, loc="upper right")
+    marker_handle = plt.Line2D([0], [0], marker="D", color="none", markerfacecolor=JOURNAL_COLORS[2], markeredgecolor="#202020", markersize=5.5, label="Realized gross")
+    violin_handle = plt.Line2D([0], [0], marker="s", color="none", markerfacecolor=JOURNAL_COLORS[0], markeredgecolor="#263238", alpha=0.50, markersize=7, label="Path distribution")
+    axes[0, 0].legend(handles=[violin_handle, marker_handle], fontsize=8, frameon=False, loc="upper right")
+
+    _set_common_sharpe_xlim([axes[0, 0], axes[0, 1]], top_values)
+    _set_common_sharpe_xlim([axes[1, 0]], repriced_values)
+    _set_common_sharpe_xlim([axes[1, 1]], refit_values)
+    plt.tight_layout()
+    plt.savefig(out_path)
     plt.close(fig)
 
 
@@ -1274,6 +1876,7 @@ def volatility_regime_performance_table(ret_frame: pd.DataFrame, dates: pd.Index
         for regime in ["Low VIX", "Mid VIX", "High VIX"]:
             r = ret_frame.loc[regimes.eq(regime), name].dropna()
             st = performance_stats(r, PERIODS_PER_YEAR, benchmark_returns=vx_bench.reindex(r.index))
+            sharpe_ci = block_bootstrap_metric_ci(r, "sharpe", BootstrapConfig(n_boot=500))
             rows.append(
                 {
                     "Strategy": name,
@@ -1282,8 +1885,8 @@ def volatility_regime_performance_table(ret_frame: pd.DataFrame, dates: pd.Index
                     "Ann. return": st["ann_return"],
                     "Ann. vol": st["ann_vol"],
                     "Sharpe": st["sharpe"],
-                    "Sharpe CI lo": block_bootstrap_metric_ci(r, "sharpe", BootstrapConfig(n_boot=500))[1],
-                    "Sharpe CI hi": block_bootstrap_metric_ci(r, "sharpe", BootstrapConfig(n_boot=500))[2],
+                    "Sharpe CI lo": sharpe_ci[1],
+                    "Sharpe CI hi": sharpe_ci[2],
                     "Sortino": st["sortino"],
                     "Calmar": st["calmar"],
                     "Omega": st["omega"],
@@ -1293,7 +1896,90 @@ def volatility_regime_performance_table(ret_frame: pd.DataFrame, dates: pd.Index
     return pd.DataFrame(rows)
 
 
-def rolling_oos_table(returns: pd.DataFrame, reps: pd.DataFrame, universe: Sequence[str]) -> pd.DataFrame:
+def cost_input_spread_source_coverage_table(cost_inputs: pd.DataFrame) -> pd.DataFrame:
+    columns = ["relative_spread_source", "asset_class", "rows", "mean_relative_spread"]
+    if cost_inputs.empty:
+        return pd.DataFrame(columns=columns)
+    frame = cost_inputs.copy()
+    source = frame.get("relative_spread_source", pd.Series("default", index=frame.index)).fillna("default").astype(str)
+    asset_class_raw = frame.get("asset_class", pd.Series("", index=frame.index)).astype(str)
+    underlying = frame.get("underlying", pd.Series("", index=frame.index)).astype(str).str.upper()
+    asset_id = frame.get("asset_id", pd.Series("", index=frame.index)).astype(str).str.upper()
+    frame["relative_spread_source"] = source
+    frame["asset_class"] = np.where(
+        asset_class_raw.eq("vix_option") | underlying.isin([VIX_FACTOR, "VX_FRONT"]) | asset_id.str.contains("VIX", regex=False),
+        "VIX",
+        "equity",
+    )
+    frame["relative_spread"] = pd.to_numeric(frame.get("relative_spread", np.nan), errors="coerce")
+    return (
+        frame.groupby(["relative_spread_source", "asset_class"], dropna=False, observed=True)
+        .agg(rows=("relative_spread", "size"), mean_relative_spread=("relative_spread", "mean"))
+        .reset_index()
+        .sort_values(["relative_spread_source", "asset_class"])
+    )
+
+
+def data_extension_manifest(root: Path, cost_config: ResearchCostConfig, spread_surface: pd.DataFrame | None) -> pd.DataFrame:
+    vix_paths = sorted((root / "data/databento_cache").glob("opra_vix_chain_*.parquet"))
+    vix_size = sum(path.stat().st_size for path in vix_paths if path.exists())
+    return pd.DataFrame(
+        [
+            {
+                "dataset": "opra_surface_full_day_cbbo",
+                "location": cost_config.cbbo_spread_surface_path,
+                "size_approx": f"{len(spread_surface) if spread_surface is not None else 0:,} rows",
+                "status": "integrated",
+                "reason": "CBBO spread cost surface refines default spreads",
+                "artifacts_produced": "cost_input_ledger.csv; cost_input_spread_source_coverage.csv",
+            },
+            {
+                "dataset": "opra_vix_chain_*",
+                "location": "data/databento_cache/opra_vix_chain_*.parquet",
+                "size_approx": f"{len(vix_paths):,} files; {vix_size:,} bytes",
+                "status": "extended",
+                "reason": "state features + regime diagnostics; expected-return feed-in deferred",
+                "artifacts_produced": "vix_chain_state_features.csv; vol_of_vol_regime_performance.csv",
+            },
+            {
+                "dataset": "opra_{UND}_slices_*",
+                "location": "data/databento_cache/opra_{UND}_slices_*.parquet",
+                "size_approx": "not regenerated in this pipeline",
+                "status": "deferred",
+                "reason": "IWM/QQQ universe expansion requires regenerating option_greek_proxy_panel in the sibling-repo pipeline; META/TSLA already in universe",
+                "artifacts_produced": "none",
+            },
+            {
+                "dataset": "sibling DATA_ANALYSIS loaders",
+                "location": "DATA_ANALYSIS loaders; data_ingestion",
+                "size_approx": "referenced source code",
+                "status": "referenced",
+                "reason": "OSI parser vendored into data_ingestion",
+                "artifacts_produced": "data_ingestion/build_cbbo_cost_surface.py",
+            },
+        ]
+    )
+
+
+def rolling_oos_table(
+    returns: pd.DataFrame,
+    reps: pd.DataFrame,
+    universe: Sequence[str],
+    *,
+    spec_builder=representative_specs,
+    model_factory=make_model,
+) -> pd.DataFrame:
+    """Rolling 36M out-of-sample diagnostic with a *real* rolling window.
+
+    Each evaluation date refits specs and the model on the trailing 36-month
+    window by passing explicit ``train_start``/``train_end`` bounds (previous
+    behavior silently truncated every window at the global TRAIN_END, so the
+    "roll" never rolled).  Portfolio weights use the same constrained
+    ``solve_max_sharpe`` solver as the headline strategies rather than the
+    unconstrained closed-form tangency.  ``spec_builder``/``model_factory``
+    are injectable for testing.
+    """
+
     rows = []
     dates = pd.DatetimeIndex(returns.index).sort_values()
     realized = []
@@ -1311,11 +1997,18 @@ def rolling_oos_table(returns: pd.DataFrame, reps: pd.DataFrame, universe: Seque
         sub_returns = returns.reindex(columns=cols).dropna(how="all")
         sub_reps = reps[reps["asset_id"].isin(cols)].copy()
         try:
-            sub_spec = representative_specs(sub_reps[sub_reps["snap_date"].le(train_end)], sub_returns.loc[:train_end])
+            sub_spec = spec_builder(sub_reps, sub_returns, train_start=train_start, train_end=train_end)
             if len(sub_spec) < 8:
                 continue
-            model, _ = make_model(sub_spec, sub_returns.loc[:train_end], sub_reps[sub_reps["snap_date"].le(train_end)], universe)
-            weights = model.tangency_weights()
+            model, _ = model_factory(
+                sub_spec,
+                sub_returns,
+                sub_reps,
+                universe,
+                train_start=train_start,
+                train_end=train_end,
+            )
+            weights = _solve_weights_with_guard(model, f"rolling_oos_{pd.Timestamp(dt).date()}")
             one = returns.loc[[dt], model.contracts].fillna(0.0)
             realized.append(float(model.portfolio_return_series(one, weights).iloc[0]))
             rows.append({"return_date": dt, "train_start": train_start, "train_end": train_end, "gross_nav": float(weights.abs().sum())})
@@ -1444,6 +2137,880 @@ def claim_strength_table(vix_headline_eligible: bool) -> pd.DataFrame:
     )
 
 
+def performance_summary_row(
+    name: str,
+    pr: pd.Series,
+    benchmark: pd.Series | None = None,
+    *,
+    pred_realized_vol: float = np.nan,
+    gross_nav: float = np.nan,
+    net_nav: float = np.nan,
+    n_boot: int = 1000,
+) -> dict[str, object]:
+    """One performance-table row with correctly ordered bootstrap CIs.
+
+    ``block_bootstrap_metric_ci`` returns (point, lo, hi); the CI columns are
+    populated from indices 1 and 2 (a previous version wrote (point, lo) into
+    the lo/hi columns for the gross and equity-benchmark rows).  The Sortino
+    CI, previously computed and discarded, is emitted as columns.
+    """
+
+    pr = pd.Series(pr).dropna()
+    st = performance_stats(pr, PERIODS_PER_YEAR, benchmark_returns=benchmark)
+    ci = block_bootstrap_metric_ci(pr, "sharpe", BootstrapConfig(n_boot=n_boot))
+    sortino_ci = block_bootstrap_metric_ci(pr, "sortino", BootstrapConfig(n_boot=n_boot))
+    return {
+        "Strategy": name,
+        "Ann. return": st["ann_return"],
+        "Ann. vol": st["ann_vol"],
+        "Sharpe": st["sharpe"],
+        "Downside ann. dev": st["downside_ann_dev"],
+        "Sortino": st["sortino"],
+        "Max drawdown": st["max_drawdown"],
+        "Worst month": float(pr.min()) if len(pr) else np.nan,
+        "Calmar": st["calmar"],
+        "Omega": st["omega"],
+        "Info. ratio": st["information_ratio"],
+        "SR 90\\% CI lo": ci[1],
+        "SR 90\\% CI hi": ci[2],
+        "Sortino 90\\% CI lo": sortino_ci[1],
+        "Sortino 90\\% CI hi": sortino_ci[2],
+        "Pred./realized vol": pred_realized_vol,
+        "Gross NAV": gross_nav,
+        "Net NAV": net_nav,
+    }
+
+
+def zero_imputation_diagnostics(
+    raw_returns: pd.DataFrame,
+    strategies: dict[str, pd.Series],
+    train_end: pd.Timestamp = TRAIN_END,
+) -> pd.DataFrame:
+    """Per-strategy share of zero-imputed (missing) bucket-month cells.
+
+    The pipeline zero-fills missing option bucket months before computing
+    strategy returns; this diagnostic measures and exposes the imputed share
+    without changing the imputation itself (cached tables depend on it).
+    """
+
+    test = raw_returns.loc[raw_returns.index > pd.Timestamp(train_end)]
+    rows = []
+    for name, weights in strategies.items():
+        active = [c for c in weights[weights.abs() > 1e-14].index if c in test.columns]
+        cells = test[active]
+        total = int(cells.shape[0] * cells.shape[1])
+        missing = int(cells.isna().sum().sum())
+        rows.append(
+            {
+                "Strategy": name,
+                "Test months": int(len(test)),
+                "Active assets": int(len(active)),
+                "Imputed cells": missing,
+                "Total cells": total,
+                "Imputed cell share": (missing / total) if total else np.nan,
+            }
+        )
+    return pd.DataFrame(rows)
+
+
+@dataclasses.dataclass
+class RobustnessContext:
+    full_panel: pd.DataFrame
+    equity_reps: pd.DataFrame
+    equity_returns: pd.DataFrame
+    equity_detail: pd.DataFrame
+    reps: pd.DataFrame
+    returns: pd.DataFrame
+    return_detail: pd.DataFrame
+    has_vix: bool
+    universe: list[str]
+    spec: pd.DataFrame
+    model: OptionOnlyMarkowitzModel
+    residuals: pd.DataFrame
+    cost_config: ResearchCostConfig
+    cost_inputs: pd.DataFrame
+    equity_spec: pd.DataFrame
+    equity_model: OptionOnlyMarkowitzModel
+    strategies: dict[str, pd.Series]
+    equity_benchmarks: dict[str, pd.Series]
+    train_returns: pd.DataFrame
+    test_returns: pd.DataFrame
+    underlying_returns: pd.DataFrame
+    vol_shocks: pd.DataFrame
+    train_under: pd.DataFrame
+    test_under: pd.DataFrame
+    ret_frame: pd.DataFrame
+    full_spread_net_frame: pd.DataFrame
+    net_scenario_returns: pd.DataFrame
+    vix_state: pd.DataFrame
+    vix_level: pd.Series
+    cv_context_consistency: pd.DataFrame
+
+
+def _vix_level_from_state(vix_state: pd.DataFrame, dates: pd.Index) -> pd.Series:
+    idx = pd.DatetimeIndex(pd.to_datetime(dates))
+    if "VIX" in vix_state:
+        return pd.to_numeric(vix_state["VIX"], errors="coerce").reindex(idx)
+    if "VX_FRONT" in vix_state:
+        return pd.to_numeric(vix_state["VX_FRONT"], errors="coerce").reindex(idx)
+    return pd.Series(np.nan, index=idx, name="VIX")
+
+
+def _iv_level_panel(reps: pd.DataFrame, universe: Sequence[str]) -> pd.DataFrame:
+    frame = reps.copy()
+    if frame.empty or "iv_proxy" not in frame:
+        return pd.DataFrame(index=pd.DatetimeIndex([]), columns=list(universe))
+    frame["snap_date"] = pd.to_datetime(frame["snap_date"])
+    bucket = frame.get("moneyness_bucket", pd.Series("", index=frame.index)).astype(str)
+    atm = frame[bucket.isin(["atm", "vix_atm"])].copy()
+    if atm.empty:
+        atm = frame.copy()
+    iv = (
+        atm.groupby(["snap_date", "underlying"])["iv_proxy"]
+        .median()
+        .unstack("underlying")
+        .sort_index()
+        .reindex(columns=list(universe))
+    )
+    return iv.replace([np.inf, -np.inf], np.nan)
+
+
+def _strategy_sharpe_rows(
+    returns: pd.DataFrame,
+    *,
+    basis: str = "gross",
+    universe_family: str = "realized",
+) -> pd.DataFrame:
+    rows = []
+    for strategy in returns.columns:
+        stats = performance_stats(pd.Series(returns[strategy]).dropna(), PERIODS_PER_YEAR)
+        rows.append(
+            {
+                "strategy": strategy,
+                "basis": basis,
+                "universe_family": universe_family,
+                "sharpe": float(stats.get("sharpe", np.nan)),
+            }
+        )
+    return pd.DataFrame(rows)
+
+
+def _context_weight_consistency(strategies: dict[str, pd.Series], contracts: Sequence[str]) -> pd.DataFrame:
+    path = ART_DIR / "strategy_weights.csv"
+    rows: list[dict[str, object]] = []
+    contract_index = pd.Index(contracts)
+    if not path.exists():
+        for strategy, weights in strategies.items():
+            rows.append(
+                {
+                    "strategy": strategy,
+                    "status": "reference_file_missing",
+                    "max_abs_diff": np.nan,
+                    "n_context_weights": int(pd.Series(weights).abs().gt(1e-14).sum()),
+                    "n_reference_weights": 0,
+                }
+            )
+        out = pd.DataFrame(rows)
+        out.to_csv(ART_DIR / "cv_context_consistency.csv", index=False)
+        return out
+
+    reference = pd.read_csv(path, index_col=0)
+    for strategy, weights in strategies.items():
+        context_weights = pd.to_numeric(pd.Series(weights), errors="coerce").reindex(contract_index).fillna(0.0)
+        if strategy not in reference.columns:
+            rows.append(
+                {
+                    "strategy": strategy,
+                    "status": "strategy_missing_in_reference",
+                    "max_abs_diff": np.nan,
+                    "n_context_weights": int(context_weights.abs().gt(1e-14).sum()),
+                    "n_reference_weights": 0,
+                }
+            )
+            continue
+        ref_weights = pd.to_numeric(reference[strategy], errors="coerce").reindex(contract_index).fillna(0.0)
+        rows.append(
+            {
+                "strategy": strategy,
+                "status": "ok",
+                "max_abs_diff": float((context_weights - ref_weights).abs().max()) if len(contract_index) else 0.0,
+                "n_context_weights": int(context_weights.abs().gt(1e-14).sum()),
+                "n_reference_weights": int(ref_weights.abs().gt(1e-14).sum()),
+            }
+        )
+    for strategy in reference.columns:
+        if strategy not in strategies:
+            rows.append(
+                {
+                    "strategy": strategy,
+                    "status": "strategy_missing_in_context",
+                    "max_abs_diff": np.nan,
+                    "n_context_weights": 0,
+                    "n_reference_weights": int(pd.to_numeric(reference[strategy], errors="coerce").fillna(0.0).abs().gt(1e-14).sum()),
+                }
+            )
+    out = pd.DataFrame(rows)
+    out.to_csv(ART_DIR / "cv_context_consistency.csv", index=False)
+    return out
+
+
+def _robustness_context() -> RobustnessContext:
+    _ensure_dirs()
+    full_panel, equity_reps, equity_returns = load_bucket_panel()
+    raw_close = load_raw_close_panel(PRIMARY_UNDERLYINGS)
+    _, daily_split_factors, _split_events = split_adjusted_spot_panel(raw_close)
+    _, equity_detail = build_expiry_proxy_return_panel(equity_reps, raw_close, daily_split_factors)
+    equity_detail = equity_detail[equity_detail["asset_id"].isin(equity_returns.columns)].copy()
+    equity_detail["asset_class"] = "equity_option"
+    equity_reps["asset_class"] = equity_reps.get("asset_class", "equity_option")
+
+    vix_full, vix_reps, vix_returns, vix_detail, _vix_audit = build_vix_option_bucket_panel(
+        sorted(pd.to_datetime(equity_reps["snap_date"].dropna().unique())), ROOT, MIN_OPTION_MARK
+    )
+    has_vix = not vix_returns.empty and not vix_reps.empty
+    if has_vix:
+        reps = pd.concat([equity_reps, vix_reps], ignore_index=True, sort=False)
+        returns = equity_returns.join(vix_returns, how="outer").sort_index()
+        return_detail = pd.concat([equity_detail, vix_detail], ignore_index=True, sort=False)
+    else:
+        reps = equity_reps.copy()
+        returns = equity_returns.copy()
+        return_detail = equity_detail.copy()
+        _ = vix_full
+
+    spec = representative_specs(reps, returns)
+    returns = returns.reindex(columns=spec.index).dropna(how="all")
+    universe = PRIMARY_UNDERLYINGS + ([VIX_FACTOR] if VIX_FACTOR in set(spec["underlying"].astype(str)) else [])
+    model, residuals = make_model(spec, returns, reps, universe)
+
+    cost_config = ResearchCostConfig()
+    spread_surface = (
+        load_cbbo_spread_surface(ROOT, cost_config.cbbo_spread_surface_path)
+        if cost_config.use_cbbo_spread_surface
+        else None
+    )
+    cost_inputs = build_cost_input_ledger(reps, return_detail, ROOT, cost_config, spread_surface=spread_surface)
+
+    equity_spec = representative_specs(equity_reps, equity_returns)
+    equity_returns = equity_returns.reindex(columns=equity_spec.index).dropna(how="all")
+    equity_model, _ = make_model(equity_spec, equity_returns, equity_reps, PRIMARY_UNDERLYINGS)
+    equity_strategy = strategy_weights(equity_model, PRIMARY_UNDERLYINGS)["Greek Markowitz"]
+    combined_strategies = strategy_weights(model, universe)
+    train_scenarios = returns.loc[:TRAIN_END, model.contracts].fillna(0.0)
+    entry_costs, _entry_cost_diag = derive_entry_cost_series(
+        cost_inputs, list(model.contracts), train_end=TRAIN_END, config=cost_config
+    )
+    sortino_weights, _sortino_diag = _sortino_weights_with_guard(
+        model, train_scenarios, entry_costs, "cost_aware_sortino"
+    )
+    strategies = {
+        "Equity-option Greek Markowitz": equity_strategy,
+        "Greek Markowitz + VIX": combined_strategies["Greek Markowitz"],
+        "Beta/delta-neutral + VIX": combined_strategies["Delta neutral"],
+        "Cost-aware Sortino + VIX": sortino_weights,
+        "Equal premium": combined_strategies["Equal premium"],
+        "Equal risk": combined_strategies["Equal risk"],
+    }
+    if has_vix:
+        strategies["VIX hedge sleeve"] = vix_hedge_sleeve_weights(model)
+
+    test_returns = returns.loc[returns.index > TRAIN_END, model.contracts].fillna(0.0)
+    train_returns = train_scenarios.copy()
+    underlying_returns, vol_shocks = factor_panels(reps, universe)
+    train_under = underlying_returns.loc[:TRAIN_END].reindex(columns=PRIMARY_UNDERLYINGS).fillna(0.0)
+    test_under = underlying_returns.loc[test_returns.index].reindex(columns=PRIMARY_UNDERLYINGS).fillna(0.0)
+    equity_benchmarks = {
+        "Delta-matched equities": option_delta_by_underlying(model, strategies["Greek Markowitz + VIX"]),
+        "Underlying Markowitz": equity_tangency_weights(train_under),
+    }
+
+    ret_frame = pd.DataFrame(index=test_returns.index)
+    for name, weights in strategies.items():
+        ret_frame[name] = model.portfolio_return_series(test_returns, weights)
+    for name, weights in equity_benchmarks.items():
+        ret_frame[name] = pd.Series(
+            test_under.to_numpy(float) @ weights.reindex(PRIMARY_UNDERLYINGS).fillna(0.0).to_numpy(float),
+            index=test_under.index,
+        )
+
+    option_gross_frame = ret_frame[[name for name in strategies if name in ret_frame.columns]].copy()
+    cost_result = build_execution_cost_scenarios(
+        option_gross_frame,
+        strategies,
+        cost_inputs,
+        config=ExecutionCostScenarioConfig(nav_for_capacity=cost_config.nav_for_capacity),
+        scenarios=("full_spread",),
+    )
+    net_scenario_returns = cost_result.net
+    full_spread_net_frame = ret_frame.copy()
+    for strategy in strategies:
+        scenario_col = f"{strategy}::full_spread"
+        if scenario_col in net_scenario_returns:
+            full_spread_net_frame[strategy] = net_scenario_returns[scenario_col]
+
+    vix_state = vix_state_panel(returns.index, ROOT)
+    vix_level = _vix_level_from_state(vix_state, returns.index)
+    consistency = _context_weight_consistency(strategies, model.contracts)
+
+    return RobustnessContext(
+        full_panel=full_panel,
+        equity_reps=equity_reps,
+        equity_returns=equity_returns,
+        equity_detail=equity_detail,
+        reps=reps,
+        returns=returns,
+        return_detail=return_detail,
+        has_vix=has_vix,
+        universe=universe,
+        spec=spec,
+        model=model,
+        residuals=residuals,
+        cost_config=cost_config,
+        cost_inputs=cost_inputs,
+        equity_spec=equity_spec,
+        equity_model=equity_model,
+        strategies=strategies,
+        equity_benchmarks=equity_benchmarks,
+        train_returns=train_returns,
+        test_returns=test_returns,
+        underlying_returns=underlying_returns,
+        vol_shocks=vol_shocks,
+        train_under=train_under,
+        test_under=test_under,
+        ret_frame=ret_frame,
+        full_spread_net_frame=full_spread_net_frame,
+        net_scenario_returns=net_scenario_returns,
+        vix_state=vix_state,
+        vix_level=vix_level,
+        cv_context_consistency=consistency,
+    )
+
+
+def _basis_label(value: object) -> str:
+    text = str(value)
+    if text == "full_spread_post_cost":
+        return "Full Spread"
+    if text == "gross":
+        return "Gross"
+    return text.replace("_", " ").title()
+
+
+def _cv_fold_performance_table(fold_ledger: pd.DataFrame) -> pd.DataFrame:
+    """One row per blocked k-fold with a compact ``gross / net`` Sharpe cell
+    per strategy — a long fold x strategy layout is too tall for one page."""
+
+    if fold_ledger.empty:
+        return pd.DataFrame(columns=["Fold"])
+    ledger = fold_ledger.copy()
+    ledger = ledger[ledger.get("scheme", pd.Series(index=ledger.index, dtype=object)).astype(str).eq("kfold")]
+    if ledger.empty:
+        return pd.DataFrame(columns=["Fold"])
+    ledger = ledger[ledger["strategy"].isin(CV_STRATEGIES)].copy()
+    gross = ledger[ledger["basis"].eq("gross")].set_index(["fold_id", "strategy"])["sharpe"]
+    net = ledger[ledger["basis"].eq("full_spread_post_cost")].set_index(["fold_id", "strategy"])["sharpe"]
+
+    def _cell(fold_id: str, strategy: str) -> str:
+        g = gross.get((fold_id, strategy), np.nan)
+        n = net.get((fold_id, strategy), np.nan)
+        g_txt = f"{g:.2f}" if np.isfinite(g) else "--"
+        n_txt = f"{n:.2f}" if np.isfinite(n) else "--"
+        return f"{g_txt} / {n_txt}"
+
+    fold_ids = sorted(ledger["fold_id"].astype(str).unique())
+    strategies = [s for s in CV_STRATEGIES if s in set(ledger["strategy"])]
+    rows = [{"Fold": fold_id, **{s: _cell(fold_id, s) for s in strategies}} for fold_id in fold_ids]
+    return pd.DataFrame(rows, columns=["Fold", *strategies])
+
+
+def _cv_cpcv_distribution_table(
+    ret_frame: pd.DataFrame,
+    full_spread_net_frame: pd.DataFrame,
+    path_metrics: pd.DataFrame,
+    pbo_summary: pd.DataFrame,
+) -> pd.DataFrame:
+    columns = [
+        "Strategy",
+        "Realized Gross Sharpe",
+        "CPCV Gross P05",
+        "CPCV Gross P50",
+        "CPCV Gross P95",
+        "Realized Full Spread Sharpe",
+        "CPCV Full Spread P05",
+        "CPCV Full Spread P50",
+        "CPCV Full Spread P95",
+        "PBO Gross",
+        "PBO Full Spread",
+    ]
+    strategies = sorted(set(ret_frame.columns) | set(path_metrics.get("strategy", pd.Series(dtype=object)).astype(str)))
+    pbo_lookup = {}
+    if not pbo_summary.empty and {"Basis", "PBO"}.issubset(pbo_summary.columns):
+        pbo_lookup = dict(zip(pbo_summary["Basis"].astype(str), pd.to_numeric(pbo_summary["PBO"], errors="coerce")))
+    rows = []
+    for strategy in strategies:
+        row: dict[str, object] = {"Strategy": strategy}
+        if strategy in ret_frame:
+            row["Realized Gross Sharpe"] = performance_stats(ret_frame[strategy].dropna(), PERIODS_PER_YEAR)["sharpe"]
+        else:
+            row["Realized Gross Sharpe"] = np.nan
+        if strategy in full_spread_net_frame:
+            row["Realized Full Spread Sharpe"] = performance_stats(full_spread_net_frame[strategy].dropna(), PERIODS_PER_YEAR)["sharpe"]
+        else:
+            row["Realized Full Spread Sharpe"] = np.nan
+        for basis, prefix in [("gross", "CPCV Gross"), ("full_spread_post_cost", "CPCV Full Spread")]:
+            sub = path_metrics[
+                path_metrics.get("strategy", pd.Series(dtype=object)).astype(str).eq(strategy)
+                & path_metrics.get("basis", pd.Series(dtype=object)).astype(str).eq(basis)
+                & path_metrics.get("status", pd.Series("complete", index=path_metrics.index)).astype(str).eq("complete")
+            ]
+            sharpe = pd.to_numeric(sub.get("sharpe", pd.Series(dtype=float)), errors="coerce")
+            row[f"{prefix} P05"] = float(sharpe.quantile(0.05)) if sharpe.notna().any() else np.nan
+            row[f"{prefix} P50"] = float(sharpe.quantile(0.50)) if sharpe.notna().any() else np.nan
+            row[f"{prefix} P95"] = float(sharpe.quantile(0.95)) if sharpe.notna().any() else np.nan
+        row["PBO Gross"] = pbo_lookup.get("gross", np.nan)
+        row["PBO Full Spread"] = pbo_lookup.get("full_spread_post_cost", np.nan)
+        rows.append(row)
+    return pd.DataFrame(rows, columns=columns)
+
+
+def _write_cv_outputs(
+    results: CVResults,
+    path_month_returns: pd.DataFrame,
+    path_metrics: pd.DataFrame,
+    pbo_summary: pd.DataFrame,
+    regime_performance: pd.DataFrame,
+    ret_frame: pd.DataFrame,
+    full_spread_net_frame: pd.DataFrame,
+) -> dict[str, pd.DataFrame]:
+    results.fold_schedule.to_csv(ART_DIR / "cv_fold_schedule.csv", index=False)
+    results.fold_ledger.to_csv(ART_DIR / "cv_fold_ledger.csv", index=False)
+    results.split_is_oos.to_csv(ART_DIR / "cv_split_is_oos.csv", index=False)
+    path_metrics.to_csv(ART_DIR / "cv_cpcv_path_metrics.csv", index=False)
+    path_month_returns.to_csv(ART_DIR / "cv_cpcv_path_month_returns.csv", index=False)
+    pbo_summary.to_csv(ART_DIR / "cv_pbo_summary.csv", index=False)
+    regime_performance.to_csv(ART_DIR / "cv_regime_performance.csv", index=False)
+    results.runtime_log.to_csv(ART_DIR / "cv_runtime_log.csv", index=False)
+
+    fold_table = _cv_fold_performance_table(results.fold_ledger)
+    distribution_table = _cv_cpcv_distribution_table(ret_frame, full_spread_net_frame, path_metrics, pbo_summary)
+    regime_table = regime_performance.copy()
+
+    _write_latex_table(_escape_object_columns(fold_table), TABLE_DIR / "cv_fold_performance.tex")
+    _write_latex_table(_escape_object_columns(distribution_table), TABLE_DIR / "cv_cpcv_distribution.tex")
+    _write_latex_table(_escape_object_columns(regime_table), TABLE_DIR / "cv_regime_performance.tex")
+    return {
+        "fold_performance": fold_table,
+        "cpcv_distribution": distribution_table,
+        "regime_performance": regime_table,
+    }
+
+
+def _with_full_spread_split_rows(split_is_oos: pd.DataFrame, fold_ledger: pd.DataFrame) -> pd.DataFrame:
+    if split_is_oos.empty or fold_ledger.empty:
+        return split_is_oos
+    split = split_is_oos.copy()
+    if split.get("basis", pd.Series(dtype=object)).astype(str).eq("full_spread_post_cost").any():
+        return split
+    net = fold_ledger[fold_ledger.get("basis", pd.Series(index=fold_ledger.index, dtype=object)).astype(str).eq("full_spread_post_cost")].copy()
+    if net.empty or "sharpe" not in net:
+        return split
+    key_cols = [col for col in ["fold_id", "scheme", "strategy"] if col in split.columns and col in net.columns]
+    if "strategy" not in key_cols:
+        return split
+    net_lookup = net.set_index(key_cols)["sharpe"].to_dict()
+    rows = []
+    gross = split[split.get("basis", pd.Series(index=split.index, dtype=object)).astype(str).eq("gross")]
+    for _, row in gross.iterrows():
+        key = tuple(row[col] for col in key_cols)
+        if key not in net_lookup:
+            continue
+        new_row = row.copy()
+        new_row["basis"] = "full_spread_post_cost"
+        new_row["oos_sharpe"] = net_lookup[key]
+        rows.append(new_row)
+    if not rows:
+        return split
+    return pd.concat([split, pd.DataFrame(rows)], ignore_index=True, sort=False)
+
+
+def run_cv_stage(ctx: RobustnessContext, cv_config: CVConfig) -> dict[str, object]:
+    folds = build_folds(ctx.returns.index, cv_config, "kfold") + build_folds(ctx.returns.index, cv_config, "cpcv")
+    results = evaluate_folds(
+        folds,
+        ctx.returns,
+        ctx.reps,
+        ctx.equity_returns,
+        ctx.equity_reps,
+        ctx.universe,
+        PRIMARY_UNDERLYINGS,
+        ctx.cost_inputs,
+        spec_builder=representative_specs,
+        model_factory=make_model,
+        weights_builder=strategy_weights,
+        cost_scenario_builder=build_execution_cost_scenarios,
+        scenario_config=ExecutionCostScenarioConfig(nav_for_capacity=ctx.cost_config.nav_for_capacity),
+        vix_sleeve_builder=vix_hedge_sleeve_weights,
+        # Equity benchmarks (Delta-matched equities, Underlying Markowitz) hold
+        # UNDERLYING weights; the fold evaluator scores option-contract weights,
+        # so per-fold benchmark rows would be all-NaN.  They stay headline-only.
+        config=cv_config,
+    )
+    results.split_is_oos = _with_full_spread_split_rows(results.split_is_oos, results.fold_ledger)
+    path_month_returns, path_metrics = assemble_cpcv_paths(results.test_month_returns, cv_config)
+    pbo_summary = pd.concat(
+        [
+            probability_of_backtest_overfitting(results.split_is_oos, "gross"),
+            probability_of_backtest_overfitting(results.split_is_oos, "full_spread_post_cost"),
+        ],
+        ignore_index=True,
+        sort=False,
+    )
+    regime_dates = (
+        pd.DatetimeIndex(path_month_returns["return_date"].dropna().unique()).sort_values()
+        if "return_date" in path_month_returns and not path_month_returns.empty
+        else pd.DatetimeIndex(ctx.ret_frame.index)
+    )
+    regime_tags = tag_regimes(regime_dates, ctx.vix_level.reindex(regime_dates), EVENT_WINDOWS)
+    regime_performance = cpcv_regime_table(path_month_returns, regime_tags, grouped_metric_inference)
+    tables = _write_cv_outputs(
+        results,
+        path_month_returns,
+        path_metrics,
+        pbo_summary,
+        regime_performance,
+        ctx.ret_frame,
+        ctx.full_spread_net_frame,
+    )
+    realized = _realized_gross_sharpes_from_returns(ctx.ret_frame)
+    plot_cpcv_sharpe_distribution(path_metrics, realized, FIG_DIR / "cv_cpcv_sharpe_distribution.pdf")
+    plot_fold_sharpe_heatmap(results.fold_ledger, results.fold_schedule, FIG_DIR / "cv_fold_sharpe_heatmap.pdf")
+    return {
+        "results": results,
+        "path_month_returns": path_month_returns,
+        "path_metrics": path_metrics,
+        "pbo_summary": pbo_summary,
+        "regime_performance": regime_performance,
+        "tables": tables,
+    }
+
+
+def _refit_summary(refit_paths: pd.DataFrame, realized: pd.DataFrame) -> pd.DataFrame:
+    columns = [
+        "Strategy",
+        "Paths",
+        "OK Paths",
+        "Realized Sharpe",
+        "P05 Sharpe",
+        "P50 Sharpe",
+        "P95 Sharpe",
+        "P50 Max Drawdown",
+        "Median Gross NAV",
+        "Error Paths",
+    ]
+    if refit_paths.empty:
+        return pd.DataFrame(columns=columns)
+    realized_lookup = dict(zip(realized["strategy"], pd.to_numeric(realized["sharpe"], errors="coerce"))) if not realized.empty else {}
+    rows = []
+    for strategy, group in refit_paths.groupby("strategy", dropna=False):
+        ok = group[group.get("status", pd.Series("ok", index=group.index)).astype(str).eq("ok")]
+        sharpe = pd.to_numeric(ok.get("sharpe", pd.Series(dtype=float)), errors="coerce")
+        max_dd = pd.to_numeric(ok.get("max_drawdown", pd.Series(dtype=float)), errors="coerce")
+        gross_nav = pd.to_numeric(ok.get("gross_nav", pd.Series(dtype=float)), errors="coerce")
+        rows.append(
+            {
+                "Strategy": strategy,
+                "Paths": int(len(group)),
+                "OK Paths": int(len(ok)),
+                "Realized Sharpe": realized_lookup.get(strategy, np.nan),
+                "P05 Sharpe": float(sharpe.quantile(0.05)) if sharpe.notna().any() else np.nan,
+                "P50 Sharpe": float(sharpe.quantile(0.50)) if sharpe.notna().any() else np.nan,
+                "P95 Sharpe": float(sharpe.quantile(0.95)) if sharpe.notna().any() else np.nan,
+                "P50 Max Drawdown": float(max_dd.quantile(0.50)) if max_dd.notna().any() else np.nan,
+                "Median Gross NAV": float(gross_nav.median()) if gross_nav.notna().any() else np.nan,
+                "Error Paths": int(len(group) - len(ok)),
+            }
+        )
+    return pd.DataFrame(rows, columns=columns).sort_values("Strategy").reset_index(drop=True)
+
+
+def _mc_refit_weights(model: OptionOnlyMarkowitzModel) -> pd.Series:
+    weights = _solve_weights_with_guard(model, "mc_refit")
+    weights.name = "Greek Markowitz + VIX"
+    return weights
+
+
+def run_mc_stage(
+    ctx: RobustnessContext,
+    resample_config: ResampleConfig,
+    reprice_config: RepriceConfig,
+) -> dict[str, pd.DataFrame]:
+    rng = np.random.default_rng(resample_config.seed)
+    paths = month_index_paths(len(ctx.ret_frame), resample_config.n_paths, resample_config.block_length, rng)
+    regime_tags = tag_regimes(ctx.ret_frame.index, ctx.vix_level.reindex(ctx.ret_frame.index), EVENT_WINDOWS)
+    regime_labels = regime_tags.set_index("return_date")["vix_tercile"].reindex(ctx.ret_frame.index)
+    stratified_paths = stratified_month_index_paths(regime_labels, resample_config.n_paths, resample_config.block_length, rng)
+
+    fixed_frames = [
+        fixed_weight_universe_distribution(
+            ctx.ret_frame,
+            paths,
+            basis="gross",
+            universe_family="resampled",
+            periods_per_year=resample_config.periods_per_year,
+        ),
+        fixed_weight_universe_distribution(
+            ctx.full_spread_net_frame,
+            paths,
+            basis="full_spread_post_cost",
+            universe_family="resampled",
+            periods_per_year=resample_config.periods_per_year,
+        ),
+        fixed_weight_universe_distribution(
+            ctx.ret_frame,
+            stratified_paths,
+            basis="gross",
+            universe_family="resampled_stratified",
+            periods_per_year=resample_config.periods_per_year,
+        ),
+        fixed_weight_universe_distribution(
+            ctx.full_spread_net_frame,
+            stratified_paths,
+            basis="full_spread_post_cost",
+            universe_family="resampled_stratified",
+            periods_per_year=resample_config.periods_per_year,
+        ),
+    ]
+    fixed_paths = pd.concat(fixed_frames, ignore_index=True, sort=False)
+    realized = pd.concat(
+        [
+            _strategy_sharpe_rows(ctx.ret_frame, basis="gross", universe_family="resampled"),
+            _strategy_sharpe_rows(ctx.full_spread_net_frame, basis="full_spread_post_cost", universe_family="resampled"),
+            _strategy_sharpe_rows(ctx.ret_frame, basis="gross", universe_family="resampled_stratified"),
+            _strategy_sharpe_rows(ctx.full_spread_net_frame, basis="full_spread_post_cost", universe_family="resampled_stratified"),
+        ],
+        ignore_index=True,
+        sort=False,
+    )
+    fixed_summary = resampled_summary(fixed_paths, realized)
+    resample_assumption_table = resample_assumptions(
+        resample_config,
+        regime_labels.value_counts(dropna=False).to_dict(),
+        {"stratification": "VIX terciles from the realized OOS return months"},
+    )
+
+    train_dates = pd.DatetimeIndex(ctx.returns.loc[ctx.returns.index <= TRAIN_END].index)
+    refit_paths = refit_universe_distribution(
+        ctx.returns,
+        ctx.reps,
+        ctx.universe,
+        train_dates,
+        ctx.test_returns,
+        spec_builder=representative_specs,
+        model_factory=make_model,
+        weights_builder_single=_mc_refit_weights,
+        under_ret=ctx.underlying_returns,
+        vol_shocks=ctx.vol_shocks,
+        config=resample_config,
+    )
+    realized_gross = _strategy_sharpe_rows(ctx.ret_frame, basis="gross", universe_family="realized")
+    refit_summary = _refit_summary(refit_paths, realized_gross)
+
+    state_underlyings = list(dict.fromkeys(list(ctx.universe) + ([VIX_FACTOR] if ctx.has_vix else [])))
+    state_under_ret = ctx.underlying_returns.loc[:TRAIN_END].copy()
+    if VIX_FACTOR in state_underlyings and VIX_FACTOR not in state_under_ret.columns and "VX_FRONT_return" in ctx.vix_state:
+        state_under_ret[VIX_FACTOR] = pd.to_numeric(ctx.vix_state["VX_FRONT_return"], errors="coerce").reindex(state_under_ret.index)
+    iv_levels = _iv_level_panel(ctx.reps, state_underlyings)
+    state_model = fit_joint_state_model(
+        state_under_ret.reindex(columns=state_underlyings).fillna(0.0),
+        iv_levels.loc[:TRAIN_END].reindex(columns=state_underlyings).ffill().bfill(),
+        ctx.vix_level.loc[:TRAIN_END].ffill().bfill(),
+        reprice_config,
+    )
+    params = contract_static_params(ctx.reps, TRAIN_END)
+    if not params.empty:
+        params = params.loc[params.index.intersection(pd.Index(ctx.model.contracts))]
+
+    states = simulate_state_paths(state_model, reprice_config, method="joint_garch_block")
+    contract_returns = reprice_contract_returns(states, params, reprice_config)
+    repriced_paths = repriced_strategy_paths(contract_returns, ctx.strategies, params.index, reprice_config)
+    repriced_summary_table = repriced_summary(repriced_paths, realized_gross)
+
+    gauss_states = simulate_state_paths(state_model, reprice_config, method="gaussian_copula")
+    gauss_returns = reprice_contract_returns(gauss_states, params, reprice_config)
+    repriced_paths_gauss = repriced_strategy_paths(gauss_returns, ctx.strategies, params.index, reprice_config)
+    if not repriced_paths_gauss.empty:
+        repriced_paths_gauss["method"] = "gaussian_copula"
+    repriced_summary_gauss = repriced_summary(repriced_paths_gauss, realized_gross)
+
+    reprice_assumption_table = reprice_assumptions(state_model, params, reprice_config, "joint_garch_block")
+    comparison = universe_comparison_table(
+        realized_gross,
+        fixed_summary[
+            fixed_summary["Basis"].astype(str).eq("gross")
+            & fixed_summary["Universe Family"].astype(str).eq("resampled")
+        ] if not fixed_summary.empty else fixed_summary,
+        repriced_summary_table,
+    )
+
+    fixed_paths.to_csv(ART_DIR / "mc_resampled_fixed_paths.csv", index=False)
+    fixed_summary.to_csv(ART_DIR / "mc_resampled_summary.csv", index=False)
+    refit_paths.to_csv(ART_DIR / "mc_refit_paths.csv", index=False)
+    refit_summary.to_csv(ART_DIR / "mc_refit_summary.csv", index=False)
+    resample_assumption_table.to_csv(ART_DIR / "mc_resampled_assumptions.csv", index=False)
+    repriced_paths.to_csv(ART_DIR / "mc_repriced_paths.csv", index=False)
+    repriced_summary_table.to_csv(ART_DIR / "mc_repriced_summary.csv", index=False)
+    repriced_paths_gauss.to_csv(ART_DIR / "mc_repriced_paths_gauss_copula.csv", index=False)
+    repriced_summary_gauss.to_csv(ART_DIR / "mc_repriced_summary_gauss_copula.csv", index=False)
+    reprice_assumption_table.to_csv(ART_DIR / "mc_repriced_assumptions.csv", index=False)
+    comparison.to_csv(ART_DIR / "mc_universe_comparison.csv", index=False)
+
+    _write_latex_table(_escape_object_columns(fixed_summary), TABLE_DIR / "mc_resampled_universes.tex")
+    _write_latex_table(_escape_object_columns(refit_summary), TABLE_DIR / "mc_refit_stability.tex")
+    _write_latex_table(_escape_object_columns(repriced_summary_table), TABLE_DIR / "mc_repriced_universes.tex")
+    _write_latex_table(_escape_object_columns(comparison), TABLE_DIR / "mc_universe_comparison.tex")
+    _write_latex_table(_escape_object_columns(reprice_assumption_table), TABLE_DIR / "mc_repriced_assumptions.tex")
+
+    plot_mc_universe_distributions(
+        _attach_realized_sharpes(fixed_paths, realized_gross),
+        _attach_realized_sharpes(repriced_paths, realized_gross),
+        _attach_realized_sharpes(refit_paths, realized_gross),
+        FIG_DIR / "mc_universe_sharpe_distributions.pdf",
+    )
+
+    return {
+        "resampled_paths": fixed_paths,
+        "resampled_summary": fixed_summary,
+        "refit_paths": refit_paths,
+        "refit_summary": refit_summary,
+        "resampled_assumptions": resample_assumption_table,
+        "repriced_paths": repriced_paths,
+        "repriced_summary": repriced_summary_table,
+        "repriced_paths_gauss": repriced_paths_gauss,
+        "repriced_summary_gauss": repriced_summary_gauss,
+        "repriced_assumptions": reprice_assumption_table,
+        "universe_comparison": comparison,
+    }
+
+
+def _json_safe_object(value: object) -> object:
+    if isinstance(value, pd.DataFrame):
+        return _json_safe_object(value.to_dict(orient="records"))
+    if isinstance(value, pd.Series):
+        return _json_safe_object(value.to_dict())
+    if isinstance(value, np.ndarray):
+        return _json_safe_object(value.tolist())
+    if isinstance(value, dict):
+        return {str(k): _json_safe_object(v) for k, v in value.items()}
+    if isinstance(value, (list, tuple)):
+        return [_json_safe_object(v) for v in value]
+    return _json_safe_value(value)
+
+
+def _write_distributional_robustness_summary(summary: dict[str, object]) -> None:
+    (TABLE_DIR / "distributional_robustness_summary.json").write_text(
+        json.dumps(_json_safe_object(summary), indent=2),
+        encoding="utf-8",
+    )
+
+
+def _read_required_figure_csv(path: Path) -> pd.DataFrame:
+    if not path.exists():
+        raise FileNotFoundError(f"Missing robustness figure input: {path.relative_to(PAPER)}")
+    return pd.read_csv(path)
+
+
+def run_robustness_figures() -> dict[str, Path]:
+    """Regenerate robustness figures from persisted CV/MC artifacts only."""
+
+    _ensure_dirs()
+    required_inputs = [
+        ART_DIR / "cv_cpcv_path_metrics.csv",
+        ART_DIR / "cv_fold_ledger.csv",
+        ART_DIR / "cv_fold_schedule.csv",
+        ART_DIR / "mc_resampled_fixed_paths.csv",
+        ART_DIR / "mc_repriced_paths.csv",
+        ART_DIR / "mc_refit_paths.csv",
+        TABLE_DIR / "empirical_summary.json",
+    ]
+    missing = [path.relative_to(PAPER).as_posix() for path in required_inputs if not path.exists()]
+    if missing:
+        raise FileNotFoundError(
+            "Missing robustness figure inputs: "
+            + ", ".join(missing)
+            + ". Run --stage robustness, --stage cv/--stage mc, or the full empirical stage first."
+        )
+
+    realized = _realized_gross_sharpes_from_empirical_summary(TABLE_DIR / "empirical_summary.json")
+    path_metrics = _read_required_figure_csv(ART_DIR / "cv_cpcv_path_metrics.csv")
+    fold_ledger = _read_required_figure_csv(ART_DIR / "cv_fold_ledger.csv")
+    fold_schedule = _read_required_figure_csv(ART_DIR / "cv_fold_schedule.csv")
+    fixed_paths = _read_required_figure_csv(ART_DIR / "mc_resampled_fixed_paths.csv")
+    repriced_paths = _read_required_figure_csv(ART_DIR / "mc_repriced_paths.csv")
+    refit_paths = _read_required_figure_csv(ART_DIR / "mc_refit_paths.csv")
+
+    outputs = {
+        "cpcv_distribution": FIG_DIR / "cv_cpcv_sharpe_distribution.pdf",
+        "fold_heatmap": FIG_DIR / "cv_fold_sharpe_heatmap.pdf",
+        "mc_universes": FIG_DIR / "mc_universe_sharpe_distributions.pdf",
+    }
+    plot_cpcv_sharpe_distribution(path_metrics, realized, outputs["cpcv_distribution"])
+    plot_fold_sharpe_heatmap(fold_ledger, fold_schedule, outputs["fold_heatmap"])
+    plot_mc_universe_distributions(
+        _attach_realized_sharpes(fixed_paths, realized),
+        _attach_realized_sharpes(repriced_paths, realized),
+        _attach_realized_sharpes(refit_paths, realized),
+        outputs["mc_universes"],
+    )
+    return outputs
+
+
+def run_robustness(
+    cv_config: CVConfig | None = None,
+    resample_config: ResampleConfig | None = None,
+    reprice_config: RepriceConfig | None = None,
+) -> dict[str, object]:
+    cv_config = CVConfig() if cv_config is None else cv_config
+    resample_config = ResampleConfig() if resample_config is None else resample_config
+    reprice_config = RepriceConfig() if reprice_config is None else reprice_config
+
+    runtime_seconds: dict[str, float] = {}
+    started = time.monotonic()
+    ctx = _robustness_context()
+    runtime_seconds["context"] = time.monotonic() - started
+
+    started = time.monotonic()
+    cv = run_cv_stage(ctx, cv_config)
+    runtime_seconds["cv"] = time.monotonic() - started
+
+    started = time.monotonic()
+    mc = run_mc_stage(ctx, resample_config, reprice_config)
+    runtime_seconds["mc"] = time.monotonic() - started
+
+    summary = {
+        "cv_config": dataclasses.asdict(cv_config),
+        "cv_fold_schedule": cv["results"].fold_schedule.to_dict(orient="records"),
+        "cv_fold_ledger": cv["results"].fold_ledger.to_dict(orient="records"),
+        "cv_cpcv_path_metrics": cv["path_metrics"].to_dict(orient="records"),
+        "cv_pbo": cv["pbo_summary"].to_dict(orient="records"),
+        "cv_regime_performance": cv["regime_performance"].to_dict(orient="records"),
+        "cv_context_consistency": ctx.cv_context_consistency.to_dict(orient="records"),
+        "mc_resampled_summary": mc["resampled_summary"].to_dict(orient="records"),
+        "mc_refit_summary": mc["refit_summary"].to_dict(orient="records"),
+        "mc_repriced_summary": mc["repriced_summary"].to_dict(orient="records"),
+        "mc_repriced_assumptions": mc["repriced_assumptions"].to_dict(orient="records"),
+        "mc_universe_comparison": mc["universe_comparison"].to_dict(orient="records"),
+        "runtime_seconds": runtime_seconds,
+        "seeds": {
+            "cv": cv_config.seed,
+            "resample": resample_config.seed,
+            "refit": resample_config.refit_seed,
+            "reprice": reprice_config.seed,
+        },
+    }
+    _write_distributional_robustness_summary(summary)
+    _write_hash_manifest()
+    return summary
+
+
 def run_all() -> dict[str, object]:
     _ensure_dirs()
     full_panel, equity_reps, equity_returns = load_bucket_panel()
@@ -1471,16 +3038,40 @@ def run_all() -> dict[str, object]:
     returns = returns.reindex(columns=spec.index).dropna(how="all")
     universe = PRIMARY_UNDERLYINGS + ([VIX_FACTOR] if VIX_FACTOR in set(spec["underlying"].astype(str)) else [])
     model, residuals = make_model(spec, returns, reps, universe)
+    cost_config = ResearchCostConfig()
+    spread_surface = (
+        load_cbbo_spread_surface(ROOT, cost_config.cbbo_spread_surface_path)
+        if cost_config.use_cbbo_spread_surface
+        else None
+    )
+    cost_inputs = build_cost_input_ledger(reps, return_detail, ROOT, cost_config, spread_surface=spread_surface)
+    cost_input_spread_source_coverage = cost_input_spread_source_coverage_table(cost_inputs)
 
     equity_spec = representative_specs(equity_reps, equity_returns)
     equity_returns = equity_returns.reindex(columns=equity_spec.index).dropna(how="all")
     equity_model, _ = make_model(equity_spec, equity_returns, equity_reps, PRIMARY_UNDERLYINGS)
     equity_strategy = strategy_weights(equity_model, PRIMARY_UNDERLYINGS)["Greek Markowitz"]
     combined_strategies = strategy_weights(model, universe)
+    train_scenarios = returns.loc[:TRAIN_END, model.contracts].fillna(0.0)
+    entry_costs, entry_cost_diag = derive_entry_cost_series(
+        cost_inputs, list(model.contracts), train_end=TRAIN_END, config=cost_config
+    )
+    sortino_weights, sortino_diag = _sortino_weights_with_guard(
+        model, train_scenarios, entry_costs, "cost_aware_sortino"
+    )
+    sortino_objective_diag = pd.DataFrame([{**sortino_diag, "n_train_scenarios": int(len(train_scenarios))}])
+    mean_sortino_entry_cost = float(pd.to_numeric(entry_cost_diag["entry_cost"], errors="coerce").mean()) if not entry_cost_diag.empty else np.nan
+    sortino_entry_cost_summary = {
+        "n_assets": int(len(entry_cost_diag)),
+        "n_train_observed": int(entry_cost_diag["source"].eq("train_observed").sum()) if not entry_cost_diag.empty else 0,
+        "n_default_imputed": int(entry_cost_diag["source"].eq("default_imputed").sum()) if not entry_cost_diag.empty else 0,
+        "mean_entry_cost": _json_safe_value(mean_sortino_entry_cost),
+    }
     strategies = {
         "Equity-option Greek Markowitz": equity_strategy,
         "Greek Markowitz + VIX": combined_strategies["Greek Markowitz"],
         "Beta/delta-neutral + VIX": combined_strategies["Delta neutral"],
+        "Cost-aware Sortino + VIX": sortino_weights,
         "Equal premium": combined_strategies["Equal premium"],
         "Equal risk": combined_strategies["Equal risk"],
     }
@@ -1488,7 +3079,7 @@ def run_all() -> dict[str, object]:
         strategies["VIX hedge sleeve"] = vix_hedge_sleeve_weights(model)
 
     test_returns = returns.loc[returns.index > TRAIN_END, model.contracts].fillna(0.0)
-    train_returns = returns.loc[:TRAIN_END, model.contracts].fillna(0.0)
+    train_returns = train_scenarios.copy()
     underlying_returns, vol_shocks = factor_panels(reps, universe)
     factor_returns = load_extended_factor_returns(returns.index)
     spy_benchmark = factor_returns[SPY_UNDERLYING].reindex(test_returns.index)
@@ -1507,61 +3098,32 @@ def run_all() -> dict[str, object]:
     for name, weights in strategies.items():
         pr = model.portfolio_return_series(test_returns, weights)
         ret_frame[name] = pr
-        st = performance_stats(pr, PERIODS_PER_YEAR, benchmark_returns=spy_benchmark)
-        ci = block_bootstrap_metric_ci(pr, "sharpe", BootstrapConfig(n_boot=1000))
-        sortino_ci = block_bootstrap_metric_ci(pr, "sortino", BootstrapConfig(n_boot=1000))
         calib = model.risk_calibration(test_returns, weights)
         perf_rows.append(
-            {
-                "Strategy": name,
-                "Ann. return": st["ann_return"],
-                "Ann. vol": st["ann_vol"],
-                "Sharpe": st["sharpe"],
-                "Downside ann. dev": st["downside_ann_dev"],
-                "Sortino": st["sortino"],
-                "Max drawdown": st["max_drawdown"],
-                "Worst month": float(pr.min()) if len(pr) else np.nan,
-                "Calmar": st["calmar"],
-                "Omega": st["omega"],
-                "Info. ratio": st["information_ratio"],
-                "SR 90\\% CI lo": ci[0],
-                "SR 90\\% CI hi": ci[1],
-                "Pred./realized vol": calib["predicted_vol"] / calib["realized_vol"] if calib["realized_vol"] > 0 else np.nan,
-                "Gross NAV": weights.abs().sum(),
-                "Net NAV": weights.sum(),
-            }
+            performance_summary_row(
+                name,
+                pr,
+                spy_benchmark,
+                pred_realized_vol=calib["predicted_vol"] / calib["realized_vol"] if calib["realized_vol"] > 0 else np.nan,
+                gross_nav=float(weights.abs().sum()),
+                net_nav=float(weights.sum()),
+            )
         )
     for name, weights in equity_benchmarks.items():
         pr = pd.Series(test_under.to_numpy(float) @ weights.reindex(PRIMARY_UNDERLYINGS).fillna(0.0).to_numpy(float), index=test_under.index)
         ret_frame[name] = pr
-        st = performance_stats(pr, PERIODS_PER_YEAR, benchmark_returns=spy_benchmark)
-        ci = block_bootstrap_metric_ci(pr, "sharpe", BootstrapConfig(n_boot=1000))
-        sortino_ci = block_bootstrap_metric_ci(pr, "sortino", BootstrapConfig(n_boot=1000))
         perf_rows.append(
-            {
-                "Strategy": name,
-                "Ann. return": st["ann_return"],
-                "Ann. vol": st["ann_vol"],
-                "Sharpe": st["sharpe"],
-                "Downside ann. dev": st["downside_ann_dev"],
-                "Sortino": st["sortino"],
-                "Max drawdown": st["max_drawdown"],
-                "Worst month": float(pr.min()) if len(pr) else np.nan,
-                "Calmar": st["calmar"],
-                "Omega": st["omega"],
-                "Info. ratio": st["information_ratio"],
-                "SR 90\\% CI lo": ci[0],
-                "SR 90\\% CI hi": ci[1],
-                "Pred./realized vol": np.nan,
-                "Gross NAV": weights.abs().sum(),
-                "Net NAV": weights.sum(),
-            }
+            performance_summary_row(
+                name,
+                pr,
+                spy_benchmark,
+                gross_nav=float(weights.abs().sum()),
+                net_nav=float(weights.sum()),
+            )
         )
     perf = pd.DataFrame(perf_rows)
     perf["Return basis"] = "Gross before costs"
 
-    cost_config = ResearchCostConfig()
-    cost_inputs = build_cost_input_ledger(reps, return_detail, ROOT, cost_config)
     option_gross_frame = ret_frame[[name for name in strategies if name in ret_frame.columns]].copy()
     net_option_frame, cost_ledger, capacity_ledger, margin_ledger, assignment_ledger = compute_strategy_cost_ledgers(
         option_gross_frame, strategies, cost_inputs, cost_config
@@ -1574,32 +3136,15 @@ def run_all() -> dict[str, object]:
     for name in net_ret_frame.columns:
         pr = net_ret_frame[name].dropna()
         bench = spy_benchmark.reindex(pr.index)
-        st = performance_stats(pr, PERIODS_PER_YEAR, benchmark_returns=bench)
-        ci = block_bootstrap_metric_ci(pr, "sharpe", BootstrapConfig(n_boot=1000), bench)
-        sortino_ci = block_bootstrap_metric_ci(pr, "sortino", BootstrapConfig(n_boot=1000), bench)
-        net_rows.append(
-            {
-                "Strategy": name,
-                "Ann. return": st["ann_return"],
-                "Ann. vol": st["ann_vol"],
-                "Sharpe": st["sharpe"],
-                "Downside ann. dev": st["downside_ann_dev"],
-                "Sortino": st["sortino"],
-                "Max drawdown": st["max_drawdown"],
-                "Worst month": float(pr.min()) if len(pr) else np.nan,
-                "Calmar": st["calmar"],
-                "Omega": st["omega"],
-                "Info. ratio": st["information_ratio"],
-                "SR 90\\% CI lo": ci[1],
-                "SR 90\\% CI hi": ci[2],
-                "Sortino 90\\% CI lo": sortino_ci[1],
-                "Sortino 90\\% CI hi": sortino_ci[2],
-                "Pred./realized vol": np.nan,
-                "Gross NAV": float(strategies[name].abs().sum()) if name in strategies else np.nan,
-                "Net NAV": float(strategies[name].sum()) if name in strategies else np.nan,
-                "Return basis": "Post-cost research",
-            }
+        row = performance_summary_row(
+            name,
+            pr,
+            bench,
+            gross_nav=float(strategies[name].abs().sum()) if name in strategies else np.nan,
+            net_nav=float(strategies[name].sum()) if name in strategies else np.nan,
         )
+        row["Return basis"] = "Post-cost research"
+        net_rows.append(row)
     perf_net = pd.DataFrame(net_rows)
 
     vix_source_counts = vix_detail["settlement_source"].value_counts().to_dict() if has_vix and not vix_detail.empty else {}
@@ -1637,6 +3182,20 @@ def run_all() -> dict[str, object]:
         cost_inputs,
         config=ExecutionCostScenarioConfig(nav_for_capacity=cost_config.nav_for_capacity),
     )
+    repair_config = RepairConfig()
+    repaired_result = build_execution_cost_scenarios(
+        option_gross_frame,
+        strategies,
+        cost_inputs,
+        config=ExecutionCostScenarioConfig(nav_for_capacity=cost_config.nav_for_capacity),
+        repair=repair_config,
+    )
+    repair_diag = repair_diagnostics_table(repaired_result.repaired_rows)
+    repair_comparison = execution_repair_comparison_table(
+        net_scenario_returns,
+        repaired_result.net,
+        periods_per_year=PERIODS_PER_YEAR,
+    )
     diag_cov = pd.Series(np.sqrt(np.maximum(np.diag(model.option_cov), 0.0)), index=model.contracts)
     avg_expected_cost = (
         cost_inputs.groupby("asset_id")["relative_spread"].mean().reindex(model.contracts).fillna(cost_config.default_equity_option_rel_spread)
@@ -1662,7 +3221,8 @@ def run_all() -> dict[str, object]:
     no_trade_periods = pd.DataFrame(no_trade_rows)
     if no_trade_periods.empty:
         no_trade_periods = pd.DataFrame(columns=["return_date", "hurdle", "reason"])
-    tier_map = liquidity_tier_labels(cost_inputs)
+    # PIT liquidity tiers: classify only on rows observable by TRAIN_END (M8).
+    tier_map = liquidity_tier_labels(cost_inputs, train_end=TRAIN_END)
     liquidity_perf, liquidity_diag = liquidity_tier_rerun_tables(returns, reps, tier_map, factor_returns)
     premia_components = getattr(model, "conditional_premia_components", None)
     if premia_components is None:
@@ -1760,6 +3320,11 @@ def run_all() -> dict[str, object]:
         raw_download_audit = pd.DataFrame()
         vix_required_settlement_download_audit = pd.DataFrame(columns=["Year", "Exact scalar parsed", "SOQ component status", "RequiredExpiries"])
 
+    # M9: measure (do not change) the zero-imputation of missing bucket months.
+    imputation_diag = zero_imputation_diagnostics(
+        returns.reindex(columns=model.contracts), strategies, TRAIN_END
+    )
+
     random_sharpes = random_feasible(model, returns)
 
     risk_rows = []
@@ -1789,9 +3354,9 @@ def run_all() -> dict[str, object]:
             {"Item": "Test dates", "Value": f"{test_returns.index.nunique():,}"},
             {"Item": "Primary equity underlyings", "Value": ", ".join(PRIMARY_UNDERLYINGS)},
             {"Item": "VIX option treatment", "Value": "VX-forward Black-76 Greeks; VIX/VVIX state only"},
-            {"Item": "VIX settlement source", "Value": vix_settlement},
-            {"Item": "VIX headline status", "Value": "headline-grade exact VRO/SOQ" if vix_headline_eligible else "diagnostic only: exact VRO/SOQ incomplete"},
-            {"Item": "Post-cost layer", "Value": "pre-production research simulation: mid, half-spread, and full-spread executable-cost scenarios"},
+            {"Item": "VIX settlement source", "Value": vix_settlement.replace("vro_soq_exact:", "exact VRO/SOQ (") + (" rows)" if vix_settlement.startswith("vro_soq_exact:") else "")},
+            {"Item": "VIX headline status", "Value": "exact VRO/SOQ settlement (excluded expiries disclosed in Section 2)" if vix_headline_eligible else "diagnostic only: exact VRO/SOQ incomplete"},
+            {"Item": "Post-cost layers", "Value": "executable-cost scenarios (mid, half, full spread) and conservative stress-cost layer"},
             {"Item": "Broker execution status", "Value": "not broker-executed live evidence"},
             {"Item": "Rolling option bucket assets", "Value": f"{len(model.contracts):,}"},
             {"Item": "Train/test split", "Value": f"through {TRAIN_END.date()} / after {TRAIN_END.date()}"},
@@ -1810,6 +3375,21 @@ def run_all() -> dict[str, object]:
     attribution = pnl_attribution_table(model, strategies, test_returns, return_detail, reps)
     regime = regime_performance_table(ret_frame, factor_returns[SPY_UNDERLYING])
     vix_regime = volatility_regime_performance_table(ret_frame, ret_frame.index)
+    vix_feature_dates = pd.DatetimeIndex(sorted(pd.to_datetime(reps["snap_date"].dropna().unique()))).normalize()
+    vix_feature_columns = ["atm_iv_proxy", "skew_proxy", "call_wing_premium_share", "term_slope", "n_contracts"]
+    vol_regime_columns = ["strategy", "bucket", "n_months", "mean_monthly_return", "annualized_sharpe"]
+    try:
+        vix_features = build_vix_chain_state_features(ROOT, vix_feature_dates)
+        if vix_features.empty:
+            vix_features = pd.DataFrame(columns=vix_feature_columns)
+        vol_regimes = vol_of_vol_regime_table(ret_frame, vix_features).reset_index()
+    except Exception:
+        vix_features = pd.DataFrame(columns=vix_feature_columns)
+        vix_features.index.name = "snap_date"
+        vol_regimes = pd.DataFrame(columns=vol_regime_columns)
+    if vol_regimes.empty:
+        vol_regimes = pd.DataFrame(columns=vol_regime_columns)
+    extension_manifest = data_extension_manifest(ROOT, cost_config, spread_surface)
     leave_one = leave_one_out_table(reps, returns, factor_returns[SPY_UNDERLYING])
     timing_diagnostics = timing_diagnostics_table(returns, equity_detail, split_events)
     if has_vix and not vix_detail.empty:
@@ -1875,7 +3455,37 @@ def run_all() -> dict[str, object]:
     _write_latex_table(_escape_object_columns(drawdown_breach_table), TABLE_DIR / "drawdown_breach_rates.tex")
     _write_latex_table(_escape_object_columns(simulation_assumption_table), TABLE_DIR / "simulation_assumptions.tex")
     _write_latex_table(cost_diagnostics, TABLE_DIR / "cost_capacity_margin_diagnostics.tex")
+    # CSV artifacts keep raw snake_case schemas for the verifier; the LaTeX
+    # variants need underscore-free headers or tabular emits "Missing $".
+    spread_source_tex = cost_input_spread_source_coverage.rename(
+        columns={
+            "relative_spread_source": "Spread source",
+            "asset_class": "Asset class",
+            "rows": "Rows",
+            "mean_relative_spread": "Mean relative spread",
+        }
+    )
+    _write_latex_table(_escape_object_columns(spread_source_tex), TABLE_DIR / "cost_input_spread_source_coverage.tex")
+    sortino_diag_tex = sortino_objective_diag.rename(
+        columns={
+            "status": "Status",
+            "method_used": "Method",
+            "objective": "Objective",
+            "net_mean": "Net mean",
+            "gross_mean": "Gross mean",
+            "entry_cost": "Entry cost",
+            "downside_deviation": "Downside deviation",
+            "sortino_net": "Net Sortino",
+            "target": "Target",
+            "n_scenarios": "Scenarios",
+            "degenerate_downside_free": "Downside-free",
+            "n_train_scenarios": "Train scenarios",
+        }
+    )
+    _write_latex_table(_escape_object_columns(sortino_diag_tex), TABLE_DIR / "sortino_objective_diagnostics.tex")
     _write_latex_table(capacity_market_diag.map(_latex_escape), TABLE_DIR / "capacity_market_impact_diagnostics.tex")
+    _write_latex_table(_escape_object_columns(repair_diag), TABLE_DIR / "execution_repair_diagnostics.tex")
+    _write_latex_table(_escape_object_columns(repair_comparison), TABLE_DIR / "execution_repair_comparison.tex")
     _write_latex_table(vix_settlement_coverage.map(_latex_escape), TABLE_DIR / "vix_settlement_coverage.tex")
     _write_latex_table(vix_settlement_audit.map(_latex_escape), TABLE_DIR / "vix_settlement_audit.tex")
     _write_latex_table(vix_required_settlement_download_audit.map(_latex_escape), TABLE_DIR / "vix_required_settlement_download_audit.tex")
@@ -1890,6 +3500,16 @@ def run_all() -> dict[str, object]:
     _write_latex_table(attribution, TABLE_DIR / "pnl_attribution.tex")
     _write_latex_table(regime, TABLE_DIR / "regime_performance.tex")
     _write_latex_table(vix_regime, TABLE_DIR / "vix_regime_performance.tex")
+    vol_regimes_tex = vol_regimes.rename(
+        columns={
+            "strategy": "Strategy",
+            "bucket": "Bucket",
+            "n_months": "Months",
+            "mean_monthly_return": "Mean monthly return",
+            "annualized_sharpe": "Annualized Sharpe",
+        }
+    )
+    _write_latex_table(_escape_object_columns(vol_regimes_tex), TABLE_DIR / "vol_of_vol_regime_performance.tex")
     _write_latex_table(leave_one, TABLE_DIR / "leave_one_out.tex")
     _write_latex_table(rolling_oos, TABLE_DIR / "rolling_oos.tex")
     _write_latex_table(claim_strength.map(_latex_escape), TABLE_DIR / "claim_strength_summary.tex")
@@ -1901,12 +3521,22 @@ def run_all() -> dict[str, object]:
     ret_frame.to_csv(ART_DIR / "strategy_returns.csv")
     net_ret_frame.to_csv(ART_DIR / "strategy_returns_post_cost.csv")
     net_scenario_returns.to_csv(ART_DIR / "net_strategy_returns_by_cost_scenario.csv")
+    repaired_result.net.to_csv(ART_DIR / "net_strategy_returns_by_cost_scenario_repaired.csv")
     required_capital_returns.to_csv(ART_DIR / "required_capital_returns.csv")
     cost_inputs.to_csv(ART_DIR / "cost_input_ledger.csv", index=False)
+    cost_input_spread_source_coverage.to_csv(ART_DIR / "cost_input_spread_source_coverage.csv", index=False)
     cost_ledger.to_csv(ART_DIR / "cost_ledger.csv", index=False)
     cost_scenario_ledger.to_csv(ART_DIR / "cost_scenario_ledger.csv", index=False)
+    repaired_result.cost_ledger.to_csv(ART_DIR / "cost_scenario_ledger_repaired.csv", index=False)
+    entry_cost_diag.to_csv(ART_DIR / "sortino_entry_costs.csv", index=False)
+    sortino_objective_diag.to_csv(ART_DIR / "sortino_objective_diagnostics.csv", index=False)
     rejected_trade_ledger.to_csv(ART_DIR / "rejected_trade_ledger.csv", index=False)
+    repaired_result.rejected.to_csv(ART_DIR / "rejected_trade_ledger_repaired.csv", index=False)
     required_capital_ledger.to_csv(ART_DIR / "required_capital_ledger.csv", index=False)
+    repaired_result.capital.to_csv(ART_DIR / "required_capital_ledger_repaired.csv", index=False)
+    repaired_result.repaired_rows.to_csv(ART_DIR / "repaired_trade_ledger.csv", index=False)
+    repair_diag.to_csv(ART_DIR / "execution_repair_diagnostics.csv", index=False)
+    repair_comparison.to_csv(ART_DIR / "execution_repair_comparison.csv", index=False)
     capacity_ledger.to_csv(ART_DIR / "capacity_ledger.csv", index=False)
     margin_ledger.to_csv(ART_DIR / "research_margin_ledger.csv", index=False)
     assignment_ledger.to_csv(ART_DIR / "assignment_risk_ledger.csv", index=False)
@@ -1915,6 +3545,7 @@ def run_all() -> dict[str, object]:
     hurdle_selection.to_csv(ART_DIR / "hurdle_selection_ledger.csv", index=False)
     no_trade_periods.to_csv(ART_DIR / "no_trade_periods.csv", index=False)
     no_trade_returns.to_csv(ART_DIR / "strategy_returns_with_no_trade_state.csv")
+    imputation_diag.to_csv(ART_DIR / "zero_imputation_diagnostics.csv", index=False)
     liquidity_perf.to_csv(ART_DIR / "liquidity_tier_performance.csv", index=False)
     liquidity_diag.to_csv(ART_DIR / "liquidity_tier_diagnostics.csv", index=False)
     ablation_perf.to_csv(ART_DIR / "forecast_ablation_performance.csv", index=False)
@@ -1938,6 +3569,9 @@ def run_all() -> dict[str, object]:
     factor_regression.to_csv(ART_DIR / "factor_regression.csv", index=False)
     regime.to_csv(ART_DIR / "regime_performance.csv", index=False)
     vix_regime.to_csv(ART_DIR / "vix_regime_performance.csv", index=False)
+    vix_features.to_csv(ART_DIR / "vix_chain_state_features.csv")
+    vol_regimes.to_csv(ART_DIR / "vol_of_vol_regime_performance.csv", index=False)
+    extension_manifest.to_csv(ART_DIR / "data_extension_manifest.csv", index=False)
     leave_one.to_csv(ART_DIR / "leave_one_out.csv", index=False)
     rolling_oos.to_csv(ART_DIR / "rolling_oos.csv", index=False)
     claim_audit.to_csv(ART_DIR / "claim_audit.csv", index=False)
@@ -2007,7 +3641,7 @@ def run_all() -> dict[str, object]:
     plt.close()
 
     plot_regime_sharpes(regime, FIG_DIR / "regime_sharpes.pdf")
-    plot_regime_sharpes(vix_regime.rename(columns={"Regime": "Regime"}), FIG_DIR / "vix_regime_sharpes.pdf") if not vix_regime.empty else None
+    plot_regime_sharpes(vix_regime, FIG_DIR / "vix_regime_sharpes.pdf", title="Performance by VIX regime") if not vix_regime.empty else None
     plot_leave_one_out(leave_one, FIG_DIR / "leave_one_out_sharpe.pdf")
 
     summary = {
@@ -2028,6 +3662,12 @@ def run_all() -> dict[str, object]:
         "performance_post_cost": perf_net.to_dict(orient="records"),
         "post_cost_survival": survival.to_dict(orient="records"),
         "cost_scenario_diagnostics": capacity_market_diag.to_dict(orient="records"),
+        "execution_repair_diagnostics": repair_diag.to_dict(orient="records"),
+        "execution_repair_comparison": repair_comparison.to_dict(orient="records"),
+        "repair_config": dataclasses.asdict(repair_config),
+        "sortino_diagnostics": _json_safe_dict(sortino_diag),
+        "sortino_entry_cost_summary": sortino_entry_cost_summary,
+        "cost_input_spread_sources": cost_input_spread_source_coverage.to_dict(orient="records"),
         "liquidity_tier_performance": liquidity_perf.to_dict(orient="records"),
         "liquidity_tier_diagnostics": liquidity_diag.to_dict(orient="records"),
         "forecast_ablation_performance": ablation_perf.to_dict(orient="records"),
@@ -2036,6 +3676,7 @@ def run_all() -> dict[str, object]:
         "simulation_summary": simulation_summary.to_dict(orient="records"),
         "simulation_assumptions": simulation_assumptions.to_dict(orient="records"),
         "drawdown_breach_rates": drawdown_breaches.to_dict(orient="records"),
+        "zero_imputation_diagnostics": imputation_diag.to_dict(orient="records"),
         "hurdle_summary": {
             "hurdles": sorted([float(x) for x in hurdle_selection["hurdle"].dropna().unique()]) if not hurdle_selection.empty else [],
             "no_trade_rows": int(len(no_trade_periods)),
@@ -2055,6 +3696,12 @@ def run_all() -> dict[str, object]:
         "pnl_attribution": attribution.to_dict(orient="records"),
         "regime_performance": regime.to_dict(orient="records"),
         "vix_regime_performance": vix_regime.to_dict(orient="records"),
+        "vix_chain_feature_summary": {
+            "n_dates": int(len(vix_features)),
+            "n_nonnull_atm_iv": int(pd.to_numeric(vix_features.get("atm_iv_proxy", pd.Series(dtype=float)), errors="coerce").notna().sum()),
+        },
+        "vol_of_vol_regime_performance": vol_regimes.to_dict(orient="records"),
+        "data_extension_manifest": extension_manifest.to_dict(orient="records"),
         "leave_one_out": leave_one.to_dict(orient="records"),
         "rolling_oos": rolling_oos.to_dict(orient="records"),
         "claim_strength": claim_strength.to_dict(orient="records"),
@@ -2067,25 +3714,47 @@ def run_all() -> dict[str, object]:
         },
     }
     (TABLE_DIR / "empirical_summary.json").write_text(json.dumps(summary, indent=2), encoding="utf-8")
-    write_environment_lock(PAPER / "environment_lock.json")
-    hash_paths = []
-    for directory in (TABLE_DIR, FIG_DIR, ART_DIR):
-        hash_paths.extend([p for p in directory.rglob("*") if p.is_file()])
-    hash_paths.extend([
-        PAPER / "option_only_portfolio_optimization_dhruv_kohli.tex",
-        PAPER / "REPRODUCIBILITY.md",
-        PAPER / "environment_lock.json",
-    ])
-    artifact_hash_manifest(hash_paths, PAPER).to_csv(PAPER / "artifact_hash_manifest.csv", index=False)
+    _write_hash_manifest()
     return summary
 
 
-def main() -> None:
+def _build_arg_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser()
-    parser.add_argument("--stage", choices=["all"], default="all")
+    parser.add_argument("--stage", choices=["all", "robustness", "cv", "mc", "robustness-figures"], default="all")
+    parser.add_argument("--cv-groups", type=int, default=12)
+    parser.add_argument("--cv-test-groups", type=int, default=2)
+    parser.add_argument("--mc-paths", type=int, default=1000)
+    parser.add_argument("--mc-refit-paths", type=int, default=200)
+    parser.add_argument("--mc-reprice-paths", type=int, default=1000)
+    return parser
+
+
+def main() -> None:
+    parser = _build_arg_parser()
     args = parser.parse_args()
     if args.stage == "all":
         run_all()
+        return
+    if args.stage == "robustness-figures":
+        try:
+            run_robustness_figures()
+        except FileNotFoundError as exc:
+            parser.exit(2, f"{exc}\n")
+        return
+
+    cv_config = CVConfig(n_groups=args.cv_groups, n_test_groups=args.cv_test_groups)
+    resample_config = ResampleConfig(n_paths=args.mc_paths, n_refit_paths=args.mc_refit_paths)
+    reprice_config = RepriceConfig(n_paths=args.mc_reprice_paths)
+    if args.stage == "robustness":
+        run_robustness(cv_config, resample_config, reprice_config)
+        return
+
+    ctx = _robustness_context()
+    if args.stage == "cv":
+        run_cv_stage(ctx, cv_config)
+    elif args.stage == "mc":
+        run_mc_stage(ctx, resample_config, reprice_config)
+    _write_hash_manifest()
 
 
 if __name__ == "__main__":
