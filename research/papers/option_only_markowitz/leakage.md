@@ -1,7 +1,7 @@
 # Point-in-Time Leakage Audit Report
 
-**Last Updated**: 2026-07-03
-**Audit Scope**: research/papers/option_only_markowitz/analysis/{run_empirics.py, conditional_premia.py, vix_option_panel.py, vix_chain_features.py, simulation.py, publication_costs.py, execution_cost_scenarios.py, inference.py}; src/portfolio/option_only_markowitz_model.py
+**Last Updated**: 2026-07-05
+**Audit Scope**: research/papers/option_only_markowitz/analysis/{run_empirics.py, conditional_premia.py, vix_option_panel.py, vix_chain_features.py, simulation.py, publication_costs.py, execution_cost_scenarios.py, inference.py, breadth_solutions_lib.py, breadth_p1_regularization_experiment.py, breadth_p2_liquidity_experiment.py, breadth_p3_combined_experiment.py, breadth_robustness_experiment.py}; src/portfolio/option_only_markowitz_model.py; tests/{test_cap_constrained_model.py,test_breadth_robustness_experiment.py}
 
 ## Summary
 
@@ -9,12 +9,20 @@
 - High Severity: 0
 - Medium Severity: 1
 - Low Severity: 2
-- Info: 7
+- Info/by-design notes: 17
 
 No confirmed future-to-past contamination affects the headline strategies. The headline
 train/test split is honest. Findings below concern (1) one supplementary robustness table that
-selects a universe on future-observed liquidity, and (2) a "rolling/walk-forward" claim that the
-code does not actually implement.
+selects a universe on future-observed liquidity, (2) a "rolling/walk-forward" claim that the
+code does not actually implement, and (3) explicit claim-boundary disclosures for newer
+diagnostic layers. The breadth/capacity extension uses train-window volume for pre-trade caps.
+
+The breadth robustness validation is PIT-safe as a diagnostic: each CV/refit/rolling model
+rebuilds representative contracts, conditional moments, residual covariance, and liquidity
+caps from its fold-local training window. The spread policy disables current Cboe delayed
+quotes and enables the offline inferred-CBBO proxy; the full run's source ledger has zero
+`current_cboe_liquid_quote` and zero `default` rows. CPCV remains a non-tradable
+distributional/PBO diagnostic because some training folds occur after the tested months.
 
 ## Findings
 
@@ -306,6 +314,66 @@ using the same staleness convention as `vix_option_panel`. They are not fed into
 returns. The vol-of-vol regime table conditions realized strategy returns on the prior
 decision date's feature, so the reported regime label is observable before the return it
 summarizes.
+
+---
+
+## Breadth/capacity extension entries (2026-07-05)
+
+**Audit result**: Clean for point-in-time capacity construction. The entries below are
+INFO/by-design disclosures for the breadth diagnostic and do not change the headline
+research claim boundary.
+
+### [INFO] Liquidity caps use train-window volume only
+
+**Files**: `research/papers/option_only_markowitz/analysis/breadth_solutions_lib.py:360-408`,
+`tests/test_cap_constrained_model.py:164-199`
+**Status**: Acknowledged
+**Date Identified**: 2026-07-05
+
+`compute_liquidity_caps` creates `_cap_snap_date` from `snap_date` or `trade_date`, filters
+to rows with `_cap_snap_date <= TRAIN_END`, and then computes the per-asset median or mean
+volume. The cap formula uses that train-window volume, the option mark in the frozen
+training spec, the option multiplier, NAV, and the participation parameter. Missing
+train-window volume falls back to the scalar per-contract bound rather than borrowing
+future liquidity. The unit test includes a future 2021 volume observation for asset `a`
+and verifies that the cap uses only the 2020 observations.
+
+---
+
+### [INFO/by-design] Breadth knob selection and inferred spread fills are claim-boundary caveats
+
+**Files**: `research/papers/option_only_markowitz/analysis/breadth_p1_regularization_experiment.py`,
+`research/papers/option_only_markowitz/analysis/breadth_p3_combined_experiment.py`,
+`research/papers/option_only_markowitz/analysis/publication_costs.py`,
+`research/papers/option_only_markowitz/analysis/build_current_option_spread_assumptions.py`,
+`research/papers/option_only_markowitz/analysis/artifacts/breadth_solutions/p3_spread_source_coverage.csv`,
+`research/papers/option_only_markowitz/analysis/artifacts/breadth_solutions/current_option_spread_assumptions.csv`
+**Status**: Acknowledged
+**Date Identified**: 2026-07-05
+
+The P1/P3 breadth experiments select among a diagnostic estimator grid after observing the
+fixed train/test result. That is not a point-in-time leak in the reported artifact because
+the stage is explicitly a mechanism diagnostic, not a tradable model-selection protocol.
+It is an in-sample selection caveat. Large-universe net Sharpe rows also use
+`inferred_cbbo_proxy` where historical CBBO is missing: the current P3 ledger has 23,740
+such equity-option cost rows across 213 asset IDs and 47 added underlyings, and VIX rows
+without historical CBBO use the same liquid-option proxy family. The proxy is
+point-in-time because each decision row uses only historical CBBO spread-surface
+observations available no later than that decision date. It is still a claim-boundary
+caveat because it is not matched historical executable NBBO/CBBO for every traded added
+name and VIX option. The optional Cboe builder and cost loader reject off-hours snapshots;
+the stale off-hours Cboe file is retained only as audit material and is not consumed by
+the regenerated breadth tables. The capped-naive benchmark is now present in P2/P3, so the
+remaining claim-boundary caveats are the inferred spread proxy, in-sample diagnostic knob
+selection, and the single static train/test protocol for the P1/P2/P3 decision table. The
+separate breadth robustness runner locks the selected E1 row and evaluates fold-local,
+resampled, synthetic, and rolling diagnostics without reselecting knobs in test folds.
+
+The no-VIX eight-name equity baseline is not exposed to that inferred proxy: its spread
+source coverage is entirely historical `panel_cbbo` for the eight equity underlyings.
+The VIX-enabled baseline inherits the same exact equity-option rows; VIX option
+spread-cost rows use the inferred liquid-option CBBO proxy because the local VIX chain
+files do not include bid/ask CBBO.
 
 ---
 

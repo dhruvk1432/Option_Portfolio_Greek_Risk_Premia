@@ -503,6 +503,26 @@ class TestCbboSurfaceCostInputs(unittest.TestCase):
             ResearchCostConfig().default_equity_option_rel_spread,
         )
 
+    def test_cost_input_spread_precedence_panel_surface_inferred_default(self):
+        reps, detail = self._fixture()
+
+        ledger = build_cost_input_ledger(
+            reps,
+            detail,
+            Path(tempfile.gettempdir()),
+            ResearchCostConfig(
+                use_current_spread_assumptions=False,
+                use_inferred_spread_proxy=True,
+                inferred_spread_proxy_min_observations=1,
+            ),
+            spread_surface=self._surface(spread=0.07),
+        ).set_index("asset_id")
+
+        self.assertEqual(ledger.loc["AAA_call_atm", "relative_spread_source"], "panel_cbbo")
+        self.assertEqual(ledger.loc["BBB_call_atm", "relative_spread_source"], "surface_cbbo")
+        self.assertEqual(ledger.loc["CCC_call_atm", "relative_spread_source"], "inferred_cbbo_proxy")
+        self.assertAlmostEqual(float(ledger.loc["CCC_call_atm", "relative_spread"]), 0.07)
+
     def test_surface_join_is_exact_decision_date_only(self):
         reps, detail = self._fixture()
 

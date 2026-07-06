@@ -1,0 +1,2065 @@
+config,fold_id,scheme,return_date,strategy,display_strategy,basis,ret
+orig,kfold_00,kfold,2015-02-27,orig E1 capped,E1 capped,gross,0.33991220320099547
+orig,kfold_00,kfold,2015-03-31,orig E1 capped,E1 capped,gross,-0.23174233785051257
+orig,kfold_00,kfold,2015-04-30,orig E1 capped,E1 capped,gross,-0.15452628348099093
+orig,kfold_00,kfold,2015-05-29,orig E1 capped,E1 capped,gross,-0.10827212556921316
+orig,kfold_00,kfold,2015-06-30,orig E1 capped,E1 capped,gross,-0.17907841129895163
+orig,kfold_00,kfold,2015-07-31,orig E1 capped,E1 capped,gross,0.3024986781531074
+orig,kfold_00,kfold,2015-08-31,orig E1 capped,E1 capped,gross,0.3249894392909686
+orig,kfold_00,kfold,2015-09-30,orig E1 capped,E1 capped,gross,-0.23854894354405443
+orig,kfold_00,kfold,2015-10-30,orig E1 capped,E1 capped,gross,-0.07015313751159584
+orig,kfold_00,kfold,2015-11-30,orig E1 capped,E1 capped,gross,-0.0977728981808559
+orig,kfold_00,kfold,2015-12-31,orig E1 capped,E1 capped,gross,0.2845209733587254
+orig,kfold_00,kfold,2016-01-29,orig E1 capped,E1 capped,gross,0.11385722037849805
+orig,kfold_00,kfold,2016-02-29,orig E1 capped,E1 capped,gross,-0.1934701517727937
+orig,kfold_00,kfold,2016-03-31,orig E1 capped,E1 capped,gross,0.7633122868425102
+orig,kfold_00,kfold,2016-04-29,orig E1 capped,E1 capped,gross,-0.10387822916622816
+orig,kfold_00,kfold,2016-05-31,orig E1 capped,E1 capped,gross,-0.03809171468316656
+orig,kfold_00,kfold,2016-06-30,orig E1 capped,E1 capped,gross,-0.18455692437544657
+orig,kfold_00,kfold,2016-07-29,orig E1 capped,E1 capped,gross,0.22803761008764384
+orig,kfold_00,kfold,2016-08-31,orig E1 capped,E1 capped,gross,0.16453817730592202
+orig,kfold_00,kfold,2016-09-30,orig E1 capped,E1 capped,gross,0.2942556372030182
+orig,kfold_00,kfold,2016-10-31,orig E1 capped,E1 capped,gross,-0.1205056163927936
+orig,kfold_00,kfold,2016-11-30,orig E1 capped,E1 capped,gross,0.005829062407050986
+orig,kfold_00,kfold,2016-12-30,orig E1 capped,E1 capped,gross,0.2957676098068077
+orig,kfold_00,kfold,2017-01-31,orig E1 capped,E1 capped,gross,0.2209829778162573
+orig,kfold_00,kfold,2017-02-28,orig E1 capped,E1 capped,gross,0.9206909272678365
+orig,kfold_00,kfold,2017-03-31,orig E1 capped,E1 capped,gross,-0.05039430432420474
+orig,kfold_00,kfold,2017-04-28,orig E1 capped,E1 capped,gross,-0.1607084889948373
+orig,kfold_00,kfold,2017-05-31,orig E1 capped,E1 capped,gross,0.40725307823485546
+orig,kfold_00,kfold,2017-06-30,orig E1 capped,E1 capped,gross,0.29521047185935345
+orig,kfold_00,kfold,2017-07-31,orig E1 capped,E1 capped,gross,0.2527741738798673
+orig,kfold_00,kfold,2017-08-31,orig E1 capped,E1 capped,gross,-0.040864806641757144
+orig,kfold_00,kfold,2017-09-29,orig E1 capped,E1 capped,gross,-0.11469011082883927
+orig,kfold_00,kfold,2017-10-31,orig E1 capped,E1 capped,gross,-0.08027066046167759
+orig,kfold_00,kfold,2017-11-30,orig E1 capped,E1 capped,gross,-0.20853975220502594
+orig,kfold_00,kfold,2017-12-29,orig E1 capped,E1 capped,gross,-0.09796647676356228
+orig,kfold_00,kfold,2018-01-31,orig E1 capped,E1 capped,gross,0.8079364877526964
+orig,kfold_00,kfold,2018-02-28,orig E1 capped,E1 capped,gross,-0.23042192946057335
+orig,kfold_00,kfold,2018-04-30,orig E1 capped,E1 capped,gross,-0.21412469654836241
+orig,kfold_00,kfold,2018-05-31,orig E1 capped,E1 capped,gross,0.4107198149752981
+orig,kfold_00,kfold,2018-06-29,orig E1 capped,E1 capped,gross,0.29048050390011937
+orig,kfold_00,kfold,2018-07-31,orig E1 capped,E1 capped,gross,-0.015698080595731134
+orig,kfold_00,kfold,2018-08-31,orig E1 capped,E1 capped,gross,0.5329075781397155
+orig,kfold_00,kfold,2018-09-28,orig E1 capped,E1 capped,gross,-0.2567113326810136
+orig,kfold_00,kfold,2015-02-27,orig E1 capped,E1 capped,full_cost_net,0.27654725774204525
+orig,kfold_00,kfold,2015-03-31,orig E1 capped,E1 capped,full_cost_net,-0.3772908552104025
+orig,kfold_00,kfold,2015-04-30,orig E1 capped,E1 capped,full_cost_net,-0.3182307458184641
+orig,kfold_00,kfold,2015-05-29,orig E1 capped,E1 capped,full_cost_net,-0.43523489242398067
+orig,kfold_00,kfold,2015-06-30,orig E1 capped,E1 capped,full_cost_net,-0.5806970056288585
+orig,kfold_00,kfold,2015-07-31,orig E1 capped,E1 capped,full_cost_net,-0.19760819081665537
+orig,kfold_00,kfold,2015-08-31,orig E1 capped,E1 capped,full_cost_net,0.24901205380738928
+orig,kfold_00,kfold,2015-09-30,orig E1 capped,E1 capped,full_cost_net,-0.41163522747894726
+orig,kfold_00,kfold,2015-10-30,orig E1 capped,E1 capped,full_cost_net,-0.10465226918313024
+orig,kfold_00,kfold,2015-11-30,orig E1 capped,E1 capped,full_cost_net,-0.22191444183084447
+orig,kfold_00,kfold,2015-12-31,orig E1 capped,E1 capped,full_cost_net,0.05198567752721059
+orig,kfold_00,kfold,2016-01-29,orig E1 capped,E1 capped,full_cost_net,0.05914403579329487
+orig,kfold_00,kfold,2016-02-29,orig E1 capped,E1 capped,full_cost_net,-0.24481363016183916
+orig,kfold_00,kfold,2016-03-31,orig E1 capped,E1 capped,full_cost_net,0.48295419164065984
+orig,kfold_00,kfold,2016-04-29,orig E1 capped,E1 capped,full_cost_net,-0.25130304492177197
+orig,kfold_00,kfold,2016-05-31,orig E1 capped,E1 capped,full_cost_net,-0.07555735216173487
+orig,kfold_00,kfold,2016-06-30,orig E1 capped,E1 capped,full_cost_net,-0.25303109224883175
+orig,kfold_00,kfold,2016-07-29,orig E1 capped,E1 capped,full_cost_net,0.041175935758762466
+orig,kfold_00,kfold,2016-08-31,orig E1 capped,E1 capped,full_cost_net,0.12822739910190617
+orig,kfold_00,kfold,2016-09-30,orig E1 capped,E1 capped,full_cost_net,0.11194573429414215
+orig,kfold_00,kfold,2016-10-31,orig E1 capped,E1 capped,full_cost_net,-13.103430300362954
+orig,kfold_00,kfold,2016-11-30,orig E1 capped,E1 capped,full_cost_net,-0.05017277710427291
+orig,kfold_00,kfold,2016-12-30,orig E1 capped,E1 capped,full_cost_net,0.23966873247344533
+orig,kfold_00,kfold,2017-01-31,orig E1 capped,E1 capped,full_cost_net,0.1912271889483041
+orig,kfold_00,kfold,2017-02-28,orig E1 capped,E1 capped,full_cost_net,0.8953074117941872
+orig,kfold_00,kfold,2017-03-31,orig E1 capped,E1 capped,full_cost_net,-0.12129585519093286
+orig,kfold_00,kfold,2017-04-28,orig E1 capped,E1 capped,full_cost_net,-0.20188513061252356
+orig,kfold_00,kfold,2017-05-31,orig E1 capped,E1 capped,full_cost_net,0.3789861180180042
+orig,kfold_00,kfold,2017-06-30,orig E1 capped,E1 capped,full_cost_net,0.26103861520982563
+orig,kfold_00,kfold,2017-07-31,orig E1 capped,E1 capped,full_cost_net,0.2257857111213506
+orig,kfold_00,kfold,2017-08-31,orig E1 capped,E1 capped,full_cost_net,-0.09262937253647735
+orig,kfold_00,kfold,2017-09-29,orig E1 capped,E1 capped,full_cost_net,-0.13999958876026805
+orig,kfold_00,kfold,2017-10-31,orig E1 capped,E1 capped,full_cost_net,-0.10309065471128037
+orig,kfold_00,kfold,2017-11-30,orig E1 capped,E1 capped,full_cost_net,-0.2270841815040407
+orig,kfold_00,kfold,2017-12-29,orig E1 capped,E1 capped,full_cost_net,-0.15978599566836074
+orig,kfold_00,kfold,2018-01-31,orig E1 capped,E1 capped,full_cost_net,0.7864671220849354
+orig,kfold_00,kfold,2018-02-28,orig E1 capped,E1 capped,full_cost_net,-0.2443234838228375
+orig,kfold_00,kfold,2018-04-30,orig E1 capped,E1 capped,full_cost_net,-0.23467846191631236
+orig,kfold_00,kfold,2018-05-31,orig E1 capped,E1 capped,full_cost_net,0.3949676075482919
+orig,kfold_00,kfold,2018-06-29,orig E1 capped,E1 capped,full_cost_net,0.2657515886717494
+orig,kfold_00,kfold,2018-07-31,orig E1 capped,E1 capped,full_cost_net,-0.06149074253583985
+orig,kfold_00,kfold,2018-08-31,orig E1 capped,E1 capped,full_cost_net,0.5179214866875352
+orig,kfold_00,kfold,2018-09-28,orig E1 capped,E1 capped,full_cost_net,-0.27253890809792813
+orig,kfold_00,kfold,2015-02-27,orig GM paper,GM paper,gross,-0.1263231623061612
+orig,kfold_00,kfold,2015-03-31,orig GM paper,GM paper,gross,-0.12738193127819716
+orig,kfold_00,kfold,2015-04-30,orig GM paper,GM paper,gross,-0.04247165630275364
+orig,kfold_00,kfold,2015-05-29,orig GM paper,GM paper,gross,0.12846164158439038
+orig,kfold_00,kfold,2015-06-30,orig GM paper,GM paper,gross,-0.054319439312756
+orig,kfold_00,kfold,2015-07-31,orig GM paper,GM paper,gross,-0.13254899473282955
+orig,kfold_00,kfold,2015-08-31,orig GM paper,GM paper,gross,0.09884522800883755
+orig,kfold_00,kfold,2015-09-30,orig GM paper,GM paper,gross,-0.10050962657068128
+orig,kfold_00,kfold,2015-10-30,orig GM paper,GM paper,gross,-0.027799171238910722
+orig,kfold_00,kfold,2015-11-30,orig GM paper,GM paper,gross,0.012945284789638752
+orig,kfold_00,kfold,2015-12-31,orig GM paper,GM paper,gross,-0.1950332663673543
+orig,kfold_00,kfold,2016-01-29,orig GM paper,GM paper,gross,0.030486600758014404
+orig,kfold_00,kfold,2016-02-29,orig GM paper,GM paper,gross,-0.18536183030921813
+orig,kfold_00,kfold,2016-03-31,orig GM paper,GM paper,gross,0.5212369110009293
+orig,kfold_00,kfold,2016-04-29,orig GM paper,GM paper,gross,-0.058910043111977145
+orig,kfold_00,kfold,2016-05-31,orig GM paper,GM paper,gross,0.10544494725113518
+orig,kfold_00,kfold,2016-06-30,orig GM paper,GM paper,gross,-0.33411800657126484
+orig,kfold_00,kfold,2016-07-29,orig GM paper,GM paper,gross,0.3392785042621413
+orig,kfold_00,kfold,2016-08-31,orig GM paper,GM paper,gross,0.25953707789768826
+orig,kfold_00,kfold,2016-09-30,orig GM paper,GM paper,gross,-0.1730311884471333
+orig,kfold_00,kfold,2016-10-31,orig GM paper,GM paper,gross,0.07296171464052396
+orig,kfold_00,kfold,2016-11-30,orig GM paper,GM paper,gross,0.007307157712769852
+orig,kfold_00,kfold,2016-12-30,orig GM paper,GM paper,gross,0.40127386394890585
+orig,kfold_00,kfold,2017-01-31,orig GM paper,GM paper,gross,0.37081122826281415
+orig,kfold_00,kfold,2017-02-28,orig GM paper,GM paper,gross,0.8410214179485449
+orig,kfold_00,kfold,2017-03-31,orig GM paper,GM paper,gross,0.13509491300351054
+orig,kfold_00,kfold,2017-04-28,orig GM paper,GM paper,gross,0.05044274865218355
+orig,kfold_00,kfold,2017-05-31,orig GM paper,GM paper,gross,0.4587146200459693
+orig,kfold_00,kfold,2017-06-30,orig GM paper,GM paper,gross,-0.09776801824643733
+orig,kfold_00,kfold,2017-07-31,orig GM paper,GM paper,gross,0.1671381673240233
+orig,kfold_00,kfold,2017-08-31,orig GM paper,GM paper,gross,-0.0009531956190112906
+orig,kfold_00,kfold,2017-09-29,orig GM paper,GM paper,gross,-0.011671761460750996
+orig,kfold_00,kfold,2017-10-31,orig GM paper,GM paper,gross,0.1764539074561487
+orig,kfold_00,kfold,2017-11-30,orig GM paper,GM paper,gross,-0.10680312607197162
+orig,kfold_00,kfold,2017-12-29,orig GM paper,GM paper,gross,0.2418528894025749
+orig,kfold_00,kfold,2018-01-31,orig GM paper,GM paper,gross,-0.136349931659294
+orig,kfold_00,kfold,2018-02-28,orig GM paper,GM paper,gross,-0.16648347349848502
+orig,kfold_00,kfold,2018-04-30,orig GM paper,GM paper,gross,-0.060444856458383156
+orig,kfold_00,kfold,2018-05-31,orig GM paper,GM paper,gross,0.3116557448049446
+orig,kfold_00,kfold,2018-06-29,orig GM paper,GM paper,gross,0.30839441208678975
+orig,kfold_00,kfold,2018-07-31,orig GM paper,GM paper,gross,0.1014860942518915
+orig,kfold_00,kfold,2018-08-31,orig GM paper,GM paper,gross,0.1108895098165979
+orig,kfold_00,kfold,2018-09-28,orig GM paper,GM paper,gross,-0.1648954365527876
+orig,kfold_00,kfold,2015-02-27,orig GM paper,GM paper,full_cost_net,-0.5065572727817412
+orig,kfold_00,kfold,2015-03-31,orig GM paper,GM paper,full_cost_net,-1.9922139123002176
+orig,kfold_00,kfold,2015-04-30,orig GM paper,GM paper,full_cost_net,-10.227833137342937
+orig,kfold_00,kfold,2015-05-29,orig GM paper,GM paper,full_cost_net,-2.040453345369977
+orig,kfold_00,kfold,2015-06-30,orig GM paper,GM paper,full_cost_net,-0.6274038854779712
+orig,kfold_00,kfold,2015-07-31,orig GM paper,GM paper,full_cost_net,-0.933195802222845
+orig,kfold_00,kfold,2015-08-31,orig GM paper,GM paper,full_cost_net,-9.700661392506456
+orig,kfold_00,kfold,2015-09-30,orig GM paper,GM paper,full_cost_net,-1.6455274904954174
+orig,kfold_00,kfold,2015-10-30,orig GM paper,GM paper,full_cost_net,-1.3607136524986687
+orig,kfold_00,kfold,2015-11-30,orig GM paper,GM paper,full_cost_net,-0.42781937301697676
+orig,kfold_00,kfold,2015-12-31,orig GM paper,GM paper,full_cost_net,-11.604341727583357
+orig,kfold_00,kfold,2016-01-29,orig GM paper,GM paper,full_cost_net,-0.5206693836801535
+orig,kfold_00,kfold,2016-02-29,orig GM paper,GM paper,full_cost_net,-11.170770833923212
+orig,kfold_00,kfold,2016-03-31,orig GM paper,GM paper,full_cost_net,-5.866236459705404
+orig,kfold_00,kfold,2016-04-29,orig GM paper,GM paper,full_cost_net,-0.9783053785124778
+orig,kfold_00,kfold,2016-05-31,orig GM paper,GM paper,full_cost_net,-1.964922507304507
+orig,kfold_00,kfold,2016-06-30,orig GM paper,GM paper,full_cost_net,-1.507378793925323
+orig,kfold_00,kfold,2016-07-29,orig GM paper,GM paper,full_cost_net,-9.569867973874
+orig,kfold_00,kfold,2016-08-31,orig GM paper,GM paper,full_cost_net,-2.4132257071652132
+orig,kfold_00,kfold,2016-09-30,orig GM paper,GM paper,full_cost_net,-22.840613458483787
+orig,kfold_00,kfold,2016-10-31,orig GM paper,GM paper,full_cost_net,-26.301558967494667
+orig,kfold_00,kfold,2016-11-30,orig GM paper,GM paper,full_cost_net,-3.0858509250387063
+orig,kfold_00,kfold,2016-12-30,orig GM paper,GM paper,full_cost_net,-1.8326690500165714
+orig,kfold_00,kfold,2017-01-31,orig GM paper,GM paper,full_cost_net,0.11208155588785934
+orig,kfold_00,kfold,2017-02-28,orig GM paper,GM paper,full_cost_net,0.7654254802617351
+orig,kfold_00,kfold,2017-03-31,orig GM paper,GM paper,full_cost_net,-1.2576666416261857
+orig,kfold_00,kfold,2017-04-28,orig GM paper,GM paper,full_cost_net,-0.09318669547751936
+orig,kfold_00,kfold,2017-05-31,orig GM paper,GM paper,full_cost_net,0.01439758000331498
+orig,kfold_00,kfold,2017-06-30,orig GM paper,GM paper,full_cost_net,-0.479525596989203
+orig,kfold_00,kfold,2017-07-31,orig GM paper,GM paper,full_cost_net,0.04621439634176011
+orig,kfold_00,kfold,2017-08-31,orig GM paper,GM paper,full_cost_net,-5.78877088918365
+orig,kfold_00,kfold,2017-09-29,orig GM paper,GM paper,full_cost_net,-0.3349284798510001
+orig,kfold_00,kfold,2017-10-31,orig GM paper,GM paper,full_cost_net,-0.6223107138791546
+orig,kfold_00,kfold,2017-11-30,orig GM paper,GM paper,full_cost_net,-0.3996818273768804
+orig,kfold_00,kfold,2017-12-29,orig GM paper,GM paper,full_cost_net,0.02849839896000153
+orig,kfold_00,kfold,2018-01-31,orig GM paper,GM paper,full_cost_net,-0.392407274451044
+orig,kfold_00,kfold,2018-02-28,orig GM paper,GM paper,full_cost_net,-0.312202849161435
+orig,kfold_00,kfold,2018-04-30,orig GM paper,GM paper,full_cost_net,-3.341961224530294
+orig,kfold_00,kfold,2018-05-31,orig GM paper,GM paper,full_cost_net,-0.1653532189186145
+orig,kfold_00,kfold,2018-06-29,orig GM paper,GM paper,full_cost_net,-0.6688089593595384
+orig,kfold_00,kfold,2018-07-31,orig GM paper,GM paper,full_cost_net,-0.5865837081813681
+orig,kfold_00,kfold,2018-08-31,orig GM paper,GM paper,full_cost_net,-0.22989465856600494
+orig,kfold_00,kfold,2018-09-28,orig GM paper,GM paper,full_cost_net,-0.2945800713838368
+orig,kfold_00,kfold,2015-02-27,orig Equal premium capped,Equal premium capped,gross,0.3889914648059921
+orig,kfold_00,kfold,2015-03-31,orig Equal premium capped,Equal premium capped,gross,-0.3088835397307676
+orig,kfold_00,kfold,2015-04-30,orig Equal premium capped,Equal premium capped,gross,-0.20532479931256217
+orig,kfold_00,kfold,2015-05-29,orig Equal premium capped,Equal premium capped,gross,-0.2572139080377581
+orig,kfold_00,kfold,2015-06-30,orig Equal premium capped,Equal premium capped,gross,-0.2685158631992679
+orig,kfold_00,kfold,2015-07-31,orig Equal premium capped,Equal premium capped,gross,0.6958261024439547
+orig,kfold_00,kfold,2015-08-31,orig Equal premium capped,Equal premium capped,gross,0.3051528363875894
+orig,kfold_00,kfold,2015-09-30,orig Equal premium capped,Equal premium capped,gross,-0.35405434141882386
+orig,kfold_00,kfold,2015-10-30,orig Equal premium capped,Equal premium capped,gross,0.26534302226089934
+orig,kfold_00,kfold,2015-11-30,orig Equal premium capped,Equal premium capped,gross,-0.12671229505763906
+orig,kfold_00,kfold,2015-12-31,orig Equal premium capped,Equal premium capped,gross,-0.002522273215480597
+orig,kfold_00,kfold,2016-01-29,orig Equal premium capped,Equal premium capped,gross,0.4399941195113837
+orig,kfold_00,kfold,2016-02-29,orig Equal premium capped,Equal premium capped,gross,-0.354158310275475
+orig,kfold_00,kfold,2016-03-31,orig Equal premium capped,Equal premium capped,gross,0.8945548902784458
+orig,kfold_00,kfold,2016-04-29,orig Equal premium capped,Equal premium capped,gross,-0.0993380895189991
+orig,kfold_00,kfold,2016-05-31,orig Equal premium capped,Equal premium capped,gross,-0.10642302714987437
+orig,kfold_00,kfold,2016-06-30,orig Equal premium capped,Equal premium capped,gross,-0.3472989906100968
+orig,kfold_00,kfold,2016-07-29,orig Equal premium capped,Equal premium capped,gross,0.19850479973421942
+orig,kfold_00,kfold,2016-08-31,orig Equal premium capped,Equal premium capped,gross,-0.13217280103542303
+orig,kfold_00,kfold,2016-09-30,orig Equal premium capped,Equal premium capped,gross,0.09155682655196659
+orig,kfold_00,kfold,2016-10-31,orig Equal premium capped,Equal premium capped,gross,-0.29278260542790346
+orig,kfold_00,kfold,2016-11-30,orig Equal premium capped,Equal premium capped,gross,0.010705695591541206
+orig,kfold_00,kfold,2016-12-30,orig Equal premium capped,Equal premium capped,gross,0.17210842139522498
+orig,kfold_00,kfold,2017-01-31,orig Equal premium capped,Equal premium capped,gross,0.706617101531876
+orig,kfold_00,kfold,2017-02-28,orig Equal premium capped,Equal premium capped,gross,0.6085751269955477
+orig,kfold_00,kfold,2017-03-31,orig Equal premium capped,Equal premium capped,gross,-0.15311683802076198
+orig,kfold_00,kfold,2017-04-28,orig Equal premium capped,Equal premium capped,gross,-0.13864672171915826
+orig,kfold_00,kfold,2017-05-31,orig Equal premium capped,Equal premium capped,gross,0.17109817374879893
+orig,kfold_00,kfold,2017-06-30,orig Equal premium capped,Equal premium capped,gross,0.21403590467698627
+orig,kfold_00,kfold,2017-07-31,orig Equal premium capped,Equal premium capped,gross,0.5775530392101516
+orig,kfold_00,kfold,2017-08-31,orig Equal premium capped,Equal premium capped,gross,-0.2819874734058219
+orig,kfold_00,kfold,2017-09-29,orig Equal premium capped,Equal premium capped,gross,-0.2956674227455262
+orig,kfold_00,kfold,2017-10-31,orig Equal premium capped,Equal premium capped,gross,-0.2194747239089827
+orig,kfold_00,kfold,2017-11-30,orig Equal premium capped,Equal premium capped,gross,-0.45101465242567473
+orig,kfold_00,kfold,2017-12-29,orig Equal premium capped,Equal premium capped,gross,0.007908162114619817
+orig,kfold_00,kfold,2018-01-31,orig Equal premium capped,Equal premium capped,gross,1.5274235461864332
+orig,kfold_00,kfold,2018-02-28,orig Equal premium capped,Equal premium capped,gross,-0.4937309784068196
+orig,kfold_00,kfold,2018-04-30,orig Equal premium capped,Equal premium capped,gross,-0.2817394168112357
+orig,kfold_00,kfold,2018-05-31,orig Equal premium capped,Equal premium capped,gross,0.30455580847015784
+orig,kfold_00,kfold,2018-06-29,orig Equal premium capped,Equal premium capped,gross,1.0559346456011522
+orig,kfold_00,kfold,2018-07-31,orig Equal premium capped,Equal premium capped,gross,0.12844250108740174
+orig,kfold_00,kfold,2018-08-31,orig Equal premium capped,Equal premium capped,gross,0.25348091564418485
+orig,kfold_00,kfold,2018-09-28,orig Equal premium capped,Equal premium capped,gross,-0.32059231198664073
+orig,kfold_00,kfold,2015-02-27,orig Equal premium capped,Equal premium capped,full_cost_net,0.3144900297730998
+orig,kfold_00,kfold,2015-03-31,orig Equal premium capped,Equal premium capped,full_cost_net,-0.8824182267025009
+orig,kfold_00,kfold,2015-04-30,orig Equal premium capped,Equal premium capped,full_cost_net,-0.7784767663093001
+orig,kfold_00,kfold,2015-05-29,orig Equal premium capped,Equal premium capped,full_cost_net,-0.7207154188712045
+orig,kfold_00,kfold,2015-06-30,orig Equal premium capped,Equal premium capped,full_cost_net,-0.768246749552167
+orig,kfold_00,kfold,2015-07-31,orig Equal premium capped,Equal premium capped,full_cost_net,-1.9823115192710017
+orig,kfold_00,kfold,2015-08-31,orig Equal premium capped,Equal premium capped,full_cost_net,0.20216694767632842
+orig,kfold_00,kfold,2015-09-30,orig Equal premium capped,Equal premium capped,full_cost_net,-0.9411207407547442
+orig,kfold_00,kfold,2015-10-30,orig Equal premium capped,Equal premium capped,full_cost_net,0.19287722328426452
+orig,kfold_00,kfold,2015-11-30,orig Equal premium capped,Equal premium capped,full_cost_net,-0.42901787479402687
+orig,kfold_00,kfold,2015-12-31,orig Equal premium capped,Equal premium capped,full_cost_net,-0.3449765011223774
+orig,kfold_00,kfold,2016-01-29,orig Equal premium capped,Equal premium capped,full_cost_net,0.3681198208797207
+orig,kfold_00,kfold,2016-02-29,orig Equal premium capped,Equal premium capped,full_cost_net,-0.4136824685355118
+orig,kfold_00,kfold,2016-03-31,orig Equal premium capped,Equal premium capped,full_cost_net,0.2508210987799
+orig,kfold_00,kfold,2016-04-29,orig Equal premium capped,Equal premium capped,full_cost_net,-0.2760250942224899
+orig,kfold_00,kfold,2016-05-31,orig Equal premium capped,Equal premium capped,full_cost_net,-0.15580120662094266
+orig,kfold_00,kfold,2016-06-30,orig Equal premium capped,Equal premium capped,full_cost_net,-0.5948027878714641
+orig,kfold_00,kfold,2016-07-29,orig Equal premium capped,Equal premium capped,full_cost_net,-0.2981555481699949
+orig,kfold_00,kfold,2016-08-31,orig Equal premium capped,Equal premium capped,full_cost_net,-0.19250269687635588
+orig,kfold_00,kfold,2016-09-30,orig Equal premium capped,Equal premium capped,full_cost_net,-0.13215781230832901
+orig,kfold_00,kfold,2016-10-31,orig Equal premium capped,Equal premium capped,full_cost_net,-13.367835978822653
+orig,kfold_00,kfold,2016-11-30,orig Equal premium capped,Equal premium capped,full_cost_net,-1.2758858677982974
+orig,kfold_00,kfold,2016-12-30,orig Equal premium capped,Equal premium capped,full_cost_net,0.09521255026962454
+orig,kfold_00,kfold,2017-01-31,orig Equal premium capped,Equal premium capped,full_cost_net,0.6590742013181677
+orig,kfold_00,kfold,2017-02-28,orig Equal premium capped,Equal premium capped,full_cost_net,0.5565821673480457
+orig,kfold_00,kfold,2017-03-31,orig Equal premium capped,Equal premium capped,full_cost_net,-0.39239531924509885
+orig,kfold_00,kfold,2017-04-28,orig Equal premium capped,Equal premium capped,full_cost_net,-0.44719531443157684
+orig,kfold_00,kfold,2017-05-31,orig Equal premium capped,Equal premium capped,full_cost_net,0.12818074415888744
+orig,kfold_00,kfold,2017-06-30,orig Equal premium capped,Equal premium capped,full_cost_net,0.10041075090510498
+orig,kfold_00,kfold,2017-07-31,orig Equal premium capped,Equal premium capped,full_cost_net,0.5268667892974696
+orig,kfold_00,kfold,2017-08-31,orig Equal premium capped,Equal premium capped,full_cost_net,-0.3420111763916138
+orig,kfold_00,kfold,2017-09-29,orig Equal premium capped,Equal premium capped,full_cost_net,-0.43069128226749376
+orig,kfold_00,kfold,2017-10-31,orig Equal premium capped,Equal premium capped,full_cost_net,-0.3617092909084676
+orig,kfold_00,kfold,2017-11-30,orig Equal premium capped,Equal premium capped,full_cost_net,-0.47875398849176787
+orig,kfold_00,kfold,2017-12-29,orig Equal premium capped,Equal premium capped,full_cost_net,-0.06835327718294698
+orig,kfold_00,kfold,2018-01-31,orig Equal premium capped,Equal premium capped,full_cost_net,1.4665457554055974
+orig,kfold_00,kfold,2018-02-28,orig Equal premium capped,Equal premium capped,full_cost_net,-0.5154712174732152
+orig,kfold_00,kfold,2018-04-30,orig Equal premium capped,Equal premium capped,full_cost_net,-0.3204039961119898
+orig,kfold_00,kfold,2018-05-31,orig Equal premium capped,Equal premium capped,full_cost_net,0.28070984112512193
+orig,kfold_00,kfold,2018-06-29,orig Equal premium capped,Equal premium capped,full_cost_net,1.0063668320487762
+orig,kfold_00,kfold,2018-07-31,orig Equal premium capped,Equal premium capped,full_cost_net,0.08550888698511505
+orig,kfold_00,kfold,2018-08-31,orig Equal premium capped,Equal premium capped,full_cost_net,0.22330409504305582
+orig,kfold_00,kfold,2018-09-28,orig Equal premium capped,Equal premium capped,full_cost_net,-0.3474886111323227
+orig,kfold_00,kfold,2015-02-27,orig Equal risk capped,Equal risk capped,gross,0.4286853047275646
+orig,kfold_00,kfold,2015-03-31,orig Equal risk capped,Equal risk capped,gross,-0.35129499017919097
+orig,kfold_00,kfold,2015-04-30,orig Equal risk capped,Equal risk capped,gross,-0.2237444122764261
+orig,kfold_00,kfold,2015-05-29,orig Equal risk capped,Equal risk capped,gross,-0.24564096292542498
+orig,kfold_00,kfold,2015-06-30,orig Equal risk capped,Equal risk capped,gross,-0.3083430608192554
+orig,kfold_00,kfold,2015-07-31,orig Equal risk capped,Equal risk capped,gross,0.6706348309085653
+orig,kfold_00,kfold,2015-08-31,orig Equal risk capped,Equal risk capped,gross,0.30515283638758933
+orig,kfold_00,kfold,2015-09-30,orig Equal risk capped,Equal risk capped,gross,-0.38162723339765436
+orig,kfold_00,kfold,2015-10-30,orig Equal risk capped,Equal risk capped,gross,0.22609184049530695
+orig,kfold_00,kfold,2015-11-30,orig Equal risk capped,Equal risk capped,gross,-0.14498987104173858
+orig,kfold_00,kfold,2015-12-31,orig Equal risk capped,Equal risk capped,gross,-0.0027867552217036295
+orig,kfold_00,kfold,2016-01-29,orig Equal risk capped,Equal risk capped,gross,0.43999411951138356
+orig,kfold_00,kfold,2016-02-29,orig Equal risk capped,Equal risk capped,gross,-0.354158310275475
+orig,kfold_00,kfold,2016-03-31,orig Equal risk capped,Equal risk capped,gross,0.9509050076109868
+orig,kfold_00,kfold,2016-04-29,orig Equal risk capped,Equal risk capped,gross,-0.1126412797293691
+orig,kfold_00,kfold,2016-05-31,orig Equal risk capped,Equal risk capped,gross,-0.10946439906450761
+orig,kfold_00,kfold,2016-06-30,orig Equal risk capped,Equal risk capped,gross,-0.3472989906100969
+orig,kfold_00,kfold,2016-07-29,orig Equal risk capped,Equal risk capped,gross,0.22576334055660613
+orig,kfold_00,kfold,2016-08-31,orig Equal risk capped,Equal risk capped,gross,-0.04188264185612303
+orig,kfold_00,kfold,2016-09-30,orig Equal risk capped,Equal risk capped,gross,0.15084436254783645
+orig,kfold_00,kfold,2016-10-31,orig Equal risk capped,Equal risk capped,gross,-0.28459627422496414
+orig,kfold_00,kfold,2016-11-30,orig Equal risk capped,Equal risk capped,gross,0.01070569559154115
+orig,kfold_00,kfold,2016-12-30,orig Equal risk capped,Equal risk capped,gross,0.22220735564917937
+orig,kfold_00,kfold,2017-01-31,orig Equal risk capped,Equal risk capped,gross,0.6495735237472194
+orig,kfold_00,kfold,2017-02-28,orig Equal risk capped,Equal risk capped,gross,0.8274294806276128
+orig,kfold_00,kfold,2017-03-31,orig Equal risk capped,Equal risk capped,gross,-0.19035758719453055
+orig,kfold_00,kfold,2017-04-28,orig Equal risk capped,Equal risk capped,gross,-0.17319816280168548
+orig,kfold_00,kfold,2017-05-31,orig Equal risk capped,Equal risk capped,gross,0.2504004775709439
+orig,kfold_00,kfold,2017-06-30,orig Equal risk capped,Equal risk capped,gross,0.1956018853846284
+orig,kfold_00,kfold,2017-07-31,orig Equal risk capped,Equal risk capped,gross,0.5634963253935554
+orig,kfold_00,kfold,2017-08-31,orig Equal risk capped,Equal risk capped,gross,-0.23956230826109826
+orig,kfold_00,kfold,2017-09-29,orig Equal risk capped,Equal risk capped,gross,-0.3057216435795178
+orig,kfold_00,kfold,2017-10-31,orig Equal risk capped,Equal risk capped,gross,-0.2072862784680261
+orig,kfold_00,kfold,2017-11-30,orig Equal risk capped,Equal risk capped,gross,-0.43466685262752147
+orig,kfold_00,kfold,2017-12-29,orig Equal risk capped,Equal risk capped,gross,-0.023531950499220498
+orig,kfold_00,kfold,2018-01-31,orig Equal risk capped,Equal risk capped,gross,1.5644794969075257
+orig,kfold_00,kfold,2018-02-28,orig Equal risk capped,Equal risk capped,gross,-0.4730761265749339
+orig,kfold_00,kfold,2018-04-30,orig Equal risk capped,Equal risk capped,gross,-0.3046276545075738
+orig,kfold_00,kfold,2018-05-31,orig Equal risk capped,Equal risk capped,gross,0.3530722181897758
+orig,kfold_00,kfold,2018-06-29,orig Equal risk capped,Equal risk capped,gross,0.9783166213272649
+orig,kfold_00,kfold,2018-07-31,orig Equal risk capped,Equal risk capped,gross,0.1044854919472968
+orig,kfold_00,kfold,2018-08-31,orig Equal risk capped,Equal risk capped,gross,0.3610232885827861
+orig,kfold_00,kfold,2018-09-28,orig Equal risk capped,Equal risk capped,gross,-0.32059231198664073
+orig,kfold_00,kfold,2015-02-27,orig Equal risk capped,Equal risk capped,full_cost_net,0.3544963175844533
+orig,kfold_00,kfold,2015-03-31,orig Equal risk capped,Equal risk capped,full_cost_net,-0.9241746967017885
+orig,kfold_00,kfold,2015-04-30,orig Equal risk capped,Equal risk capped,full_cost_net,-0.790660952201869
+orig,kfold_00,kfold,2015-05-29,orig Equal risk capped,Equal risk capped,full_cost_net,-0.7068663988739783
+orig,kfold_00,kfold,2015-06-30,orig Equal risk capped,Equal risk capped,full_cost_net,-0.8060847866919458
+orig,kfold_00,kfold,2015-07-31,orig Equal risk capped,Equal risk capped,full_cost_net,-2.0063790228604392
+orig,kfold_00,kfold,2015-08-31,orig Equal risk capped,Equal risk capped,full_cost_net,0.20268905234237605
+orig,kfold_00,kfold,2015-09-30,orig Equal risk capped,Equal risk capped,full_cost_net,-0.9685729346973208
+orig,kfold_00,kfold,2015-10-30,orig Equal risk capped,Equal risk capped,full_cost_net,0.15412009097626383
+orig,kfold_00,kfold,2015-11-30,orig Equal risk capped,Equal risk capped,full_cost_net,-0.44620550899988976
+orig,kfold_00,kfold,2015-12-31,orig Equal risk capped,Equal risk capped,full_cost_net,-0.3392404163421336
+orig,kfold_00,kfold,2016-01-29,orig Equal risk capped,Equal risk capped,full_cost_net,0.3695101878591381
+orig,kfold_00,kfold,2016-02-29,orig Equal risk capped,Equal risk capped,full_cost_net,-0.41734768742066564
+orig,kfold_00,kfold,2016-03-31,orig Equal risk capped,Equal risk capped,full_cost_net,0.3071474572962284
+orig,kfold_00,kfold,2016-04-29,orig Equal risk capped,Equal risk capped,full_cost_net,-0.28984537194147453
+orig,kfold_00,kfold,2016-05-31,orig Equal risk capped,Equal risk capped,full_cost_net,-0.15892017822115467
+orig,kfold_00,kfold,2016-06-30,orig Equal risk capped,Equal risk capped,full_cost_net,-0.5828372916151847
+orig,kfold_00,kfold,2016-07-29,orig Equal risk capped,Equal risk capped,full_cost_net,-0.22380255393138687
+orig,kfold_00,kfold,2016-08-31,orig Equal risk capped,Equal risk capped,full_cost_net,-0.10214067596547531
+orig,kfold_00,kfold,2016-09-30,orig Equal risk capped,Equal risk capped,full_cost_net,-0.06955604119242778
+orig,kfold_00,kfold,2016-10-31,orig Equal risk capped,Equal risk capped,full_cost_net,-13.350087545853238
+orig,kfold_00,kfold,2016-11-30,orig Equal risk capped,Equal risk capped,full_cost_net,-1.2718103985672469
+orig,kfold_00,kfold,2016-12-30,orig Equal risk capped,Equal risk capped,full_cost_net,0.14580647176642814
+orig,kfold_00,kfold,2017-01-31,orig Equal risk capped,Equal risk capped,full_cost_net,0.6048345655856731
+orig,kfold_00,kfold,2017-02-28,orig Equal risk capped,Equal risk capped,full_cost_net,0.7763395675267671
+orig,kfold_00,kfold,2017-03-31,orig Equal risk capped,Equal risk capped,full_cost_net,-0.4193311779181779
+orig,kfold_00,kfold,2017-04-28,orig Equal risk capped,Equal risk capped,full_cost_net,-0.4852812183646988
+orig,kfold_00,kfold,2017-05-31,orig Equal risk capped,Equal risk capped,full_cost_net,0.2075703969217945
+orig,kfold_00,kfold,2017-06-30,orig Equal risk capped,Equal risk capped,full_cost_net,0.08260223049139379
+orig,kfold_00,kfold,2017-07-31,orig Equal risk capped,Equal risk capped,full_cost_net,0.5130012376676656
+orig,kfold_00,kfold,2017-08-31,orig Equal risk capped,Equal risk capped,full_cost_net,-0.2997062922630915
+orig,kfold_00,kfold,2017-09-29,orig Equal risk capped,Equal risk capped,full_cost_net,-0.42256582958320865
+orig,kfold_00,kfold,2017-10-31,orig Equal risk capped,Equal risk capped,full_cost_net,-0.3492284834915014
+orig,kfold_00,kfold,2017-11-30,orig Equal risk capped,Equal risk capped,full_cost_net,-0.46232720823728907
+orig,kfold_00,kfold,2017-12-29,orig Equal risk capped,Equal risk capped,full_cost_net,-0.0997183415621749
+orig,kfold_00,kfold,2018-01-31,orig Equal risk capped,Equal risk capped,full_cost_net,1.5039915038593012
+orig,kfold_00,kfold,2018-02-28,orig Equal risk capped,Equal risk capped,full_cost_net,-0.49454419161806495
+orig,kfold_00,kfold,2018-04-30,orig Equal risk capped,Equal risk capped,full_cost_net,-0.34200366456824993
+orig,kfold_00,kfold,2018-05-31,orig Equal risk capped,Equal risk capped,full_cost_net,0.32970606025067317
+orig,kfold_00,kfold,2018-06-29,orig Equal risk capped,Equal risk capped,full_cost_net,0.9292274765308467
+orig,kfold_00,kfold,2018-07-31,orig Equal risk capped,Equal risk capped,full_cost_net,0.050728066876329
+orig,kfold_00,kfold,2018-08-31,orig Equal risk capped,Equal risk capped,full_cost_net,0.33138376708279826
+orig,kfold_00,kfold,2018-09-28,orig Equal risk capped,Equal risk capped,full_cost_net,-0.3462305764128517
+orig,kfold_01,kfold,2018-10-31,orig E1 capped,E1 capped,gross,-0.4762244503311556
+orig,kfold_01,kfold,2018-11-30,orig E1 capped,E1 capped,gross,-0.20020224235534806
+orig,kfold_01,kfold,2018-12-31,orig E1 capped,E1 capped,gross,0.1536516025647094
+orig,kfold_01,kfold,2019-01-31,orig E1 capped,E1 capped,gross,0.25643174855950546
+orig,kfold_01,kfold,2019-02-28,orig E1 capped,E1 capped,gross,-0.24790356147464476
+orig,kfold_01,kfold,2019-04-30,orig E1 capped,E1 capped,gross,0.5799409799479913
+orig,kfold_01,kfold,2019-05-31,orig E1 capped,E1 capped,gross,-0.18445632392384115
+orig,kfold_01,kfold,2019-06-28,orig E1 capped,E1 capped,gross,0.3790038241218974
+orig,kfold_01,kfold,2019-07-31,orig E1 capped,E1 capped,gross,-0.025624341013886553
+orig,kfold_01,kfold,2019-08-30,orig E1 capped,E1 capped,gross,-0.19208211616473714
+orig,kfold_01,kfold,2019-09-30,orig E1 capped,E1 capped,gross,-0.08507825903548133
+orig,kfold_01,kfold,2019-10-31,orig E1 capped,E1 capped,gross,-0.00015774698046111535
+orig,kfold_01,kfold,2019-11-29,orig E1 capped,E1 capped,gross,0.35724148049992205
+orig,kfold_01,kfold,2019-12-31,orig E1 capped,E1 capped,gross,0.2697068078212805
+orig,kfold_01,kfold,2020-01-31,orig E1 capped,E1 capped,gross,1.0600670138702644
+orig,kfold_01,kfold,2020-02-28,orig E1 capped,E1 capped,gross,0.2479145679360003
+orig,kfold_01,kfold,2020-03-31,orig E1 capped,E1 capped,gross,-0.009742979439484767
+orig,kfold_01,kfold,2020-04-30,orig E1 capped,E1 capped,gross,0.46499327191993217
+orig,kfold_01,kfold,2020-05-29,orig E1 capped,E1 capped,gross,-0.04339865005088027
+orig,kfold_01,kfold,2020-06-30,orig E1 capped,E1 capped,gross,0.3933860289763861
+orig,kfold_01,kfold,2020-07-31,orig E1 capped,E1 capped,gross,0.4496134285990631
+orig,kfold_01,kfold,2020-08-31,orig E1 capped,E1 capped,gross,0.5672111181662197
+orig,kfold_01,kfold,2020-09-30,orig E1 capped,E1 capped,gross,-0.1650861735015854
+orig,kfold_01,kfold,2020-10-30,orig E1 capped,E1 capped,gross,-0.11622288717487843
+orig,kfold_01,kfold,2020-11-30,orig E1 capped,E1 capped,gross,0.028757474340840278
+orig,kfold_01,kfold,2020-12-31,orig E1 capped,E1 capped,gross,-0.10226119739616032
+orig,kfold_01,kfold,2021-01-29,orig E1 capped,E1 capped,gross,-0.15973724046914667
+orig,kfold_01,kfold,2021-02-26,orig E1 capped,E1 capped,gross,-0.11051157989886295
+orig,kfold_01,kfold,2021-03-31,orig E1 capped,E1 capped,gross,-0.1947378121087043
+orig,kfold_01,kfold,2021-04-30,orig E1 capped,E1 capped,gross,0.5567324032662628
+orig,kfold_01,kfold,2021-06-30,orig E1 capped,E1 capped,gross,-0.07526211867316185
+orig,kfold_01,kfold,2021-07-30,orig E1 capped,E1 capped,gross,0.013796015584953067
+orig,kfold_01,kfold,2021-08-31,orig E1 capped,E1 capped,gross,-0.24145228608835312
+orig,kfold_01,kfold,2021-09-30,orig E1 capped,E1 capped,gross,-0.2515905189593242
+orig,kfold_01,kfold,2021-10-29,orig E1 capped,E1 capped,gross,-0.0685306235880741
+orig,kfold_01,kfold,2021-11-30,orig E1 capped,E1 capped,gross,0.5103721808319457
+orig,kfold_01,kfold,2021-12-31,orig E1 capped,E1 capped,gross,-0.1780636513354548
+orig,kfold_01,kfold,2022-01-31,orig E1 capped,E1 capped,gross,-0.0032497736325079463
+orig,kfold_01,kfold,2022-02-28,orig E1 capped,E1 capped,gross,-0.21736161013770514
+orig,kfold_01,kfold,2022-04-29,orig E1 capped,E1 capped,gross,-0.1798579258387333
+orig,kfold_01,kfold,2022-05-31,orig E1 capped,E1 capped,gross,0.018722288645427715
+orig,kfold_01,kfold,2022-06-30,orig E1 capped,E1 capped,gross,-0.03541857470838922
+orig,kfold_01,kfold,2022-07-29,orig E1 capped,E1 capped,gross,0.08660059413794466
+orig,kfold_01,kfold,2018-10-31,orig E1 capped,E1 capped,full_cost_net,-0.5044293580579831
+orig,kfold_01,kfold,2018-11-30,orig E1 capped,E1 capped,full_cost_net,-0.21371039044692108
+orig,kfold_01,kfold,2018-12-31,orig E1 capped,E1 capped,full_cost_net,0.1406332506329302
+orig,kfold_01,kfold,2019-01-31,orig E1 capped,E1 capped,full_cost_net,0.2426381876976458
+orig,kfold_01,kfold,2019-02-28,orig E1 capped,E1 capped,full_cost_net,-0.2611062753422054
+orig,kfold_01,kfold,2019-04-30,orig E1 capped,E1 capped,full_cost_net,0.5418420639592515
+orig,kfold_01,kfold,2019-05-31,orig E1 capped,E1 capped,full_cost_net,-0.19970351730977312
+orig,kfold_01,kfold,2019-06-28,orig E1 capped,E1 capped,full_cost_net,0.3469226611486616
+orig,kfold_01,kfold,2019-07-31,orig E1 capped,E1 capped,full_cost_net,-0.04091528215709099
+orig,kfold_01,kfold,2019-08-30,orig E1 capped,E1 capped,full_cost_net,-0.20774484857283732
+orig,kfold_01,kfold,2019-09-30,orig E1 capped,E1 capped,full_cost_net,-0.10269270538414066
+orig,kfold_01,kfold,2019-10-31,orig E1 capped,E1 capped,full_cost_net,-0.014167552397729117
+orig,kfold_01,kfold,2019-11-29,orig E1 capped,E1 capped,full_cost_net,0.30340254218164364
+orig,kfold_01,kfold,2019-12-31,orig E1 capped,E1 capped,full_cost_net,0.22646192649567043
+orig,kfold_01,kfold,2020-01-31,orig E1 capped,E1 capped,full_cost_net,1.0310852599006846
+orig,kfold_01,kfold,2020-02-28,orig E1 capped,E1 capped,full_cost_net,0.23727478678624545
+orig,kfold_01,kfold,2020-03-31,orig E1 capped,E1 capped,full_cost_net,-0.024412996464875526
+orig,kfold_01,kfold,2020-04-30,orig E1 capped,E1 capped,full_cost_net,0.4495158818716522
+orig,kfold_01,kfold,2020-05-29,orig E1 capped,E1 capped,full_cost_net,-0.05847853932385104
+orig,kfold_01,kfold,2020-06-30,orig E1 capped,E1 capped,full_cost_net,0.3730823822313672
+orig,kfold_01,kfold,2020-07-31,orig E1 capped,E1 capped,full_cost_net,0.43664938112119783
+orig,kfold_01,kfold,2020-08-31,orig E1 capped,E1 capped,full_cost_net,0.5542556842634079
+orig,kfold_01,kfold,2020-09-30,orig E1 capped,E1 capped,full_cost_net,-0.17225081463929162
+orig,kfold_01,kfold,2020-10-30,orig E1 capped,E1 capped,full_cost_net,-0.12929380231277765
+orig,kfold_01,kfold,2020-11-30,orig E1 capped,E1 capped,full_cost_net,0.019312720193927428
+orig,kfold_01,kfold,2020-12-31,orig E1 capped,E1 capped,full_cost_net,-0.11494340164659483
+orig,kfold_01,kfold,2021-01-29,orig E1 capped,E1 capped,full_cost_net,-0.17049493318265185
+orig,kfold_01,kfold,2021-02-26,orig E1 capped,E1 capped,full_cost_net,-0.12326137279108051
+orig,kfold_01,kfold,2021-03-31,orig E1 capped,E1 capped,full_cost_net,-0.20834519978901356
+orig,kfold_01,kfold,2021-04-30,orig E1 capped,E1 capped,full_cost_net,0.5442689681893379
+orig,kfold_01,kfold,2021-06-30,orig E1 capped,E1 capped,full_cost_net,-0.08665177577925892
+orig,kfold_01,kfold,2021-07-30,orig E1 capped,E1 capped,full_cost_net,-0.0035480766241697097
+orig,kfold_01,kfold,2021-08-31,orig E1 capped,E1 capped,full_cost_net,-0.25725764464443135
+orig,kfold_01,kfold,2021-09-30,orig E1 capped,E1 capped,full_cost_net,-0.2633925520818254
+orig,kfold_01,kfold,2021-10-29,orig E1 capped,E1 capped,full_cost_net,-0.07916164144465639
+orig,kfold_01,kfold,2021-11-30,orig E1 capped,E1 capped,full_cost_net,0.49947431790345526
+orig,kfold_01,kfold,2021-12-31,orig E1 capped,E1 capped,full_cost_net,-0.18943731332468822
+orig,kfold_01,kfold,2022-01-31,orig E1 capped,E1 capped,full_cost_net,-0.018941919025195677
+orig,kfold_01,kfold,2022-02-28,orig E1 capped,E1 capped,full_cost_net,-0.22785306103154276
+orig,kfold_01,kfold,2022-04-29,orig E1 capped,E1 capped,full_cost_net,-0.19236532737855108
+orig,kfold_01,kfold,2022-05-31,orig E1 capped,E1 capped,full_cost_net,0.006630793694923651
+orig,kfold_01,kfold,2022-06-30,orig E1 capped,E1 capped,full_cost_net,-0.05673578156338553
+orig,kfold_01,kfold,2022-07-29,orig E1 capped,E1 capped,full_cost_net,0.07510059282183959
+orig,kfold_01,kfold,2018-10-31,orig GM paper,GM paper,gross,-0.6455882663719004
+orig,kfold_01,kfold,2018-11-30,orig GM paper,GM paper,gross,-0.19870697970528203
+orig,kfold_01,kfold,2018-12-31,orig GM paper,GM paper,gross,-0.02084025320085492
+orig,kfold_01,kfold,2019-01-31,orig GM paper,GM paper,gross,0.28386176172911015
+orig,kfold_01,kfold,2019-02-28,orig GM paper,GM paper,gross,-0.024543141287591178
+orig,kfold_01,kfold,2019-04-30,orig GM paper,GM paper,gross,0.2963395503629456
+orig,kfold_01,kfold,2019-05-31,orig GM paper,GM paper,gross,-0.17910276773134273
+orig,kfold_01,kfold,2019-06-28,orig GM paper,GM paper,gross,0.15437957372717453
+orig,kfold_01,kfold,2019-07-31,orig GM paper,GM paper,gross,0.10423226082679635
+orig,kfold_01,kfold,2019-08-30,orig GM paper,GM paper,gross,-0.1124631839333695
+orig,kfold_01,kfold,2019-09-30,orig GM paper,GM paper,gross,0.09337847242419302
+orig,kfold_01,kfold,2019-10-31,orig GM paper,GM paper,gross,0.07706121650798255
+orig,kfold_01,kfold,2019-11-29,orig GM paper,GM paper,gross,0.35452830756624126
+orig,kfold_01,kfold,2019-12-31,orig GM paper,GM paper,gross,0.32711504929395174
+orig,kfold_01,kfold,2020-01-31,orig GM paper,GM paper,gross,0.8578152923300261
+orig,kfold_01,kfold,2020-02-28,orig GM paper,GM paper,gross,0.4200850099605881
+orig,kfold_01,kfold,2020-03-31,orig GM paper,GM paper,gross,-0.09201389310809895
+orig,kfold_01,kfold,2020-04-30,orig GM paper,GM paper,gross,0.14860297762994232
+orig,kfold_01,kfold,2020-05-29,orig GM paper,GM paper,gross,0.12547983481414418
+orig,kfold_01,kfold,2020-06-30,orig GM paper,GM paper,gross,0.22696709946435056
+orig,kfold_01,kfold,2020-07-31,orig GM paper,GM paper,gross,0.31446180025302795
+orig,kfold_01,kfold,2020-08-31,orig GM paper,GM paper,gross,0.5440839682672302
+orig,kfold_01,kfold,2020-09-30,orig GM paper,GM paper,gross,-0.2614346522603429
+orig,kfold_01,kfold,2020-10-30,orig GM paper,GM paper,gross,0.10434062078270162
+orig,kfold_01,kfold,2020-11-30,orig GM paper,GM paper,gross,0.2571825907858051
+orig,kfold_01,kfold,2020-12-31,orig GM paper,GM paper,gross,0.0012583774580851997
+orig,kfold_01,kfold,2021-01-29,orig GM paper,GM paper,gross,-0.062367862440882715
+orig,kfold_01,kfold,2021-02-26,orig GM paper,GM paper,gross,0.15124310483960662
+orig,kfold_01,kfold,2021-03-31,orig GM paper,GM paper,gross,-0.10225140433472404
+orig,kfold_01,kfold,2021-04-30,orig GM paper,GM paper,gross,0.4020315493224891
+orig,kfold_01,kfold,2021-06-30,orig GM paper,GM paper,gross,-0.10159714607161859
+orig,kfold_01,kfold,2021-07-30,orig GM paper,GM paper,gross,-0.04470050938895508
+orig,kfold_01,kfold,2021-08-31,orig GM paper,GM paper,gross,-0.12484086287459784
+orig,kfold_01,kfold,2021-09-30,orig GM paper,GM paper,gross,-0.1615696195791662
+orig,kfold_01,kfold,2021-10-29,orig GM paper,GM paper,gross,0.08773390645511744
+orig,kfold_01,kfold,2021-11-30,orig GM paper,GM paper,gross,0.5005639120243462
+orig,kfold_01,kfold,2021-12-31,orig GM paper,GM paper,gross,-0.17073619522162475
+orig,kfold_01,kfold,2022-01-31,orig GM paper,GM paper,gross,-0.3295727632045873
+orig,kfold_01,kfold,2022-02-28,orig GM paper,GM paper,gross,-0.07659120313536777
+orig,kfold_01,kfold,2022-04-29,orig GM paper,GM paper,gross,-0.05238010656979023
+orig,kfold_01,kfold,2022-05-31,orig GM paper,GM paper,gross,-0.10204514256380876
+orig,kfold_01,kfold,2022-06-30,orig GM paper,GM paper,gross,0.017789220783681614
+orig,kfold_01,kfold,2022-07-29,orig GM paper,GM paper,gross,0.10582245804458101
+orig,kfold_01,kfold,2018-10-31,orig GM paper,GM paper,full_cost_net,-2.3889072827581597
+orig,kfold_01,kfold,2018-11-30,orig GM paper,GM paper,full_cost_net,-0.3755121248802684
+orig,kfold_01,kfold,2018-12-31,orig GM paper,GM paper,full_cost_net,-0.8431182992281967
+orig,kfold_01,kfold,2019-01-31,orig GM paper,GM paper,full_cost_net,-0.47239983543777786
+orig,kfold_01,kfold,2019-02-28,orig GM paper,GM paper,full_cost_net,-0.33419707814441746
+orig,kfold_01,kfold,2019-04-30,orig GM paper,GM paper,full_cost_net,0.16661614761226096
+orig,kfold_01,kfold,2019-05-31,orig GM paper,GM paper,full_cost_net,-0.24314365986766207
+orig,kfold_01,kfold,2019-06-28,orig GM paper,GM paper,full_cost_net,-0.9180506331213649
+orig,kfold_01,kfold,2019-07-31,orig GM paper,GM paper,full_cost_net,0.04982617300159221
+orig,kfold_01,kfold,2019-08-30,orig GM paper,GM paper,full_cost_net,-0.21171858679041877
+orig,kfold_01,kfold,2019-09-30,orig GM paper,GM paper,full_cost_net,-1.2166244877003625
+orig,kfold_01,kfold,2019-10-31,orig GM paper,GM paper,full_cost_net,0.02861744359637087
+orig,kfold_01,kfold,2019-11-29,orig GM paper,GM paper,full_cost_net,-1.4761943390915238
+orig,kfold_01,kfold,2019-12-31,orig GM paper,GM paper,full_cost_net,-0.6801639049531579
+orig,kfold_01,kfold,2020-01-31,orig GM paper,GM paper,full_cost_net,0.6777337261238305
+orig,kfold_01,kfold,2020-02-28,orig GM paper,GM paper,full_cost_net,0.07553518775765766
+orig,kfold_01,kfold,2020-03-31,orig GM paper,GM paper,full_cost_net,-0.36980271547207894
+orig,kfold_01,kfold,2020-04-30,orig GM paper,GM paper,full_cost_net,0.07712050182705359
+orig,kfold_01,kfold,2020-05-29,orig GM paper,GM paper,full_cost_net,0.08207209845029573
+orig,kfold_01,kfold,2020-06-30,orig GM paper,GM paper,full_cost_net,0.15267929529179905
+orig,kfold_01,kfold,2020-07-31,orig GM paper,GM paper,full_cost_net,0.2853210303263119
+orig,kfold_01,kfold,2020-08-31,orig GM paper,GM paper,full_cost_net,0.22670233212979363
+orig,kfold_01,kfold,2020-09-30,orig GM paper,GM paper,full_cost_net,-0.2812105135513989
+orig,kfold_01,kfold,2020-10-30,orig GM paper,GM paper,full_cost_net,-0.05141757778463729
+orig,kfold_01,kfold,2020-11-30,orig GM paper,GM paper,full_cost_net,-1.590455517600061
+orig,kfold_01,kfold,2020-12-31,orig GM paper,GM paper,full_cost_net,-0.03038658852456111
+orig,kfold_01,kfold,2021-01-29,orig GM paper,GM paper,full_cost_net,-0.09147654587948856
+orig,kfold_01,kfold,2021-02-26,orig GM paper,GM paper,full_cost_net,0.1217462199016722
+orig,kfold_01,kfold,2021-03-31,orig GM paper,GM paper,full_cost_net,-0.16617923601418455
+orig,kfold_01,kfold,2021-04-30,orig GM paper,GM paper,full_cost_net,-0.09724735127583661
+orig,kfold_01,kfold,2021-06-30,orig GM paper,GM paper,full_cost_net,-0.15452033295648698
+orig,kfold_01,kfold,2021-07-30,orig GM paper,GM paper,full_cost_net,-0.12058645406378382
+orig,kfold_01,kfold,2021-08-31,orig GM paper,GM paper,full_cost_net,-0.18441827312104603
+orig,kfold_01,kfold,2021-09-30,orig GM paper,GM paper,full_cost_net,-0.2658050030372252
+orig,kfold_01,kfold,2021-10-29,orig GM paper,GM paper,full_cost_net,0.04994798036576792
+orig,kfold_01,kfold,2021-11-30,orig GM paper,GM paper,full_cost_net,0.4679484351790924
+orig,kfold_01,kfold,2021-12-31,orig GM paper,GM paper,full_cost_net,-0.20780772531296582
+orig,kfold_01,kfold,2022-01-31,orig GM paper,GM paper,full_cost_net,-0.4356644431545935
+orig,kfold_01,kfold,2022-02-28,orig GM paper,GM paper,full_cost_net,-0.444580577955619
+orig,kfold_01,kfold,2022-04-29,orig GM paper,GM paper,full_cost_net,-0.641807374764326
+orig,kfold_01,kfold,2022-05-31,orig GM paper,GM paper,full_cost_net,-0.8115230218828253
+orig,kfold_01,kfold,2022-06-30,orig GM paper,GM paper,full_cost_net,-0.10228663416520856
+orig,kfold_01,kfold,2022-07-29,orig GM paper,GM paper,full_cost_net,-0.06557039122033925
+orig,kfold_01,kfold,2018-10-31,orig Equal premium capped,Equal premium capped,gross,-0.27311336365496797
+orig,kfold_01,kfold,2018-11-30,orig Equal premium capped,Equal premium capped,gross,-0.2873788429472628
+orig,kfold_01,kfold,2018-12-31,orig Equal premium capped,Equal premium capped,gross,0.2593482852204841
+orig,kfold_01,kfold,2019-01-31,orig Equal premium capped,Equal premium capped,gross,0.43702284814462494
+orig,kfold_01,kfold,2019-02-28,orig Equal premium capped,Equal premium capped,gross,-0.43907933979069336
+orig,kfold_01,kfold,2019-04-30,orig Equal premium capped,Equal premium capped,gross,0.9645494854350528
+orig,kfold_01,kfold,2019-05-31,orig Equal premium capped,Equal premium capped,gross,-0.33425955180011424
+orig,kfold_01,kfold,2019-06-28,orig Equal premium capped,Equal premium capped,gross,1.0325260085452972
+orig,kfold_01,kfold,2019-07-31,orig Equal premium capped,Equal premium capped,gross,-0.05978395881926833
+orig,kfold_01,kfold,2019-08-30,orig Equal premium capped,Equal premium capped,gross,-0.35974374025988437
+orig,kfold_01,kfold,2019-09-30,orig Equal premium capped,Equal premium capped,gross,-0.25513671101659263
+orig,kfold_01,kfold,2019-10-31,orig Equal premium capped,Equal premium capped,gross,0.057620769824446416
+orig,kfold_01,kfold,2019-11-29,orig Equal premium capped,Equal premium capped,gross,0.761177304258434
+orig,kfold_01,kfold,2019-12-31,orig Equal premium capped,Equal premium capped,gross,0.5568449621548224
+orig,kfold_01,kfold,2020-01-31,orig Equal premium capped,Equal premium capped,gross,2.182261053644357
+orig,kfold_01,kfold,2020-02-28,orig Equal premium capped,Equal premium capped,gross,0.6195024968945643
+orig,kfold_01,kfold,2020-03-31,orig Equal premium capped,Equal premium capped,gross,-0.05604811588094838
+orig,kfold_01,kfold,2020-04-30,orig Equal premium capped,Equal premium capped,gross,0.8022533702997766
+orig,kfold_01,kfold,2020-05-29,orig Equal premium capped,Equal premium capped,gross,-0.20244672015101767
+orig,kfold_01,kfold,2020-06-30,orig Equal premium capped,Equal premium capped,gross,0.6035893761761022
+orig,kfold_01,kfold,2020-07-31,orig Equal premium capped,Equal premium capped,gross,0.8609228577114987
+orig,kfold_01,kfold,2020-08-31,orig Equal premium capped,Equal premium capped,gross,1.1894395335422026
+orig,kfold_01,kfold,2020-09-30,orig Equal premium capped,Equal premium capped,gross,-0.07506837027404317
+orig,kfold_01,kfold,2020-10-30,orig Equal premium capped,Equal premium capped,gross,-0.28910295647359674
+orig,kfold_01,kfold,2020-11-30,orig Equal premium capped,Equal premium capped,gross,0.00749037947807798
+orig,kfold_01,kfold,2020-12-31,orig Equal premium capped,Equal premium capped,gross,-0.16560046161880576
+orig,kfold_01,kfold,2021-01-29,orig Equal premium capped,Equal premium capped,gross,-0.13969493749285067
+orig,kfold_01,kfold,2021-02-26,orig Equal premium capped,Equal premium capped,gross,-0.37100072957371466
+orig,kfold_01,kfold,2021-03-31,orig Equal premium capped,Equal premium capped,gross,-0.22343942171746345
+orig,kfold_01,kfold,2021-04-30,orig Equal premium capped,Equal premium capped,gross,1.0908485711720899
+orig,kfold_01,kfold,2021-06-30,orig Equal premium capped,Equal premium capped,gross,-0.3195618942492579
+orig,kfold_01,kfold,2021-07-30,orig Equal premium capped,Equal premium capped,gross,0.07065486403913093
+orig,kfold_01,kfold,2021-08-31,orig Equal premium capped,Equal premium capped,gross,-0.3708970005490286
+orig,kfold_01,kfold,2021-09-30,orig Equal premium capped,Equal premium capped,gross,-0.43562370328057054
+orig,kfold_01,kfold,2021-10-29,orig Equal premium capped,Equal premium capped,gross,-0.12141108195922994
+orig,kfold_01,kfold,2021-11-30,orig Equal premium capped,Equal premium capped,gross,0.6714896141462192
+orig,kfold_01,kfold,2021-12-31,orig Equal premium capped,Equal premium capped,gross,-0.31906976817434957
+orig,kfold_01,kfold,2022-01-31,orig Equal premium capped,Equal premium capped,gross,0.1192221512729196
+orig,kfold_01,kfold,2022-02-28,orig Equal premium capped,Equal premium capped,gross,-0.051560329471150454
+orig,kfold_01,kfold,2022-04-29,orig Equal premium capped,Equal premium capped,gross,-0.38705674066424456
+orig,kfold_01,kfold,2022-05-31,orig Equal premium capped,Equal premium capped,gross,-0.19486269069707546
+orig,kfold_01,kfold,2022-06-30,orig Equal premium capped,Equal premium capped,gross,0.006309769109903773
+orig,kfold_01,kfold,2022-07-29,orig Equal premium capped,Equal premium capped,gross,-0.0184692786348874
+orig,kfold_01,kfold,2018-10-31,orig Equal premium capped,Equal premium capped,full_cost_net,-0.33191228155100566
+orig,kfold_01,kfold,2018-11-30,orig Equal premium capped,Equal premium capped,full_cost_net,-0.30861232738627103
+orig,kfold_01,kfold,2018-12-31,orig Equal premium capped,Equal premium capped,full_cost_net,0.23731380205539326
+orig,kfold_01,kfold,2019-01-31,orig Equal premium capped,Equal premium capped,full_cost_net,0.40315935064892994
+orig,kfold_01,kfold,2019-02-28,orig Equal premium capped,Equal premium capped,full_cost_net,-0.4596825935651862
+orig,kfold_01,kfold,2019-04-30,orig Equal premium capped,Equal premium capped,full_cost_net,0.7081999536971413
+orig,kfold_01,kfold,2019-05-31,orig Equal premium capped,Equal premium capped,full_cost_net,-0.3617568393146598
+orig,kfold_01,kfold,2019-06-28,orig Equal premium capped,Equal premium capped,full_cost_net,0.9906128089455994
+orig,kfold_01,kfold,2019-07-31,orig Equal premium capped,Equal premium capped,full_cost_net,-0.08121122545666537
+orig,kfold_01,kfold,2019-08-30,orig Equal premium capped,Equal premium capped,full_cost_net,-0.3845464094853475
+orig,kfold_01,kfold,2019-09-30,orig Equal premium capped,Equal premium capped,full_cost_net,-0.2802834445432851
+orig,kfold_01,kfold,2019-10-31,orig Equal premium capped,Equal premium capped,full_cost_net,0.030093138310004246
+orig,kfold_01,kfold,2019-11-29,orig Equal premium capped,Equal premium capped,full_cost_net,0.6989097579318342
+orig,kfold_01,kfold,2019-12-31,orig Equal premium capped,Equal premium capped,full_cost_net,0.49311106106301383
+orig,kfold_01,kfold,2020-01-31,orig Equal premium capped,Equal premium capped,full_cost_net,2.1211048004843986
+orig,kfold_01,kfold,2020-02-28,orig Equal premium capped,Equal premium capped,full_cost_net,0.603211943844758
+orig,kfold_01,kfold,2020-03-31,orig Equal premium capped,Equal premium capped,full_cost_net,-0.07965286016927663
+orig,kfold_01,kfold,2020-04-30,orig Equal premium capped,Equal premium capped,full_cost_net,0.7751400623098273
+orig,kfold_01,kfold,2020-05-29,orig Equal premium capped,Equal premium capped,full_cost_net,-0.22366669841090364
+orig,kfold_01,kfold,2020-06-30,orig Equal premium capped,Equal premium capped,full_cost_net,0.5683615752827363
+orig,kfold_01,kfold,2020-07-31,orig Equal premium capped,Equal premium capped,full_cost_net,0.8430447607271235
+orig,kfold_01,kfold,2020-08-31,orig Equal premium capped,Equal premium capped,full_cost_net,1.1716798335561807
+orig,kfold_01,kfold,2020-09-30,orig Equal premium capped,Equal premium capped,full_cost_net,-0.08581454909038524
+orig,kfold_01,kfold,2020-10-30,orig Equal premium capped,Equal premium capped,full_cost_net,-0.3072221916834291
+orig,kfold_01,kfold,2020-11-30,orig Equal premium capped,Equal premium capped,full_cost_net,-0.007873371810268209
+orig,kfold_01,kfold,2020-12-31,orig Equal premium capped,Equal premium capped,full_cost_net,-0.18345066982331787
+orig,kfold_01,kfold,2021-01-29,orig Equal premium capped,Equal premium capped,full_cost_net,-0.1554089256381415
+orig,kfold_01,kfold,2021-02-26,orig Equal premium capped,Equal premium capped,full_cost_net,-0.3909178156103408
+orig,kfold_01,kfold,2021-03-31,orig Equal premium capped,Equal premium capped,full_cost_net,-0.24438641050995355
+orig,kfold_01,kfold,2021-04-30,orig Equal premium capped,Equal premium capped,full_cost_net,1.0724573422487298
+orig,kfold_01,kfold,2021-06-30,orig Equal premium capped,Equal premium capped,full_cost_net,-0.33555350656433375
+orig,kfold_01,kfold,2021-07-30,orig Equal premium capped,Equal premium capped,full_cost_net,0.04777888207131975
+orig,kfold_01,kfold,2021-08-31,orig Equal premium capped,Equal premium capped,full_cost_net,-0.39401352141831264
+orig,kfold_01,kfold,2021-09-30,orig Equal premium capped,Equal premium capped,full_cost_net,-0.4526675528024325
+orig,kfold_01,kfold,2021-10-29,orig Equal premium capped,Equal premium capped,full_cost_net,-0.2848379399061149
+orig,kfold_01,kfold,2021-11-30,orig Equal premium capped,Equal premium capped,full_cost_net,0.6561368372511321
+orig,kfold_01,kfold,2021-12-31,orig Equal premium capped,Equal premium capped,full_cost_net,-0.33624016678387997
+orig,kfold_01,kfold,2022-01-31,orig Equal premium capped,Equal premium capped,full_cost_net,0.0966392091554174
+orig,kfold_01,kfold,2022-02-28,orig Equal premium capped,Equal premium capped,full_cost_net,-0.06617909605649061
+orig,kfold_01,kfold,2022-04-29,orig Equal premium capped,Equal premium capped,full_cost_net,-0.4045445526092356
+orig,kfold_01,kfold,2022-05-31,orig Equal premium capped,Equal premium capped,full_cost_net,-0.21209478879492982
+orig,kfold_01,kfold,2022-06-30,orig Equal premium capped,Equal premium capped,full_cost_net,-0.021358581063878664
+orig,kfold_01,kfold,2022-07-29,orig Equal premium capped,Equal premium capped,full_cost_net,-0.041777790852652916
+orig,kfold_01,kfold,2018-10-31,orig Equal risk capped,Equal risk capped,gross,-0.27311336365496797
+orig,kfold_01,kfold,2018-11-30,orig Equal risk capped,Equal risk capped,gross,-0.2873788429472628
+orig,kfold_01,kfold,2018-12-31,orig Equal risk capped,Equal risk capped,gross,0.2593482852204841
+orig,kfold_01,kfold,2019-01-31,orig Equal risk capped,Equal risk capped,gross,0.43702284814462494
+orig,kfold_01,kfold,2019-02-28,orig Equal risk capped,Equal risk capped,gross,-0.43907933979069336
+orig,kfold_01,kfold,2019-04-30,orig Equal risk capped,Equal risk capped,gross,0.9645494854350528
+orig,kfold_01,kfold,2019-05-31,orig Equal risk capped,Equal risk capped,gross,-0.33425955180011424
+orig,kfold_01,kfold,2019-06-28,orig Equal risk capped,Equal risk capped,gross,1.0325260085452972
+orig,kfold_01,kfold,2019-07-31,orig Equal risk capped,Equal risk capped,gross,-0.05978395881926833
+orig,kfold_01,kfold,2019-08-30,orig Equal risk capped,Equal risk capped,gross,-0.35974374025988437
+orig,kfold_01,kfold,2019-09-30,orig Equal risk capped,Equal risk capped,gross,-0.25513671101659263
+orig,kfold_01,kfold,2019-10-31,orig Equal risk capped,Equal risk capped,gross,0.05762076982444639
+orig,kfold_01,kfold,2019-11-29,orig Equal risk capped,Equal risk capped,gross,0.7611773042584342
+orig,kfold_01,kfold,2019-12-31,orig Equal risk capped,Equal risk capped,gross,0.5568449621548224
+orig,kfold_01,kfold,2020-01-31,orig Equal risk capped,Equal risk capped,gross,2.182261053644357
+orig,kfold_01,kfold,2020-02-28,orig Equal risk capped,Equal risk capped,gross,0.6195024968945643
+orig,kfold_01,kfold,2020-03-31,orig Equal risk capped,Equal risk capped,gross,-0.05604811588094838
+orig,kfold_01,kfold,2020-04-30,orig Equal risk capped,Equal risk capped,gross,0.8022533702997766
+orig,kfold_01,kfold,2020-05-29,orig Equal risk capped,Equal risk capped,gross,-0.20244672015101764
+orig,kfold_01,kfold,2020-06-30,orig Equal risk capped,Equal risk capped,gross,0.6035893761761022
+orig,kfold_01,kfold,2020-07-31,orig Equal risk capped,Equal risk capped,gross,0.8609228577114987
+orig,kfold_01,kfold,2020-08-31,orig Equal risk capped,Equal risk capped,gross,1.1894395335422026
+orig,kfold_01,kfold,2020-09-30,orig Equal risk capped,Equal risk capped,gross,-0.07506837027404317
+orig,kfold_01,kfold,2020-10-30,orig Equal risk capped,Equal risk capped,gross,-0.28910295647359674
+orig,kfold_01,kfold,2020-11-30,orig Equal risk capped,Equal risk capped,gross,0.007490379478078008
+orig,kfold_01,kfold,2020-12-31,orig Equal risk capped,Equal risk capped,gross,-0.16560046161880573
+orig,kfold_01,kfold,2021-01-29,orig Equal risk capped,Equal risk capped,gross,-0.1396949374928506
+orig,kfold_01,kfold,2021-02-26,orig Equal risk capped,Equal risk capped,gross,-0.37100072957371455
+orig,kfold_01,kfold,2021-03-31,orig Equal risk capped,Equal risk capped,gross,-0.22343942171746348
+orig,kfold_01,kfold,2021-04-30,orig Equal risk capped,Equal risk capped,gross,1.0908485711720899
+orig,kfold_01,kfold,2021-06-30,orig Equal risk capped,Equal risk capped,gross,-0.31956189424925785
+orig,kfold_01,kfold,2021-07-30,orig Equal risk capped,Equal risk capped,gross,0.07065486403913093
+orig,kfold_01,kfold,2021-08-31,orig Equal risk capped,Equal risk capped,gross,-0.3708970005490286
+orig,kfold_01,kfold,2021-09-30,orig Equal risk capped,Equal risk capped,gross,-0.43562370328057054
+orig,kfold_01,kfold,2021-10-29,orig Equal risk capped,Equal risk capped,gross,-0.12141108195922991
+orig,kfold_01,kfold,2021-11-30,orig Equal risk capped,Equal risk capped,gross,0.6714896141462192
+orig,kfold_01,kfold,2021-12-31,orig Equal risk capped,Equal risk capped,gross,-0.31906976817434957
+orig,kfold_01,kfold,2022-01-31,orig Equal risk capped,Equal risk capped,gross,0.1192221512729196
+orig,kfold_01,kfold,2022-02-28,orig Equal risk capped,Equal risk capped,gross,-0.0515603294711504
+orig,kfold_01,kfold,2022-04-29,orig Equal risk capped,Equal risk capped,gross,-0.38705674066424456
+orig,kfold_01,kfold,2022-05-31,orig Equal risk capped,Equal risk capped,gross,-0.19486269069707546
+orig,kfold_01,kfold,2022-06-30,orig Equal risk capped,Equal risk capped,gross,0.006309769109903773
+orig,kfold_01,kfold,2022-07-29,orig Equal risk capped,Equal risk capped,gross,-0.0184692786348874
+orig,kfold_01,kfold,2018-10-31,orig Equal risk capped,Equal risk capped,full_cost_net,-0.33191228155100566
+orig,kfold_01,kfold,2018-11-30,orig Equal risk capped,Equal risk capped,full_cost_net,-0.30861232738627103
+orig,kfold_01,kfold,2018-12-31,orig Equal risk capped,Equal risk capped,full_cost_net,0.23731380205539326
+orig,kfold_01,kfold,2019-01-31,orig Equal risk capped,Equal risk capped,full_cost_net,0.40315935064892994
+orig,kfold_01,kfold,2019-02-28,orig Equal risk capped,Equal risk capped,full_cost_net,-0.4596825935651862
+orig,kfold_01,kfold,2019-04-30,orig Equal risk capped,Equal risk capped,full_cost_net,0.7081999536971413
+orig,kfold_01,kfold,2019-05-31,orig Equal risk capped,Equal risk capped,full_cost_net,-0.3617568393146598
+orig,kfold_01,kfold,2019-06-28,orig Equal risk capped,Equal risk capped,full_cost_net,0.9906128089455996
+orig,kfold_01,kfold,2019-07-31,orig Equal risk capped,Equal risk capped,full_cost_net,-0.08121122545666537
+orig,kfold_01,kfold,2019-08-30,orig Equal risk capped,Equal risk capped,full_cost_net,-0.3845464094853475
+orig,kfold_01,kfold,2019-09-30,orig Equal risk capped,Equal risk capped,full_cost_net,-0.2802834445432851
+orig,kfold_01,kfold,2019-10-31,orig Equal risk capped,Equal risk capped,full_cost_net,0.030093138310004226
+orig,kfold_01,kfold,2019-11-29,orig Equal risk capped,Equal risk capped,full_cost_net,0.6989097579318344
+orig,kfold_01,kfold,2019-12-31,orig Equal risk capped,Equal risk capped,full_cost_net,0.49311106106301383
+orig,kfold_01,kfold,2020-01-31,orig Equal risk capped,Equal risk capped,full_cost_net,2.1211048004843986
+orig,kfold_01,kfold,2020-02-28,orig Equal risk capped,Equal risk capped,full_cost_net,0.603211943844758
+orig,kfold_01,kfold,2020-03-31,orig Equal risk capped,Equal risk capped,full_cost_net,-0.07965286016927663
+orig,kfold_01,kfold,2020-04-30,orig Equal risk capped,Equal risk capped,full_cost_net,0.7751400623098273
+orig,kfold_01,kfold,2020-05-29,orig Equal risk capped,Equal risk capped,full_cost_net,-0.2236666984109036
+orig,kfold_01,kfold,2020-06-30,orig Equal risk capped,Equal risk capped,full_cost_net,0.5683615752827363
+orig,kfold_01,kfold,2020-07-31,orig Equal risk capped,Equal risk capped,full_cost_net,0.8430447607271235
+orig,kfold_01,kfold,2020-08-31,orig Equal risk capped,Equal risk capped,full_cost_net,1.1716798335561807
+orig,kfold_01,kfold,2020-09-30,orig Equal risk capped,Equal risk capped,full_cost_net,-0.08581454909038524
+orig,kfold_01,kfold,2020-10-30,orig Equal risk capped,Equal risk capped,full_cost_net,-0.3072221916834291
+orig,kfold_01,kfold,2020-11-30,orig Equal risk capped,Equal risk capped,full_cost_net,-0.007873371810268181
+orig,kfold_01,kfold,2020-12-31,orig Equal risk capped,Equal risk capped,full_cost_net,-0.18345066982331784
+orig,kfold_01,kfold,2021-01-29,orig Equal risk capped,Equal risk capped,full_cost_net,-0.15540892563814143
+orig,kfold_01,kfold,2021-02-26,orig Equal risk capped,Equal risk capped,full_cost_net,-0.39091781561034067
+orig,kfold_01,kfold,2021-03-31,orig Equal risk capped,Equal risk capped,full_cost_net,-0.24438641050995358
+orig,kfold_01,kfold,2021-04-30,orig Equal risk capped,Equal risk capped,full_cost_net,1.0724573422487298
+orig,kfold_01,kfold,2021-06-30,orig Equal risk capped,Equal risk capped,full_cost_net,-0.3355535065643337
+orig,kfold_01,kfold,2021-07-30,orig Equal risk capped,Equal risk capped,full_cost_net,0.04777888207131975
+orig,kfold_01,kfold,2021-08-31,orig Equal risk capped,Equal risk capped,full_cost_net,-0.39401352141831264
+orig,kfold_01,kfold,2021-09-30,orig Equal risk capped,Equal risk capped,full_cost_net,-0.4526675528024325
+orig,kfold_01,kfold,2021-10-29,orig Equal risk capped,Equal risk capped,full_cost_net,-0.28483793990611483
+orig,kfold_01,kfold,2021-11-30,orig Equal risk capped,Equal risk capped,full_cost_net,0.6561368372511321
+orig,kfold_01,kfold,2021-12-31,orig Equal risk capped,Equal risk capped,full_cost_net,-0.33624016678387997
+orig,kfold_01,kfold,2022-01-31,orig Equal risk capped,Equal risk capped,full_cost_net,0.0966392091554174
+orig,kfold_01,kfold,2022-02-28,orig Equal risk capped,Equal risk capped,full_cost_net,-0.06617909605649056
+orig,kfold_01,kfold,2022-04-29,orig Equal risk capped,Equal risk capped,full_cost_net,-0.4045445526092356
+orig,kfold_01,kfold,2022-05-31,orig Equal risk capped,Equal risk capped,full_cost_net,-0.21209478879492982
+orig,kfold_01,kfold,2022-06-30,orig Equal risk capped,Equal risk capped,full_cost_net,-0.021358581063878657
+orig,kfold_01,kfold,2022-07-29,orig Equal risk capped,Equal risk capped,full_cost_net,-0.041777790852652916
+orig,kfold_02,kfold,2022-08-31,orig E1 capped,E1 capped,gross,-0.23561429424740604
+orig,kfold_02,kfold,2022-09-30,orig E1 capped,E1 capped,gross,-0.09093503614691373
+orig,kfold_02,kfold,2022-10-31,orig E1 capped,E1 capped,gross,-0.07742625535182963
+orig,kfold_02,kfold,2022-11-30,orig E1 capped,E1 capped,gross,0.08958892747872355
+orig,kfold_02,kfold,2022-12-30,orig E1 capped,E1 capped,gross,0.14182156576485702
+orig,kfold_02,kfold,2023-01-31,orig E1 capped,E1 capped,gross,0.16486287968057767
+orig,kfold_02,kfold,2023-02-28,orig E1 capped,E1 capped,gross,0.16864995778411968
+orig,kfold_02,kfold,2023-03-31,orig E1 capped,E1 capped,gross,0.40915036288550455
+orig,kfold_02,kfold,2023-04-28,orig E1 capped,E1 capped,gross,-0.18498499227656706
+orig,kfold_02,kfold,2023-05-31,orig E1 capped,E1 capped,gross,0.3162462864027463
+orig,kfold_02,kfold,2023-06-30,orig E1 capped,E1 capped,gross,0.37788239911245597
+orig,kfold_02,kfold,2023-07-31,orig E1 capped,E1 capped,gross,-0.33696011855895824
+orig,kfold_02,kfold,2023-08-31,orig E1 capped,E1 capped,gross,0.2834249679380292
+orig,kfold_02,kfold,2023-09-29,orig E1 capped,E1 capped,gross,-0.0972825742087211
+orig,kfold_02,kfold,2023-10-31,orig E1 capped,E1 capped,gross,-0.11153309686624072
+orig,kfold_02,kfold,2023-11-30,orig E1 capped,E1 capped,gross,0.8571826025234148
+orig,kfold_02,kfold,2023-12-29,orig E1 capped,E1 capped,gross,-0.14189769460291762
+orig,kfold_02,kfold,2024-01-31,orig E1 capped,E1 capped,gross,0.271315716665532
+orig,kfold_02,kfold,2024-02-29,orig E1 capped,E1 capped,gross,0.09357523868255202
+orig,kfold_02,kfold,2024-04-30,orig E1 capped,E1 capped,gross,0.04985069310898449
+orig,kfold_02,kfold,2024-05-31,orig E1 capped,E1 capped,gross,0.2517634341826077
+orig,kfold_02,kfold,2024-06-28,orig E1 capped,E1 capped,gross,0.21454206416676375
+orig,kfold_02,kfold,2024-07-31,orig E1 capped,E1 capped,gross,0.17507242841728904
+orig,kfold_02,kfold,2024-08-30,orig E1 capped,E1 capped,gross,-0.12613795912395434
+orig,kfold_02,kfold,2024-09-30,orig E1 capped,E1 capped,gross,0.03945593701123863
+orig,kfold_02,kfold,2024-10-31,orig E1 capped,E1 capped,gross,-0.16517274380371688
+orig,kfold_02,kfold,2024-11-29,orig E1 capped,E1 capped,gross,0.39607901044963223
+orig,kfold_02,kfold,2024-12-31,orig E1 capped,E1 capped,gross,0.6015108019555879
+orig,kfold_02,kfold,2025-01-31,orig E1 capped,E1 capped,gross,0.053245336961164236
+orig,kfold_02,kfold,2025-02-28,orig E1 capped,E1 capped,gross,-0.0020481600706648007
+orig,kfold_02,kfold,2025-04-30,orig E1 capped,E1 capped,gross,0.02851699022970175
+orig,kfold_02,kfold,2025-05-30,orig E1 capped,E1 capped,gross,0.5901607737009245
+orig,kfold_02,kfold,2025-06-30,orig E1 capped,E1 capped,gross,-0.15150772470551635
+orig,kfold_02,kfold,2025-07-31,orig E1 capped,E1 capped,gross,-0.14690396900587946
+orig,kfold_02,kfold,2025-08-29,orig E1 capped,E1 capped,gross,-0.011710053776076979
+orig,kfold_02,kfold,2025-09-30,orig E1 capped,E1 capped,gross,0.8538557474948918
+orig,kfold_02,kfold,2025-10-31,orig E1 capped,E1 capped,gross,-0.34583055375100874
+orig,kfold_02,kfold,2025-11-28,orig E1 capped,E1 capped,gross,-0.14465126391979666
+orig,kfold_02,kfold,2025-12-31,orig E1 capped,E1 capped,gross,-0.14959992277354955
+orig,kfold_02,kfold,2026-01-30,orig E1 capped,E1 capped,gross,-0.019838333758511767
+orig,kfold_02,kfold,2026-02-27,orig E1 capped,E1 capped,gross,-0.18784901989750688
+orig,kfold_02,kfold,2026-03-31,orig E1 capped,E1 capped,gross,-0.16020864623447376
+orig,kfold_02,kfold,2026-04-30,orig E1 capped,E1 capped,gross,1.0687468285605213
+orig,kfold_02,kfold,2022-08-31,orig E1 capped,E1 capped,full_cost_net,-0.24772891785988127
+orig,kfold_02,kfold,2022-09-30,orig E1 capped,E1 capped,full_cost_net,-0.1038613535090916
+orig,kfold_02,kfold,2022-10-31,orig E1 capped,E1 capped,full_cost_net,-0.08657769862104642
+orig,kfold_02,kfold,2022-11-30,orig E1 capped,E1 capped,full_cost_net,0.07924537715296401
+orig,kfold_02,kfold,2022-12-30,orig E1 capped,E1 capped,full_cost_net,0.13002153286913481
+orig,kfold_02,kfold,2023-01-31,orig E1 capped,E1 capped,full_cost_net,0.14989939180093637
+orig,kfold_02,kfold,2023-02-28,orig E1 capped,E1 capped,full_cost_net,0.15854247194002907
+orig,kfold_02,kfold,2023-03-31,orig E1 capped,E1 capped,full_cost_net,0.3967114236349951
+orig,kfold_02,kfold,2023-04-28,orig E1 capped,E1 capped,full_cost_net,-0.19591827814633506
+orig,kfold_02,kfold,2023-05-31,orig E1 capped,E1 capped,full_cost_net,0.30161192046877083
+orig,kfold_02,kfold,2023-06-30,orig E1 capped,E1 capped,full_cost_net,0.3565518348576921
+orig,kfold_02,kfold,2023-07-31,orig E1 capped,E1 capped,full_cost_net,-0.34762010419113587
+orig,kfold_02,kfold,2023-08-31,orig E1 capped,E1 capped,full_cost_net,0.2719257471846639
+orig,kfold_02,kfold,2023-09-29,orig E1 capped,E1 capped,full_cost_net,-0.11069931843496122
+orig,kfold_02,kfold,2023-10-31,orig E1 capped,E1 capped,full_cost_net,-0.12294039634527484
+orig,kfold_02,kfold,2023-11-30,orig E1 capped,E1 capped,full_cost_net,0.8195242863905557
+orig,kfold_02,kfold,2023-12-29,orig E1 capped,E1 capped,full_cost_net,-0.16153130172732416
+orig,kfold_02,kfold,2024-01-31,orig E1 capped,E1 capped,full_cost_net,0.2605505010004036
+orig,kfold_02,kfold,2024-02-29,orig E1 capped,E1 capped,full_cost_net,0.08155033418495042
+orig,kfold_02,kfold,2024-04-30,orig E1 capped,E1 capped,full_cost_net,0.03651851313910422
+orig,kfold_02,kfold,2024-05-31,orig E1 capped,E1 capped,full_cost_net,0.23957687272940706
+orig,kfold_02,kfold,2024-06-28,orig E1 capped,E1 capped,full_cost_net,0.19943782925976677
+orig,kfold_02,kfold,2024-07-31,orig E1 capped,E1 capped,full_cost_net,0.1582383286283081
+orig,kfold_02,kfold,2024-08-30,orig E1 capped,E1 capped,full_cost_net,-0.14098257737932576
+orig,kfold_02,kfold,2024-09-30,orig E1 capped,E1 capped,full_cost_net,0.02510034009665379
+orig,kfold_02,kfold,2024-10-31,orig E1 capped,E1 capped,full_cost_net,-0.1817935306627388
+orig,kfold_02,kfold,2024-11-29,orig E1 capped,E1 capped,full_cost_net,0.38610164941028524
+orig,kfold_02,kfold,2024-12-31,orig E1 capped,E1 capped,full_cost_net,0.5852207552022404
+orig,kfold_02,kfold,2025-01-31,orig E1 capped,E1 capped,full_cost_net,0.04104149680155781
+orig,kfold_02,kfold,2025-02-28,orig E1 capped,E1 capped,full_cost_net,-0.012073414657776971
+orig,kfold_02,kfold,2025-04-30,orig E1 capped,E1 capped,full_cost_net,0.018889884595018128
+orig,kfold_02,kfold,2025-05-30,orig E1 capped,E1 capped,full_cost_net,0.5808571958333356
+orig,kfold_02,kfold,2025-06-30,orig E1 capped,E1 capped,full_cost_net,-0.16207004240614856
+orig,kfold_02,kfold,2025-07-31,orig E1 capped,E1 capped,full_cost_net,-0.15743704239671796
+orig,kfold_02,kfold,2025-08-29,orig E1 capped,E1 capped,full_cost_net,-0.02344583129352825
+orig,kfold_02,kfold,2025-09-30,orig E1 capped,E1 capped,full_cost_net,0.8434363922270774
+orig,kfold_02,kfold,2025-10-31,orig E1 capped,E1 capped,full_cost_net,-0.3559461781178572
+orig,kfold_02,kfold,2025-11-28,orig E1 capped,E1 capped,full_cost_net,-0.15610842449699866
+orig,kfold_02,kfold,2025-12-31,orig E1 capped,E1 capped,full_cost_net,-0.16102956332956153
+orig,kfold_02,kfold,2026-01-30,orig E1 capped,E1 capped,full_cost_net,-0.03357666488228959
+orig,kfold_02,kfold,2026-02-27,orig E1 capped,E1 capped,full_cost_net,-0.19791167229254572
+orig,kfold_02,kfold,2026-03-31,orig E1 capped,E1 capped,full_cost_net,-0.16963761003087932
+orig,kfold_02,kfold,2026-04-30,orig E1 capped,E1 capped,full_cost_net,1.0514284515161292
+orig,kfold_02,kfold,2022-08-31,orig GM paper,GM paper,gross,-0.18522806046278922
+orig,kfold_02,kfold,2022-09-30,orig GM paper,GM paper,gross,0.0755216906338368
+orig,kfold_02,kfold,2022-10-31,orig GM paper,GM paper,gross,-0.0021856040216683484
+orig,kfold_02,kfold,2022-11-30,orig GM paper,GM paper,gross,-0.24726632736965626
+orig,kfold_02,kfold,2022-12-30,orig GM paper,GM paper,gross,-0.5616358486919389
+orig,kfold_02,kfold,2023-01-31,orig GM paper,GM paper,gross,0.18690824065574654
+orig,kfold_02,kfold,2023-02-28,orig GM paper,GM paper,gross,0.12510346712813397
+orig,kfold_02,kfold,2023-03-31,orig GM paper,GM paper,gross,0.17928613499485943
+orig,kfold_02,kfold,2023-04-28,orig GM paper,GM paper,gross,-0.21291011603461504
+orig,kfold_02,kfold,2023-05-31,orig GM paper,GM paper,gross,0.24615598166055003
+orig,kfold_02,kfold,2023-06-30,orig GM paper,GM paper,gross,0.24920432616008675
+orig,kfold_02,kfold,2023-07-31,orig GM paper,GM paper,gross,0.03825624731917576
+orig,kfold_02,kfold,2023-08-31,orig GM paper,GM paper,gross,-0.7205159991810655
+orig,kfold_02,kfold,2023-09-29,orig GM paper,GM paper,gross,-0.04222373333031325
+orig,kfold_02,kfold,2023-10-31,orig GM paper,GM paper,gross,-0.24325700543397977
+orig,kfold_02,kfold,2023-11-30,orig GM paper,GM paper,gross,0.5564582084787528
+orig,kfold_02,kfold,2023-12-29,orig GM paper,GM paper,gross,0.06283477304285
+orig,kfold_02,kfold,2024-01-31,orig GM paper,GM paper,gross,0.5743842235315681
+orig,kfold_02,kfold,2024-02-29,orig GM paper,GM paper,gross,0.32500235085100915
+orig,kfold_02,kfold,2024-04-30,orig GM paper,GM paper,gross,-0.590807956332969
+orig,kfold_02,kfold,2024-05-31,orig GM paper,GM paper,gross,0.21268253873762
+orig,kfold_02,kfold,2024-06-28,orig GM paper,GM paper,gross,0.49777623379535163
+orig,kfold_02,kfold,2024-07-31,orig GM paper,GM paper,gross,0.2581618897557577
+orig,kfold_02,kfold,2024-08-30,orig GM paper,GM paper,gross,-0.14028198898007885
+orig,kfold_02,kfold,2024-09-30,orig GM paper,GM paper,gross,0.009704783564204622
+orig,kfold_02,kfold,2024-10-31,orig GM paper,GM paper,gross,0.23468404719279726
+orig,kfold_02,kfold,2024-11-29,orig GM paper,GM paper,gross,0.3719629166744431
+orig,kfold_02,kfold,2024-12-31,orig GM paper,GM paper,gross,0.23582610398169168
+orig,kfold_02,kfold,2025-01-31,orig GM paper,GM paper,gross,0.08046379496384373
+orig,kfold_02,kfold,2025-02-28,orig GM paper,GM paper,gross,-0.36165694691670947
+orig,kfold_02,kfold,2025-04-30,orig GM paper,GM paper,gross,0.16342116067470525
+orig,kfold_02,kfold,2025-05-30,orig GM paper,GM paper,gross,0.7883006810287553
+orig,kfold_02,kfold,2025-06-30,orig GM paper,GM paper,gross,0.09003858863875043
+orig,kfold_02,kfold,2025-07-31,orig GM paper,GM paper,gross,0.14614115531507163
+orig,kfold_02,kfold,2025-08-29,orig GM paper,GM paper,gross,-0.03070398462000304
+orig,kfold_02,kfold,2025-09-30,orig GM paper,GM paper,gross,0.23254707863433996
+orig,kfold_02,kfold,2025-10-31,orig GM paper,GM paper,gross,-0.09353088053795065
+orig,kfold_02,kfold,2025-11-28,orig GM paper,GM paper,gross,-0.08686382885547152
+orig,kfold_02,kfold,2025-12-31,orig GM paper,GM paper,gross,-0.06018009884451947
+orig,kfold_02,kfold,2026-01-30,orig GM paper,GM paper,gross,-0.01166574780562156
+orig,kfold_02,kfold,2026-02-27,orig GM paper,GM paper,gross,-0.046879423602240095
+orig,kfold_02,kfold,2026-03-31,orig GM paper,GM paper,gross,0.07756846015792733
+orig,kfold_02,kfold,2026-04-30,orig GM paper,GM paper,gross,0.5004815414070405
+orig,kfold_02,kfold,2022-08-31,orig GM paper,GM paper,full_cost_net,-0.333402713336729
+orig,kfold_02,kfold,2022-09-30,orig GM paper,GM paper,full_cost_net,-0.2646613359889245
+orig,kfold_02,kfold,2022-10-31,orig GM paper,GM paper,full_cost_net,-0.12811614086647327
+orig,kfold_02,kfold,2022-11-30,orig GM paper,GM paper,full_cost_net,-0.47406137232542644
+orig,kfold_02,kfold,2022-12-30,orig GM paper,GM paper,full_cost_net,-2.1074190582602768
+orig,kfold_02,kfold,2023-01-31,orig GM paper,GM paper,full_cost_net,-0.42202806242973545
+orig,kfold_02,kfold,2023-02-28,orig GM paper,GM paper,full_cost_net,-1.8183864571892103
+orig,kfold_02,kfold,2023-03-31,orig GM paper,GM paper,full_cost_net,-0.18850521670818274
+orig,kfold_02,kfold,2023-04-28,orig GM paper,GM paper,full_cost_net,-0.2544258062398606
+orig,kfold_02,kfold,2023-05-31,orig GM paper,GM paper,full_cost_net,-0.19127495265695027
+orig,kfold_02,kfold,2023-06-30,orig GM paper,GM paper,full_cost_net,-0.6292467931951466
+orig,kfold_02,kfold,2023-07-31,orig GM paper,GM paper,full_cost_net,0.0012569685493607555
+orig,kfold_02,kfold,2023-08-31,orig GM paper,GM paper,full_cost_net,-0.9970904451327858
+orig,kfold_02,kfold,2023-09-29,orig GM paper,GM paper,full_cost_net,-0.3144693941212039
+orig,kfold_02,kfold,2023-10-31,orig GM paper,GM paper,full_cost_net,-0.35666334748365025
+orig,kfold_02,kfold,2023-11-30,orig GM paper,GM paper,full_cost_net,0.4598679598560064
+orig,kfold_02,kfold,2023-12-29,orig GM paper,GM paper,full_cost_net,-1.0541213199462012
+orig,kfold_02,kfold,2024-01-31,orig GM paper,GM paper,full_cost_net,0.33245620776869106
+orig,kfold_02,kfold,2024-02-29,orig GM paper,GM paper,full_cost_net,0.011766164225225473
+orig,kfold_02,kfold,2024-04-30,orig GM paper,GM paper,full_cost_net,-1.0331522196174334
+orig,kfold_02,kfold,2024-05-31,orig GM paper,GM paper,full_cost_net,0.16764057751316444
+orig,kfold_02,kfold,2024-06-28,orig GM paper,GM paper,full_cost_net,0.4497291307829737
+orig,kfold_02,kfold,2024-07-31,orig GM paper,GM paper,full_cost_net,0.044179947163165645
+orig,kfold_02,kfold,2024-08-30,orig GM paper,GM paper,full_cost_net,-0.2361321137016104
+orig,kfold_02,kfold,2024-09-30,orig GM paper,GM paper,full_cost_net,-0.1083088211163532
+orig,kfold_02,kfold,2024-10-31,orig GM paper,GM paper,full_cost_net,-0.19174763947241816
+orig,kfold_02,kfold,2024-11-29,orig GM paper,GM paper,full_cost_net,0.3336277747565918
+orig,kfold_02,kfold,2024-12-31,orig GM paper,GM paper,full_cost_net,-0.04209278561700086
+orig,kfold_02,kfold,2025-01-31,orig GM paper,GM paper,full_cost_net,-0.022495350043630444
+orig,kfold_02,kfold,2025-02-28,orig GM paper,GM paper,full_cost_net,-0.4110801428683918
+orig,kfold_02,kfold,2025-04-30,orig GM paper,GM paper,full_cost_net,0.12391322596187342
+orig,kfold_02,kfold,2025-05-30,orig GM paper,GM paper,full_cost_net,0.7086740063412611
+orig,kfold_02,kfold,2025-06-30,orig GM paper,GM paper,full_cost_net,-0.053958813753521476
+orig,kfold_02,kfold,2025-07-31,orig GM paper,GM paper,full_cost_net,-0.4812118803705
+orig,kfold_02,kfold,2025-08-29,orig GM paper,GM paper,full_cost_net,-0.08738813063200707
+orig,kfold_02,kfold,2025-09-30,orig GM paper,GM paper,full_cost_net,0.14874063343605154
+orig,kfold_02,kfold,2025-10-31,orig GM paper,GM paper,full_cost_net,-0.4367840492017065
+orig,kfold_02,kfold,2025-11-28,orig GM paper,GM paper,full_cost_net,-0.14097702698496833
+orig,kfold_02,kfold,2025-12-31,orig GM paper,GM paper,full_cost_net,-0.11471891538025432
+orig,kfold_02,kfold,2026-01-30,orig GM paper,GM paper,full_cost_net,-0.08294837863975825
+orig,kfold_02,kfold,2026-02-27,orig GM paper,GM paper,full_cost_net,-0.11541701654559061
+orig,kfold_02,kfold,2026-03-31,orig GM paper,GM paper,full_cost_net,0.053776977611290494
+orig,kfold_02,kfold,2026-04-30,orig GM paper,GM paper,full_cost_net,0.24607735571421951
+orig,kfold_02,kfold,2022-08-31,orig Equal premium capped,Equal premium capped,gross,-0.2969029300892477
+orig,kfold_02,kfold,2022-09-30,orig Equal premium capped,Equal premium capped,gross,-0.11991848597913364
+orig,kfold_02,kfold,2022-10-31,orig Equal premium capped,Equal premium capped,gross,-0.027867598655576926
+orig,kfold_02,kfold,2022-11-30,orig Equal premium capped,Equal premium capped,gross,0.2753414720181734
+orig,kfold_02,kfold,2022-12-30,orig Equal premium capped,Equal premium capped,gross,0.39202213521919704
+orig,kfold_02,kfold,2023-01-31,orig Equal premium capped,Equal premium capped,gross,0.1357286505432036
+orig,kfold_02,kfold,2023-02-28,orig Equal premium capped,Equal premium capped,gross,0.062214612795564034
+orig,kfold_02,kfold,2023-03-31,orig Equal premium capped,Equal premium capped,gross,0.4397710257011688
+orig,kfold_02,kfold,2023-04-28,orig Equal premium capped,Equal premium capped,gross,-0.09049907268974167
+orig,kfold_02,kfold,2023-05-31,orig Equal premium capped,Equal premium capped,gross,0.20916567518032733
+orig,kfold_02,kfold,2023-06-30,orig Equal premium capped,Equal premium capped,gross,0.2199641027342984
+orig,kfold_02,kfold,2023-07-31,orig Equal premium capped,Equal premium capped,gross,-0.3979016253791035
+orig,kfold_02,kfold,2023-08-31,orig Equal premium capped,Equal premium capped,gross,0.8156729449617006
+orig,kfold_02,kfold,2023-09-29,orig Equal premium capped,Equal premium capped,gross,-0.12740915854759072
+orig,kfold_02,kfold,2023-10-31,orig Equal premium capped,Equal premium capped,gross,-0.042721213051732446
+orig,kfold_02,kfold,2023-11-30,orig Equal premium capped,Equal premium capped,gross,0.7760575443995145
+orig,kfold_02,kfold,2023-12-29,orig Equal premium capped,Equal premium capped,gross,-0.2179444311323332
+orig,kfold_02,kfold,2024-01-31,orig Equal premium capped,Equal premium capped,gross,0.3201196937131484
+orig,kfold_02,kfold,2024-02-29,orig Equal premium capped,Equal premium capped,gross,0.09817797925191912
+orig,kfold_02,kfold,2024-04-30,orig Equal premium capped,Equal premium capped,gross,0.4062772270168819
+orig,kfold_02,kfold,2024-05-31,orig Equal premium capped,Equal premium capped,gross,0.22608899204680738
+orig,kfold_02,kfold,2024-06-28,orig Equal premium capped,Equal premium capped,gross,0.1434495830128221
+orig,kfold_02,kfold,2024-07-31,orig Equal premium capped,Equal premium capped,gross,0.05393686540374598
+orig,kfold_02,kfold,2024-08-30,orig Equal premium capped,Equal premium capped,gross,-0.13122244116778303
+orig,kfold_02,kfold,2024-09-30,orig Equal premium capped,Equal premium capped,gross,-0.058313811587628384
+orig,kfold_02,kfold,2024-10-31,orig Equal premium capped,Equal premium capped,gross,-0.1511599389303565
+orig,kfold_02,kfold,2024-11-29,orig Equal premium capped,Equal premium capped,gross,0.17917754483405007
+orig,kfold_02,kfold,2024-12-31,orig Equal premium capped,Equal premium capped,gross,0.4402269297146401
+orig,kfold_02,kfold,2025-01-31,orig Equal premium capped,Equal premium capped,gross,-0.022864759909011448
+orig,kfold_02,kfold,2025-02-28,orig Equal premium capped,Equal premium capped,gross,0.1278870622101147
+orig,kfold_02,kfold,2025-04-30,orig Equal premium capped,Equal premium capped,gross,0.046900141789189886
+orig,kfold_02,kfold,2025-05-30,orig Equal premium capped,Equal premium capped,gross,0.4952411927107266
+orig,kfold_02,kfold,2025-06-30,orig Equal premium capped,Equal premium capped,gross,-0.18533874086369462
+orig,kfold_02,kfold,2025-07-31,orig Equal premium capped,Equal premium capped,gross,-0.22571920991595495
+orig,kfold_02,kfold,2025-08-29,orig Equal premium capped,Equal premium capped,gross,-0.09059000801508331
+orig,kfold_02,kfold,2025-09-30,orig Equal premium capped,Equal premium capped,gross,0.6236475875596266
+orig,kfold_02,kfold,2025-10-31,orig Equal premium capped,Equal premium capped,gross,-0.3955523289573783
+orig,kfold_02,kfold,2025-11-28,orig Equal premium capped,Equal premium capped,gross,0.0031344469875022665
+orig,kfold_02,kfold,2025-12-31,orig Equal premium capped,Equal premium capped,gross,-0.26871102658013774
+orig,kfold_02,kfold,2026-01-30,orig Equal premium capped,Equal premium capped,gross,-0.03890240411737438
+orig,kfold_02,kfold,2026-02-27,orig Equal premium capped,Equal premium capped,gross,-0.19332705559192495
+orig,kfold_02,kfold,2026-03-31,orig Equal premium capped,Equal premium capped,gross,-0.16622918218234123
+orig,kfold_02,kfold,2026-04-30,orig Equal premium capped,Equal premium capped,gross,1.0813050432768025
+orig,kfold_02,kfold,2022-08-31,orig Equal premium capped,Equal premium capped,full_cost_net,-0.30925086971941357
+orig,kfold_02,kfold,2022-09-30,orig Equal premium capped,Equal premium capped,full_cost_net,-0.13363313864780457
+orig,kfold_02,kfold,2022-10-31,orig Equal premium capped,Equal premium capped,full_cost_net,-0.03761596481180285
+orig,kfold_02,kfold,2022-11-30,orig Equal premium capped,Equal premium capped,full_cost_net,0.2645556261653229
+orig,kfold_02,kfold,2022-12-30,orig Equal premium capped,Equal premium capped,full_cost_net,0.3794792821079353
+orig,kfold_02,kfold,2023-01-31,orig Equal premium capped,Equal premium capped,full_cost_net,0.12035949728736171
+orig,kfold_02,kfold,2023-02-28,orig Equal premium capped,Equal premium capped,full_cost_net,0.0516965573737132
+orig,kfold_02,kfold,2023-03-31,orig Equal premium capped,Equal premium capped,full_cost_net,0.4268537045181255
+orig,kfold_02,kfold,2023-04-28,orig Equal premium capped,Equal premium capped,full_cost_net,-0.10197847445562158
+orig,kfold_02,kfold,2023-05-31,orig Equal premium capped,Equal premium capped,full_cost_net,0.19287763077768663
+orig,kfold_02,kfold,2023-06-30,orig Equal premium capped,Equal premium capped,full_cost_net,0.19809119628813032
+orig,kfold_02,kfold,2023-07-31,orig Equal premium capped,Equal premium capped,full_cost_net,-0.4086330103377044
+orig,kfold_02,kfold,2023-08-31,orig Equal premium capped,Equal premium capped,full_cost_net,0.8039221831653061
+orig,kfold_02,kfold,2023-09-29,orig Equal premium capped,Equal premium capped,full_cost_net,-0.14143413598614243
+orig,kfold_02,kfold,2023-10-31,orig Equal premium capped,Equal premium capped,full_cost_net,-0.054566637237345554
+orig,kfold_02,kfold,2023-11-30,orig Equal premium capped,Equal premium capped,full_cost_net,0.7380606994036684
+orig,kfold_02,kfold,2023-12-29,orig Equal premium capped,Equal premium capped,full_cost_net,-0.23769234671472791
+orig,kfold_02,kfold,2024-01-31,orig Equal premium capped,Equal premium capped,full_cost_net,0.30777765734133805
+orig,kfold_02,kfold,2024-02-29,orig Equal premium capped,Equal premium capped,full_cost_net,0.08621927323289269
+orig,kfold_02,kfold,2024-04-30,orig Equal premium capped,Equal premium capped,full_cost_net,0.39265737869982054
+orig,kfold_02,kfold,2024-05-31,orig Equal premium capped,Equal premium capped,full_cost_net,0.21344572172223755
+orig,kfold_02,kfold,2024-06-28,orig Equal premium capped,Equal premium capped,full_cost_net,0.12780113776139335
+orig,kfold_02,kfold,2024-07-31,orig Equal premium capped,Equal premium capped,full_cost_net,0.036619084049795914
+orig,kfold_02,kfold,2024-08-30,orig Equal premium capped,Equal premium capped,full_cost_net,-0.14700201215883024
+orig,kfold_02,kfold,2024-09-30,orig Equal premium capped,Equal premium capped,full_cost_net,-0.07455006397199364
+orig,kfold_02,kfold,2024-10-31,orig Equal premium capped,Equal premium capped,full_cost_net,-0.16810571202992336
+orig,kfold_02,kfold,2024-11-29,orig Equal premium capped,Equal premium capped,full_cost_net,0.16838525850899957
+orig,kfold_02,kfold,2024-12-31,orig Equal premium capped,Equal premium capped,full_cost_net,0.42330555541309794
+orig,kfold_02,kfold,2025-01-31,orig Equal premium capped,Equal premium capped,full_cost_net,-0.03556803907869223
+orig,kfold_02,kfold,2025-02-28,orig Equal premium capped,Equal premium capped,full_cost_net,0.11712652668232269
+orig,kfold_02,kfold,2025-04-30,orig Equal premium capped,Equal premium capped,full_cost_net,0.03686318480797558
+orig,kfold_02,kfold,2025-05-30,orig Equal premium capped,Equal premium capped,full_cost_net,0.48551672048731254
+orig,kfold_02,kfold,2025-06-30,orig Equal premium capped,Equal premium capped,full_cost_net,-0.1964581500249193
+orig,kfold_02,kfold,2025-07-31,orig Equal premium capped,Equal premium capped,full_cost_net,-0.23662404740938298
+orig,kfold_02,kfold,2025-08-29,orig Equal premium capped,Equal premium capped,full_cost_net,-0.10287655025598744
+orig,kfold_02,kfold,2025-09-30,orig Equal premium capped,Equal premium capped,full_cost_net,0.6124100662636274
+orig,kfold_02,kfold,2025-10-31,orig Equal premium capped,Equal premium capped,full_cost_net,-0.40589858671250445
+orig,kfold_02,kfold,2025-11-28,orig Equal premium capped,Equal premium capped,full_cost_net,-0.008818862651102186
+orig,kfold_02,kfold,2025-12-31,orig Equal premium capped,Equal premium capped,full_cost_net,-0.2808232107291544
+orig,kfold_02,kfold,2026-01-30,orig Equal premium capped,Equal premium capped,full_cost_net,-0.054170725552271363
+orig,kfold_02,kfold,2026-02-27,orig Equal premium capped,Equal premium capped,full_cost_net,-0.20403555057942518
+orig,kfold_02,kfold,2026-03-31,orig Equal premium capped,Equal premium capped,full_cost_net,-0.17631380221819878
+orig,kfold_02,kfold,2026-04-30,orig Equal premium capped,Equal premium capped,full_cost_net,1.0632839878781748
+orig,kfold_02,kfold,2022-08-31,orig Equal risk capped,Equal risk capped,gross,-0.2971982884081697
+orig,kfold_02,kfold,2022-09-30,orig Equal risk capped,Equal risk capped,gross,-0.12171968548623521
+orig,kfold_02,kfold,2022-10-31,orig Equal risk capped,Equal risk capped,gross,-0.019398666051913024
+orig,kfold_02,kfold,2022-11-30,orig Equal risk capped,Equal risk capped,gross,0.2779942157021619
+orig,kfold_02,kfold,2022-12-30,orig Equal risk capped,Equal risk capped,gross,0.4067118344116529
+orig,kfold_02,kfold,2023-01-31,orig Equal risk capped,Equal risk capped,gross,0.12271845993626795
+orig,kfold_02,kfold,2023-02-28,orig Equal risk capped,Equal risk capped,gross,0.054162948894596954
+orig,kfold_02,kfold,2023-03-31,orig Equal risk capped,Equal risk capped,gross,0.43821038912708343
+orig,kfold_02,kfold,2023-04-28,orig Equal risk capped,Equal risk capped,gross,-0.07976422597966255
+orig,kfold_02,kfold,2023-05-31,orig Equal risk capped,Equal risk capped,gross,0.20350806248890987
+orig,kfold_02,kfold,2023-06-30,orig Equal risk capped,Equal risk capped,gross,0.21263935102492884
+orig,kfold_02,kfold,2023-07-31,orig Equal risk capped,Equal risk capped,gross,-0.39790652701172224
+orig,kfold_02,kfold,2023-08-31,orig Equal risk capped,Equal risk capped,gross,0.8296252737643828
+orig,kfold_02,kfold,2023-09-29,orig Equal risk capped,Equal risk capped,gross,-0.12857266162753775
+orig,kfold_02,kfold,2023-10-31,orig Equal risk capped,Equal risk capped,gross,-0.034036986394561014
+orig,kfold_02,kfold,2023-11-30,orig Equal risk capped,Equal risk capped,gross,0.7604402159815509
+orig,kfold_02,kfold,2023-12-29,orig Equal risk capped,Equal risk capped,gross,-0.21891370125892368
+orig,kfold_02,kfold,2024-01-31,orig Equal risk capped,Equal risk capped,gross,0.3296491716234127
+orig,kfold_02,kfold,2024-02-29,orig Equal risk capped,Equal risk capped,gross,0.07637925874032227
+orig,kfold_02,kfold,2024-04-30,orig Equal risk capped,Equal risk capped,gross,0.42604335199193605
+orig,kfold_02,kfold,2024-05-31,orig Equal risk capped,Equal risk capped,gross,0.2206690214002784
+orig,kfold_02,kfold,2024-06-28,orig Equal risk capped,Equal risk capped,gross,0.14228127924169656
+orig,kfold_02,kfold,2024-07-31,orig Equal risk capped,Equal risk capped,gross,0.050451745251800184
+orig,kfold_02,kfold,2024-08-30,orig Equal risk capped,Equal risk capped,gross,-0.12846389062327876
+orig,kfold_02,kfold,2024-09-30,orig Equal risk capped,Equal risk capped,gross,-0.06185218289575979
+orig,kfold_02,kfold,2024-10-31,orig Equal risk capped,Equal risk capped,gross,-0.1429539739474157
+orig,kfold_02,kfold,2024-11-29,orig Equal risk capped,Equal risk capped,gross,0.17329535311185978
+orig,kfold_02,kfold,2024-12-31,orig Equal risk capped,Equal risk capped,gross,0.4330996767085242
+orig,kfold_02,kfold,2025-01-31,orig Equal risk capped,Equal risk capped,gross,-0.023804515495545783
+orig,kfold_02,kfold,2025-02-28,orig Equal risk capped,Equal risk capped,gross,0.1378621795127645
+orig,kfold_02,kfold,2025-04-30,orig Equal risk capped,Equal risk capped,gross,0.05476457588769809
+orig,kfold_02,kfold,2025-05-30,orig Equal risk capped,Equal risk capped,gross,0.48213075138992756
+orig,kfold_02,kfold,2025-06-30,orig Equal risk capped,Equal risk capped,gross,-0.1810284009977962
+orig,kfold_02,kfold,2025-07-31,orig Equal risk capped,Equal risk capped,gross,-0.2271771767538649
+orig,kfold_02,kfold,2025-08-29,orig Equal risk capped,Equal risk capped,gross,-0.09333073532282506
+orig,kfold_02,kfold,2025-09-30,orig Equal risk capped,Equal risk capped,gross,0.6132588713846125
+orig,kfold_02,kfold,2025-10-31,orig Equal risk capped,Equal risk capped,gross,-0.395829164566151
+orig,kfold_02,kfold,2025-11-28,orig Equal risk capped,Equal risk capped,gross,0.011214156730202034
+orig,kfold_02,kfold,2025-12-31,orig Equal risk capped,Equal risk capped,gross,-0.2707663917179651
+orig,kfold_02,kfold,2026-01-30,orig Equal risk capped,Equal risk capped,gross,-0.03607002436682903
+orig,kfold_02,kfold,2026-02-27,orig Equal risk capped,Equal risk capped,gross,-0.1863616145795755
+orig,kfold_02,kfold,2026-03-31,orig Equal risk capped,Equal risk capped,gross,-0.1574217208102504
+orig,kfold_02,kfold,2026-04-30,orig Equal risk capped,Equal risk capped,gross,1.0512487856413564
+orig,kfold_02,kfold,2022-08-31,orig Equal risk capped,Equal risk capped,full_cost_net,-0.3095052282538271
+orig,kfold_02,kfold,2022-09-30,orig Equal risk capped,Equal risk capped,full_cost_net,-0.1353681449828366
+orig,kfold_02,kfold,2022-10-31,orig Equal risk capped,Equal risk capped,full_cost_net,-0.02910107517252168
+orig,kfold_02,kfold,2022-11-30,orig Equal risk capped,Equal risk capped,full_cost_net,0.2672538308070017
+orig,kfold_02,kfold,2022-12-30,orig Equal risk capped,Equal risk capped,full_cost_net,0.39427174155502503
+orig,kfold_02,kfold,2023-01-31,orig Equal risk capped,Equal risk capped,full_cost_net,0.10747648126350737
+orig,kfold_02,kfold,2023-02-28,orig Equal risk capped,Equal risk capped,full_cost_net,0.04366019452722926
+orig,kfold_02,kfold,2023-03-31,orig Equal risk capped,Equal risk capped,full_cost_net,0.4253363005224505
+orig,kfold_02,kfold,2023-04-28,orig Equal risk capped,Equal risk capped,full_cost_net,-0.0911350922946905
+orig,kfold_02,kfold,2023-05-31,orig Equal risk capped,Equal risk capped,full_cost_net,0.18790035445055248
+orig,kfold_02,kfold,2023-06-30,orig Equal risk capped,Equal risk capped,full_cost_net,0.1908320407841729
+orig,kfold_02,kfold,2023-07-31,orig Equal risk capped,Equal risk capped,full_cost_net,-0.408579759664805
+orig,kfold_02,kfold,2023-08-31,orig Equal risk capped,Equal risk capped,full_cost_net,0.8179541040978087
+orig,kfold_02,kfold,2023-09-29,orig Equal risk capped,Equal risk capped,full_cost_net,-0.1424181662552681
+orig,kfold_02,kfold,2023-10-31,orig Equal risk capped,Equal risk capped,full_cost_net,-0.04583858855833879
+orig,kfold_02,kfold,2023-11-30,orig Equal risk capped,Equal risk capped,full_cost_net,0.7225967309437659
+orig,kfold_02,kfold,2023-12-29,orig Equal risk capped,Equal risk capped,full_cost_net,-0.23852790908656446
+orig,kfold_02,kfold,2024-01-31,orig Equal risk capped,Equal risk capped,full_cost_net,0.31822568894088427
+orig,kfold_02,kfold,2024-02-29,orig Equal risk capped,Equal risk capped,full_cost_net,0.06449455275771732
+orig,kfold_02,kfold,2024-04-30,orig Equal risk capped,Equal risk capped,full_cost_net,0.41246971923151865
+orig,kfold_02,kfold,2024-05-31,orig Equal risk capped,Equal risk capped,full_cost_net,0.20806906363593347
+orig,kfold_02,kfold,2024-06-28,orig Equal risk capped,Equal risk capped,full_cost_net,0.12670447936882068
+orig,kfold_02,kfold,2024-07-31,orig Equal risk capped,Equal risk capped,full_cost_net,0.03317443619344389
+orig,kfold_02,kfold,2024-08-30,orig Equal risk capped,Equal risk capped,full_cost_net,-0.1441906728516864
+orig,kfold_02,kfold,2024-09-30,orig Equal risk capped,Equal risk capped,full_cost_net,-0.07769939773397433
+orig,kfold_02,kfold,2024-10-31,orig Equal risk capped,Equal risk capped,full_cost_net,-0.15983184925658134
+orig,kfold_02,kfold,2024-11-29,orig Equal risk capped,Equal risk capped,full_cost_net,0.1625613430975974
+orig,kfold_02,kfold,2024-12-31,orig Equal risk capped,Equal risk capped,full_cost_net,0.41632454295092663
+orig,kfold_02,kfold,2025-01-31,orig Equal risk capped,Equal risk capped,full_cost_net,-0.03644061852690221
+orig,kfold_02,kfold,2025-02-28,orig Equal risk capped,Equal risk capped,full_cost_net,0.12714125616670569
+orig,kfold_02,kfold,2025-04-30,orig Equal risk capped,Equal risk capped,full_cost_net,0.04475846363209919
+orig,kfold_02,kfold,2025-05-30,orig Equal risk capped,Equal risk capped,full_cost_net,0.47243606236101343
+orig,kfold_02,kfold,2025-06-30,orig Equal risk capped,Equal risk capped,full_cost_net,-0.19209544956678604
+orig,kfold_02,kfold,2025-07-31,orig Equal risk capped,Equal risk capped,full_cost_net,-0.23802310309186914
+orig,kfold_02,kfold,2025-08-29,orig Equal risk capped,Equal risk capped,full_cost_net,-0.10558746753712131
+orig,kfold_02,kfold,2025-09-30,orig Equal risk capped,Equal risk capped,full_cost_net,0.6021229064525782
+orig,kfold_02,kfold,2025-10-31,orig Equal risk capped,Equal risk capped,full_cost_net,-0.40611066377065086
+orig,kfold_02,kfold,2025-11-28,orig Equal risk capped,Equal risk capped,full_cost_net,-0.000693817925582027
+orig,kfold_02,kfold,2025-12-31,orig Equal risk capped,Equal risk capped,full_cost_net,-0.28282956761220807
+orig,kfold_02,kfold,2026-01-30,orig Equal risk capped,Equal risk capped,full_cost_net,-0.05105082181643865
+orig,kfold_02,kfold,2026-02-27,orig Equal risk capped,Equal risk capped,full_cost_net,-0.19702847625059192
+orig,kfold_02,kfold,2026-03-31,orig Equal risk capped,Equal risk capped,full_cost_net,-0.1673922460101334
+orig,kfold_02,kfold,2026-04-30,orig Equal risk capped,Equal risk capped,full_cost_net,1.0333427443427494
+orig,cpcv_00,cpcv,2015-02-27,orig E1 capped,E1 capped,gross,0.33991220320099547
+orig,cpcv_00,cpcv,2015-03-31,orig E1 capped,E1 capped,gross,-0.23174233785051257
+orig,cpcv_00,cpcv,2015-04-30,orig E1 capped,E1 capped,gross,-0.15452628348099093
+orig,cpcv_00,cpcv,2015-05-29,orig E1 capped,E1 capped,gross,-0.10827212556921316
+orig,cpcv_00,cpcv,2015-06-30,orig E1 capped,E1 capped,gross,-0.17907841129895163
+orig,cpcv_00,cpcv,2015-07-31,orig E1 capped,E1 capped,gross,0.3024986781531074
+orig,cpcv_00,cpcv,2015-08-31,orig E1 capped,E1 capped,gross,0.3249894392909686
+orig,cpcv_00,cpcv,2015-09-30,orig E1 capped,E1 capped,gross,-0.23854894354405443
+orig,cpcv_00,cpcv,2015-10-30,orig E1 capped,E1 capped,gross,-0.07015313751159584
+orig,cpcv_00,cpcv,2015-11-30,orig E1 capped,E1 capped,gross,-0.0977728981808559
+orig,cpcv_00,cpcv,2015-12-31,orig E1 capped,E1 capped,gross,0.2845209733587254
+orig,cpcv_00,cpcv,2016-01-29,orig E1 capped,E1 capped,gross,0.11385722037849805
+orig,cpcv_00,cpcv,2016-02-29,orig E1 capped,E1 capped,gross,-0.1934701517727937
+orig,cpcv_00,cpcv,2016-03-31,orig E1 capped,E1 capped,gross,0.7633122868425102
+orig,cpcv_00,cpcv,2016-04-29,orig E1 capped,E1 capped,gross,-0.10387822916622816
+orig,cpcv_00,cpcv,2016-05-31,orig E1 capped,E1 capped,gross,-0.03809171468316656
+orig,cpcv_00,cpcv,2016-06-30,orig E1 capped,E1 capped,gross,-0.18455692437544657
+orig,cpcv_00,cpcv,2016-07-29,orig E1 capped,E1 capped,gross,0.22803761008764384
+orig,cpcv_00,cpcv,2016-08-31,orig E1 capped,E1 capped,gross,0.16453817730592202
+orig,cpcv_00,cpcv,2016-09-30,orig E1 capped,E1 capped,gross,0.2942556372030182
+orig,cpcv_00,cpcv,2016-10-31,orig E1 capped,E1 capped,gross,-0.1205056163927936
+orig,cpcv_00,cpcv,2016-11-30,orig E1 capped,E1 capped,gross,0.005829062407050986
+orig,cpcv_00,cpcv,2016-12-30,orig E1 capped,E1 capped,gross,0.2957676098068077
+orig,cpcv_00,cpcv,2017-01-31,orig E1 capped,E1 capped,gross,0.2209829778162573
+orig,cpcv_00,cpcv,2017-02-28,orig E1 capped,E1 capped,gross,0.9206909272678365
+orig,cpcv_00,cpcv,2017-03-31,orig E1 capped,E1 capped,gross,-0.05039430432420474
+orig,cpcv_00,cpcv,2017-04-28,orig E1 capped,E1 capped,gross,-0.1607084889948373
+orig,cpcv_00,cpcv,2017-05-31,orig E1 capped,E1 capped,gross,0.40725307823485546
+orig,cpcv_00,cpcv,2017-06-30,orig E1 capped,E1 capped,gross,0.29521047185935345
+orig,cpcv_00,cpcv,2017-07-31,orig E1 capped,E1 capped,gross,0.2527741738798673
+orig,cpcv_00,cpcv,2017-08-31,orig E1 capped,E1 capped,gross,-0.040864806641757144
+orig,cpcv_00,cpcv,2017-09-29,orig E1 capped,E1 capped,gross,-0.11469011082883927
+orig,cpcv_00,cpcv,2017-10-31,orig E1 capped,E1 capped,gross,-0.08027066046167759
+orig,cpcv_00,cpcv,2017-11-30,orig E1 capped,E1 capped,gross,-0.20853975220502594
+orig,cpcv_00,cpcv,2017-12-29,orig E1 capped,E1 capped,gross,-0.09796647676356228
+orig,cpcv_00,cpcv,2018-01-31,orig E1 capped,E1 capped,gross,0.8079364877526964
+orig,cpcv_00,cpcv,2018-02-28,orig E1 capped,E1 capped,gross,-0.23042192946057335
+orig,cpcv_00,cpcv,2018-04-30,orig E1 capped,E1 capped,gross,-0.21412469654836241
+orig,cpcv_00,cpcv,2018-05-31,orig E1 capped,E1 capped,gross,0.4107198149752981
+orig,cpcv_00,cpcv,2018-06-29,orig E1 capped,E1 capped,gross,0.29048050390011937
+orig,cpcv_00,cpcv,2018-07-31,orig E1 capped,E1 capped,gross,-0.015698080595731134
+orig,cpcv_00,cpcv,2018-08-31,orig E1 capped,E1 capped,gross,0.5329075781397155
+orig,cpcv_00,cpcv,2018-09-28,orig E1 capped,E1 capped,gross,-0.2567113326810136
+orig,cpcv_00,cpcv,2015-02-27,orig E1 capped,E1 capped,full_cost_net,0.27654725774204525
+orig,cpcv_00,cpcv,2015-03-31,orig E1 capped,E1 capped,full_cost_net,-0.3772908552104025
+orig,cpcv_00,cpcv,2015-04-30,orig E1 capped,E1 capped,full_cost_net,-0.3182307458184641
+orig,cpcv_00,cpcv,2015-05-29,orig E1 capped,E1 capped,full_cost_net,-0.43523489242398067
+orig,cpcv_00,cpcv,2015-06-30,orig E1 capped,E1 capped,full_cost_net,-0.5806970056288585
+orig,cpcv_00,cpcv,2015-07-31,orig E1 capped,E1 capped,full_cost_net,-0.19760819081665537
+orig,cpcv_00,cpcv,2015-08-31,orig E1 capped,E1 capped,full_cost_net,0.24901205380738928
+orig,cpcv_00,cpcv,2015-09-30,orig E1 capped,E1 capped,full_cost_net,-0.41163522747894726
+orig,cpcv_00,cpcv,2015-10-30,orig E1 capped,E1 capped,full_cost_net,-0.10465226918313024
+orig,cpcv_00,cpcv,2015-11-30,orig E1 capped,E1 capped,full_cost_net,-0.22191444183084447
+orig,cpcv_00,cpcv,2015-12-31,orig E1 capped,E1 capped,full_cost_net,0.05198567752721059
+orig,cpcv_00,cpcv,2016-01-29,orig E1 capped,E1 capped,full_cost_net,0.05914403579329487
+orig,cpcv_00,cpcv,2016-02-29,orig E1 capped,E1 capped,full_cost_net,-0.24481363016183916
+orig,cpcv_00,cpcv,2016-03-31,orig E1 capped,E1 capped,full_cost_net,0.48295419164065984
+orig,cpcv_00,cpcv,2016-04-29,orig E1 capped,E1 capped,full_cost_net,-0.25130304492177197
+orig,cpcv_00,cpcv,2016-05-31,orig E1 capped,E1 capped,full_cost_net,-0.07555735216173487
+orig,cpcv_00,cpcv,2016-06-30,orig E1 capped,E1 capped,full_cost_net,-0.25303109224883175
+orig,cpcv_00,cpcv,2016-07-29,orig E1 capped,E1 capped,full_cost_net,0.041175935758762466
+orig,cpcv_00,cpcv,2016-08-31,orig E1 capped,E1 capped,full_cost_net,0.12822739910190617
+orig,cpcv_00,cpcv,2016-09-30,orig E1 capped,E1 capped,full_cost_net,0.11194573429414215
+orig,cpcv_00,cpcv,2016-10-31,orig E1 capped,E1 capped,full_cost_net,-13.103430300362954
+orig,cpcv_00,cpcv,2016-11-30,orig E1 capped,E1 capped,full_cost_net,-0.05017277710427291
+orig,cpcv_00,cpcv,2016-12-30,orig E1 capped,E1 capped,full_cost_net,0.23966873247344533
+orig,cpcv_00,cpcv,2017-01-31,orig E1 capped,E1 capped,full_cost_net,0.1912271889483041
+orig,cpcv_00,cpcv,2017-02-28,orig E1 capped,E1 capped,full_cost_net,0.8953074117941872
+orig,cpcv_00,cpcv,2017-03-31,orig E1 capped,E1 capped,full_cost_net,-0.12129585519093286
+orig,cpcv_00,cpcv,2017-04-28,orig E1 capped,E1 capped,full_cost_net,-0.20188513061252356
+orig,cpcv_00,cpcv,2017-05-31,orig E1 capped,E1 capped,full_cost_net,0.3789861180180042
+orig,cpcv_00,cpcv,2017-06-30,orig E1 capped,E1 capped,full_cost_net,0.26103861520982563
+orig,cpcv_00,cpcv,2017-07-31,orig E1 capped,E1 capped,full_cost_net,0.2257857111213506
+orig,cpcv_00,cpcv,2017-08-31,orig E1 capped,E1 capped,full_cost_net,-0.09262937253647735
+orig,cpcv_00,cpcv,2017-09-29,orig E1 capped,E1 capped,full_cost_net,-0.13999958876026805
+orig,cpcv_00,cpcv,2017-10-31,orig E1 capped,E1 capped,full_cost_net,-0.10309065471128037
+orig,cpcv_00,cpcv,2017-11-30,orig E1 capped,E1 capped,full_cost_net,-0.2270841815040407
+orig,cpcv_00,cpcv,2017-12-29,orig E1 capped,E1 capped,full_cost_net,-0.15978599566836074
+orig,cpcv_00,cpcv,2018-01-31,orig E1 capped,E1 capped,full_cost_net,0.7864671220849354
+orig,cpcv_00,cpcv,2018-02-28,orig E1 capped,E1 capped,full_cost_net,-0.2443234838228375
+orig,cpcv_00,cpcv,2018-04-30,orig E1 capped,E1 capped,full_cost_net,-0.23467846191631236
+orig,cpcv_00,cpcv,2018-05-31,orig E1 capped,E1 capped,full_cost_net,0.3949676075482919
+orig,cpcv_00,cpcv,2018-06-29,orig E1 capped,E1 capped,full_cost_net,0.2657515886717494
+orig,cpcv_00,cpcv,2018-07-31,orig E1 capped,E1 capped,full_cost_net,-0.06149074253583985
+orig,cpcv_00,cpcv,2018-08-31,orig E1 capped,E1 capped,full_cost_net,0.5179214866875352
+orig,cpcv_00,cpcv,2018-09-28,orig E1 capped,E1 capped,full_cost_net,-0.27253890809792813
+orig,cpcv_00,cpcv,2015-02-27,orig GM paper,GM paper,gross,-0.1263231623061612
+orig,cpcv_00,cpcv,2015-03-31,orig GM paper,GM paper,gross,-0.12738193127819716
+orig,cpcv_00,cpcv,2015-04-30,orig GM paper,GM paper,gross,-0.04247165630275364
+orig,cpcv_00,cpcv,2015-05-29,orig GM paper,GM paper,gross,0.12846164158439038
+orig,cpcv_00,cpcv,2015-06-30,orig GM paper,GM paper,gross,-0.054319439312756
+orig,cpcv_00,cpcv,2015-07-31,orig GM paper,GM paper,gross,-0.13254899473282955
+orig,cpcv_00,cpcv,2015-08-31,orig GM paper,GM paper,gross,0.09884522800883755
+orig,cpcv_00,cpcv,2015-09-30,orig GM paper,GM paper,gross,-0.10050962657068128
+orig,cpcv_00,cpcv,2015-10-30,orig GM paper,GM paper,gross,-0.027799171238910722
+orig,cpcv_00,cpcv,2015-11-30,orig GM paper,GM paper,gross,0.012945284789638752
+orig,cpcv_00,cpcv,2015-12-31,orig GM paper,GM paper,gross,-0.1950332663673543
+orig,cpcv_00,cpcv,2016-01-29,orig GM paper,GM paper,gross,0.030486600758014404
+orig,cpcv_00,cpcv,2016-02-29,orig GM paper,GM paper,gross,-0.18536183030921813
+orig,cpcv_00,cpcv,2016-03-31,orig GM paper,GM paper,gross,0.5212369110009293
+orig,cpcv_00,cpcv,2016-04-29,orig GM paper,GM paper,gross,-0.058910043111977145
+orig,cpcv_00,cpcv,2016-05-31,orig GM paper,GM paper,gross,0.10544494725113518
+orig,cpcv_00,cpcv,2016-06-30,orig GM paper,GM paper,gross,-0.33411800657126484
+orig,cpcv_00,cpcv,2016-07-29,orig GM paper,GM paper,gross,0.3392785042621413
+orig,cpcv_00,cpcv,2016-08-31,orig GM paper,GM paper,gross,0.25953707789768826
+orig,cpcv_00,cpcv,2016-09-30,orig GM paper,GM paper,gross,-0.1730311884471333
+orig,cpcv_00,cpcv,2016-10-31,orig GM paper,GM paper,gross,0.07296171464052396
+orig,cpcv_00,cpcv,2016-11-30,orig GM paper,GM paper,gross,0.007307157712769852
+orig,cpcv_00,cpcv,2016-12-30,orig GM paper,GM paper,gross,0.40127386394890585
+orig,cpcv_00,cpcv,2017-01-31,orig GM paper,GM paper,gross,0.37081122826281415
+orig,cpcv_00,cpcv,2017-02-28,orig GM paper,GM paper,gross,0.8410214179485449
+orig,cpcv_00,cpcv,2017-03-31,orig GM paper,GM paper,gross,0.13509491300351054
+orig,cpcv_00,cpcv,2017-04-28,orig GM paper,GM paper,gross,0.05044274865218355
+orig,cpcv_00,cpcv,2017-05-31,orig GM paper,GM paper,gross,0.4587146200459693
+orig,cpcv_00,cpcv,2017-06-30,orig GM paper,GM paper,gross,-0.09776801824643733
+orig,cpcv_00,cpcv,2017-07-31,orig GM paper,GM paper,gross,0.1671381673240233
+orig,cpcv_00,cpcv,2017-08-31,orig GM paper,GM paper,gross,-0.0009531956190112906
+orig,cpcv_00,cpcv,2017-09-29,orig GM paper,GM paper,gross,-0.011671761460750996
+orig,cpcv_00,cpcv,2017-10-31,orig GM paper,GM paper,gross,0.1764539074561487
+orig,cpcv_00,cpcv,2017-11-30,orig GM paper,GM paper,gross,-0.10680312607197162
+orig,cpcv_00,cpcv,2017-12-29,orig GM paper,GM paper,gross,0.2418528894025749
+orig,cpcv_00,cpcv,2018-01-31,orig GM paper,GM paper,gross,-0.136349931659294
+orig,cpcv_00,cpcv,2018-02-28,orig GM paper,GM paper,gross,-0.16648347349848502
+orig,cpcv_00,cpcv,2018-04-30,orig GM paper,GM paper,gross,-0.060444856458383156
+orig,cpcv_00,cpcv,2018-05-31,orig GM paper,GM paper,gross,0.3116557448049446
+orig,cpcv_00,cpcv,2018-06-29,orig GM paper,GM paper,gross,0.30839441208678975
+orig,cpcv_00,cpcv,2018-07-31,orig GM paper,GM paper,gross,0.1014860942518915
+orig,cpcv_00,cpcv,2018-08-31,orig GM paper,GM paper,gross,0.1108895098165979
+orig,cpcv_00,cpcv,2018-09-28,orig GM paper,GM paper,gross,-0.1648954365527876
+orig,cpcv_00,cpcv,2015-02-27,orig GM paper,GM paper,full_cost_net,-0.5065572727817412
+orig,cpcv_00,cpcv,2015-03-31,orig GM paper,GM paper,full_cost_net,-1.9922139123002176
+orig,cpcv_00,cpcv,2015-04-30,orig GM paper,GM paper,full_cost_net,-10.227833137342937
+orig,cpcv_00,cpcv,2015-05-29,orig GM paper,GM paper,full_cost_net,-2.040453345369977
+orig,cpcv_00,cpcv,2015-06-30,orig GM paper,GM paper,full_cost_net,-0.6274038854779712
+orig,cpcv_00,cpcv,2015-07-31,orig GM paper,GM paper,full_cost_net,-0.933195802222845
+orig,cpcv_00,cpcv,2015-08-31,orig GM paper,GM paper,full_cost_net,-9.700661392506456
+orig,cpcv_00,cpcv,2015-09-30,orig GM paper,GM paper,full_cost_net,-1.6455274904954174
+orig,cpcv_00,cpcv,2015-10-30,orig GM paper,GM paper,full_cost_net,-1.3607136524986687
+orig,cpcv_00,cpcv,2015-11-30,orig GM paper,GM paper,full_cost_net,-0.42781937301697676
+orig,cpcv_00,cpcv,2015-12-31,orig GM paper,GM paper,full_cost_net,-11.604341727583357
+orig,cpcv_00,cpcv,2016-01-29,orig GM paper,GM paper,full_cost_net,-0.5206693836801535
+orig,cpcv_00,cpcv,2016-02-29,orig GM paper,GM paper,full_cost_net,-11.170770833923212
+orig,cpcv_00,cpcv,2016-03-31,orig GM paper,GM paper,full_cost_net,-5.866236459705404
+orig,cpcv_00,cpcv,2016-04-29,orig GM paper,GM paper,full_cost_net,-0.9783053785124778
+orig,cpcv_00,cpcv,2016-05-31,orig GM paper,GM paper,full_cost_net,-1.964922507304507
+orig,cpcv_00,cpcv,2016-06-30,orig GM paper,GM paper,full_cost_net,-1.507378793925323
+orig,cpcv_00,cpcv,2016-07-29,orig GM paper,GM paper,full_cost_net,-9.569867973874
+orig,cpcv_00,cpcv,2016-08-31,orig GM paper,GM paper,full_cost_net,-2.4132257071652132
+orig,cpcv_00,cpcv,2016-09-30,orig GM paper,GM paper,full_cost_net,-22.840613458483787
+orig,cpcv_00,cpcv,2016-10-31,orig GM paper,GM paper,full_cost_net,-26.301558967494667
+orig,cpcv_00,cpcv,2016-11-30,orig GM paper,GM paper,full_cost_net,-3.0858509250387063
+orig,cpcv_00,cpcv,2016-12-30,orig GM paper,GM paper,full_cost_net,-1.8326690500165714
+orig,cpcv_00,cpcv,2017-01-31,orig GM paper,GM paper,full_cost_net,0.11208155588785934
+orig,cpcv_00,cpcv,2017-02-28,orig GM paper,GM paper,full_cost_net,0.7654254802617351
+orig,cpcv_00,cpcv,2017-03-31,orig GM paper,GM paper,full_cost_net,-1.2576666416261857
+orig,cpcv_00,cpcv,2017-04-28,orig GM paper,GM paper,full_cost_net,-0.09318669547751936
+orig,cpcv_00,cpcv,2017-05-31,orig GM paper,GM paper,full_cost_net,0.01439758000331498
+orig,cpcv_00,cpcv,2017-06-30,orig GM paper,GM paper,full_cost_net,-0.479525596989203
+orig,cpcv_00,cpcv,2017-07-31,orig GM paper,GM paper,full_cost_net,0.04621439634176011
+orig,cpcv_00,cpcv,2017-08-31,orig GM paper,GM paper,full_cost_net,-5.78877088918365
+orig,cpcv_00,cpcv,2017-09-29,orig GM paper,GM paper,full_cost_net,-0.3349284798510001
+orig,cpcv_00,cpcv,2017-10-31,orig GM paper,GM paper,full_cost_net,-0.6223107138791546
+orig,cpcv_00,cpcv,2017-11-30,orig GM paper,GM paper,full_cost_net,-0.3996818273768804
+orig,cpcv_00,cpcv,2017-12-29,orig GM paper,GM paper,full_cost_net,0.02849839896000153
+orig,cpcv_00,cpcv,2018-01-31,orig GM paper,GM paper,full_cost_net,-0.392407274451044
+orig,cpcv_00,cpcv,2018-02-28,orig GM paper,GM paper,full_cost_net,-0.312202849161435
+orig,cpcv_00,cpcv,2018-04-30,orig GM paper,GM paper,full_cost_net,-3.341961224530294
+orig,cpcv_00,cpcv,2018-05-31,orig GM paper,GM paper,full_cost_net,-0.1653532189186145
+orig,cpcv_00,cpcv,2018-06-29,orig GM paper,GM paper,full_cost_net,-0.6688089593595384
+orig,cpcv_00,cpcv,2018-07-31,orig GM paper,GM paper,full_cost_net,-0.5865837081813681
+orig,cpcv_00,cpcv,2018-08-31,orig GM paper,GM paper,full_cost_net,-0.22989465856600494
+orig,cpcv_00,cpcv,2018-09-28,orig GM paper,GM paper,full_cost_net,-0.2945800713838368
+orig,cpcv_00,cpcv,2015-02-27,orig Equal premium capped,Equal premium capped,gross,0.3889914648059921
+orig,cpcv_00,cpcv,2015-03-31,orig Equal premium capped,Equal premium capped,gross,-0.3088835397307676
+orig,cpcv_00,cpcv,2015-04-30,orig Equal premium capped,Equal premium capped,gross,-0.20532479931256217
+orig,cpcv_00,cpcv,2015-05-29,orig Equal premium capped,Equal premium capped,gross,-0.2572139080377581
+orig,cpcv_00,cpcv,2015-06-30,orig Equal premium capped,Equal premium capped,gross,-0.2685158631992679
+orig,cpcv_00,cpcv,2015-07-31,orig Equal premium capped,Equal premium capped,gross,0.6958261024439547
+orig,cpcv_00,cpcv,2015-08-31,orig Equal premium capped,Equal premium capped,gross,0.3051528363875894
+orig,cpcv_00,cpcv,2015-09-30,orig Equal premium capped,Equal premium capped,gross,-0.35405434141882386
+orig,cpcv_00,cpcv,2015-10-30,orig Equal premium capped,Equal premium capped,gross,0.26534302226089934
+orig,cpcv_00,cpcv,2015-11-30,orig Equal premium capped,Equal premium capped,gross,-0.12671229505763906
+orig,cpcv_00,cpcv,2015-12-31,orig Equal premium capped,Equal premium capped,gross,-0.002522273215480597
+orig,cpcv_00,cpcv,2016-01-29,orig Equal premium capped,Equal premium capped,gross,0.4399941195113837
+orig,cpcv_00,cpcv,2016-02-29,orig Equal premium capped,Equal premium capped,gross,-0.354158310275475
+orig,cpcv_00,cpcv,2016-03-31,orig Equal premium capped,Equal premium capped,gross,0.8945548902784458
+orig,cpcv_00,cpcv,2016-04-29,orig Equal premium capped,Equal premium capped,gross,-0.0993380895189991
+orig,cpcv_00,cpcv,2016-05-31,orig Equal premium capped,Equal premium capped,gross,-0.10642302714987437
+orig,cpcv_00,cpcv,2016-06-30,orig Equal premium capped,Equal premium capped,gross,-0.3472989906100968
+orig,cpcv_00,cpcv,2016-07-29,orig Equal premium capped,Equal premium capped,gross,0.19850479973421942
+orig,cpcv_00,cpcv,2016-08-31,orig Equal premium capped,Equal premium capped,gross,-0.13217280103542303
+orig,cpcv_00,cpcv,2016-09-30,orig Equal premium capped,Equal premium capped,gross,0.09155682655196659
+orig,cpcv_00,cpcv,2016-10-31,orig Equal premium capped,Equal premium capped,gross,-0.29278260542790346
+orig,cpcv_00,cpcv,2016-11-30,orig Equal premium capped,Equal premium capped,gross,0.010705695591541206
+orig,cpcv_00,cpcv,2016-12-30,orig Equal premium capped,Equal premium capped,gross,0.17210842139522498
+orig,cpcv_00,cpcv,2017-01-31,orig Equal premium capped,Equal premium capped,gross,0.706617101531876
+orig,cpcv_00,cpcv,2017-02-28,orig Equal premium capped,Equal premium capped,gross,0.6085751269955477
+orig,cpcv_00,cpcv,2017-03-31,orig Equal premium capped,Equal premium capped,gross,-0.15311683802076198
+orig,cpcv_00,cpcv,2017-04-28,orig Equal premium capped,Equal premium capped,gross,-0.13864672171915826
+orig,cpcv_00,cpcv,2017-05-31,orig Equal premium capped,Equal premium capped,gross,0.17109817374879893
+orig,cpcv_00,cpcv,2017-06-30,orig Equal premium capped,Equal premium capped,gross,0.21403590467698627
+orig,cpcv_00,cpcv,2017-07-31,orig Equal premium capped,Equal premium capped,gross,0.5775530392101516
+orig,cpcv_00,cpcv,2017-08-31,orig Equal premium capped,Equal premium capped,gross,-0.2819874734058219
+orig,cpcv_00,cpcv,2017-09-29,orig Equal premium capped,Equal premium capped,gross,-0.2956674227455262
+orig,cpcv_00,cpcv,2017-10-31,orig Equal premium capped,Equal premium capped,gross,-0.2194747239089827
+orig,cpcv_00,cpcv,2017-11-30,orig Equal premium capped,Equal premium capped,gross,-0.45101465242567473
+orig,cpcv_00,cpcv,2017-12-29,orig Equal premium capped,Equal premium capped,gross,0.007908162114619817
+orig,cpcv_00,cpcv,2018-01-31,orig Equal premium capped,Equal premium capped,gross,1.5274235461864332
+orig,cpcv_00,cpcv,2018-02-28,orig Equal premium capped,Equal premium capped,gross,-0.4937309784068196
+orig,cpcv_00,cpcv,2018-04-30,orig Equal premium capped,Equal premium capped,gross,-0.2817394168112357
+orig,cpcv_00,cpcv,2018-05-31,orig Equal premium capped,Equal premium capped,gross,0.30455580847015784
+orig,cpcv_00,cpcv,2018-06-29,orig Equal premium capped,Equal premium capped,gross,1.0559346456011522
+orig,cpcv_00,cpcv,2018-07-31,orig Equal premium capped,Equal premium capped,gross,0.12844250108740174
+orig,cpcv_00,cpcv,2018-08-31,orig Equal premium capped,Equal premium capped,gross,0.25348091564418485
+orig,cpcv_00,cpcv,2018-09-28,orig Equal premium capped,Equal premium capped,gross,-0.32059231198664073
+orig,cpcv_00,cpcv,2015-02-27,orig Equal premium capped,Equal premium capped,full_cost_net,0.3144900297730998
+orig,cpcv_00,cpcv,2015-03-31,orig Equal premium capped,Equal premium capped,full_cost_net,-0.8824182267025009
+orig,cpcv_00,cpcv,2015-04-30,orig Equal premium capped,Equal premium capped,full_cost_net,-0.7784767663093001
+orig,cpcv_00,cpcv,2015-05-29,orig Equal premium capped,Equal premium capped,full_cost_net,-0.7207154188712045
+orig,cpcv_00,cpcv,2015-06-30,orig Equal premium capped,Equal premium capped,full_cost_net,-0.768246749552167
+orig,cpcv_00,cpcv,2015-07-31,orig Equal premium capped,Equal premium capped,full_cost_net,-1.9823115192710017
+orig,cpcv_00,cpcv,2015-08-31,orig Equal premium capped,Equal premium capped,full_cost_net,0.20216694767632842
+orig,cpcv_00,cpcv,2015-09-30,orig Equal premium capped,Equal premium capped,full_cost_net,-0.9411207407547442
+orig,cpcv_00,cpcv,2015-10-30,orig Equal premium capped,Equal premium capped,full_cost_net,0.19287722328426452
+orig,cpcv_00,cpcv,2015-11-30,orig Equal premium capped,Equal premium capped,full_cost_net,-0.42901787479402687
+orig,cpcv_00,cpcv,2015-12-31,orig Equal premium capped,Equal premium capped,full_cost_net,-0.3449765011223774
+orig,cpcv_00,cpcv,2016-01-29,orig Equal premium capped,Equal premium capped,full_cost_net,0.3681198208797207
+orig,cpcv_00,cpcv,2016-02-29,orig Equal premium capped,Equal premium capped,full_cost_net,-0.4136824685355118
+orig,cpcv_00,cpcv,2016-03-31,orig Equal premium capped,Equal premium capped,full_cost_net,0.2508210987799
+orig,cpcv_00,cpcv,2016-04-29,orig Equal premium capped,Equal premium capped,full_cost_net,-0.2760250942224899
+orig,cpcv_00,cpcv,2016-05-31,orig Equal premium capped,Equal premium capped,full_cost_net,-0.15580120662094266
+orig,cpcv_00,cpcv,2016-06-30,orig Equal premium capped,Equal premium capped,full_cost_net,-0.5948027878714641
+orig,cpcv_00,cpcv,2016-07-29,orig Equal premium capped,Equal premium capped,full_cost_net,-0.2981555481699949
+orig,cpcv_00,cpcv,2016-08-31,orig Equal premium capped,Equal premium capped,full_cost_net,-0.19250269687635588
+orig,cpcv_00,cpcv,2016-09-30,orig Equal premium capped,Equal premium capped,full_cost_net,-0.13215781230832901
+orig,cpcv_00,cpcv,2016-10-31,orig Equal premium capped,Equal premium capped,full_cost_net,-13.367835978822653
+orig,cpcv_00,cpcv,2016-11-30,orig Equal premium capped,Equal premium capped,full_cost_net,-1.2758858677982974
+orig,cpcv_00,cpcv,2016-12-30,orig Equal premium capped,Equal premium capped,full_cost_net,0.09521255026962454
+orig,cpcv_00,cpcv,2017-01-31,orig Equal premium capped,Equal premium capped,full_cost_net,0.6590742013181677
+orig,cpcv_00,cpcv,2017-02-28,orig Equal premium capped,Equal premium capped,full_cost_net,0.5565821673480457
+orig,cpcv_00,cpcv,2017-03-31,orig Equal premium capped,Equal premium capped,full_cost_net,-0.39239531924509885
+orig,cpcv_00,cpcv,2017-04-28,orig Equal premium capped,Equal premium capped,full_cost_net,-0.44719531443157684
+orig,cpcv_00,cpcv,2017-05-31,orig Equal premium capped,Equal premium capped,full_cost_net,0.12818074415888744
+orig,cpcv_00,cpcv,2017-06-30,orig Equal premium capped,Equal premium capped,full_cost_net,0.10041075090510498
+orig,cpcv_00,cpcv,2017-07-31,orig Equal premium capped,Equal premium capped,full_cost_net,0.5268667892974696
+orig,cpcv_00,cpcv,2017-08-31,orig Equal premium capped,Equal premium capped,full_cost_net,-0.3420111763916138
+orig,cpcv_00,cpcv,2017-09-29,orig Equal premium capped,Equal premium capped,full_cost_net,-0.43069128226749376
+orig,cpcv_00,cpcv,2017-10-31,orig Equal premium capped,Equal premium capped,full_cost_net,-0.3617092909084676
+orig,cpcv_00,cpcv,2017-11-30,orig Equal premium capped,Equal premium capped,full_cost_net,-0.47875398849176787
+orig,cpcv_00,cpcv,2017-12-29,orig Equal premium capped,Equal premium capped,full_cost_net,-0.06835327718294698
+orig,cpcv_00,cpcv,2018-01-31,orig Equal premium capped,Equal premium capped,full_cost_net,1.4665457554055974
+orig,cpcv_00,cpcv,2018-02-28,orig Equal premium capped,Equal premium capped,full_cost_net,-0.5154712174732152
+orig,cpcv_00,cpcv,2018-04-30,orig Equal premium capped,Equal premium capped,full_cost_net,-0.3204039961119898
+orig,cpcv_00,cpcv,2018-05-31,orig Equal premium capped,Equal premium capped,full_cost_net,0.28070984112512193
+orig,cpcv_00,cpcv,2018-06-29,orig Equal premium capped,Equal premium capped,full_cost_net,1.0063668320487762
+orig,cpcv_00,cpcv,2018-07-31,orig Equal premium capped,Equal premium capped,full_cost_net,0.08550888698511505
+orig,cpcv_00,cpcv,2018-08-31,orig Equal premium capped,Equal premium capped,full_cost_net,0.22330409504305582
+orig,cpcv_00,cpcv,2018-09-28,orig Equal premium capped,Equal premium capped,full_cost_net,-0.3474886111323227
+orig,cpcv_00,cpcv,2015-02-27,orig Equal risk capped,Equal risk capped,gross,0.4286853047275646
+orig,cpcv_00,cpcv,2015-03-31,orig Equal risk capped,Equal risk capped,gross,-0.35129499017919097
+orig,cpcv_00,cpcv,2015-04-30,orig Equal risk capped,Equal risk capped,gross,-0.2237444122764261
+orig,cpcv_00,cpcv,2015-05-29,orig Equal risk capped,Equal risk capped,gross,-0.24564096292542498
+orig,cpcv_00,cpcv,2015-06-30,orig Equal risk capped,Equal risk capped,gross,-0.3083430608192554
+orig,cpcv_00,cpcv,2015-07-31,orig Equal risk capped,Equal risk capped,gross,0.6706348309085653
+orig,cpcv_00,cpcv,2015-08-31,orig Equal risk capped,Equal risk capped,gross,0.30515283638758933
+orig,cpcv_00,cpcv,2015-09-30,orig Equal risk capped,Equal risk capped,gross,-0.38162723339765436
+orig,cpcv_00,cpcv,2015-10-30,orig Equal risk capped,Equal risk capped,gross,0.22609184049530695
+orig,cpcv_00,cpcv,2015-11-30,orig Equal risk capped,Equal risk capped,gross,-0.14498987104173858
+orig,cpcv_00,cpcv,2015-12-31,orig Equal risk capped,Equal risk capped,gross,-0.0027867552217036295
+orig,cpcv_00,cpcv,2016-01-29,orig Equal risk capped,Equal risk capped,gross,0.43999411951138356
+orig,cpcv_00,cpcv,2016-02-29,orig Equal risk capped,Equal risk capped,gross,-0.354158310275475
+orig,cpcv_00,cpcv,2016-03-31,orig Equal risk capped,Equal risk capped,gross,0.9509050076109868
+orig,cpcv_00,cpcv,2016-04-29,orig Equal risk capped,Equal risk capped,gross,-0.1126412797293691
+orig,cpcv_00,cpcv,2016-05-31,orig Equal risk capped,Equal risk capped,gross,-0.10946439906450761
+orig,cpcv_00,cpcv,2016-06-30,orig Equal risk capped,Equal risk capped,gross,-0.3472989906100969
+orig,cpcv_00,cpcv,2016-07-29,orig Equal risk capped,Equal risk capped,gross,0.22576334055660613
+orig,cpcv_00,cpcv,2016-08-31,orig Equal risk capped,Equal risk capped,gross,-0.04188264185612303
+orig,cpcv_00,cpcv,2016-09-30,orig Equal risk capped,Equal risk capped,gross,0.15084436254783645
+orig,cpcv_00,cpcv,2016-10-31,orig Equal risk capped,Equal risk capped,gross,-0.28459627422496414
+orig,cpcv_00,cpcv,2016-11-30,orig Equal risk capped,Equal risk capped,gross,0.01070569559154115
+orig,cpcv_00,cpcv,2016-12-30,orig Equal risk capped,Equal risk capped,gross,0.22220735564917937
+orig,cpcv_00,cpcv,2017-01-31,orig Equal risk capped,Equal risk capped,gross,0.6495735237472194
+orig,cpcv_00,cpcv,2017-02-28,orig Equal risk capped,Equal risk capped,gross,0.8274294806276128
+orig,cpcv_00,cpcv,2017-03-31,orig Equal risk capped,Equal risk capped,gross,-0.19035758719453055
+orig,cpcv_00,cpcv,2017-04-28,orig Equal risk capped,Equal risk capped,gross,-0.17319816280168548
+orig,cpcv_00,cpcv,2017-05-31,orig Equal risk capped,Equal risk capped,gross,0.2504004775709439
+orig,cpcv_00,cpcv,2017-06-30,orig Equal risk capped,Equal risk capped,gross,0.1956018853846284
+orig,cpcv_00,cpcv,2017-07-31,orig Equal risk capped,Equal risk capped,gross,0.5634963253935554
+orig,cpcv_00,cpcv,2017-08-31,orig Equal risk capped,Equal risk capped,gross,-0.23956230826109826
+orig,cpcv_00,cpcv,2017-09-29,orig Equal risk capped,Equal risk capped,gross,-0.3057216435795178
+orig,cpcv_00,cpcv,2017-10-31,orig Equal risk capped,Equal risk capped,gross,-0.2072862784680261
+orig,cpcv_00,cpcv,2017-11-30,orig Equal risk capped,Equal risk capped,gross,-0.43466685262752147
+orig,cpcv_00,cpcv,2017-12-29,orig Equal risk capped,Equal risk capped,gross,-0.023531950499220498
+orig,cpcv_00,cpcv,2018-01-31,orig Equal risk capped,Equal risk capped,gross,1.5644794969075257
+orig,cpcv_00,cpcv,2018-02-28,orig Equal risk capped,Equal risk capped,gross,-0.4730761265749339
+orig,cpcv_00,cpcv,2018-04-30,orig Equal risk capped,Equal risk capped,gross,-0.3046276545075738
+orig,cpcv_00,cpcv,2018-05-31,orig Equal risk capped,Equal risk capped,gross,0.3530722181897758
+orig,cpcv_00,cpcv,2018-06-29,orig Equal risk capped,Equal risk capped,gross,0.9783166213272649
+orig,cpcv_00,cpcv,2018-07-31,orig Equal risk capped,Equal risk capped,gross,0.1044854919472968
+orig,cpcv_00,cpcv,2018-08-31,orig Equal risk capped,Equal risk capped,gross,0.3610232885827861
+orig,cpcv_00,cpcv,2018-09-28,orig Equal risk capped,Equal risk capped,gross,-0.32059231198664073
+orig,cpcv_00,cpcv,2015-02-27,orig Equal risk capped,Equal risk capped,full_cost_net,0.3544963175844533
+orig,cpcv_00,cpcv,2015-03-31,orig Equal risk capped,Equal risk capped,full_cost_net,-0.9241746967017885
+orig,cpcv_00,cpcv,2015-04-30,orig Equal risk capped,Equal risk capped,full_cost_net,-0.790660952201869
+orig,cpcv_00,cpcv,2015-05-29,orig Equal risk capped,Equal risk capped,full_cost_net,-0.7068663988739783
+orig,cpcv_00,cpcv,2015-06-30,orig Equal risk capped,Equal risk capped,full_cost_net,-0.8060847866919458
+orig,cpcv_00,cpcv,2015-07-31,orig Equal risk capped,Equal risk capped,full_cost_net,-2.0063790228604392
+orig,cpcv_00,cpcv,2015-08-31,orig Equal risk capped,Equal risk capped,full_cost_net,0.20268905234237605
+orig,cpcv_00,cpcv,2015-09-30,orig Equal risk capped,Equal risk capped,full_cost_net,-0.9685729346973208
+orig,cpcv_00,cpcv,2015-10-30,orig Equal risk capped,Equal risk capped,full_cost_net,0.15412009097626383
+orig,cpcv_00,cpcv,2015-11-30,orig Equal risk capped,Equal risk capped,full_cost_net,-0.44620550899988976
+orig,cpcv_00,cpcv,2015-12-31,orig Equal risk capped,Equal risk capped,full_cost_net,-0.3392404163421336
+orig,cpcv_00,cpcv,2016-01-29,orig Equal risk capped,Equal risk capped,full_cost_net,0.3695101878591381
+orig,cpcv_00,cpcv,2016-02-29,orig Equal risk capped,Equal risk capped,full_cost_net,-0.41734768742066564
+orig,cpcv_00,cpcv,2016-03-31,orig Equal risk capped,Equal risk capped,full_cost_net,0.3071474572962284
+orig,cpcv_00,cpcv,2016-04-29,orig Equal risk capped,Equal risk capped,full_cost_net,-0.28984537194147453
+orig,cpcv_00,cpcv,2016-05-31,orig Equal risk capped,Equal risk capped,full_cost_net,-0.15892017822115467
+orig,cpcv_00,cpcv,2016-06-30,orig Equal risk capped,Equal risk capped,full_cost_net,-0.5828372916151847
+orig,cpcv_00,cpcv,2016-07-29,orig Equal risk capped,Equal risk capped,full_cost_net,-0.22380255393138687
+orig,cpcv_00,cpcv,2016-08-31,orig Equal risk capped,Equal risk capped,full_cost_net,-0.10214067596547531
+orig,cpcv_00,cpcv,2016-09-30,orig Equal risk capped,Equal risk capped,full_cost_net,-0.06955604119242778
+orig,cpcv_00,cpcv,2016-10-31,orig Equal risk capped,Equal risk capped,full_cost_net,-13.350087545853238
+orig,cpcv_00,cpcv,2016-11-30,orig Equal risk capped,Equal risk capped,full_cost_net,-1.2718103985672469
+orig,cpcv_00,cpcv,2016-12-30,orig Equal risk capped,Equal risk capped,full_cost_net,0.14580647176642814
+orig,cpcv_00,cpcv,2017-01-31,orig Equal risk capped,Equal risk capped,full_cost_net,0.6048345655856731
+orig,cpcv_00,cpcv,2017-02-28,orig Equal risk capped,Equal risk capped,full_cost_net,0.7763395675267671
+orig,cpcv_00,cpcv,2017-03-31,orig Equal risk capped,Equal risk capped,full_cost_net,-0.4193311779181779
+orig,cpcv_00,cpcv,2017-04-28,orig Equal risk capped,Equal risk capped,full_cost_net,-0.4852812183646988
+orig,cpcv_00,cpcv,2017-05-31,orig Equal risk capped,Equal risk capped,full_cost_net,0.2075703969217945
+orig,cpcv_00,cpcv,2017-06-30,orig Equal risk capped,Equal risk capped,full_cost_net,0.08260223049139379
+orig,cpcv_00,cpcv,2017-07-31,orig Equal risk capped,Equal risk capped,full_cost_net,0.5130012376676656
+orig,cpcv_00,cpcv,2017-08-31,orig Equal risk capped,Equal risk capped,full_cost_net,-0.2997062922630915
+orig,cpcv_00,cpcv,2017-09-29,orig Equal risk capped,Equal risk capped,full_cost_net,-0.42256582958320865
+orig,cpcv_00,cpcv,2017-10-31,orig Equal risk capped,Equal risk capped,full_cost_net,-0.3492284834915014
+orig,cpcv_00,cpcv,2017-11-30,orig Equal risk capped,Equal risk capped,full_cost_net,-0.46232720823728907
+orig,cpcv_00,cpcv,2017-12-29,orig Equal risk capped,Equal risk capped,full_cost_net,-0.0997183415621749
+orig,cpcv_00,cpcv,2018-01-31,orig Equal risk capped,Equal risk capped,full_cost_net,1.5039915038593012
+orig,cpcv_00,cpcv,2018-02-28,orig Equal risk capped,Equal risk capped,full_cost_net,-0.49454419161806495
+orig,cpcv_00,cpcv,2018-04-30,orig Equal risk capped,Equal risk capped,full_cost_net,-0.34200366456824993
+orig,cpcv_00,cpcv,2018-05-31,orig Equal risk capped,Equal risk capped,full_cost_net,0.32970606025067317
+orig,cpcv_00,cpcv,2018-06-29,orig Equal risk capped,Equal risk capped,full_cost_net,0.9292274765308467
+orig,cpcv_00,cpcv,2018-07-31,orig Equal risk capped,Equal risk capped,full_cost_net,0.050728066876329
+orig,cpcv_00,cpcv,2018-08-31,orig Equal risk capped,Equal risk capped,full_cost_net,0.33138376708279826
+orig,cpcv_00,cpcv,2018-09-28,orig Equal risk capped,Equal risk capped,full_cost_net,-0.3462305764128517
+orig,cpcv_01,cpcv,2018-10-31,orig E1 capped,E1 capped,gross,-0.4762244503311556
+orig,cpcv_01,cpcv,2018-11-30,orig E1 capped,E1 capped,gross,-0.20020224235534806
+orig,cpcv_01,cpcv,2018-12-31,orig E1 capped,E1 capped,gross,0.1536516025647094
+orig,cpcv_01,cpcv,2019-01-31,orig E1 capped,E1 capped,gross,0.25643174855950546
+orig,cpcv_01,cpcv,2019-02-28,orig E1 capped,E1 capped,gross,-0.24790356147464476
+orig,cpcv_01,cpcv,2019-04-30,orig E1 capped,E1 capped,gross,0.5799409799479913
+orig,cpcv_01,cpcv,2019-05-31,orig E1 capped,E1 capped,gross,-0.18445632392384115
+orig,cpcv_01,cpcv,2019-06-28,orig E1 capped,E1 capped,gross,0.3790038241218974
+orig,cpcv_01,cpcv,2019-07-31,orig E1 capped,E1 capped,gross,-0.025624341013886553
+orig,cpcv_01,cpcv,2019-08-30,orig E1 capped,E1 capped,gross,-0.19208211616473714
+orig,cpcv_01,cpcv,2019-09-30,orig E1 capped,E1 capped,gross,-0.08507825903548133
+orig,cpcv_01,cpcv,2019-10-31,orig E1 capped,E1 capped,gross,-0.00015774698046111535
+orig,cpcv_01,cpcv,2019-11-29,orig E1 capped,E1 capped,gross,0.35724148049992205
+orig,cpcv_01,cpcv,2019-12-31,orig E1 capped,E1 capped,gross,0.2697068078212805
+orig,cpcv_01,cpcv,2020-01-31,orig E1 capped,E1 capped,gross,1.0600670138702644
+orig,cpcv_01,cpcv,2020-02-28,orig E1 capped,E1 capped,gross,0.2479145679360003
+orig,cpcv_01,cpcv,2020-03-31,orig E1 capped,E1 capped,gross,-0.009742979439484767
+orig,cpcv_01,cpcv,2020-04-30,orig E1 capped,E1 capped,gross,0.46499327191993217
+orig,cpcv_01,cpcv,2020-05-29,orig E1 capped,E1 capped,gross,-0.04339865005088027
+orig,cpcv_01,cpcv,2020-06-30,orig E1 capped,E1 capped,gross,0.3933860289763861
+orig,cpcv_01,cpcv,2020-07-31,orig E1 capped,E1 capped,gross,0.4496134285990631
+orig,cpcv_01,cpcv,2020-08-31,orig E1 capped,E1 capped,gross,0.5672111181662197
+orig,cpcv_01,cpcv,2020-09-30,orig E1 capped,E1 capped,gross,-0.1650861735015854
+orig,cpcv_01,cpcv,2020-10-30,orig E1 capped,E1 capped,gross,-0.11622288717487843
+orig,cpcv_01,cpcv,2020-11-30,orig E1 capped,E1 capped,gross,0.028757474340840278
+orig,cpcv_01,cpcv,2020-12-31,orig E1 capped,E1 capped,gross,-0.10226119739616032
+orig,cpcv_01,cpcv,2021-01-29,orig E1 capped,E1 capped,gross,-0.15973724046914667
+orig,cpcv_01,cpcv,2021-02-26,orig E1 capped,E1 capped,gross,-0.11051157989886295
+orig,cpcv_01,cpcv,2021-03-31,orig E1 capped,E1 capped,gross,-0.1947378121087043
+orig,cpcv_01,cpcv,2021-04-30,orig E1 capped,E1 capped,gross,0.5567324032662628
+orig,cpcv_01,cpcv,2021-06-30,orig E1 capped,E1 capped,gross,-0.07526211867316185
+orig,cpcv_01,cpcv,2021-07-30,orig E1 capped,E1 capped,gross,0.013796015584953067
+orig,cpcv_01,cpcv,2021-08-31,orig E1 capped,E1 capped,gross,-0.24145228608835312
+orig,cpcv_01,cpcv,2021-09-30,orig E1 capped,E1 capped,gross,-0.2515905189593242
+orig,cpcv_01,cpcv,2021-10-29,orig E1 capped,E1 capped,gross,-0.0685306235880741
+orig,cpcv_01,cpcv,2021-11-30,orig E1 capped,E1 capped,gross,0.5103721808319457
+orig,cpcv_01,cpcv,2021-12-31,orig E1 capped,E1 capped,gross,-0.1780636513354548
+orig,cpcv_01,cpcv,2022-01-31,orig E1 capped,E1 capped,gross,-0.0032497736325079463
+orig,cpcv_01,cpcv,2022-02-28,orig E1 capped,E1 capped,gross,-0.21736161013770514
+orig,cpcv_01,cpcv,2022-04-29,orig E1 capped,E1 capped,gross,-0.1798579258387333
+orig,cpcv_01,cpcv,2022-05-31,orig E1 capped,E1 capped,gross,0.018722288645427715
+orig,cpcv_01,cpcv,2022-06-30,orig E1 capped,E1 capped,gross,-0.03541857470838922
+orig,cpcv_01,cpcv,2022-07-29,orig E1 capped,E1 capped,gross,0.08660059413794466
+orig,cpcv_01,cpcv,2018-10-31,orig E1 capped,E1 capped,full_cost_net,-0.5044293580579831
+orig,cpcv_01,cpcv,2018-11-30,orig E1 capped,E1 capped,full_cost_net,-0.21371039044692108
+orig,cpcv_01,cpcv,2018-12-31,orig E1 capped,E1 capped,full_cost_net,0.1406332506329302
+orig,cpcv_01,cpcv,2019-01-31,orig E1 capped,E1 capped,full_cost_net,0.2426381876976458
+orig,cpcv_01,cpcv,2019-02-28,orig E1 capped,E1 capped,full_cost_net,-0.2611062753422054
+orig,cpcv_01,cpcv,2019-04-30,orig E1 capped,E1 capped,full_cost_net,0.5418420639592515
+orig,cpcv_01,cpcv,2019-05-31,orig E1 capped,E1 capped,full_cost_net,-0.19970351730977312
+orig,cpcv_01,cpcv,2019-06-28,orig E1 capped,E1 capped,full_cost_net,0.3469226611486616
+orig,cpcv_01,cpcv,2019-07-31,orig E1 capped,E1 capped,full_cost_net,-0.04091528215709099
+orig,cpcv_01,cpcv,2019-08-30,orig E1 capped,E1 capped,full_cost_net,-0.20774484857283732
+orig,cpcv_01,cpcv,2019-09-30,orig E1 capped,E1 capped,full_cost_net,-0.10269270538414066
+orig,cpcv_01,cpcv,2019-10-31,orig E1 capped,E1 capped,full_cost_net,-0.014167552397729117
+orig,cpcv_01,cpcv,2019-11-29,orig E1 capped,E1 capped,full_cost_net,0.30340254218164364
+orig,cpcv_01,cpcv,2019-12-31,orig E1 capped,E1 capped,full_cost_net,0.22646192649567043
+orig,cpcv_01,cpcv,2020-01-31,orig E1 capped,E1 capped,full_cost_net,1.0310852599006846
+orig,cpcv_01,cpcv,2020-02-28,orig E1 capped,E1 capped,full_cost_net,0.23727478678624545
+orig,cpcv_01,cpcv,2020-03-31,orig E1 capped,E1 capped,full_cost_net,-0.024412996464875526
+orig,cpcv_01,cpcv,2020-04-30,orig E1 capped,E1 capped,full_cost_net,0.4495158818716522
+orig,cpcv_01,cpcv,2020-05-29,orig E1 capped,E1 capped,full_cost_net,-0.05847853932385104
+orig,cpcv_01,cpcv,2020-06-30,orig E1 capped,E1 capped,full_cost_net,0.3730823822313672
+orig,cpcv_01,cpcv,2020-07-31,orig E1 capped,E1 capped,full_cost_net,0.43664938112119783
+orig,cpcv_01,cpcv,2020-08-31,orig E1 capped,E1 capped,full_cost_net,0.5542556842634079
+orig,cpcv_01,cpcv,2020-09-30,orig E1 capped,E1 capped,full_cost_net,-0.17225081463929162
+orig,cpcv_01,cpcv,2020-10-30,orig E1 capped,E1 capped,full_cost_net,-0.12929380231277765
+orig,cpcv_01,cpcv,2020-11-30,orig E1 capped,E1 capped,full_cost_net,0.019312720193927428
+orig,cpcv_01,cpcv,2020-12-31,orig E1 capped,E1 capped,full_cost_net,-0.11494340164659483
+orig,cpcv_01,cpcv,2021-01-29,orig E1 capped,E1 capped,full_cost_net,-0.17049493318265185
+orig,cpcv_01,cpcv,2021-02-26,orig E1 capped,E1 capped,full_cost_net,-0.12326137279108051
+orig,cpcv_01,cpcv,2021-03-31,orig E1 capped,E1 capped,full_cost_net,-0.20834519978901356
+orig,cpcv_01,cpcv,2021-04-30,orig E1 capped,E1 capped,full_cost_net,0.5442689681893379
+orig,cpcv_01,cpcv,2021-06-30,orig E1 capped,E1 capped,full_cost_net,-0.08665177577925892
+orig,cpcv_01,cpcv,2021-07-30,orig E1 capped,E1 capped,full_cost_net,-0.0035480766241697097
+orig,cpcv_01,cpcv,2021-08-31,orig E1 capped,E1 capped,full_cost_net,-0.25725764464443135
+orig,cpcv_01,cpcv,2021-09-30,orig E1 capped,E1 capped,full_cost_net,-0.2633925520818254
+orig,cpcv_01,cpcv,2021-10-29,orig E1 capped,E1 capped,full_cost_net,-0.07916164144465639
+orig,cpcv_01,cpcv,2021-11-30,orig E1 capped,E1 capped,full_cost_net,0.49947431790345526
+orig,cpcv_01,cpcv,2021-12-31,orig E1 capped,E1 capped,full_cost_net,-0.18943731332468822
+orig,cpcv_01,cpcv,2022-01-31,orig E1 capped,E1 capped,full_cost_net,-0.018941919025195677
+orig,cpcv_01,cpcv,2022-02-28,orig E1 capped,E1 capped,full_cost_net,-0.22785306103154276
+orig,cpcv_01,cpcv,2022-04-29,orig E1 capped,E1 capped,full_cost_net,-0.19236532737855108
+orig,cpcv_01,cpcv,2022-05-31,orig E1 capped,E1 capped,full_cost_net,0.006630793694923651
+orig,cpcv_01,cpcv,2022-06-30,orig E1 capped,E1 capped,full_cost_net,-0.05673578156338553
+orig,cpcv_01,cpcv,2022-07-29,orig E1 capped,E1 capped,full_cost_net,0.07510059282183959
+orig,cpcv_01,cpcv,2018-10-31,orig GM paper,GM paper,gross,-0.6455882663719004
+orig,cpcv_01,cpcv,2018-11-30,orig GM paper,GM paper,gross,-0.19870697970528203
+orig,cpcv_01,cpcv,2018-12-31,orig GM paper,GM paper,gross,-0.02084025320085492
+orig,cpcv_01,cpcv,2019-01-31,orig GM paper,GM paper,gross,0.28386176172911015
+orig,cpcv_01,cpcv,2019-02-28,orig GM paper,GM paper,gross,-0.024543141287591178
+orig,cpcv_01,cpcv,2019-04-30,orig GM paper,GM paper,gross,0.2963395503629456
+orig,cpcv_01,cpcv,2019-05-31,orig GM paper,GM paper,gross,-0.17910276773134273
+orig,cpcv_01,cpcv,2019-06-28,orig GM paper,GM paper,gross,0.15437957372717453
+orig,cpcv_01,cpcv,2019-07-31,orig GM paper,GM paper,gross,0.10423226082679635
+orig,cpcv_01,cpcv,2019-08-30,orig GM paper,GM paper,gross,-0.1124631839333695
+orig,cpcv_01,cpcv,2019-09-30,orig GM paper,GM paper,gross,0.09337847242419302
+orig,cpcv_01,cpcv,2019-10-31,orig GM paper,GM paper,gross,0.07706121650798255
+orig,cpcv_01,cpcv,2019-11-29,orig GM paper,GM paper,gross,0.35452830756624126
+orig,cpcv_01,cpcv,2019-12-31,orig GM paper,GM paper,gross,0.32711504929395174
+orig,cpcv_01,cpcv,2020-01-31,orig GM paper,GM paper,gross,0.8578152923300261
+orig,cpcv_01,cpcv,2020-02-28,orig GM paper,GM paper,gross,0.4200850099605881
+orig,cpcv_01,cpcv,2020-03-31,orig GM paper,GM paper,gross,-0.09201389310809895
+orig,cpcv_01,cpcv,2020-04-30,orig GM paper,GM paper,gross,0.14860297762994232
+orig,cpcv_01,cpcv,2020-05-29,orig GM paper,GM paper,gross,0.12547983481414418
+orig,cpcv_01,cpcv,2020-06-30,orig GM paper,GM paper,gross,0.22696709946435056
+orig,cpcv_01,cpcv,2020-07-31,orig GM paper,GM paper,gross,0.31446180025302795
+orig,cpcv_01,cpcv,2020-08-31,orig GM paper,GM paper,gross,0.5440839682672302
+orig,cpcv_01,cpcv,2020-09-30,orig GM paper,GM paper,gross,-0.2614346522603429
+orig,cpcv_01,cpcv,2020-10-30,orig GM paper,GM paper,gross,0.10434062078270162
+orig,cpcv_01,cpcv,2020-11-30,orig GM paper,GM paper,gross,0.2571825907858051
+orig,cpcv_01,cpcv,2020-12-31,orig GM paper,GM paper,gross,0.0012583774580851997
+orig,cpcv_01,cpcv,2021-01-29,orig GM paper,GM paper,gross,-0.062367862440882715
+orig,cpcv_01,cpcv,2021-02-26,orig GM paper,GM paper,gross,0.15124310483960662
+orig,cpcv_01,cpcv,2021-03-31,orig GM paper,GM paper,gross,-0.10225140433472404
+orig,cpcv_01,cpcv,2021-04-30,orig GM paper,GM paper,gross,0.4020315493224891
+orig,cpcv_01,cpcv,2021-06-30,orig GM paper,GM paper,gross,-0.10159714607161859
+orig,cpcv_01,cpcv,2021-07-30,orig GM paper,GM paper,gross,-0.04470050938895508
+orig,cpcv_01,cpcv,2021-08-31,orig GM paper,GM paper,gross,-0.12484086287459784
+orig,cpcv_01,cpcv,2021-09-30,orig GM paper,GM paper,gross,-0.1615696195791662
+orig,cpcv_01,cpcv,2021-10-29,orig GM paper,GM paper,gross,0.08773390645511744
+orig,cpcv_01,cpcv,2021-11-30,orig GM paper,GM paper,gross,0.5005639120243462
+orig,cpcv_01,cpcv,2021-12-31,orig GM paper,GM paper,gross,-0.17073619522162475
+orig,cpcv_01,cpcv,2022-01-31,orig GM paper,GM paper,gross,-0.3295727632045873
+orig,cpcv_01,cpcv,2022-02-28,orig GM paper,GM paper,gross,-0.07659120313536777
+orig,cpcv_01,cpcv,2022-04-29,orig GM paper,GM paper,gross,-0.05238010656979023
+orig,cpcv_01,cpcv,2022-05-31,orig GM paper,GM paper,gross,-0.10204514256380876
+orig,cpcv_01,cpcv,2022-06-30,orig GM paper,GM paper,gross,0.017789220783681614
+orig,cpcv_01,cpcv,2022-07-29,orig GM paper,GM paper,gross,0.10582245804458101
+orig,cpcv_01,cpcv,2018-10-31,orig GM paper,GM paper,full_cost_net,-2.3889072827581597
+orig,cpcv_01,cpcv,2018-11-30,orig GM paper,GM paper,full_cost_net,-0.3755121248802684
+orig,cpcv_01,cpcv,2018-12-31,orig GM paper,GM paper,full_cost_net,-0.8431182992281967
+orig,cpcv_01,cpcv,2019-01-31,orig GM paper,GM paper,full_cost_net,-0.47239983543777786
+orig,cpcv_01,cpcv,2019-02-28,orig GM paper,GM paper,full_cost_net,-0.33419707814441746
+orig,cpcv_01,cpcv,2019-04-30,orig GM paper,GM paper,full_cost_net,0.16661614761226096
+orig,cpcv_01,cpcv,2019-05-31,orig GM paper,GM paper,full_cost_net,-0.24314365986766207
+orig,cpcv_01,cpcv,2019-06-28,orig GM paper,GM paper,full_cost_net,-0.9180506331213649
+orig,cpcv_01,cpcv,2019-07-31,orig GM paper,GM paper,full_cost_net,0.04982617300159221
+orig,cpcv_01,cpcv,2019-08-30,orig GM paper,GM paper,full_cost_net,-0.21171858679041877
+orig,cpcv_01,cpcv,2019-09-30,orig GM paper,GM paper,full_cost_net,-1.2166244877003625
+orig,cpcv_01,cpcv,2019-10-31,orig GM paper,GM paper,full_cost_net,0.02861744359637087
+orig,cpcv_01,cpcv,2019-11-29,orig GM paper,GM paper,full_cost_net,-1.4761943390915238
+orig,cpcv_01,cpcv,2019-12-31,orig GM paper,GM paper,full_cost_net,-0.6801639049531579
+orig,cpcv_01,cpcv,2020-01-31,orig GM paper,GM paper,full_cost_net,0.6777337261238305
+orig,cpcv_01,cpcv,2020-02-28,orig GM paper,GM paper,full_cost_net,0.07553518775765766
+orig,cpcv_01,cpcv,2020-03-31,orig GM paper,GM paper,full_cost_net,-0.36980271547207894
+orig,cpcv_01,cpcv,2020-04-30,orig GM paper,GM paper,full_cost_net,0.07712050182705359
+orig,cpcv_01,cpcv,2020-05-29,orig GM paper,GM paper,full_cost_net,0.08207209845029573
+orig,cpcv_01,cpcv,2020-06-30,orig GM paper,GM paper,full_cost_net,0.15267929529179905
+orig,cpcv_01,cpcv,2020-07-31,orig GM paper,GM paper,full_cost_net,0.2853210303263119
+orig,cpcv_01,cpcv,2020-08-31,orig GM paper,GM paper,full_cost_net,0.22670233212979363
+orig,cpcv_01,cpcv,2020-09-30,orig GM paper,GM paper,full_cost_net,-0.2812105135513989
+orig,cpcv_01,cpcv,2020-10-30,orig GM paper,GM paper,full_cost_net,-0.05141757778463729
+orig,cpcv_01,cpcv,2020-11-30,orig GM paper,GM paper,full_cost_net,-1.590455517600061
+orig,cpcv_01,cpcv,2020-12-31,orig GM paper,GM paper,full_cost_net,-0.03038658852456111
+orig,cpcv_01,cpcv,2021-01-29,orig GM paper,GM paper,full_cost_net,-0.09147654587948856
+orig,cpcv_01,cpcv,2021-02-26,orig GM paper,GM paper,full_cost_net,0.1217462199016722
+orig,cpcv_01,cpcv,2021-03-31,orig GM paper,GM paper,full_cost_net,-0.16617923601418455
+orig,cpcv_01,cpcv,2021-04-30,orig GM paper,GM paper,full_cost_net,-0.09724735127583661
+orig,cpcv_01,cpcv,2021-06-30,orig GM paper,GM paper,full_cost_net,-0.15452033295648698
+orig,cpcv_01,cpcv,2021-07-30,orig GM paper,GM paper,full_cost_net,-0.12058645406378382
+orig,cpcv_01,cpcv,2021-08-31,orig GM paper,GM paper,full_cost_net,-0.18441827312104603
+orig,cpcv_01,cpcv,2021-09-30,orig GM paper,GM paper,full_cost_net,-0.2658050030372252
+orig,cpcv_01,cpcv,2021-10-29,orig GM paper,GM paper,full_cost_net,0.04994798036576792
+orig,cpcv_01,cpcv,2021-11-30,orig GM paper,GM paper,full_cost_net,0.4679484351790924
+orig,cpcv_01,cpcv,2021-12-31,orig GM paper,GM paper,full_cost_net,-0.20780772531296582
+orig,cpcv_01,cpcv,2022-01-31,orig GM paper,GM paper,full_cost_net,-0.4356644431545935
+orig,cpcv_01,cpcv,2022-02-28,orig GM paper,GM paper,full_cost_net,-0.444580577955619
+orig,cpcv_01,cpcv,2022-04-29,orig GM paper,GM paper,full_cost_net,-0.641807374764326
+orig,cpcv_01,cpcv,2022-05-31,orig GM paper,GM paper,full_cost_net,-0.8115230218828253
+orig,cpcv_01,cpcv,2022-06-30,orig GM paper,GM paper,full_cost_net,-0.10228663416520856
+orig,cpcv_01,cpcv,2022-07-29,orig GM paper,GM paper,full_cost_net,-0.06557039122033925
+orig,cpcv_01,cpcv,2018-10-31,orig Equal premium capped,Equal premium capped,gross,-0.27311336365496797
+orig,cpcv_01,cpcv,2018-11-30,orig Equal premium capped,Equal premium capped,gross,-0.2873788429472628
+orig,cpcv_01,cpcv,2018-12-31,orig Equal premium capped,Equal premium capped,gross,0.2593482852204841
+orig,cpcv_01,cpcv,2019-01-31,orig Equal premium capped,Equal premium capped,gross,0.43702284814462494
+orig,cpcv_01,cpcv,2019-02-28,orig Equal premium capped,Equal premium capped,gross,-0.43907933979069336
+orig,cpcv_01,cpcv,2019-04-30,orig Equal premium capped,Equal premium capped,gross,0.9645494854350528
+orig,cpcv_01,cpcv,2019-05-31,orig Equal premium capped,Equal premium capped,gross,-0.33425955180011424
+orig,cpcv_01,cpcv,2019-06-28,orig Equal premium capped,Equal premium capped,gross,1.0325260085452972
+orig,cpcv_01,cpcv,2019-07-31,orig Equal premium capped,Equal premium capped,gross,-0.05978395881926833
+orig,cpcv_01,cpcv,2019-08-30,orig Equal premium capped,Equal premium capped,gross,-0.35974374025988437
+orig,cpcv_01,cpcv,2019-09-30,orig Equal premium capped,Equal premium capped,gross,-0.25513671101659263
+orig,cpcv_01,cpcv,2019-10-31,orig Equal premium capped,Equal premium capped,gross,0.057620769824446416
+orig,cpcv_01,cpcv,2019-11-29,orig Equal premium capped,Equal premium capped,gross,0.761177304258434
+orig,cpcv_01,cpcv,2019-12-31,orig Equal premium capped,Equal premium capped,gross,0.5568449621548224
+orig,cpcv_01,cpcv,2020-01-31,orig Equal premium capped,Equal premium capped,gross,2.182261053644357
+orig,cpcv_01,cpcv,2020-02-28,orig Equal premium capped,Equal premium capped,gross,0.6195024968945643
+orig,cpcv_01,cpcv,2020-03-31,orig Equal premium capped,Equal premium capped,gross,-0.05604811588094838
+orig,cpcv_01,cpcv,2020-04-30,orig Equal premium capped,Equal premium capped,gross,0.8022533702997766
+orig,cpcv_01,cpcv,2020-05-29,orig Equal premium capped,Equal premium capped,gross,-0.20244672015101767
+orig,cpcv_01,cpcv,2020-06-30,orig Equal premium capped,Equal premium capped,gross,0.6035893761761022
+orig,cpcv_01,cpcv,2020-07-31,orig Equal premium capped,Equal premium capped,gross,0.8609228577114987
+orig,cpcv_01,cpcv,2020-08-31,orig Equal premium capped,Equal premium capped,gross,1.1894395335422026
+orig,cpcv_01,cpcv,2020-09-30,orig Equal premium capped,Equal premium capped,gross,-0.07506837027404317
+orig,cpcv_01,cpcv,2020-10-30,orig Equal premium capped,Equal premium capped,gross,-0.28910295647359674
+orig,cpcv_01,cpcv,2020-11-30,orig Equal premium capped,Equal premium capped,gross,0.00749037947807798
+orig,cpcv_01,cpcv,2020-12-31,orig Equal premium capped,Equal premium capped,gross,-0.16560046161880576
+orig,cpcv_01,cpcv,2021-01-29,orig Equal premium capped,Equal premium capped,gross,-0.13969493749285067
+orig,cpcv_01,cpcv,2021-02-26,orig Equal premium capped,Equal premium capped,gross,-0.37100072957371466
+orig,cpcv_01,cpcv,2021-03-31,orig Equal premium capped,Equal premium capped,gross,-0.22343942171746345
+orig,cpcv_01,cpcv,2021-04-30,orig Equal premium capped,Equal premium capped,gross,1.0908485711720899
+orig,cpcv_01,cpcv,2021-06-30,orig Equal premium capped,Equal premium capped,gross,-0.3195618942492579
+orig,cpcv_01,cpcv,2021-07-30,orig Equal premium capped,Equal premium capped,gross,0.07065486403913093
+orig,cpcv_01,cpcv,2021-08-31,orig Equal premium capped,Equal premium capped,gross,-0.3708970005490286
+orig,cpcv_01,cpcv,2021-09-30,orig Equal premium capped,Equal premium capped,gross,-0.43562370328057054
+orig,cpcv_01,cpcv,2021-10-29,orig Equal premium capped,Equal premium capped,gross,-0.12141108195922994
+orig,cpcv_01,cpcv,2021-11-30,orig Equal premium capped,Equal premium capped,gross,0.6714896141462192
+orig,cpcv_01,cpcv,2021-12-31,orig Equal premium capped,Equal premium capped,gross,-0.31906976817434957
+orig,cpcv_01,cpcv,2022-01-31,orig Equal premium capped,Equal premium capped,gross,0.1192221512729196
+orig,cpcv_01,cpcv,2022-02-28,orig Equal premium capped,Equal premium capped,gross,-0.051560329471150454
+orig,cpcv_01,cpcv,2022-04-29,orig Equal premium capped,Equal premium capped,gross,-0.38705674066424456
+orig,cpcv_01,cpcv,2022-05-31,orig Equal premium capped,Equal premium capped,gross,-0.19486269069707546
+orig,cpcv_01,cpcv,2022-06-30,orig Equal premium capped,Equal premium capped,gross,0.006309769109903773
+orig,cpcv_01,cpcv,2022-07-29,orig Equal premium capped,Equal premium capped,gross,-0.0184692786348874
+orig,cpcv_01,cpcv,2018-10-31,orig Equal premium capped,Equal premium capped,full_cost_net,-0.33191228155100566
+orig,cpcv_01,cpcv,2018-11-30,orig Equal premium capped,Equal premium capped,full_cost_net,-0.30861232738627103
+orig,cpcv_01,cpcv,2018-12-31,orig Equal premium capped,Equal premium capped,full_cost_net,0.23731380205539326
+orig,cpcv_01,cpcv,2019-01-31,orig Equal premium capped,Equal premium capped,full_cost_net,0.40315935064892994
+orig,cpcv_01,cpcv,2019-02-28,orig Equal premium capped,Equal premium capped,full_cost_net,-0.4596825935651862
+orig,cpcv_01,cpcv,2019-04-30,orig Equal premium capped,Equal premium capped,full_cost_net,0.7081999536971413
+orig,cpcv_01,cpcv,2019-05-31,orig Equal premium capped,Equal premium capped,full_cost_net,-0.3617568393146598
+orig,cpcv_01,cpcv,2019-06-28,orig Equal premium capped,Equal premium capped,full_cost_net,0.9906128089455994
+orig,cpcv_01,cpcv,2019-07-31,orig Equal premium capped,Equal premium capped,full_cost_net,-0.08121122545666537
+orig,cpcv_01,cpcv,2019-08-30,orig Equal premium capped,Equal premium capped,full_cost_net,-0.3845464094853475
+orig,cpcv_01,cpcv,2019-09-30,orig Equal premium capped,Equal premium capped,full_cost_net,-0.2802834445432851
+orig,cpcv_01,cpcv,2019-10-31,orig Equal premium capped,Equal premium capped,full_cost_net,0.030093138310004246
+orig,cpcv_01,cpcv,2019-11-29,orig Equal premium capped,Equal premium capped,full_cost_net,0.6989097579318342
+orig,cpcv_01,cpcv,2019-12-31,orig Equal premium capped,Equal premium capped,full_cost_net,0.49311106106301383
+orig,cpcv_01,cpcv,2020-01-31,orig Equal premium capped,Equal premium capped,full_cost_net,2.1211048004843986
+orig,cpcv_01,cpcv,2020-02-28,orig Equal premium capped,Equal premium capped,full_cost_net,0.603211943844758
+orig,cpcv_01,cpcv,2020-03-31,orig Equal premium capped,Equal premium capped,full_cost_net,-0.07965286016927663
+orig,cpcv_01,cpcv,2020-04-30,orig Equal premium capped,Equal premium capped,full_cost_net,0.7751400623098273
+orig,cpcv_01,cpcv,2020-05-29,orig Equal premium capped,Equal premium capped,full_cost_net,-0.22366669841090364
+orig,cpcv_01,cpcv,2020-06-30,orig Equal premium capped,Equal premium capped,full_cost_net,0.5683615752827363
+orig,cpcv_01,cpcv,2020-07-31,orig Equal premium capped,Equal premium capped,full_cost_net,0.8430447607271235
+orig,cpcv_01,cpcv,2020-08-31,orig Equal premium capped,Equal premium capped,full_cost_net,1.1716798335561807
+orig,cpcv_01,cpcv,2020-09-30,orig Equal premium capped,Equal premium capped,full_cost_net,-0.08581454909038524
+orig,cpcv_01,cpcv,2020-10-30,orig Equal premium capped,Equal premium capped,full_cost_net,-0.3072221916834291
+orig,cpcv_01,cpcv,2020-11-30,orig Equal premium capped,Equal premium capped,full_cost_net,-0.007873371810268209
+orig,cpcv_01,cpcv,2020-12-31,orig Equal premium capped,Equal premium capped,full_cost_net,-0.18345066982331787
+orig,cpcv_01,cpcv,2021-01-29,orig Equal premium capped,Equal premium capped,full_cost_net,-0.1554089256381415
+orig,cpcv_01,cpcv,2021-02-26,orig Equal premium capped,Equal premium capped,full_cost_net,-0.3909178156103408
+orig,cpcv_01,cpcv,2021-03-31,orig Equal premium capped,Equal premium capped,full_cost_net,-0.24438641050995355
+orig,cpcv_01,cpcv,2021-04-30,orig Equal premium capped,Equal premium capped,full_cost_net,1.0724573422487298
+orig,cpcv_01,cpcv,2021-06-30,orig Equal premium capped,Equal premium capped,full_cost_net,-0.33555350656433375
+orig,cpcv_01,cpcv,2021-07-30,orig Equal premium capped,Equal premium capped,full_cost_net,0.04777888207131975
+orig,cpcv_01,cpcv,2021-08-31,orig Equal premium capped,Equal premium capped,full_cost_net,-0.39401352141831264
+orig,cpcv_01,cpcv,2021-09-30,orig Equal premium capped,Equal premium capped,full_cost_net,-0.4526675528024325
+orig,cpcv_01,cpcv,2021-10-29,orig Equal premium capped,Equal premium capped,full_cost_net,-0.2848379399061149
+orig,cpcv_01,cpcv,2021-11-30,orig Equal premium capped,Equal premium capped,full_cost_net,0.6561368372511321
+orig,cpcv_01,cpcv,2021-12-31,orig Equal premium capped,Equal premium capped,full_cost_net,-0.33624016678387997
+orig,cpcv_01,cpcv,2022-01-31,orig Equal premium capped,Equal premium capped,full_cost_net,0.0966392091554174
+orig,cpcv_01,cpcv,2022-02-28,orig Equal premium capped,Equal premium capped,full_cost_net,-0.06617909605649061
+orig,cpcv_01,cpcv,2022-04-29,orig Equal premium capped,Equal premium capped,full_cost_net,-0.4045445526092356
+orig,cpcv_01,cpcv,2022-05-31,orig Equal premium capped,Equal premium capped,full_cost_net,-0.21209478879492982
+orig,cpcv_01,cpcv,2022-06-30,orig Equal premium capped,Equal premium capped,full_cost_net,-0.021358581063878664
+orig,cpcv_01,cpcv,2022-07-29,orig Equal premium capped,Equal premium capped,full_cost_net,-0.041777790852652916
+orig,cpcv_01,cpcv,2018-10-31,orig Equal risk capped,Equal risk capped,gross,-0.27311336365496797
+orig,cpcv_01,cpcv,2018-11-30,orig Equal risk capped,Equal risk capped,gross,-0.2873788429472628
+orig,cpcv_01,cpcv,2018-12-31,orig Equal risk capped,Equal risk capped,gross,0.2593482852204841
+orig,cpcv_01,cpcv,2019-01-31,orig Equal risk capped,Equal risk capped,gross,0.43702284814462494
+orig,cpcv_01,cpcv,2019-02-28,orig Equal risk capped,Equal risk capped,gross,-0.43907933979069336
+orig,cpcv_01,cpcv,2019-04-30,orig Equal risk capped,Equal risk capped,gross,0.9645494854350528
+orig,cpcv_01,cpcv,2019-05-31,orig Equal risk capped,Equal risk capped,gross,-0.33425955180011424
+orig,cpcv_01,cpcv,2019-06-28,orig Equal risk capped,Equal risk capped,gross,1.0325260085452972
+orig,cpcv_01,cpcv,2019-07-31,orig Equal risk capped,Equal risk capped,gross,-0.05978395881926833
+orig,cpcv_01,cpcv,2019-08-30,orig Equal risk capped,Equal risk capped,gross,-0.35974374025988437
+orig,cpcv_01,cpcv,2019-09-30,orig Equal risk capped,Equal risk capped,gross,-0.25513671101659263
+orig,cpcv_01,cpcv,2019-10-31,orig Equal risk capped,Equal risk capped,gross,0.05762076982444639
+orig,cpcv_01,cpcv,2019-11-29,orig Equal risk capped,Equal risk capped,gross,0.7611773042584342
+orig,cpcv_01,cpcv,2019-12-31,orig Equal risk capped,Equal risk capped,gross,0.5568449621548224
+orig,cpcv_01,cpcv,2020-01-31,orig Equal risk capped,Equal risk capped,gross,2.182261053644357
+orig,cpcv_01,cpcv,2020-02-28,orig Equal risk capped,Equal risk capped,gross,0.6195024968945643
+orig,cpcv_01,cpcv,2020-03-31,orig Equal risk capped,Equal risk capped,gross,-0.05604811588094838
+orig,cpcv_01,cpcv,2020-04-30,orig Equal risk capped,Equal risk capped,gross,0.8022533702997766
+orig,cpcv_01,cpcv,2020-05-29,orig Equal risk capped,Equal risk capped,gross,-0.20244672015101764
+orig,cpcv_01,cpcv,2020-06-30,orig Equal risk capped,Equal risk capped,gross,0.6035893761761022
+orig,cpcv_01,cpcv,2020-07-31,orig Equal risk capped,Equal risk capped,gross,0.8609228577114987
+orig,cpcv_01,cpcv,2020-08-31,orig Equal risk capped,Equal risk capped,gross,1.1894395335422026
+orig,cpcv_01,cpcv,2020-09-30,orig Equal risk capped,Equal risk capped,gross,-0.07506837027404317
+orig,cpcv_01,cpcv,2020-10-30,orig Equal risk capped,Equal risk capped,gross,-0.28910295647359674
+orig,cpcv_01,cpcv,2020-11-30,orig Equal risk capped,Equal risk capped,gross,0.007490379478078008
+orig,cpcv_01,cpcv,2020-12-31,orig Equal risk capped,Equal risk capped,gross,-0.16560046161880573
+orig,cpcv_01,cpcv,2021-01-29,orig Equal risk capped,Equal risk capped,gross,-0.1396949374928506
+orig,cpcv_01,cpcv,2021-02-26,orig Equal risk capped,Equal risk capped,gross,-0.37100072957371455
+orig,cpcv_01,cpcv,2021-03-31,orig Equal risk capped,Equal risk capped,gross,-0.22343942171746348
+orig,cpcv_01,cpcv,2021-04-30,orig Equal risk capped,Equal risk capped,gross,1.0908485711720899
+orig,cpcv_01,cpcv,2021-06-30,orig Equal risk capped,Equal risk capped,gross,-0.31956189424925785
+orig,cpcv_01,cpcv,2021-07-30,orig Equal risk capped,Equal risk capped,gross,0.07065486403913093
+orig,cpcv_01,cpcv,2021-08-31,orig Equal risk capped,Equal risk capped,gross,-0.3708970005490286
+orig,cpcv_01,cpcv,2021-09-30,orig Equal risk capped,Equal risk capped,gross,-0.43562370328057054
+orig,cpcv_01,cpcv,2021-10-29,orig Equal risk capped,Equal risk capped,gross,-0.12141108195922991
+orig,cpcv_01,cpcv,2021-11-30,orig Equal risk capped,Equal risk capped,gross,0.6714896141462192
+orig,cpcv_01,cpcv,2021-12-31,orig Equal risk capped,Equal risk capped,gross,-0.31906976817434957
+orig,cpcv_01,cpcv,2022-01-31,orig Equal risk capped,Equal risk capped,gross,0.1192221512729196
+orig,cpcv_01,cpcv,2022-02-28,orig Equal risk capped,Equal risk capped,gross,-0.0515603294711504
+orig,cpcv_01,cpcv,2022-04-29,orig Equal risk capped,Equal risk capped,gross,-0.38705674066424456
+orig,cpcv_01,cpcv,2022-05-31,orig Equal risk capped,Equal risk capped,gross,-0.19486269069707546
+orig,cpcv_01,cpcv,2022-06-30,orig Equal risk capped,Equal risk capped,gross,0.006309769109903773
+orig,cpcv_01,cpcv,2022-07-29,orig Equal risk capped,Equal risk capped,gross,-0.0184692786348874
+orig,cpcv_01,cpcv,2018-10-31,orig Equal risk capped,Equal risk capped,full_cost_net,-0.33191228155100566
+orig,cpcv_01,cpcv,2018-11-30,orig Equal risk capped,Equal risk capped,full_cost_net,-0.30861232738627103
+orig,cpcv_01,cpcv,2018-12-31,orig Equal risk capped,Equal risk capped,full_cost_net,0.23731380205539326
+orig,cpcv_01,cpcv,2019-01-31,orig Equal risk capped,Equal risk capped,full_cost_net,0.40315935064892994
+orig,cpcv_01,cpcv,2019-02-28,orig Equal risk capped,Equal risk capped,full_cost_net,-0.4596825935651862
+orig,cpcv_01,cpcv,2019-04-30,orig Equal risk capped,Equal risk capped,full_cost_net,0.7081999536971413
+orig,cpcv_01,cpcv,2019-05-31,orig Equal risk capped,Equal risk capped,full_cost_net,-0.3617568393146598
+orig,cpcv_01,cpcv,2019-06-28,orig Equal risk capped,Equal risk capped,full_cost_net,0.9906128089455996
+orig,cpcv_01,cpcv,2019-07-31,orig Equal risk capped,Equal risk capped,full_cost_net,-0.08121122545666537
+orig,cpcv_01,cpcv,2019-08-30,orig Equal risk capped,Equal risk capped,full_cost_net,-0.3845464094853475
+orig,cpcv_01,cpcv,2019-09-30,orig Equal risk capped,Equal risk capped,full_cost_net,-0.2802834445432851
+orig,cpcv_01,cpcv,2019-10-31,orig Equal risk capped,Equal risk capped,full_cost_net,0.030093138310004226
+orig,cpcv_01,cpcv,2019-11-29,orig Equal risk capped,Equal risk capped,full_cost_net,0.6989097579318344
+orig,cpcv_01,cpcv,2019-12-31,orig Equal risk capped,Equal risk capped,full_cost_net,0.49311106106301383
+orig,cpcv_01,cpcv,2020-01-31,orig Equal risk capped,Equal risk capped,full_cost_net,2.1211048004843986
+orig,cpcv_01,cpcv,2020-02-28,orig Equal risk capped,Equal risk capped,full_cost_net,0.603211943844758
+orig,cpcv_01,cpcv,2020-03-31,orig Equal risk capped,Equal risk capped,full_cost_net,-0.07965286016927663
+orig,cpcv_01,cpcv,2020-04-30,orig Equal risk capped,Equal risk capped,full_cost_net,0.7751400623098273
+orig,cpcv_01,cpcv,2020-05-29,orig Equal risk capped,Equal risk capped,full_cost_net,-0.2236666984109036
+orig,cpcv_01,cpcv,2020-06-30,orig Equal risk capped,Equal risk capped,full_cost_net,0.5683615752827363
+orig,cpcv_01,cpcv,2020-07-31,orig Equal risk capped,Equal risk capped,full_cost_net,0.8430447607271235
+orig,cpcv_01,cpcv,2020-08-31,orig Equal risk capped,Equal risk capped,full_cost_net,1.1716798335561807
+orig,cpcv_01,cpcv,2020-09-30,orig Equal risk capped,Equal risk capped,full_cost_net,-0.08581454909038524
+orig,cpcv_01,cpcv,2020-10-30,orig Equal risk capped,Equal risk capped,full_cost_net,-0.3072221916834291
+orig,cpcv_01,cpcv,2020-11-30,orig Equal risk capped,Equal risk capped,full_cost_net,-0.007873371810268181
+orig,cpcv_01,cpcv,2020-12-31,orig Equal risk capped,Equal risk capped,full_cost_net,-0.18345066982331784
+orig,cpcv_01,cpcv,2021-01-29,orig Equal risk capped,Equal risk capped,full_cost_net,-0.15540892563814143
+orig,cpcv_01,cpcv,2021-02-26,orig Equal risk capped,Equal risk capped,full_cost_net,-0.39091781561034067
+orig,cpcv_01,cpcv,2021-03-31,orig Equal risk capped,Equal risk capped,full_cost_net,-0.24438641050995358
+orig,cpcv_01,cpcv,2021-04-30,orig Equal risk capped,Equal risk capped,full_cost_net,1.0724573422487298
+orig,cpcv_01,cpcv,2021-06-30,orig Equal risk capped,Equal risk capped,full_cost_net,-0.3355535065643337
+orig,cpcv_01,cpcv,2021-07-30,orig Equal risk capped,Equal risk capped,full_cost_net,0.04777888207131975
+orig,cpcv_01,cpcv,2021-08-31,orig Equal risk capped,Equal risk capped,full_cost_net,-0.39401352141831264
+orig,cpcv_01,cpcv,2021-09-30,orig Equal risk capped,Equal risk capped,full_cost_net,-0.4526675528024325
+orig,cpcv_01,cpcv,2021-10-29,orig Equal risk capped,Equal risk capped,full_cost_net,-0.28483793990611483
+orig,cpcv_01,cpcv,2021-11-30,orig Equal risk capped,Equal risk capped,full_cost_net,0.6561368372511321
+orig,cpcv_01,cpcv,2021-12-31,orig Equal risk capped,Equal risk capped,full_cost_net,-0.33624016678387997
+orig,cpcv_01,cpcv,2022-01-31,orig Equal risk capped,Equal risk capped,full_cost_net,0.0966392091554174
+orig,cpcv_01,cpcv,2022-02-28,orig Equal risk capped,Equal risk capped,full_cost_net,-0.06617909605649056
+orig,cpcv_01,cpcv,2022-04-29,orig Equal risk capped,Equal risk capped,full_cost_net,-0.4045445526092356
+orig,cpcv_01,cpcv,2022-05-31,orig Equal risk capped,Equal risk capped,full_cost_net,-0.21209478879492982
+orig,cpcv_01,cpcv,2022-06-30,orig Equal risk capped,Equal risk capped,full_cost_net,-0.021358581063878657
+orig,cpcv_01,cpcv,2022-07-29,orig Equal risk capped,Equal risk capped,full_cost_net,-0.041777790852652916
+orig,cpcv_02,cpcv,2022-08-31,orig E1 capped,E1 capped,gross,-0.23561429424740604
+orig,cpcv_02,cpcv,2022-09-30,orig E1 capped,E1 capped,gross,-0.09093503614691373
+orig,cpcv_02,cpcv,2022-10-31,orig E1 capped,E1 capped,gross,-0.07742625535182963
+orig,cpcv_02,cpcv,2022-11-30,orig E1 capped,E1 capped,gross,0.08958892747872355
+orig,cpcv_02,cpcv,2022-12-30,orig E1 capped,E1 capped,gross,0.14182156576485702
+orig,cpcv_02,cpcv,2023-01-31,orig E1 capped,E1 capped,gross,0.16486287968057767
+orig,cpcv_02,cpcv,2023-02-28,orig E1 capped,E1 capped,gross,0.16864995778411968
+orig,cpcv_02,cpcv,2023-03-31,orig E1 capped,E1 capped,gross,0.40915036288550455
+orig,cpcv_02,cpcv,2023-04-28,orig E1 capped,E1 capped,gross,-0.18498499227656706
+orig,cpcv_02,cpcv,2023-05-31,orig E1 capped,E1 capped,gross,0.3162462864027463
+orig,cpcv_02,cpcv,2023-06-30,orig E1 capped,E1 capped,gross,0.37788239911245597
+orig,cpcv_02,cpcv,2023-07-31,orig E1 capped,E1 capped,gross,-0.33696011855895824
+orig,cpcv_02,cpcv,2023-08-31,orig E1 capped,E1 capped,gross,0.2834249679380292
+orig,cpcv_02,cpcv,2023-09-29,orig E1 capped,E1 capped,gross,-0.0972825742087211
+orig,cpcv_02,cpcv,2023-10-31,orig E1 capped,E1 capped,gross,-0.11153309686624072
+orig,cpcv_02,cpcv,2023-11-30,orig E1 capped,E1 capped,gross,0.8571826025234148
+orig,cpcv_02,cpcv,2023-12-29,orig E1 capped,E1 capped,gross,-0.14189769460291762
+orig,cpcv_02,cpcv,2024-01-31,orig E1 capped,E1 capped,gross,0.271315716665532
+orig,cpcv_02,cpcv,2024-02-29,orig E1 capped,E1 capped,gross,0.09357523868255202
+orig,cpcv_02,cpcv,2024-04-30,orig E1 capped,E1 capped,gross,0.04985069310898449
+orig,cpcv_02,cpcv,2024-05-31,orig E1 capped,E1 capped,gross,0.2517634341826077
+orig,cpcv_02,cpcv,2024-06-28,orig E1 capped,E1 capped,gross,0.21454206416676375
+orig,cpcv_02,cpcv,2024-07-31,orig E1 capped,E1 capped,gross,0.17507242841728904
+orig,cpcv_02,cpcv,2024-08-30,orig E1 capped,E1 capped,gross,-0.12613795912395434
+orig,cpcv_02,cpcv,2024-09-30,orig E1 capped,E1 capped,gross,0.03945593701123863
+orig,cpcv_02,cpcv,2024-10-31,orig E1 capped,E1 capped,gross,-0.16517274380371688
+orig,cpcv_02,cpcv,2024-11-29,orig E1 capped,E1 capped,gross,0.39607901044963223
+orig,cpcv_02,cpcv,2024-12-31,orig E1 capped,E1 capped,gross,0.6015108019555879
+orig,cpcv_02,cpcv,2025-01-31,orig E1 capped,E1 capped,gross,0.053245336961164236
+orig,cpcv_02,cpcv,2025-02-28,orig E1 capped,E1 capped,gross,-0.0020481600706648007
+orig,cpcv_02,cpcv,2025-04-30,orig E1 capped,E1 capped,gross,0.02851699022970175
+orig,cpcv_02,cpcv,2025-05-30,orig E1 capped,E1 capped,gross,0.5901607737009245
+orig,cpcv_02,cpcv,2025-06-30,orig E1 capped,E1 capped,gross,-0.15150772470551635
+orig,cpcv_02,cpcv,2025-07-31,orig E1 capped,E1 capped,gross,-0.14690396900587946
+orig,cpcv_02,cpcv,2025-08-29,orig E1 capped,E1 capped,gross,-0.011710053776076979
+orig,cpcv_02,cpcv,2025-09-30,orig E1 capped,E1 capped,gross,0.8538557474948918
+orig,cpcv_02,cpcv,2025-10-31,orig E1 capped,E1 capped,gross,-0.34583055375100874
+orig,cpcv_02,cpcv,2025-11-28,orig E1 capped,E1 capped,gross,-0.14465126391979666
+orig,cpcv_02,cpcv,2025-12-31,orig E1 capped,E1 capped,gross,-0.14959992277354955
+orig,cpcv_02,cpcv,2026-01-30,orig E1 capped,E1 capped,gross,-0.019838333758511767
+orig,cpcv_02,cpcv,2026-02-27,orig E1 capped,E1 capped,gross,-0.18784901989750688
+orig,cpcv_02,cpcv,2026-03-31,orig E1 capped,E1 capped,gross,-0.16020864623447376
+orig,cpcv_02,cpcv,2026-04-30,orig E1 capped,E1 capped,gross,1.0687468285605213
+orig,cpcv_02,cpcv,2022-08-31,orig E1 capped,E1 capped,full_cost_net,-0.24772891785988127
+orig,cpcv_02,cpcv,2022-09-30,orig E1 capped,E1 capped,full_cost_net,-0.1038613535090916
+orig,cpcv_02,cpcv,2022-10-31,orig E1 capped,E1 capped,full_cost_net,-0.08657769862104642
+orig,cpcv_02,cpcv,2022-11-30,orig E1 capped,E1 capped,full_cost_net,0.07924537715296401
+orig,cpcv_02,cpcv,2022-12-30,orig E1 capped,E1 capped,full_cost_net,0.13002153286913481
+orig,cpcv_02,cpcv,2023-01-31,orig E1 capped,E1 capped,full_cost_net,0.14989939180093637
+orig,cpcv_02,cpcv,2023-02-28,orig E1 capped,E1 capped,full_cost_net,0.15854247194002907
+orig,cpcv_02,cpcv,2023-03-31,orig E1 capped,E1 capped,full_cost_net,0.3967114236349951
+orig,cpcv_02,cpcv,2023-04-28,orig E1 capped,E1 capped,full_cost_net,-0.19591827814633506
+orig,cpcv_02,cpcv,2023-05-31,orig E1 capped,E1 capped,full_cost_net,0.30161192046877083
+orig,cpcv_02,cpcv,2023-06-30,orig E1 capped,E1 capped,full_cost_net,0.3565518348576921
+orig,cpcv_02,cpcv,2023-07-31,orig E1 capped,E1 capped,full_cost_net,-0.34762010419113587
+orig,cpcv_02,cpcv,2023-08-31,orig E1 capped,E1 capped,full_cost_net,0.2719257471846639
+orig,cpcv_02,cpcv,2023-09-29,orig E1 capped,E1 capped,full_cost_net,-0.11069931843496122
+orig,cpcv_02,cpcv,2023-10-31,orig E1 capped,E1 capped,full_cost_net,-0.12294039634527484
+orig,cpcv_02,cpcv,2023-11-30,orig E1 capped,E1 capped,full_cost_net,0.8195242863905557
+orig,cpcv_02,cpcv,2023-12-29,orig E1 capped,E1 capped,full_cost_net,-0.16153130172732416
+orig,cpcv_02,cpcv,2024-01-31,orig E1 capped,E1 capped,full_cost_net,0.2605505010004036
+orig,cpcv_02,cpcv,2024-02-29,orig E1 capped,E1 capped,full_cost_net,0.08155033418495042
+orig,cpcv_02,cpcv,2024-04-30,orig E1 capped,E1 capped,full_cost_net,0.03651851313910422
+orig,cpcv_02,cpcv,2024-05-31,orig E1 capped,E1 capped,full_cost_net,0.23957687272940706
+orig,cpcv_02,cpcv,2024-06-28,orig E1 capped,E1 capped,full_cost_net,0.19943782925976677
+orig,cpcv_02,cpcv,2024-07-31,orig E1 capped,E1 capped,full_cost_net,0.1582383286283081
+orig,cpcv_02,cpcv,2024-08-30,orig E1 capped,E1 capped,full_cost_net,-0.14098257737932576
+orig,cpcv_02,cpcv,2024-09-30,orig E1 capped,E1 capped,full_cost_net,0.02510034009665379
+orig,cpcv_02,cpcv,2024-10-31,orig E1 capped,E1 capped,full_cost_net,-0.1817935306627388
+orig,cpcv_02,cpcv,2024-11-29,orig E1 capped,E1 capped,full_cost_net,0.38610164941028524
+orig,cpcv_02,cpcv,2024-12-31,orig E1 capped,E1 capped,full_cost_net,0.5852207552022404
+orig,cpcv_02,cpcv,2025-01-31,orig E1 capped,E1 capped,full_cost_net,0.04104149680155781
+orig,cpcv_02,cpcv,2025-02-28,orig E1 capped,E1 capped,full_cost_net,-0.012073414657776971
+orig,cpcv_02,cpcv,2025-04-30,orig E1 capped,E1 capped,full_cost_net,0.018889884595018128
+orig,cpcv_02,cpcv,2025-05-30,orig E1 capped,E1 capped,full_cost_net,0.5808571958333356
+orig,cpcv_02,cpcv,2025-06-30,orig E1 capped,E1 capped,full_cost_net,-0.16207004240614856
+orig,cpcv_02,cpcv,2025-07-31,orig E1 capped,E1 capped,full_cost_net,-0.15743704239671796
+orig,cpcv_02,cpcv,2025-08-29,orig E1 capped,E1 capped,full_cost_net,-0.02344583129352825
+orig,cpcv_02,cpcv,2025-09-30,orig E1 capped,E1 capped,full_cost_net,0.8434363922270774
+orig,cpcv_02,cpcv,2025-10-31,orig E1 capped,E1 capped,full_cost_net,-0.3559461781178572
+orig,cpcv_02,cpcv,2025-11-28,orig E1 capped,E1 capped,full_cost_net,-0.15610842449699866
+orig,cpcv_02,cpcv,2025-12-31,orig E1 capped,E1 capped,full_cost_net,-0.16102956332956153
+orig,cpcv_02,cpcv,2026-01-30,orig E1 capped,E1 capped,full_cost_net,-0.03357666488228959
+orig,cpcv_02,cpcv,2026-02-27,orig E1 capped,E1 capped,full_cost_net,-0.19791167229254572
+orig,cpcv_02,cpcv,2026-03-31,orig E1 capped,E1 capped,full_cost_net,-0.16963761003087932
+orig,cpcv_02,cpcv,2026-04-30,orig E1 capped,E1 capped,full_cost_net,1.0514284515161292
+orig,cpcv_02,cpcv,2022-08-31,orig GM paper,GM paper,gross,-0.18522806046278922
+orig,cpcv_02,cpcv,2022-09-30,orig GM paper,GM paper,gross,0.0755216906338368
+orig,cpcv_02,cpcv,2022-10-31,orig GM paper,GM paper,gross,-0.0021856040216683484
+orig,cpcv_02,cpcv,2022-11-30,orig GM paper,GM paper,gross,-0.24726632736965626
+orig,cpcv_02,cpcv,2022-12-30,orig GM paper,GM paper,gross,-0.5616358486919389
+orig,cpcv_02,cpcv,2023-01-31,orig GM paper,GM paper,gross,0.18690824065574654
+orig,cpcv_02,cpcv,2023-02-28,orig GM paper,GM paper,gross,0.12510346712813397
+orig,cpcv_02,cpcv,2023-03-31,orig GM paper,GM paper,gross,0.17928613499485943
+orig,cpcv_02,cpcv,2023-04-28,orig GM paper,GM paper,gross,-0.21291011603461504
+orig,cpcv_02,cpcv,2023-05-31,orig GM paper,GM paper,gross,0.24615598166055003
+orig,cpcv_02,cpcv,2023-06-30,orig GM paper,GM paper,gross,0.24920432616008675
+orig,cpcv_02,cpcv,2023-07-31,orig GM paper,GM paper,gross,0.03825624731917576
+orig,cpcv_02,cpcv,2023-08-31,orig GM paper,GM paper,gross,-0.7205159991810655
+orig,cpcv_02,cpcv,2023-09-29,orig GM paper,GM paper,gross,-0.04222373333031325
+orig,cpcv_02,cpcv,2023-10-31,orig GM paper,GM paper,gross,-0.24325700543397977
+orig,cpcv_02,cpcv,2023-11-30,orig GM paper,GM paper,gross,0.5564582084787528
+orig,cpcv_02,cpcv,2023-12-29,orig GM paper,GM paper,gross,0.06283477304285
+orig,cpcv_02,cpcv,2024-01-31,orig GM paper,GM paper,gross,0.5743842235315681
+orig,cpcv_02,cpcv,2024-02-29,orig GM paper,GM paper,gross,0.32500235085100915
+orig,cpcv_02,cpcv,2024-04-30,orig GM paper,GM paper,gross,-0.590807956332969
+orig,cpcv_02,cpcv,2024-05-31,orig GM paper,GM paper,gross,0.21268253873762
+orig,cpcv_02,cpcv,2024-06-28,orig GM paper,GM paper,gross,0.49777623379535163
+orig,cpcv_02,cpcv,2024-07-31,orig GM paper,GM paper,gross,0.2581618897557577
+orig,cpcv_02,cpcv,2024-08-30,orig GM paper,GM paper,gross,-0.14028198898007885
+orig,cpcv_02,cpcv,2024-09-30,orig GM paper,GM paper,gross,0.009704783564204622
+orig,cpcv_02,cpcv,2024-10-31,orig GM paper,GM paper,gross,0.23468404719279726
+orig,cpcv_02,cpcv,2024-11-29,orig GM paper,GM paper,gross,0.3719629166744431
+orig,cpcv_02,cpcv,2024-12-31,orig GM paper,GM paper,gross,0.23582610398169168
+orig,cpcv_02,cpcv,2025-01-31,orig GM paper,GM paper,gross,0.08046379496384373
+orig,cpcv_02,cpcv,2025-02-28,orig GM paper,GM paper,gross,-0.36165694691670947
+orig,cpcv_02,cpcv,2025-04-30,orig GM paper,GM paper,gross,0.16342116067470525
+orig,cpcv_02,cpcv,2025-05-30,orig GM paper,GM paper,gross,0.7883006810287553
+orig,cpcv_02,cpcv,2025-06-30,orig GM paper,GM paper,gross,0.09003858863875043
+orig,cpcv_02,cpcv,2025-07-31,orig GM paper,GM paper,gross,0.14614115531507163
+orig,cpcv_02,cpcv,2025-08-29,orig GM paper,GM paper,gross,-0.03070398462000304
+orig,cpcv_02,cpcv,2025-09-30,orig GM paper,GM paper,gross,0.23254707863433996
+orig,cpcv_02,cpcv,2025-10-31,orig GM paper,GM paper,gross,-0.09353088053795065
+orig,cpcv_02,cpcv,2025-11-28,orig GM paper,GM paper,gross,-0.08686382885547152
+orig,cpcv_02,cpcv,2025-12-31,orig GM paper,GM paper,gross,-0.06018009884451947
+orig,cpcv_02,cpcv,2026-01-30,orig GM paper,GM paper,gross,-0.01166574780562156
+orig,cpcv_02,cpcv,2026-02-27,orig GM paper,GM paper,gross,-0.046879423602240095
+orig,cpcv_02,cpcv,2026-03-31,orig GM paper,GM paper,gross,0.07756846015792733
+orig,cpcv_02,cpcv,2026-04-30,orig GM paper,GM paper,gross,0.5004815414070405
+orig,cpcv_02,cpcv,2022-08-31,orig GM paper,GM paper,full_cost_net,-0.333402713336729
+orig,cpcv_02,cpcv,2022-09-30,orig GM paper,GM paper,full_cost_net,-0.2646613359889245
+orig,cpcv_02,cpcv,2022-10-31,orig GM paper,GM paper,full_cost_net,-0.12811614086647327
+orig,cpcv_02,cpcv,2022-11-30,orig GM paper,GM paper,full_cost_net,-0.47406137232542644
+orig,cpcv_02,cpcv,2022-12-30,orig GM paper,GM paper,full_cost_net,-2.1074190582602768
+orig,cpcv_02,cpcv,2023-01-31,orig GM paper,GM paper,full_cost_net,-0.42202806242973545
+orig,cpcv_02,cpcv,2023-02-28,orig GM paper,GM paper,full_cost_net,-1.8183864571892103
+orig,cpcv_02,cpcv,2023-03-31,orig GM paper,GM paper,full_cost_net,-0.18850521670818274
+orig,cpcv_02,cpcv,2023-04-28,orig GM paper,GM paper,full_cost_net,-0.2544258062398606
+orig,cpcv_02,cpcv,2023-05-31,orig GM paper,GM paper,full_cost_net,-0.19127495265695027
+orig,cpcv_02,cpcv,2023-06-30,orig GM paper,GM paper,full_cost_net,-0.6292467931951466
+orig,cpcv_02,cpcv,2023-07-31,orig GM paper,GM paper,full_cost_net,0.0012569685493607555
+orig,cpcv_02,cpcv,2023-08-31,orig GM paper,GM paper,full_cost_net,-0.9970904451327858
+orig,cpcv_02,cpcv,2023-09-29,orig GM paper,GM paper,full_cost_net,-0.3144693941212039
+orig,cpcv_02,cpcv,2023-10-31,orig GM paper,GM paper,full_cost_net,-0.35666334748365025
+orig,cpcv_02,cpcv,2023-11-30,orig GM paper,GM paper,full_cost_net,0.4598679598560064
+orig,cpcv_02,cpcv,2023-12-29,orig GM paper,GM paper,full_cost_net,-1.0541213199462012
+orig,cpcv_02,cpcv,2024-01-31,orig GM paper,GM paper,full_cost_net,0.33245620776869106
+orig,cpcv_02,cpcv,2024-02-29,orig GM paper,GM paper,full_cost_net,0.011766164225225473
+orig,cpcv_02,cpcv,2024-04-30,orig GM paper,GM paper,full_cost_net,-1.0331522196174334
+orig,cpcv_02,cpcv,2024-05-31,orig GM paper,GM paper,full_cost_net,0.16764057751316444
+orig,cpcv_02,cpcv,2024-06-28,orig GM paper,GM paper,full_cost_net,0.4497291307829737
+orig,cpcv_02,cpcv,2024-07-31,orig GM paper,GM paper,full_cost_net,0.044179947163165645
+orig,cpcv_02,cpcv,2024-08-30,orig GM paper,GM paper,full_cost_net,-0.2361321137016104
+orig,cpcv_02,cpcv,2024-09-30,orig GM paper,GM paper,full_cost_net,-0.1083088211163532
+orig,cpcv_02,cpcv,2024-10-31,orig GM paper,GM paper,full_cost_net,-0.19174763947241816
+orig,cpcv_02,cpcv,2024-11-29,orig GM paper,GM paper,full_cost_net,0.3336277747565918
+orig,cpcv_02,cpcv,2024-12-31,orig GM paper,GM paper,full_cost_net,-0.04209278561700086
+orig,cpcv_02,cpcv,2025-01-31,orig GM paper,GM paper,full_cost_net,-0.022495350043630444
+orig,cpcv_02,cpcv,2025-02-28,orig GM paper,GM paper,full_cost_net,-0.4110801428683918
+orig,cpcv_02,cpcv,2025-04-30,orig GM paper,GM paper,full_cost_net,0.12391322596187342
+orig,cpcv_02,cpcv,2025-05-30,orig GM paper,GM paper,full_cost_net,0.7086740063412611
+orig,cpcv_02,cpcv,2025-06-30,orig GM paper,GM paper,full_cost_net,-0.053958813753521476
+orig,cpcv_02,cpcv,2025-07-31,orig GM paper,GM paper,full_cost_net,-0.4812118803705
+orig,cpcv_02,cpcv,2025-08-29,orig GM paper,GM paper,full_cost_net,-0.08738813063200707
+orig,cpcv_02,cpcv,2025-09-30,orig GM paper,GM paper,full_cost_net,0.14874063343605154
+orig,cpcv_02,cpcv,2025-10-31,orig GM paper,GM paper,full_cost_net,-0.4367840492017065
+orig,cpcv_02,cpcv,2025-11-28,orig GM paper,GM paper,full_cost_net,-0.14097702698496833
+orig,cpcv_02,cpcv,2025-12-31,orig GM paper,GM paper,full_cost_net,-0.11471891538025432
+orig,cpcv_02,cpcv,2026-01-30,orig GM paper,GM paper,full_cost_net,-0.08294837863975825
+orig,cpcv_02,cpcv,2026-02-27,orig GM paper,GM paper,full_cost_net,-0.11541701654559061
+orig,cpcv_02,cpcv,2026-03-31,orig GM paper,GM paper,full_cost_net,0.053776977611290494
+orig,cpcv_02,cpcv,2026-04-30,orig GM paper,GM paper,full_cost_net,0.24607735571421951
+orig,cpcv_02,cpcv,2022-08-31,orig Equal premium capped,Equal premium capped,gross,-0.2969029300892477
+orig,cpcv_02,cpcv,2022-09-30,orig Equal premium capped,Equal premium capped,gross,-0.11991848597913364
+orig,cpcv_02,cpcv,2022-10-31,orig Equal premium capped,Equal premium capped,gross,-0.027867598655576926
+orig,cpcv_02,cpcv,2022-11-30,orig Equal premium capped,Equal premium capped,gross,0.2753414720181734
+orig,cpcv_02,cpcv,2022-12-30,orig Equal premium capped,Equal premium capped,gross,0.39202213521919704
+orig,cpcv_02,cpcv,2023-01-31,orig Equal premium capped,Equal premium capped,gross,0.1357286505432036
+orig,cpcv_02,cpcv,2023-02-28,orig Equal premium capped,Equal premium capped,gross,0.062214612795564034
+orig,cpcv_02,cpcv,2023-03-31,orig Equal premium capped,Equal premium capped,gross,0.4397710257011688
+orig,cpcv_02,cpcv,2023-04-28,orig Equal premium capped,Equal premium capped,gross,-0.09049907268974167
+orig,cpcv_02,cpcv,2023-05-31,orig Equal premium capped,Equal premium capped,gross,0.20916567518032733
+orig,cpcv_02,cpcv,2023-06-30,orig Equal premium capped,Equal premium capped,gross,0.2199641027342984
+orig,cpcv_02,cpcv,2023-07-31,orig Equal premium capped,Equal premium capped,gross,-0.3979016253791035
+orig,cpcv_02,cpcv,2023-08-31,orig Equal premium capped,Equal premium capped,gross,0.8156729449617006
+orig,cpcv_02,cpcv,2023-09-29,orig Equal premium capped,Equal premium capped,gross,-0.12740915854759072
+orig,cpcv_02,cpcv,2023-10-31,orig Equal premium capped,Equal premium capped,gross,-0.042721213051732446
+orig,cpcv_02,cpcv,2023-11-30,orig Equal premium capped,Equal premium capped,gross,0.7760575443995145
+orig,cpcv_02,cpcv,2023-12-29,orig Equal premium capped,Equal premium capped,gross,-0.2179444311323332
+orig,cpcv_02,cpcv,2024-01-31,orig Equal premium capped,Equal premium capped,gross,0.3201196937131484
+orig,cpcv_02,cpcv,2024-02-29,orig Equal premium capped,Equal premium capped,gross,0.09817797925191912
+orig,cpcv_02,cpcv,2024-04-30,orig Equal premium capped,Equal premium capped,gross,0.4062772270168819
+orig,cpcv_02,cpcv,2024-05-31,orig Equal premium capped,Equal premium capped,gross,0.22608899204680738
+orig,cpcv_02,cpcv,2024-06-28,orig Equal premium capped,Equal premium capped,gross,0.1434495830128221
+orig,cpcv_02,cpcv,2024-07-31,orig Equal premium capped,Equal premium capped,gross,0.05393686540374598
+orig,cpcv_02,cpcv,2024-08-30,orig Equal premium capped,Equal premium capped,gross,-0.13122244116778303
+orig,cpcv_02,cpcv,2024-09-30,orig Equal premium capped,Equal premium capped,gross,-0.058313811587628384
+orig,cpcv_02,cpcv,2024-10-31,orig Equal premium capped,Equal premium capped,gross,-0.1511599389303565
+orig,cpcv_02,cpcv,2024-11-29,orig Equal premium capped,Equal premium capped,gross,0.17917754483405007
+orig,cpcv_02,cpcv,2024-12-31,orig Equal premium capped,Equal premium capped,gross,0.4402269297146401
+orig,cpcv_02,cpcv,2025-01-31,orig Equal premium capped,Equal premium capped,gross,-0.022864759909011448
+orig,cpcv_02,cpcv,2025-02-28,orig Equal premium capped,Equal premium capped,gross,0.1278870622101147
+orig,cpcv_02,cpcv,2025-04-30,orig Equal premium capped,Equal premium capped,gross,0.046900141789189886
+orig,cpcv_02,cpcv,2025-05-30,orig Equal premium capped,Equal premium capped,gross,0.4952411927107266
+orig,cpcv_02,cpcv,2025-06-30,orig Equal premium capped,Equal premium capped,gross,-0.18533874086369462
+orig,cpcv_02,cpcv,2025-07-31,orig Equal premium capped,Equal premium capped,gross,-0.22571920991595495
+orig,cpcv_02,cpcv,2025-08-29,orig Equal premium capped,Equal premium capped,gross,-0.09059000801508331
+orig,cpcv_02,cpcv,2025-09-30,orig Equal premium capped,Equal premium capped,gross,0.6236475875596266
+orig,cpcv_02,cpcv,2025-10-31,orig Equal premium capped,Equal premium capped,gross,-0.3955523289573783
+orig,cpcv_02,cpcv,2025-11-28,orig Equal premium capped,Equal premium capped,gross,0.0031344469875022665
+orig,cpcv_02,cpcv,2025-12-31,orig Equal premium capped,Equal premium capped,gross,-0.26871102658013774
+orig,cpcv_02,cpcv,2026-01-30,orig Equal premium capped,Equal premium capped,gross,-0.03890240411737438
+orig,cpcv_02,cpcv,2026-02-27,orig Equal premium capped,Equal premium capped,gross,-0.19332705559192495
+orig,cpcv_02,cpcv,2026-03-31,orig Equal premium capped,Equal premium capped,gross,-0.16622918218234123
+orig,cpcv_02,cpcv,2026-04-30,orig Equal premium capped,Equal premium capped,gross,1.0813050432768025
+orig,cpcv_02,cpcv,2022-08-31,orig Equal premium capped,Equal premium capped,full_cost_net,-0.30925086971941357
+orig,cpcv_02,cpcv,2022-09-30,orig Equal premium capped,Equal premium capped,full_cost_net,-0.13363313864780457
+orig,cpcv_02,cpcv,2022-10-31,orig Equal premium capped,Equal premium capped,full_cost_net,-0.03761596481180285
+orig,cpcv_02,cpcv,2022-11-30,orig Equal premium capped,Equal premium capped,full_cost_net,0.2645556261653229
+orig,cpcv_02,cpcv,2022-12-30,orig Equal premium capped,Equal premium capped,full_cost_net,0.3794792821079353
+orig,cpcv_02,cpcv,2023-01-31,orig Equal premium capped,Equal premium capped,full_cost_net,0.12035949728736171
+orig,cpcv_02,cpcv,2023-02-28,orig Equal premium capped,Equal premium capped,full_cost_net,0.0516965573737132
+orig,cpcv_02,cpcv,2023-03-31,orig Equal premium capped,Equal premium capped,full_cost_net,0.4268537045181255
+orig,cpcv_02,cpcv,2023-04-28,orig Equal premium capped,Equal premium capped,full_cost_net,-0.10197847445562158
+orig,cpcv_02,cpcv,2023-05-31,orig Equal premium capped,Equal premium capped,full_cost_net,0.19287763077768663
+orig,cpcv_02,cpcv,2023-06-30,orig Equal premium capped,Equal premium capped,full_cost_net,0.19809119628813032
+orig,cpcv_02,cpcv,2023-07-31,orig Equal premium capped,Equal premium capped,full_cost_net,-0.4086330103377044
+orig,cpcv_02,cpcv,2023-08-31,orig Equal premium capped,Equal premium capped,full_cost_net,0.8039221831653061
+orig,cpcv_02,cpcv,2023-09-29,orig Equal premium capped,Equal premium capped,full_cost_net,-0.14143413598614243
+orig,cpcv_02,cpcv,2023-10-31,orig Equal premium capped,Equal premium capped,full_cost_net,-0.054566637237345554
+orig,cpcv_02,cpcv,2023-11-30,orig Equal premium capped,Equal premium capped,full_cost_net,0.7380606994036684
+orig,cpcv_02,cpcv,2023-12-29,orig Equal premium capped,Equal premium capped,full_cost_net,-0.23769234671472791
+orig,cpcv_02,cpcv,2024-01-31,orig Equal premium capped,Equal premium capped,full_cost_net,0.30777765734133805
+orig,cpcv_02,cpcv,2024-02-29,orig Equal premium capped,Equal premium capped,full_cost_net,0.08621927323289269
+orig,cpcv_02,cpcv,2024-04-30,orig Equal premium capped,Equal premium capped,full_cost_net,0.39265737869982054
+orig,cpcv_02,cpcv,2024-05-31,orig Equal premium capped,Equal premium capped,full_cost_net,0.21344572172223755
+orig,cpcv_02,cpcv,2024-06-28,orig Equal premium capped,Equal premium capped,full_cost_net,0.12780113776139335
+orig,cpcv_02,cpcv,2024-07-31,orig Equal premium capped,Equal premium capped,full_cost_net,0.036619084049795914
+orig,cpcv_02,cpcv,2024-08-30,orig Equal premium capped,Equal premium capped,full_cost_net,-0.14700201215883024
+orig,cpcv_02,cpcv,2024-09-30,orig Equal premium capped,Equal premium capped,full_cost_net,-0.07455006397199364
+orig,cpcv_02,cpcv,2024-10-31,orig Equal premium capped,Equal premium capped,full_cost_net,-0.16810571202992336
+orig,cpcv_02,cpcv,2024-11-29,orig Equal premium capped,Equal premium capped,full_cost_net,0.16838525850899957
+orig,cpcv_02,cpcv,2024-12-31,orig Equal premium capped,Equal premium capped,full_cost_net,0.42330555541309794
+orig,cpcv_02,cpcv,2025-01-31,orig Equal premium capped,Equal premium capped,full_cost_net,-0.03556803907869223
+orig,cpcv_02,cpcv,2025-02-28,orig Equal premium capped,Equal premium capped,full_cost_net,0.11712652668232269
+orig,cpcv_02,cpcv,2025-04-30,orig Equal premium capped,Equal premium capped,full_cost_net,0.03686318480797558
+orig,cpcv_02,cpcv,2025-05-30,orig Equal premium capped,Equal premium capped,full_cost_net,0.48551672048731254
+orig,cpcv_02,cpcv,2025-06-30,orig Equal premium capped,Equal premium capped,full_cost_net,-0.1964581500249193
+orig,cpcv_02,cpcv,2025-07-31,orig Equal premium capped,Equal premium capped,full_cost_net,-0.23662404740938298
+orig,cpcv_02,cpcv,2025-08-29,orig Equal premium capped,Equal premium capped,full_cost_net,-0.10287655025598744
+orig,cpcv_02,cpcv,2025-09-30,orig Equal premium capped,Equal premium capped,full_cost_net,0.6124100662636274
+orig,cpcv_02,cpcv,2025-10-31,orig Equal premium capped,Equal premium capped,full_cost_net,-0.40589858671250445
+orig,cpcv_02,cpcv,2025-11-28,orig Equal premium capped,Equal premium capped,full_cost_net,-0.008818862651102186
+orig,cpcv_02,cpcv,2025-12-31,orig Equal premium capped,Equal premium capped,full_cost_net,-0.2808232107291544
+orig,cpcv_02,cpcv,2026-01-30,orig Equal premium capped,Equal premium capped,full_cost_net,-0.054170725552271363
+orig,cpcv_02,cpcv,2026-02-27,orig Equal premium capped,Equal premium capped,full_cost_net,-0.20403555057942518
+orig,cpcv_02,cpcv,2026-03-31,orig Equal premium capped,Equal premium capped,full_cost_net,-0.17631380221819878
+orig,cpcv_02,cpcv,2026-04-30,orig Equal premium capped,Equal premium capped,full_cost_net,1.0632839878781748
+orig,cpcv_02,cpcv,2022-08-31,orig Equal risk capped,Equal risk capped,gross,-0.2971982884081697
+orig,cpcv_02,cpcv,2022-09-30,orig Equal risk capped,Equal risk capped,gross,-0.12171968548623521
+orig,cpcv_02,cpcv,2022-10-31,orig Equal risk capped,Equal risk capped,gross,-0.019398666051913024
+orig,cpcv_02,cpcv,2022-11-30,orig Equal risk capped,Equal risk capped,gross,0.2779942157021619
+orig,cpcv_02,cpcv,2022-12-30,orig Equal risk capped,Equal risk capped,gross,0.4067118344116529
+orig,cpcv_02,cpcv,2023-01-31,orig Equal risk capped,Equal risk capped,gross,0.12271845993626795
+orig,cpcv_02,cpcv,2023-02-28,orig Equal risk capped,Equal risk capped,gross,0.054162948894596954
+orig,cpcv_02,cpcv,2023-03-31,orig Equal risk capped,Equal risk capped,gross,0.43821038912708343
+orig,cpcv_02,cpcv,2023-04-28,orig Equal risk capped,Equal risk capped,gross,-0.07976422597966255
+orig,cpcv_02,cpcv,2023-05-31,orig Equal risk capped,Equal risk capped,gross,0.20350806248890987
+orig,cpcv_02,cpcv,2023-06-30,orig Equal risk capped,Equal risk capped,gross,0.21263935102492884
+orig,cpcv_02,cpcv,2023-07-31,orig Equal risk capped,Equal risk capped,gross,-0.39790652701172224
+orig,cpcv_02,cpcv,2023-08-31,orig Equal risk capped,Equal risk capped,gross,0.8296252737643828
+orig,cpcv_02,cpcv,2023-09-29,orig Equal risk capped,Equal risk capped,gross,-0.12857266162753775
+orig,cpcv_02,cpcv,2023-10-31,orig Equal risk capped,Equal risk capped,gross,-0.034036986394561014
+orig,cpcv_02,cpcv,2023-11-30,orig Equal risk capped,Equal risk capped,gross,0.7604402159815509
+orig,cpcv_02,cpcv,2023-12-29,orig Equal risk capped,Equal risk capped,gross,-0.21891370125892368
+orig,cpcv_02,cpcv,2024-01-31,orig Equal risk capped,Equal risk capped,gross,0.3296491716234127
+orig,cpcv_02,cpcv,2024-02-29,orig Equal risk capped,Equal risk capped,gross,0.07637925874032227
+orig,cpcv_02,cpcv,2024-04-30,orig Equal risk capped,Equal risk capped,gross,0.42604335199193605
+orig,cpcv_02,cpcv,2024-05-31,orig Equal risk capped,Equal risk capped,gross,0.2206690214002784
+orig,cpcv_02,cpcv,2024-06-28,orig Equal risk capped,Equal risk capped,gross,0.14228127924169656
+orig,cpcv_02,cpcv,2024-07-31,orig Equal risk capped,Equal risk capped,gross,0.050451745251800184
+orig,cpcv_02,cpcv,2024-08-30,orig Equal risk capped,Equal risk capped,gross,-0.12846389062327876
+orig,cpcv_02,cpcv,2024-09-30,orig Equal risk capped,Equal risk capped,gross,-0.06185218289575979
+orig,cpcv_02,cpcv,2024-10-31,orig Equal risk capped,Equal risk capped,gross,-0.1429539739474157
+orig,cpcv_02,cpcv,2024-11-29,orig Equal risk capped,Equal risk capped,gross,0.17329535311185978
+orig,cpcv_02,cpcv,2024-12-31,orig Equal risk capped,Equal risk capped,gross,0.4330996767085242
+orig,cpcv_02,cpcv,2025-01-31,orig Equal risk capped,Equal risk capped,gross,-0.023804515495545783
+orig,cpcv_02,cpcv,2025-02-28,orig Equal risk capped,Equal risk capped,gross,0.1378621795127645
+orig,cpcv_02,cpcv,2025-04-30,orig Equal risk capped,Equal risk capped,gross,0.05476457588769809
+orig,cpcv_02,cpcv,2025-05-30,orig Equal risk capped,Equal risk capped,gross,0.48213075138992756
+orig,cpcv_02,cpcv,2025-06-30,orig Equal risk capped,Equal risk capped,gross,-0.1810284009977962
+orig,cpcv_02,cpcv,2025-07-31,orig Equal risk capped,Equal risk capped,gross,-0.2271771767538649
+orig,cpcv_02,cpcv,2025-08-29,orig Equal risk capped,Equal risk capped,gross,-0.09333073532282506
+orig,cpcv_02,cpcv,2025-09-30,orig Equal risk capped,Equal risk capped,gross,0.6132588713846125
+orig,cpcv_02,cpcv,2025-10-31,orig Equal risk capped,Equal risk capped,gross,-0.395829164566151
+orig,cpcv_02,cpcv,2025-11-28,orig Equal risk capped,Equal risk capped,gross,0.011214156730202034
+orig,cpcv_02,cpcv,2025-12-31,orig Equal risk capped,Equal risk capped,gross,-0.2707663917179651
+orig,cpcv_02,cpcv,2026-01-30,orig Equal risk capped,Equal risk capped,gross,-0.03607002436682903
+orig,cpcv_02,cpcv,2026-02-27,orig Equal risk capped,Equal risk capped,gross,-0.1863616145795755
+orig,cpcv_02,cpcv,2026-03-31,orig Equal risk capped,Equal risk capped,gross,-0.1574217208102504
+orig,cpcv_02,cpcv,2026-04-30,orig Equal risk capped,Equal risk capped,gross,1.0512487856413564
+orig,cpcv_02,cpcv,2022-08-31,orig Equal risk capped,Equal risk capped,full_cost_net,-0.3095052282538271
+orig,cpcv_02,cpcv,2022-09-30,orig Equal risk capped,Equal risk capped,full_cost_net,-0.1353681449828366
+orig,cpcv_02,cpcv,2022-10-31,orig Equal risk capped,Equal risk capped,full_cost_net,-0.02910107517252168
+orig,cpcv_02,cpcv,2022-11-30,orig Equal risk capped,Equal risk capped,full_cost_net,0.2672538308070017
+orig,cpcv_02,cpcv,2022-12-30,orig Equal risk capped,Equal risk capped,full_cost_net,0.39427174155502503
+orig,cpcv_02,cpcv,2023-01-31,orig Equal risk capped,Equal risk capped,full_cost_net,0.10747648126350737
+orig,cpcv_02,cpcv,2023-02-28,orig Equal risk capped,Equal risk capped,full_cost_net,0.04366019452722926
+orig,cpcv_02,cpcv,2023-03-31,orig Equal risk capped,Equal risk capped,full_cost_net,0.4253363005224505
+orig,cpcv_02,cpcv,2023-04-28,orig Equal risk capped,Equal risk capped,full_cost_net,-0.0911350922946905
+orig,cpcv_02,cpcv,2023-05-31,orig Equal risk capped,Equal risk capped,full_cost_net,0.18790035445055248
+orig,cpcv_02,cpcv,2023-06-30,orig Equal risk capped,Equal risk capped,full_cost_net,0.1908320407841729
+orig,cpcv_02,cpcv,2023-07-31,orig Equal risk capped,Equal risk capped,full_cost_net,-0.408579759664805
+orig,cpcv_02,cpcv,2023-08-31,orig Equal risk capped,Equal risk capped,full_cost_net,0.8179541040978087
+orig,cpcv_02,cpcv,2023-09-29,orig Equal risk capped,Equal risk capped,full_cost_net,-0.1424181662552681
+orig,cpcv_02,cpcv,2023-10-31,orig Equal risk capped,Equal risk capped,full_cost_net,-0.04583858855833879
+orig,cpcv_02,cpcv,2023-11-30,orig Equal risk capped,Equal risk capped,full_cost_net,0.7225967309437659
+orig,cpcv_02,cpcv,2023-12-29,orig Equal risk capped,Equal risk capped,full_cost_net,-0.23852790908656446
+orig,cpcv_02,cpcv,2024-01-31,orig Equal risk capped,Equal risk capped,full_cost_net,0.31822568894088427
+orig,cpcv_02,cpcv,2024-02-29,orig Equal risk capped,Equal risk capped,full_cost_net,0.06449455275771732
+orig,cpcv_02,cpcv,2024-04-30,orig Equal risk capped,Equal risk capped,full_cost_net,0.41246971923151865
+orig,cpcv_02,cpcv,2024-05-31,orig Equal risk capped,Equal risk capped,full_cost_net,0.20806906363593347
+orig,cpcv_02,cpcv,2024-06-28,orig Equal risk capped,Equal risk capped,full_cost_net,0.12670447936882068
+orig,cpcv_02,cpcv,2024-07-31,orig Equal risk capped,Equal risk capped,full_cost_net,0.03317443619344389
+orig,cpcv_02,cpcv,2024-08-30,orig Equal risk capped,Equal risk capped,full_cost_net,-0.1441906728516864
+orig,cpcv_02,cpcv,2024-09-30,orig Equal risk capped,Equal risk capped,full_cost_net,-0.07769939773397433
+orig,cpcv_02,cpcv,2024-10-31,orig Equal risk capped,Equal risk capped,full_cost_net,-0.15983184925658134
+orig,cpcv_02,cpcv,2024-11-29,orig Equal risk capped,Equal risk capped,full_cost_net,0.1625613430975974
+orig,cpcv_02,cpcv,2024-12-31,orig Equal risk capped,Equal risk capped,full_cost_net,0.41632454295092663
+orig,cpcv_02,cpcv,2025-01-31,orig Equal risk capped,Equal risk capped,full_cost_net,-0.03644061852690221
+orig,cpcv_02,cpcv,2025-02-28,orig Equal risk capped,Equal risk capped,full_cost_net,0.12714125616670569
+orig,cpcv_02,cpcv,2025-04-30,orig Equal risk capped,Equal risk capped,full_cost_net,0.04475846363209919
+orig,cpcv_02,cpcv,2025-05-30,orig Equal risk capped,Equal risk capped,full_cost_net,0.47243606236101343
+orig,cpcv_02,cpcv,2025-06-30,orig Equal risk capped,Equal risk capped,full_cost_net,-0.19209544956678604
+orig,cpcv_02,cpcv,2025-07-31,orig Equal risk capped,Equal risk capped,full_cost_net,-0.23802310309186914
+orig,cpcv_02,cpcv,2025-08-29,orig Equal risk capped,Equal risk capped,full_cost_net,-0.10558746753712131
+orig,cpcv_02,cpcv,2025-09-30,orig Equal risk capped,Equal risk capped,full_cost_net,0.6021229064525782
+orig,cpcv_02,cpcv,2025-10-31,orig Equal risk capped,Equal risk capped,full_cost_net,-0.40611066377065086
+orig,cpcv_02,cpcv,2025-11-28,orig Equal risk capped,Equal risk capped,full_cost_net,-0.000693817925582027
+orig,cpcv_02,cpcv,2025-12-31,orig Equal risk capped,Equal risk capped,full_cost_net,-0.28282956761220807
+orig,cpcv_02,cpcv,2026-01-30,orig Equal risk capped,Equal risk capped,full_cost_net,-0.05105082181643865
+orig,cpcv_02,cpcv,2026-02-27,orig Equal risk capped,Equal risk capped,full_cost_net,-0.19702847625059192
+orig,cpcv_02,cpcv,2026-03-31,orig Equal risk capped,Equal risk capped,full_cost_net,-0.1673922460101334
+orig,cpcv_02,cpcv,2026-04-30,orig Equal risk capped,Equal risk capped,full_cost_net,1.0333427443427494

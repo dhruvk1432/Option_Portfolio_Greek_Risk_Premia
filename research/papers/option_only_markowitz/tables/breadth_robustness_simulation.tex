@@ -1,0 +1,22 @@
+\begin{tabular}{llllrrrrrrr}
+\toprule
+Return basis & Strategy & Requested method & Simulation & N paths & Defaulted path share & Ann. return p05 & Ann. return p50 & Sortino p50 & Max DD p50 & Terminal wealth p50 \\
+\midrule
+Gross before costs & orig E1 capped & circular\_block\_bootstrap & circular\_block\_bootstrap & 1000 & 0.000 & 0.000 & 0.661 & 2.313 & -0.614 & 12.653 \\
+Gross before costs & orig E1 capped & egarch\_or\_ewma & garch11\_residual\_fallback\_insufficient\_egarch\_obs & 1000 & 0.000 & -0.121 & 0.483 & 1.847 & -0.638 & 7.170 \\
+Gross before costs & orig+VIX E1 capped & circular\_block\_bootstrap & circular\_block\_bootstrap & 1000 & 0.000 & 0.940 & 2.142 & 4.632 & -0.456 & 306.240 \\
+Gross before costs & orig+VIX E1 capped & egarch\_or\_ewma & garch11\_residual\_fallback\_insufficient\_egarch\_obs & 1000 & 0.000 & 0.922 & 2.298 & 5.800 & -0.434 & 390.332 \\
+Gross before costs & larger E1 capped & circular\_block\_bootstrap & circular\_block\_bootstrap & 1000 & 0.000 & -0.078 & 0.473 & 1.946 & -0.608 & 6.929 \\
+Gross before costs & larger E1 capped & egarch\_or\_ewma & garch11\_residual\_fallback\_insufficient\_egarch\_obs & 1000 & 0.000 & -0.372 & 0.108 & 0.883 & -0.754 & 1.667 \\
+Gross before costs & larger+VIX E1 capped & circular\_block\_bootstrap & circular\_block\_bootstrap & 1000 & 0.000 & 1.433 & 2.850 & 6.042 & -0.362 & 845.857 \\
+Gross before costs & larger+VIX E1 capped & egarch\_or\_ewma & garch11\_residual\_fallback\_insufficient\_egarch\_obs & 1000 & 0.000 & 0.997 & 2.549 & 6.365 & -0.400 & 563.366 \\
+Full-cost net & orig E1 capped & circular\_block\_bootstrap & circular\_block\_bootstrap & 1000 & 0.000 & -0.183 & 0.350 & 1.618 & -0.679 & 4.481 \\
+Full-cost net & orig E1 capped & egarch\_or\_ewma & garch11\_residual\_fallback\_insufficient\_egarch\_obs & 1000 & 0.000 & -0.272 & 0.209 & 1.170 & -0.713 & 2.583 \\
+Full-cost net & orig+VIX E1 capped & circular\_block\_bootstrap & circular\_block\_bootstrap & 1000 & 0.000 & 0.433 & 1.296 & 3.242 & -0.535 & 63.753 \\
+Full-cost net & orig+VIX E1 capped & egarch\_or\_ewma & garch11\_residual\_fallback\_insufficient\_egarch\_obs & 1000 & 0.000 & 0.406 & 1.448 & 3.866 & -0.516 & 88.000 \\
+Full-cost net & larger E1 capped & circular\_block\_bootstrap & circular\_block\_bootstrap & 1000 & 0.000 & -0.269 & 0.175 & 1.200 & -0.704 & 2.244 \\
+Full-cost net & larger E1 capped & egarch\_or\_ewma & garch11\_residual\_fallback\_insufficient\_egarch\_obs & 1000 & 0.000 & -0.500 & -0.115 & 0.317 & -0.852 & 0.541 \\
+Full-cost net & larger+VIX E1 capped & circular\_block\_bootstrap & circular\_block\_bootstrap & 1000 & 0.000 & 0.695 & 1.659 & 4.028 & -0.428 & 132.914 \\
+Full-cost net & larger+VIX E1 capped & egarch\_or\_ewma & garch11\_residual\_fallback\_insufficient\_egarch\_obs & 1000 & 0.000 & 0.388 & 1.447 & 4.009 & -0.498 & 87.737 \\
+\bottomrule
+\end{tabular}

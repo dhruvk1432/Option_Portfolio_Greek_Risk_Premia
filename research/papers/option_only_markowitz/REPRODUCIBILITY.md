@@ -49,8 +49,10 @@ correctly ordered.
 `make cbbo-surface` builds `data/feature_store/cbbo_spread_surface.parquet` from the local
 `data/databento_cache/opra_surface_full_day_cbbo` directory. In this checkout that path is
 expected to be a symlink to the sibling OPRA cache. If the symlink or cache is absent, the
-surface parquet is absent and the empirical pipeline transparently falls back to
-class-default spreads for rows without panel CBBO spreads.
+surface parquet is absent and the baseline empirical pipeline transparently falls back to
+class-default spreads for rows without panel CBBO spreads. The breadth-solution reruns use
+this same derived surface to infer missing large-name and VIX spreads point-in-time; to
+reproduce the checked-in breadth net cells, the surface must be present.
 
 Distributional robustness is a separate long-running stage:
 
@@ -66,11 +68,92 @@ outputs are listed in `docs/replication_package.md` and include `artifacts/cv_*.
 `artifacts/mc_*.csv`, `tables/cv_*.tex`, `tables/mc_*.tex`, and the robustness summary
 JSON.
 
+The breadth/capacity diagnostic is a separate exploratory stage. Run the phases in order
+because P3 reads the P1 regularization ledger:
+
+```bash
+.venv/bin/python -m research.papers.option_only_markowitz.analysis.breadth_p1_regularization_experiment
+.venv/bin/python -m research.papers.option_only_markowitz.analysis.breadth_p2_liquidity_experiment --include-no-vix
+.venv/bin/python -m research.papers.option_only_markowitz.analysis.breadth_p3_combined_experiment
+```
+
+Outputs are written to `research/papers/option_only_markowitz/analysis/artifacts/breadth_solutions/`.
+The stage reuses the local OPRA-derived paper inputs and adds no new raw-data requirement.
+Its large-universe net Sharpe rows are source-audited: `p3_spread_source_coverage.csv`
+identifies rows where missing historical CBBO is filled from `inferred_cbbo_proxy`, a
+point-in-time proxy calibrated from historical liquid equity/ETF CBBO buckets. The old
+Cboe delayed-chain builder is retained only as an optional audit/rebuild utility; it must
+be run during Cboe regular option-market hours, rejects weekend, holiday, and after-hours
+snapshots, and refuses partial requested symbol coverage by default. Rebuild those
+optional assumptions with:
+
+```bash
+.venv/bin/python -m research.papers.option_only_markowitz.analysis.build_current_option_spread_assumptions
+```
+
+The regenerated P1/P2/P3 breadth tables do not consume the stale off-hours Cboe file.
+Current Cboe snapshots remain useful as a live market-hours reasonableness check, but the
+checked-in net cells are based on the offline inferred-CBBO proxy.
+
+This does not affect the no-VIX 8-name equity baseline: the `orig` source-coverage row is
+entirely `panel_cbbo` for equity-option spread inputs, with 5,777 rows, 49 asset IDs, and
+all eight baseline underlyings covered. The `orig+VIX` baseline is exact for those eight
+equity names; VIX option spread costs use the same inferred liquid-option CBBO proxy as
+the large-universe missing rows.
+
+The regenerated `$1M` decision table is the reference for the current breadth claim:
+`larger+VIX` moves from `-1.837` net Sharpe in the uncapped paper configuration to
+`+1.499` net Sharpe and gross `1.915` in the E1 regularized/capped row, beating the best
+capped-naive book by `1.232`. The no-VIX `larger` row is positive but essentially tied
+with capped equal-risk naive (`0.551` versus `0.550` net Sharpe).
+
+The production-candidate breadth validation is a second long-running stage that locks the
+E1 capped row and does not reselect knobs inside test folds:
+
+```bash
+.venv/bin/python -m research.papers.option_only_markowitz.analysis.breadth_robustness_experiment --configs all --out-dir research/papers/option_only_markowitz/analysis/artifacts/breadth_solutions/robustness
+```
+
+The checked run uses `nav=1_000_000`, `participation=0.05`, 12 chronological groups,
+66 CPCV splits, 78 total CV/PBO splits per config, purge/embargo of one month, 1,000
+resampled paths, 200 refit paths, 1,000 repriced paths, 1,000 path simulations, and
+rolling 36-month monthly OOS refits. It writes
+`breadth_validation_summary.{csv,json,md}`, `breadth_cv_*`, `breadth_mc_*`,
+`breadth_simulation_summary.csv`, `breadth_drawdown_breach_rates.csv`,
+`breadth_reality_check_inference.csv`, `breadth_rolling_oos*.csv`, and
+`tables/breadth_robustness_*.tex`. The spread-source audit passes with zero
+`current_cboe_liquid_quote` rows and zero `default` spread rows. Repriced synthetic net
+paths subtract a circular-block sample of realized full-cost drag; they are a cost overlay,
+not synthetic NBBO/CBBO.
+
 Focused tests:
 
 ```bash
 .venv/bin/python -m pytest tests/test_option_only_markowitz_model.py -q
+.venv/bin/python -m pytest tests/test_cap_constrained_model.py -q
+.venv/bin/python -m pytest tests/test_breadth_robustness_experiment.py -q
 ```
+
+Forward shadow trading is separate from both the research backtest and the production
+verifier. Export locked E1 targets, supply market-hours NBBO/CBBO snapshots and optional
+broker margin/rejection files, then run the broker-neutral shadow ledger:
+
+```bash
+.venv/bin/python -m research.papers.option_only_markowitz.analysis.export_shadow_targets \
+  --config larger+VIX \
+  --out /tmp/larger_vix_shadow_targets.csv
+.venv/bin/python -m src.option_portfolio_production.shadow \
+  --targets /tmp/larger_vix_shadow_targets.csv \
+  --quotes /path/to/market_hours_quotes.csv \
+  --nav 1000000 \
+  --decision-time 2026-07-06T19:45:00Z \
+  --out-dir /tmp/option_shadow_run
+```
+
+The resulting `shadow_*` ledgers are forward-validation artifacts only. Fill rows must use
+`shadow_nbbo_displayed_size_cross`, and the production verifier intentionally continues to
+fail unless real settlement, order, fill, margin, assignment, quote-reconciliation, and
+broker-position ledgers are supplied.
 
 ## Data
 
@@ -158,6 +241,32 @@ live API key is read or used by the empirical pipeline.
   `artifacts/mc_repriced_summary_gauss_copula.csv`,
   `artifacts/mc_repriced_assumptions.csv`, `artifacts/mc_universe_comparison.csv`,
   and `tables/distributional_robustness_summary.json`
+- Breadth/capacity diagnostic artifacts:
+  `analysis/artifacts/breadth_solutions/README.md`,
+  `analysis/artifacts/breadth_solutions/p1_regularization_results.csv`,
+  `p1_regularization_results.json`, `p1_summary.md`,
+  `p2_liquidity_results.csv`, `p2_liquidity_results.json`,
+  `p2_caps_detail.csv`, `p2_summary.md`,
+  `p3_combined_results.csv`, `p3_combined_results.json`,
+  `p3_spread_source_coverage.csv`, `p3_decision_table.md`,
+  `current_option_spread_assumptions.csv`, and
+  `current_option_spread_fetch_audit.csv`
+- Breadth robustness validation artifacts:
+  `analysis/artifacts/breadth_solutions/robustness/breadth_validation_summary.csv`,
+  `breadth_validation_summary.json`, `breadth_validation_summary.md`,
+  `breadth_spread_source_coverage.csv`, `breadth_realized_candidate_summary.csv`,
+  `breadth_cv_fold_schedule.csv`, `breadth_cv_fold_ledger.csv`,
+  `breadth_cv_cpcv_path_metrics.csv`, `breadth_cv_pbo_summary.csv`,
+  `breadth_mc_resampled_summary.csv`, `breadth_mc_refit_summary.csv`,
+  `breadth_mc_repriced_summary.csv`, `breadth_mc_repriced_assumptions.csv`,
+  `breadth_simulation_summary.csv`, `breadth_drawdown_breach_rates.csv`,
+  `breadth_reality_check_inference.csv`, `breadth_rolling_oos.csv`,
+  `breadth_rolling_oos_summary.csv`, and
+  `tables/breadth_robustness_summary.tex`,
+  `tables/breadth_robustness_cpcv.tex`, `tables/breadth_robustness_pbo.tex`,
+  `tables/breadth_robustness_mc_resampled.tex`,
+  `tables/breadth_robustness_simulation.tex`, and
+  `tables/breadth_robustness_rolling_oos.tex`
 - Weights, timing diagnostics, trading-data audit, split adjustments, regressions,
   attribution, regimes, and leave-one-out diagnostics: `artifacts/*.csv`
 - Environment and hashes: `environment_lock.json`, `artifact_hash_manifest.csv`

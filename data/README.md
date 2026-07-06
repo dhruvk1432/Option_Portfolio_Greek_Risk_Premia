@@ -12,6 +12,22 @@ This standalone repository intentionally does **not** redistribute raw OPRA or D
 - `data/universe/vix_complex.parquet`
 - `data/databento_cache/opra_vix_chain_*.parquet`
 
+The breadth/capacity diagnostic under `research/papers/option_only_markowitz/analysis/artifacts/breadth_solutions/` uses the same local inputs. It does not introduce a new raw data source; the 48 added equity names are read from the existing OPRA-derived feature store. To reproduce the checked-in breadth net cells, also build the derived CBBO spread surface from the licensed local OPRA full-day CBBO cache:
+
+- `data/feature_store/cbbo_spread_surface.parquet`
+- `data/databento_cache/opra_surface_full_day_cbbo`
+
+The eight-name no-VIX baseline is exact on equity-option spreads (`panel_cbbo` for 5,777 cost rows across all eight baseline underlyings). Missing added-name and VIX spread rows in the breadth reruns use a point-in-time inferred CBBO proxy calibrated from that derived surface, not blanket 10%/15% class defaults or stale off-hours current-chain quotes.
+
+The breadth robustness artifacts under `research/papers/option_only_markowitz/analysis/artifacts/breadth_solutions/robustness/` use the same data boundary. The checked run reports zero current-Cboe spread rows and zero default-spread rows; all non-panel breadth spread inputs come from the inferred historical CBBO proxy. Repriced synthetic net paths do not create synthetic bid/ask quotes: they subtract a resampled historical full-cost drag from gross repriced paths.
+
+The broad inferred-spread rows are not a substitute for matched historical market-hours
+NBBO/CBBO. A production-grade historical execution proof would require OPRA/NBBO or
+broker CBBO with displayed size matched to every backtest decision row. The forward shadow
+runner accepts user-supplied market-hours quote exports, margin previews, and rejection
+notes, but those files are local operational inputs and should not be committed if they
+contain licensed or account-specific data.
+
 ## Included Public Inputs
 
 The repository includes the normalized public Cboe VRO/SOQ settlement outputs used by the paper:

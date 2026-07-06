@@ -9,6 +9,66 @@ chain shards and kept separate because VIX options are volatility derivatives, n
 on an equity spot price. Table~\ref{tab:data_summary} records the sample size, observation
 count, train/test split, settlement status, and post-cost layer used in the baseline run.
 
+The breadth extension reported in Section~\ref{sec:results} is a diagnostic rather than a
+replacement for this baseline universe. It reuses the same local OPRA-derived equity-option
+panel and adds 48 available single-name underlyings to the eight baseline names, producing
+56 equity underlyings and, when the VIX sleeve is included, 57 option-underlying groups.
+The eight baseline equity names are not part of the spread-fallback problem:
+\path{p3_spread_source_coverage.csv} records 5,777 historical panel-CBBO equity-option
+cost rows across 49 asset IDs and all eight baseline underlyings, with median relative
+spread about 1.89\%. Thus the no-VIX baseline \texttt{orig} net cells use historical
+CBBO for their equity-option spread inputs. The VIX-enabled baseline \texttt{orig+VIX}
+uses the same exact equity-option CBBO rows, while its VIX option spread rows use the
+same inferred liquid-option spread proxy described below because the local VIX chain cache
+contains OHLCV chain records, not VIX option bid/ask CBBO.
+
+For the additional 48 breadth names, measured historical CBBO is used when present; when
+it is absent, the breadth code now uses a point-in-time inferred CBBO proxy rather than a
+blanket class-default fill or stale current-chain quotes. For each decision row, the proxy
+uses only historical CBBO spread-surface observations available no later than that
+decision date and matches by moneyness bucket and tenor where possible. The calibration
+surface contains the local full-day CBBO names AAPL, AMZN, GOOGL, IWM, JPM, META, MSFT,
+NVDA, QQQ, SPY, and TSLA. In the regenerated P3 ledger,
+\path{p3_spread_source_coverage.csv} reports 23,740 added-name equity-option cost rows
+across 213 asset IDs and 47 underlyings with source
+\texttt{inferred\_cbbo\_proxy}; their median relative spread is about 1.97\%. VIX proxy
+rows have median relative spread about 2.53\%. The stale
+\path{current_option_spread_assumptions.csv} file is retained only as an audit/rebuild
+artifact; the cost loader rejects weekend, holiday, and after-hours Cboe snapshots and the
+regenerated breadth tables do not consume those off-hours rows.
+The breadth robustness artifacts reuse this same policy: the full validation ledger has no
+\texttt{current\_cboe\_liquid\_quote} rows and no \texttt{default} spread rows, and
+repriced synthetic net paths subtract a realized full-cost overlay rather than inventing
+synthetic NBBO/CBBO quotes.
+
+The spread ladder is therefore part of the claim boundary. OPRA is the consolidated U.S.
+listed-options quote and last-sale dissemination plan\footnote{Options Price Reporting
+Authority overview: \url{https://www.opraplan.com/}.}; a historical broad-universe
+execution proof would need market-hours NBBO/CBBO matched to each backtest decision row.
+Cboe DataShop's option summary product documents 15:45 and end-of-day NBBO snapshots with
+displayed size, and describes the 15:45 snapshot as the more representative liquidity cut
+for analytics.\footnote{Cboe DataShop Option EOD Summary:
+\url{https://datashop.cboe.com/option-eod-summary}.} That paid history is the right
+replacement for the inferred broad-name proxy. Until such broad matched history is
+purchased or otherwise supplied, the proxy rows in
+Table~\ref{tab:breadth_spread_methodology} are calibrated execution-sensitivity inputs,
+not final execution truth.
+
+\begin{table}[H]
+\centering
+\scriptsize
+\IfFileExists{tables/breadth_spread_source_methodology.tex}
+  {\input{tables/breadth_spread_source_methodology}}
+  {\begin{tabular}{llll}\toprule Scope & Source & Rows & Claim use \\\midrule Missing & Run breadth artifacts & -- & -- \\\bottomrule\end{tabular}}
+\caption{Breadth spread-source methodology. Counts and medians are taken from
+\texttt{p3\_spread\_source\_coverage.csv} and the locked robustness spread ledger. The
+baseline eight equity names use historical panel CBBO. VIX
+and missing broad-name rows use a point-in-time inferred CBBO proxy calibrated from the
+liquid historical CBBO surface; those rows support sensitivity analysis, not live
+tradability.}
+\label{tab:breadth_spread_methodology}
+\end{table}
+
 \begin{table}[H]
 \centering
 \scriptsize

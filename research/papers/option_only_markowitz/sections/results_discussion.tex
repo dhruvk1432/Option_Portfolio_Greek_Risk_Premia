@@ -107,6 +107,145 @@ layers and is scenario-dependent; the claim audit (Table~\ref{tab:claim_audit}) 
 post-cost viability as a conditional research finding rather than a robust result, and no
 wording in this paper should be read as post-cost survival under all cost assumptions.
 
+\subsection{Breadth and capacity diagnostic}
+
+The breadth experiment asks whether the weak large-universe result is a real economic
+failure or an implementation failure. The answer is mixed but useful. At \(\$1\) million
+NAV, breadth can pay with VIX after two fixes are applied together: the historical-mean
+component of the conditional return estimator is removed, and a pre-trade liquidity cap
+binds net contract exposure. With VIX included, the source-audited 57-group diagnostic
+improves from the paper configuration's net Sharpe of \(-1.837\) to \(+1.499\) when the
+combined regularized estimator uses diagonal residual covariance, \(N\)-scaled covariance
+shrinkage, structural-only forecasts, and shrinkage-to-zero \(0.75\). The corresponding
+gross Sharpe is \(1.915\), and the optimizer beats the best capped-naive book by \(1.232\)
+net Sharpe. Without VIX the 56-name book also turns net-positive, but capped equal-risk
+naive reaches \(0.550\) net Sharpe against the optimizer's \(0.551\), so the no-VIX
+optimizer edge is economically negligible. The net cells are calibrated
+execution-sensitivity estimates: they use point-in-time inferred CBBO proxy rows wherever
+historical bid/ask CBBO is absent, not the stale off-hours Cboe delayed-chain file or the
+old 10\%/15\% class defaults.
+
+This caveat does not apply to the no-VIX eight-name equity baseline. The \texttt{orig}
+rows use measured historical panel CBBO for all equity-option spread inputs: 5,777 cost
+rows across 49 asset IDs and the eight baseline underlyings, with median relative spread
+about 1.89\%. The \texttt{orig+VIX} rows use the same exact equity-option spread inputs
+for AAPL, AMZN, GOOGL, JPM, META, MSFT, NVDA, and TSLA; only the VIX option spread
+component remains proxied from the liquid-option CBBO distribution.
+
+\begin{table}[H]
+\centering
+\scriptsize
+\begin{tabularx}{\textwidth}{L{0.9in}rrrrX}
+\toprule
+Config & Paper net & Capped-naive net & Capped-reg. net & Capped-reg. gross & Note \\
+\midrule
+orig+VIX & -1.196\(^\ast\) & -0.853\(^\ast\) & 1.287\(^\ast\) & 1.613 & diagonal-residual/N-scaled row \\
+larger+VIX & -1.837\(^\ast\) & 0.266\(^\ast\) & 1.499\(^\ast\) & 1.915 & optimizer edge \(1.232\) \\
+orig & -1.443 & 0.350 & 0.720 & 0.961 & cap budget below one NAV \\
+larger & -1.991\(^\ast\) & 0.550\(^\ast\) & 0.551\(^\ast\) & 0.810; 0.924 gross-max & capped naive tie \\
+\bottomrule
+\end{tabularx}
+\caption{Breadth/capacity decision table at \(\$1\) million NAV with impact costs on.
+``Capped-reg.'' denotes the regularized Greek-Markowitz optimizer with \(X=0.05\)
+pre-trade liquidity caps. ``Capped-naive'' is the best equal-premium/equal-risk book
+after applying the same cap vector at \(X=0.05\). The \texttt{orig} row is exact historical
+panel CBBO for equity-option spreads. Asterisks mark configs that use
+\texttt{inferred\_cbbo\_proxy} for VIX rows or for added-name equity-option rows without
+historical panel CBBO. The proxy is point-in-time: each row is calibrated from historical
+liquid equity/ETF CBBO observations available no later than the decision date. For the
+larger no-VIX configuration, the net-max regularized row has gross Sharpe \(0.810\),
+while the gross-max regularized row has gross Sharpe \(0.924\) and net Sharpe \(0.530\).}
+\label{tab:breadth_capacity_decision}
+\end{table}
+
+The P1 regularization sweep identifies the dominant problem. For the 57-group
+larger+VIX universe, dropping the historical mean and using structural-only forecasts
+raises gross Sharpe from \(0.765\) to \(1.427\). Residual-covariance regularization is the
+second lever: diagonal or Ledoit--Wolf residual covariance reaches roughly \(1.2\)--\(1.24\),
+whereas plain covariance shrinkage alone plateaus near \(1.0\). The pre-specified
+combination---diagonal residual covariance, \(N\)-scaled covariance shrinkage,
+historical-weight zero, and shrinkage-to-zero \(0.75\)---reaches \(1.501\), above the
+9-group VIX gross bar of \(1.374\). The same mechanism is not a free lunch: without VIX,
+the 56-name best gross Sharpe is \(0.834\) against the 8-name bar of \(0.842\), and at
+eight names removing the historical mean lowers gross Sharpe from \(0.842\) to \(0.725\).
+The training mean is signal when \(T/n\) is healthy and noise when breadth makes the
+inverse problem thin.
+
+The P2 liquidity sweep shows that the post-hoc capacity penalty was a symptom rather than
+the disease. Turning it into a hard pre-trade cap of the form
+\(\min\{0.18,X\cdot\widehat V_i^{\mathrm{train}}\cdot M_i\cdot100/\mathrm{NAV}\}\)
+raises the original VIX-enabled paper configuration from net Sharpe \(-1.196\) to
+\(+1.080\) at \(X=0.05\), while cutting maximum capacity ratio from \(187.8\) to \(32.6\).
+For the larger+VIX default-estimator book, the same cap already reaches \(+1.109\) net
+Sharpe at \(\$1\) million under the inferred spread proxy; the estimator fix in P3
+raises the best capped net result further to \(+1.499\) and supplies the cleaner breadth
+mechanism. Increasing
+participation to \(X=0.10\) deploys more notional but earns less in this sample, so the
+combined experiment uses \(X=0.05\). The formulation detail matters:
+the cap is on the net position, not on the separate long and short legs used internally by
+the solver. A split-leg cap can burn offsetting exposure as pseudo-cash and consume good
+contracts' capacity; binding \(|q_i|\) removes that degeneracy and leaves non-binding
+cases unchanged.
+
+Scale remains the negative result. At \(\$5\) million and above, the sum of train-volume
+liquidity caps falls below one NAV for every configuration at the tested participation
+levels, so a fully deployed option-only book is no longer feasible in these representative
+month-end contracts. Relaxed positive-Sharpe rows beyond that scale deploy only a few
+basis points of NAV and are economically vacuous. Breadth raises the cap budget by roughly
+40\%, not by the 6x implied by the underlying count, because many of the added names'
+eligible options are thin. The breadth result is therefore a small-account diagnostic:
+regularization plus net liquidity caps can turn the \(\$1\) million larger+VIX book from
+negative to strongly positive net Sharpe under the inferred liquid-option spread proxy,
+but the result remains a research simulation rather than broker-executed evidence. Market
+depth rather than optimizer form still blocks scaling.
+
+Three caveats travel with Table~\ref{tab:breadth_capacity_decision}. First, large-universe
+net Sharpe still uses inferred spread rows wherever historical CBBO is missing. The proxy
+is calibrated from liquid equity/ETF CBBO buckets and is much more realistic than the old
+10\%/15\% defaults or stale off-hours Cboe snapshots, but it is not matched historical
+NBBO/CBBO for every added name and VIX option. Gross Sharpe and capacity arithmetic are
+cleaner because they do not depend on this spread proxy. Second, the best
+knob is selected in-sample
+from a 22-point diagnostic grid, although the selected mechanism is consistent with the
+pre-registered failure modes. Third, the P1--P3 decision table itself uses the same single
+static train/test split and static-weight protocol as the headline paper; the follow-on
+robustness runner below is what tests the locked E1 candidate across alternate folds,
+resamples, synthetic worlds, and rolling refits.
+
+\begin{table}[H]
+\centering
+\scriptsize
+\IfFileExists{tables/breadth_robustness_summary.tex}
+  {\resizebox{\textwidth}{!}{\input{tables/breadth_robustness_summary}}}
+  {\begin{tabular}{llll}\toprule Config & Verdict & Net Sharpe & Rolling Sharpe \\\midrule
+  Missing & Run the breadth robustness runner & -- & -- \\\bottomrule\end{tabular}}
+\caption{Locked E1 breadth robustness summary. Every row uses the corrected full-cost
+stack, \(X=0.05\) liquidity caps, \(\$1\) million NAV, current-Cboe spread inputs disabled,
+and inferred CBBO proxy rows enabled where historical panel CBBO is missing. Deployable
+status is false when the full static hard-cap book cannot deploy. CPCV columns are
+diagnostic complete-path Sharpes, not tradable OOS returns.}
+\label{tab:breadth_robustness_summary}
+\end{table}
+
+Table~\ref{tab:breadth_robustness_summary} locks the E1 candidate rather than choosing
+knobs in the test folds. The full run uses 12 chronological groups, 66 CPCV splits, 78
+total CV/PBO splits per configuration, purge/embargo of one month, 1,000 resampled paths,
+200 refit paths, 1,000 repriced paths, tail-path simulations, drawdown breach rates,
+reality-check inference, and rolling 36-month monthly refits. The spread audit passes:
+zero rows use \texttt{current\_cboe\_liquid\_quote} and zero rows use \texttt{default}
+spreads. The strongest result is still \texttt{larger+VIX}: net Sharpe \(1.499\), net
+Sortino \(4.004\), MC resampled p05 net Sharpe \(0.989\), MC refit p05 net Sharpe
+\(1.262\), and rolling net Sharpe \(1.217\). The \texttt{orig+VIX} book also passes
+(\(1.287\) net Sharpe and \(1.007\) rolling net Sharpe). The no-VIX \texttt{larger} row
+is mixed because the realized and refit Sharpes are positive but weaker and the optimizer
+does not beat capped equal-risk by an economically meaningful margin, while the
+\texttt{orig} no-VIX row is diagnostic because the static cap budget is below one NAV.
+The CPCV complete-path net Sharpes are negative for all E1 rows even when gross CPCV
+medians are positive, which is a short-window cost-timing fragility rather than a
+claim that the fixed \(\$1\) million book is tradable. Repriced synthetic net rows are
+especially conservative and use a circular-block sample of realized full-cost drag; they
+are not synthetic NBBO/CBBO quotes.
+
 \subsection{Inference and multiple testing}
 
 The inference layer keeps the gross numbers honest. In per-month units, the probabilistic

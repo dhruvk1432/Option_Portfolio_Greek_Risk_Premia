@@ -1,0 +1,11 @@
+scope,config,Basis,N splits,N strategies,PBO,Median lambda,Rank correlation IS OOS
+all_configs,all,full_cost_net,8,16,0.25,0.3566749439387324,0.5139705882352942
+within_config,larger,full_cost_net,8,4,0.0,1.3862943611198908,0.95
+within_config,larger+VIX,full_cost_net,8,4,0.5,0.49041462650586326,0.6
+within_config,orig,full_cost_net,8,4,0.5,0.49041462650586326,0.6499999999999999
+within_config,orig+VIX,full_cost_net,8,4,0.5,0.49041462650586326,0.5
+all_configs,all,gross,8,16,0.75,-1.2079568891505243,0.04558823529411765
+within_config,larger,gross,8,4,0.75,-1.3862943611198906,0.05000000000000002
+within_config,larger+VIX,gross,8,4,0.5,-2.7755575615628914e-17,-0.35
+within_config,orig,gross,8,4,0.25,0.8958797346140275,0.39999999999999997
+within_config,orig+VIX,gross,8,4,0.5,0.49041462650586326,0.24999999999999994

@@ -3,7 +3,7 @@
 Status: **PASS**
 Critical failures: `0`
 Total checks: `352`
-Hash manifest rows: `176`
+Hash manifest rows: `186`
 
 ## Category Summary
 
@@ -44,9 +44,9 @@ No failed checks.
 - `data` / `equity marks and Greeks finite`: ["close", "spot", "strike", "delta", "gamma", "vega", "theta", "iv_proxy"]
 - `data` / `equity option expiry after snapshot`: True
 - `data` / `summary equity row count matches recompute`: 160315
-- `data` / `primary Greek coverage valid_delta_share`: 0.951277609354699
-- `data` / `primary Greek coverage valid_gamma_share`: 0.951277609354699
-- `data` / `primary Greek coverage valid_vega_share`: 0.951277609354699
+- `data` / `primary Greek coverage valid_delta_share`: 0.9514013487595124
+- `data` / `primary Greek coverage valid_gamma_share`: 0.9514013487595124
+- `data` / `primary Greek coverage valid_vega_share`: 0.9514013487595124
 - `data` / `VIX stack nonempty`: 935561
 - `data` / `VIX dedupe key is date-symbol`: 0
 - `data` / `VIX OSI parser preserves terms`: ["VIX", "2026-06-17T00:00:00", "call", 30.0]
@@ -364,8 +364,8 @@ No failed checks.
 - `claims` / `source ledger records vix option`: vix option
 - `claims` / `source ledger records artifact`: artifact
 - `paper` / `LaTeX log clean`: []
-- `paper` / `compiled PDF exists`: 675930
-- `paper` / `PDF page count plausible`: 48
+- `paper` / `compiled PDF exists`: 769378
+- `paper` / `PDF page count plausible`: 60
 - `paper` / `PDF caveat text includes not claimed`: not claimed
 - `paper` / `PDF caveat text includes premium weights`: premium weights
 - `paper` / `PDF text includes exact VRO/SOQ`: VRO/SOQ
@@ -373,4 +373,4 @@ No failed checks.
 - `paper` / `PDF caveat text includes slippage`: slippage
 - `paper` / `PDF text includes tail-path simulation caveat`: tail-path simulation diagnostics
 - `paper` / `references include option-risk-premium papers`: reference text
-- `artifacts` / `hash manifest covers outputs`: 176
+- `artifacts` / `hash manifest covers outputs`: 186

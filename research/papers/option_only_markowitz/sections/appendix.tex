@@ -149,8 +149,81 @@ no-fill/capacity failures rather than assuming midpoint execution.}
 \end{table}
 
 The CBBO surface is an optional research-cost refinement: panel CBBO spreads take
-precedence, then exact decision-date surface spreads, then class-default spreads. The
-coverage table records which source supplied the relative spread by asset class.
+precedence, then exact decision-date surface spreads, then point-in-time inferred CBBO
+proxy spreads when explicitly enabled, and finally class-default spreads. The coverage
+table records which source supplied the relative spread by asset class.
+
+The breadth/capacity diagnostic discussed in Section~\ref{sec:results} is distributed as
+a separate artifact bundle under
+\path{analysis/artifacts/breadth_solutions/}. The key files are
+\path{p1_regularization_results.csv}, \path{p2_liquidity_results.csv},
+\path{p2_caps_detail.csv}, \path{p3_combined_results.csv},
+\path{p3_spread_source_coverage.csv}, \path{robustness/breadth_validation_summary.csv},
+\path{robustness/breadth_cv_pbo_summary.csv}, \path{robustness/breadth_mc_refit_summary.csv},
+and their Markdown/JSON
+companions. These files are diagnostic outputs, not headline paper tables: large-universe
+net rows carry the inferred-spread caveat where \texttt{inferred\_cbbo\_proxy} appears,
+and relaxed rows above the hard-cap capacity threshold report deployed gross exposure
+explicitly. Repriced synthetic net paths in the robustness folder use a realized-cost
+overlay, not synthetic NBBO/CBBO.
+
+\begin{table}[H]
+\centering
+\scriptsize
+\IfFileExists{tables/breadth_robustness_cpcv.tex}
+  {\resizebox{\textwidth}{!}{\input{tables/breadth_robustness_cpcv}}}
+  {\begin{tabular}{llll}\toprule Strategy & Basis & Paths & Sharpe \\\midrule Missing & Run the breadth robustness runner & -- & -- \\\bottomrule\end{tabular}}
+\caption{Breadth robustness CPCV complete-path Sharpe distribution. The 12 blocked
+groups generate 66 CPCV splits and 11 complete paths per strategy/basis. These are
+diagnostics for overfitting and cost-timing fragility, not tradable OOS paths.}
+\label{tab:breadth_robustness_cpcv_app}
+\end{table}
+
+\begin{table}[H]
+\centering
+\scriptsize
+\IfFileExists{tables/breadth_robustness_pbo.tex}
+  {\resizebox{\textwidth}{!}{\input{tables/breadth_robustness_pbo}}}
+  {\begin{tabular}{llll}\toprule Scope & Basis & PBO & Splits \\\midrule Missing & Run the breadth robustness runner & -- & -- \\\bottomrule\end{tabular}}
+\caption{Breadth robustness probability of backtest overfitting summary. Each config uses
+78 total CV/PBO splits: 12 blocked k-fold splits plus 66 CPCV splits.}
+\label{tab:breadth_robustness_pbo_app}
+\end{table}
+
+\begin{table}[H]
+\centering
+\scriptsize
+\IfFileExists{tables/breadth_robustness_mc_resampled.tex}
+  {\resizebox{\textwidth}{!}{\input{tables/breadth_robustness_mc_resampled}}}
+  {\begin{tabular}{llll}\toprule Family & Basis & Strategy & Sharpe \\\midrule Missing & Run the breadth robustness runner & -- & -- \\\bottomrule\end{tabular}}
+\caption{Breadth robustness resampled historical-universe diagnostics. Paths preserve
+joint monthly return rows and use the corrected full-cost ledger.}
+\label{tab:breadth_robustness_mc_resampled_app}
+\end{table}
+
+\begin{table}[H]
+\centering
+\scriptsize
+\IfFileExists{tables/breadth_robustness_simulation.tex}
+  {\resizebox{\textwidth}{!}{\input{tables/breadth_robustness_simulation}}}
+  {\begin{tabular}{llll}\toprule Basis & Strategy & Method & Paths \\\midrule Missing & Run the breadth robustness runner & -- & -- \\\bottomrule\end{tabular}}
+\caption{Breadth robustness E1 tail-path simulations. The EGARCH request falls back to a
+fixed-parameter GARCH(1,1) residual bootstrap when the monthly sample is too short; the
+fallback is recorded in the simulation column.}
+\label{tab:breadth_robustness_simulation_app}
+\end{table}
+
+\begin{table}[H]
+\centering
+\scriptsize
+\IfFileExists{tables/breadth_robustness_rolling_oos.tex}
+  {\resizebox{\textwidth}{!}{\input{tables/breadth_robustness_rolling_oos}}}
+  {\begin{tabular}{llll}\toprule Config & Strategy & Basis & Sharpe \\\midrule Missing & Run the breadth robustness runner & -- & -- \\\bottomrule\end{tabular}}
+\caption{Breadth robustness rolling 36-month OOS refits. Each monthly row rebuilds
+representative contracts, moments, and train-volume liquidity caps from its trailing
+window before scoring the next month.}
+\label{tab:breadth_robustness_rolling_app}
+\end{table}
 
 \begin{table}[H]
 \centering
@@ -159,7 +232,8 @@ coverage table records which source supplied the relative spread by asset class.
   {\resizebox{0.84\textwidth}{!}{\input{tables/cost_input_spread_source_coverage}}}
   {\begin{tabular}{llll}\toprule Source & Asset class & Rows & Spread \\\midrule Missing & -- & -- & -- \\\bottomrule\end{tabular}}
 \caption{Cost-input spread-source coverage. Rows distinguish direct panel CBBO spreads,
-derived CBBO surface spreads, and class-default spread assumptions.}
+derived CBBO surface spreads, inferred CBBO proxy spreads where enabled, and class-default
+spread assumptions.}
 \label{tab:cost_input_spread_source_app}
 \end{table}
 
@@ -476,7 +550,112 @@ the haircut, raises the stress or capacity penalty, or downgrades the claim. Thi
 paper can show VIX option diagnostics without treating proxy settlement as exact listed
 settlement.
 
-\subsection{Proofs, solver reductions, and implementation notes}
+\subsection{Production-readiness and forward shadow checklist}
+
+The locked E1 evidence is not promoted to live-trading evidence until the following
+operational gates are populated with broker-neutral or broker-native ledgers. A forward
+shadow run can begin with delayed or exported platform data, but it remains shadow-only:
+IBKR's free trial describes delayed market data for most products and simulated account
+values based on market conditions, commissions, and fees;\footnote{Interactive Brokers
+Free Trial: \url{https://www.interactivebrokers.com/en/trading/free-trial.php}.} that is
+useful for workflow testing, not a substitute for paid live data or real fills.
+
+\begin{table}[H]
+\centering
+\scriptsize
+\begin{tabularx}{\textwidth}{L{1.55in}X L{1.3in}}
+\toprule
+Gate & Required production evidence & Current status \\
+\midrule
+Exact quote source & Market-hours OPRA/NBBO or broker CBBO with bid, ask, displayed size, timestamps, and symbol map & shadow ledger required \\
+Fill model & Marketable-limit order logs, partial fills, fees, unfilled remainders, and no midpoint-only fills & not live-filled \\
+Margin model & Broker preview before order plus internal stress margin and collateral use & shadow/input only \\
+Assignment/exercise & Assignment ledger, early-exercise flags, and exercise/expiry processing & research flags only \\
+Ex-dividend closeout & Rule and audit for short calls near ex-dividend or hard-to-borrow windows & required before live \\
+VIX settlement gate & Exact VRO/SOQ for every VIX expiry used in claims & required and audited \\
+Order sizing cap & Displayed-size participation, train-volume cap, and account-level notional cap & modeled, not broker proven \\
+Kill switch & Manual and automated stop conditions for quote failures, drawdown, margin, and stale data & required before live \\
+Reconciliation & Vendor quote, broker order/fill, broker position, cash, and statement reconciliation & not present \\
+Broker statement audit & End-of-day positions, commissions, fees, interest, exercise/assignment, and cash movements & required before live \\
+\bottomrule
+\end{tabularx}
+\caption{Production-readiness checklist. A forward shadow-trading layer may write target,
+quote, order, shadow-fill, margin, rejection, and reconciliation ledgers, but only real
+broker orders, fills, margin previews, and statement reconciliation can support a
+production-tradability claim.}
+\label{tab:production_readiness_checklist}
+\end{table}
+
+\subsection{Proofs, solver reductions, and implementation notes}\label{sec:appendix_proofs}
+
+\begin{proposition}[No free option exposure]\label{prop:no_free_option_exposure}
+Let \(\mathcal C\) include at least one binding scale control among gross premium,
+short-premium, margin/collateral, stress loss, or contract-level liquidity caps. Then no
+sequence of option positions can take unbounded premium, payoff, or Greek exposure while
+remaining feasible and using zero capital.
+\end{proposition}
+
+\begin{proof}
+Each listed control is positively homogeneous in the premium-weight vector. If a sequence
+\(w_k\) has \(\|w_k\|\to\infty\), at least one controlled exposure also diverges unless
+the sequence lies in the null space of every cashflow, Greek, stress, margin, and liquidity
+functional. Such a null direction has neither priced premium exposure nor admissible
+tradable contract size in this model. Therefore any economically nonzero option direction
+must consume one of the controlled budgets before scale can diverge.
+\end{proof}
+
+\begin{proposition}[Cost and constraint monotonicity]\label{prop:cost_constraint_monotonicity}
+For
+\[
+  V(\mathcal C,c)=
+  \max_{w\in\mathcal C}
+  \widehat\mu^\top w-\frac{\gamma}{2}w^\top\Sigma w-c^\top |w|,
+\]
+with \(\Sigma\succeq0\), if \(\mathcal C_1\subseteq\mathcal C_0\) and
+\(c_1\ge c_0\) elementwise, then \(V(\mathcal C_1,c_1)\le V(\mathcal C_0,c_0)\).
+\end{proposition}
+
+\begin{proof}
+Every \(w\in\mathcal C_1\) is feasible for \(\mathcal C_0\), and
+\(-c_1^\top|w|\le -c_0^\top|w|\). Taking maxima over the smaller feasible set with the
+larger cost vector cannot increase the objective.
+\end{proof}
+
+\begin{proposition}[Net liquidity caps are representation-invariant]\label{prop:net_caps_invariant}
+Let a signed option weight be represented as \(w=w^+-w^-\), with \(w^+,w^-\ge0\). The
+constraint \(|w_i|\le \bar q_i\) depends only on the net position and is invariant to the
+chosen split representation. Separate split-leg caps \(w_i^+\le\bar q_i\),
+\(w_i^-\le\bar q_i\) are not equivalent and can consume liquidity budget with offsetting
+pseudo-cash pairs.
+\end{proposition}
+
+\begin{proof}
+The net cap maps every pair \((w_i^+,w_i^-)\) with the same difference to the same
+constraint value \(|w_i^+-w_i^-|\). Split-leg caps depend on the individual decomposition:
+for any feasible net \(w_i=0\), the pair \(w_i^+=w_i^-=\bar q_i\) satisfies split caps but
+uses two gross legs and no net contract exposure. In a homogenized conic solve that
+offsetting pair can help satisfy gross-budget equalities while consuming scarce
+contract-level cap budget. Binding \(|w_i|\) removes that representation artifact.
+\end{proof}
+
+\begin{proposition}[Historical means become fragile when \(n/T\) rises]\label{prop:mean_noise_nt}
+Suppose contract-level historical mean estimates have independent estimation errors with
+variance bounded below by \(\sigma_\eta^2/T\). Across \(n\) candidate directions, the
+expected maximum absolute noise component grows on the order of
+\(\sigma_\eta\sqrt{(\log n)/T}\). Consequently, holding \(T\) fixed while expanding \(n\)
+raises the optimizer's opportunity to select noise as if it were alpha.
+\end{proposition}
+
+\begin{proof}
+For sub-Gaussian errors with scale \(\sigma_\eta/\sqrt{T}\), standard maximal inequalities
+give \(\E\max_{1\le i\le n}|\eta_i|=O(\sigma_\eta\sqrt{(\log n)/T})\), and the same rate is
+attained up to constants for independent Gaussian errors. A mean--variance optimizer
+loads directions with favorable estimated means after risk scaling, so as \(n/T\) rises
+the best-looking historical-mean direction is increasingly likely to be an estimation
+outlier. This matches the empirical diagnostic: the historical mean helps in the eight-name
+case where \(T/n\) is healthier, but hurts in the broad universe where the inverse problem
+is thinner.
+\end{proof}
 
 \begin{proposition}[Greek-factor covariance identity and positive definiteness]\label{prop:cov_psd}
 Under Assumption~\ref{assump:projection}, with \(\Omega_t=\Var_t(f_{t+1})\) and

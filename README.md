@@ -18,6 +18,37 @@ The contribution is a disciplined option allocation and validation framework. Th
 - **VIX options are volatility instruments.** VIX option Greeks are anchored to VX futures/forwards, and expiry P&L is headline-grade only when exact VRO/SOQ settlement supports the relevant rows.
 - **Validation gates matter.** Gross Sharpe is treated as a diagnostic; post-cost, settlement, beta/Greek attribution, liquidity/capacity, assignment-risk, inference, and no-lookahead checks determine what can be claimed.
 
+## Latest Breadth/Capacity Diagnostic
+
+The newest diagnostic asks whether expanding from the eight-name equity-option universe to 56 names fixes the post-cost result. The baseline eight equity names use historical panel CBBO for spread inputs: the `orig` source-coverage ledger has 5,777 panel-CBBO cost rows across 49 asset IDs and all eight baseline underlyings. Missing added-name and VIX spread rows now use a point-in-time inferred CBBO proxy calibrated from the historical liquid equity/ETF CBBO surface, not stale off-hours Cboe snapshots or blanket 10%/15% class defaults.
+
+The updated result is that breadth pays with VIX at `$1M` when the mean estimator is fixed and liquidity caps bind net contract positions. The 57-group E1 book (diagonal residual covariance, N-scaled shrinkage, structural-only mean) reaches gross Sharpe `1.915` and net Sharpe `1.499`; the old paper configuration remains negative at `-1.837` net and the best capped-naive benchmark reaches only `0.266`. Without VIX, the 56-name optimizer is positive but does not establish edge (`0.551` net versus `0.550` for capped equal-risk). The same run is also the capacity warning: above roughly `$2M`, representative month-end contracts do not support full deployment under the tested participation caps, and positive relaxed rows deploy only a trivial fraction of NAV. The machine-readable audit is under `research/papers/option_only_markowitz/analysis/artifacts/breadth_solutions/`.
+
+The breadth robustness layer is now under `analysis/artifacts/breadth_solutions/robustness/`. It validates the locked E1 capped candidates for `orig`, `orig+VIX`, `larger`, and `larger+VIX` with 12 blocked chronological groups, 66 CPCV splits, purge/embargo of one month, 1,000 resampled paths, 200 refit paths, 1,000 repriced paths, path simulations, drawdown breach rates, reality-check inference, and true rolling 36-month monthly refits. The spread audit passes with zero `current_cboe_liquid_quote` and zero `default` rows. The static full-run rows classify `orig` as diagnostic capacity-infeasible, `larger` as mixed, and the VIX-enabled E1 books as passes; `larger+VIX` has net Sharpe `1.499`, net Sortino `4.004`, rolling net Sharpe `1.217`, MC refit net Sharpe p05 `1.262`, and MC resampled net Sharpe p05 `0.989`.
+
+The paper conclusion now uses visual-first final scoreboards. Run `make final-results` to regenerate `figures/final_breadth_validation_distributions.pdf`, `figures/final_baseline_comparison.pdf`, and the underlying `final_result_scoreboard.csv`. The baseline chart compares the locked E1 option books against two simple benchmarks: ordinary underlying Markowitz and the best capped naive option allocation. The VIX-enabled books beat both baselines; the no-VIX books do not clear that stronger bar.
+
+The broad-name spread rows are not final execution proof. Exact historical market-hours OPRA/NBBO or broker CBBO matched to every decision row remains the main execution-data caveat. The inferred broad-name and VIX spread rows are calibrated execution-sensitivity inputs; they are explicitly separated from the baseline eight-name historical panel-CBBO rows.
+
+## Forward Shadow Layer
+
+The free production-readiness bridge is broker-neutral shadow logging. Export the locked E1 target contract file, then combine it with market-hours NBBO/CBBO, displayed size, account NAV, optional broker margin previews, and optional rejection notes:
+
+```bash
+.venv/bin/python -m research.papers.option_only_markowitz.analysis.export_shadow_targets \
+  --config larger+VIX \
+  --out /tmp/larger_vix_shadow_targets.csv
+
+.venv/bin/python -m src.option_portfolio_production.shadow \
+  --targets /tmp/larger_vix_shadow_targets.csv \
+  --quotes /path/to/market_hours_quotes.csv \
+  --nav 1000000 \
+  --decision-time 2026-07-06T19:45:00Z \
+  --out-dir /tmp/option_shadow_run
+```
+
+Shadow fills are labeled `shadow_nbbo_displayed_size_cross`. They are forward-validation evidence only and intentionally do not satisfy the strict production verifier.
+
 ## What Is Included
 
 ```text

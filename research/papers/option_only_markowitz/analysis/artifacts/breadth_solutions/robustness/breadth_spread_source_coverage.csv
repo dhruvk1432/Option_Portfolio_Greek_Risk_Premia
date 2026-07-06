@@ -1,0 +1,9 @@
+config,relative_spread_source,asset_class,rows,asset_ids,underlyings,mean_relative_spread,median_relative_spread
+orig,panel_cbbo,equity_option,5777,49,8,0.026201683930751053,0.018927444794952654
+orig+VIX,inferred_cbbo_proxy,vix_option,536,5,1,0.03392520150319799,0.025317469977280127
+orig+VIX,panel_cbbo,equity_option,5777,49,8,0.026201683930751053,0.018927444794952654
+larger,inferred_cbbo_proxy,equity_option,23740,213,47,0.025116583339064674,0.01972223572690302
+larger,panel_cbbo,equity_option,5777,49,8,0.026201683930751053,0.018927444794952654
+larger+VIX,inferred_cbbo_proxy,equity_option,23740,213,47,0.025116583339064674,0.01972223572690302
+larger+VIX,inferred_cbbo_proxy,vix_option,536,5,1,0.03392520150319799,0.025317469977280127
+larger+VIX,panel_cbbo,equity_option,5777,49,8,0.026201683930751053,0.018927444794952654

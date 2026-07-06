@@ -62,3 +62,28 @@ Additional verified CLEAN patterns (2026-07-03 audit of cost-aware Sortino / CBB
   passed quote + decision_mark; adverse_drift_bps direction correct: BUY drift = (touch-mark)/mark,
   SELL drift = (mark-touch)/mark, clipped at 0 for favorable moves. Certification machinery, not
   backtest; no future data.
+
+Additional verified CLEAN patterns (2026-07-04 audit of breadth_solutions_lib.py):
+- build_training_context slices factor_panels output the same way make_model does: factor_panels(reps,
+  universe) returns FULL-panel under_ret/vol_shocks (no date filter inside factor_panels,
+  run_empirics.py:550-573), but callers immediately do .loc[train_returns.index] where
+  train_returns=returns.loc[:TRAIN_END]. So the full-panel factor frames are train-sliced BEFORE any
+  estimator/cov. Verify this slice line every time factor_panels is called in new code.
+- breadth_solutions_lib estimators (lw_cov, single_factor_cov, residual .cov()) all consume ctx.train_*
+  frames only; ctx.residuals is make_model's 2nd return (train_returns - fitted, train rows only).
+  build_training_context has a default-rebuild cov-equality guard (lines 159-162) that fails loudly if
+  any estimator drifts from the train-fit base model.
+- compute_liquidity_caps (breadth_solutions_lib.py:343): snap_date.le(train_end) filter is airtight —
+  NaT rows return False on .le() so undated reps are EXCLUDED (conservative). trade_date fallback only
+  fills NaT snap_date (VIX rows) with a decision-time date that is itself re-filtered by .le(train_end);
+  cannot inject future. spec_mark passed as ctx.spec["mark"] is the latest snap_date<=TRAIN_END
+  representative mark (representative_specs mask reps.snap_date.le(end)). Caps use TRAIN-window volume
+  only BY DESIGN (decision-date volume in a static solve would leak test liquidity); OOS capacity audit
+  is downstream in publication_costs cost ledger, which never feeds back into weights.
+- evaluate/gross_sharpe_for_weights: gross returns are strictly returns.index > TRAIN_END;
+  portfolio_return_series (option_only_markowitz_model.py:1297) is pure reindex+dot-product, no time
+  semantics. cost_inputs built from full-period reps/detail is fine (costs incurred at trade time) and
+  is fed ONLY to compute_strategy_cost_ledgers, never back into weights/gross. No feedback loop.
+- LOW/fragility only: spec.attrs[_AUGMENTED_SPEC_ATTR] (line 143) — pandas .attrs not reliably
+  preserved across DataFrame ops, but same object is stored+read and the _context_augmented_spec
+  fallback recomputes train-safe, so no PIT risk.

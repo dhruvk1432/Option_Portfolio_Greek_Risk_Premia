@@ -1,0 +1,10 @@
+\begin{tabular}{llrrrrrr}
+\toprule
+Config & Verdict & E1 net Sharpe & Best naive net & Stock Markowitz & Rolling net & Edge vs naive & Edge vs stock \\
+\midrule
+orig & diagnostic_capacity_infeasible & 0.720 & 0.350 & 0.909 & 0.584 & 0.370 & -0.189 \\
+orig+VIX & pass & 1.287 & -0.853 & 0.909 & 1.007 & 2.140 & 0.378 \\
+larger & mixed & 0.551 & 0.550 & 0.909 & 0.466 & 0.001 & -0.358 \\
+larger+VIX & pass & 1.499 & 0.266 & 0.909 & 1.217 & 1.232 & 0.590 \\
+\bottomrule
+\end{tabular}

@@ -114,12 +114,34 @@ only when exact VRO/SOQ settlement covers the relevant rows. If the coverage tab
 proxy rows, the same evidence is reported only as diagnostic hedge-sleeve evidence rather
 than a listed-settlement claim.
 
+The final breadth/capacity diagnostic makes the bridge to practical portfolio management
+more explicit and narrows the claim. The original 56-name expansion fails because the
+optimizer is fed too many noisy historical-mean directions and no pre-trade contract-cap
+budget. With VIX included, using diagonal residual covariance, \(N\)-scaled covariance
+shrinkage, structural-only means, and net liquidity caps moves the 57-group \(\$1\)
+million book from \(-1.837\) to \(+1.499\) net Sharpe, with gross Sharpe \(1.915\).
+Without VIX, the same regularization is not enough to establish optimizer edge: the
+56-name book reaches \(0.551\) net Sharpe against \(0.550\) for capped equal-risk naive.
+The spread ledger uses exact historical panel CBBO for the eight baseline equity names
+and a point-in-time inferred CBBO proxy for missing broad-name and VIX spreads, so the
+result is a calibrated execution-sensitivity simulation, not broker-executed tradability
+evidence. A locked-candidate robustness run then validates the four E1 capped universes
+with 12 blocked groups, 66 CPCV splits, one-month purge/embargo, Monte Carlo
+resampling/refitting/repricing, path simulations, drawdown breach tests, reality-check
+inference, and rolling 36-month monthly refits. The \texttt{larger+VIX} and
+\texttt{orig+VIX} books pass as small-account research candidates; the \texttt{larger}
+no-VIX book remains mixed; and the \texttt{orig} no-VIX row is diagnostic because full
+deployment is not supported by its hard-cap budget. The conclusion reports this as a
+visual final scoreboard against two deliberately simple baselines: ordinary underlying
+stock Markowitz and capped naive option allocation.
+
 The article proceeds in the same order as the research workflow.
 Section~\ref{sec:data} defines the data and empirical design.
 Section~\ref{sec:cashflow} builds the option cashflow and Greek-risk framework.
 Section~\ref{sec:portfolio} describes the conditional portfolio construction model.
 Section~\ref{sec:metrics} sets out the metrics, point-in-time validation, inference, and
-claim gates. Section~\ref{sec:results} reports the empirical results and negative evidence.
+claim gates. Section~\ref{sec:results} reports the empirical results, breadth/capacity
+diagnostic, and negative evidence.
 Section~\ref{sec:distributional_robustness} probes distributional robustness through blocked
 and combinatorial purged cross-validation and resampled and repriced Monte Carlo universes.
 Section~\ref{sec:conclusion} concludes with the limits of the current research

@@ -20,6 +20,10 @@ from typing import Sequence
 import numpy as np
 import pandas as pd
 
+from research.papers.option_only_markowitz.analysis.option_market_hours import (
+    classify_cboe_option_rth_timestamp,
+)
+
 ROOT = Path(__file__).resolve().parents[4]
 
 
@@ -41,6 +45,14 @@ class ResearchCostConfig:
     assignment_penalty_bps: float = 10.0
     use_cbbo_spread_surface: bool = True
     cbbo_spread_surface_path: str = "data/feature_store/cbbo_spread_surface.parquet"
+    use_current_spread_assumptions: bool = True
+    current_spread_assumptions_path: str = (
+        "research/papers/option_only_markowitz/analysis/artifacts/"
+        "breadth_solutions/current_option_spread_assumptions.csv"
+    )
+    use_inferred_spread_proxy: bool = False
+    inferred_spread_proxy_quantile: float = 0.50
+    inferred_spread_proxy_min_observations: int = 20
 
 
 CBBO_SPREAD_SURFACE_COLUMNS = [
@@ -83,6 +95,119 @@ def load_cbbo_spread_surface(root: Path, path: str | None = None) -> pd.DataFram
     return out.replace([np.inf, -np.inf], np.nan)
 
 
+CURRENT_SPREAD_ASSUMPTION_COLUMNS = [
+    "underlying",
+    "quote_symbol",
+    "asset_class",
+    "moneyness_bucket",
+    "tenor_bucket",
+    "chain_timestamp",
+    "snapshot_eastern",
+    "timestamp_tz_assumed",
+    "market_hours_snapshot",
+    "market_hours_reason",
+    "market_hours_rule",
+    "source_url",
+    "n_quotes",
+    "n_liquid_quotes",
+    "total_volume",
+    "total_open_interest",
+    "fill_relative_spread",
+    "fill_abs_spread",
+    "median_relative_spread",
+    "p25_relative_spread",
+    "p75_relative_spread",
+    "median_abs_spread",
+    "p25_abs_spread",
+    "p75_abs_spread",
+    "median_mid",
+    "fill_method",
+]
+
+
+def _empty_current_spread_assumptions() -> pd.DataFrame:
+    return pd.DataFrame(columns=CURRENT_SPREAD_ASSUMPTION_COLUMNS)
+
+
+def load_current_spread_assumptions(root: Path, path: str | None = None) -> pd.DataFrame:
+    rel_path = path or ResearchCostConfig().current_spread_assumptions_path
+    assumptions_path = Path(rel_path)
+    if not assumptions_path.is_absolute():
+        assumptions_path = root / assumptions_path
+    if not assumptions_path.exists():
+        return _empty_current_spread_assumptions()
+    df = pd.read_csv(assumptions_path)
+    out = df[[c for c in CURRENT_SPREAD_ASSUMPTION_COLUMNS if c in df.columns]].copy()
+    for col in CURRENT_SPREAD_ASSUMPTION_COLUMNS:
+        if col not in out:
+            out[col] = np.nan
+    out = out[CURRENT_SPREAD_ASSUMPTION_COLUMNS].copy()
+    for col in [
+        "underlying",
+        "quote_symbol",
+        "asset_class",
+        "moneyness_bucket",
+        "tenor_bucket",
+        "chain_timestamp",
+        "snapshot_eastern",
+        "timestamp_tz_assumed",
+        "market_hours_reason",
+        "market_hours_rule",
+        "source_url",
+        "fill_method",
+    ]:
+        out[col] = out[col].fillna("").astype(str)
+    out["market_hours_snapshot"] = out["market_hours_snapshot"].map(_coerce_nullable_bool)
+    for col in [
+        "n_quotes",
+        "n_liquid_quotes",
+        "total_volume",
+        "total_open_interest",
+        "fill_relative_spread",
+        "fill_abs_spread",
+        "median_relative_spread",
+        "p25_relative_spread",
+        "p75_relative_spread",
+        "median_abs_spread",
+        "p25_abs_spread",
+        "p75_abs_spread",
+        "median_mid",
+    ]:
+        out[col] = pd.to_numeric(out[col], errors="coerce")
+    out["underlying"] = out["underlying"].str.upper()
+    out["moneyness_bucket"] = out["moneyness_bucket"].str.strip()
+    out["tenor_bucket"] = out["tenor_bucket"].str.strip()
+    out = _filter_market_hours_assumptions(out)
+    return out.replace([np.inf, -np.inf], np.nan)
+
+
+def _coerce_nullable_bool(value: object) -> object:
+    if pd.isna(value):
+        return pd.NA
+    text = str(value).strip().lower()
+    if text in {"true", "1", "yes", "y"}:
+        return True
+    if text in {"false", "0", "no", "n"}:
+        return False
+    return pd.NA
+
+
+def _filter_market_hours_assumptions(assumptions: pd.DataFrame) -> pd.DataFrame:
+    if assumptions.empty:
+        return assumptions
+
+    computed_valid = []
+    for _, row in assumptions.iterrows():
+        timestamp_tz = str(row.get("timestamp_tz_assumed") or "UTC").strip() or "UTC"
+        check = classify_cboe_option_rth_timestamp(row.get("chain_timestamp"), timestamp_tz=timestamp_tz)
+        computed_valid.append(bool(check.valid))
+    computed = pd.Series(computed_valid, index=assumptions.index, dtype=bool)
+
+    declared = assumptions["market_hours_snapshot"] if "market_hours_snapshot" in assumptions else pd.Series(pd.NA, index=assumptions.index)
+    declared_valid = declared.where(declared.notna(), computed).astype(bool)
+    return assumptions.loc[computed & declared_valid].copy()
+
+
 def load_borrow_proxy(root: Path = ROOT) -> pd.DataFrame:
     path = root / "data/feature_store/option_borrow_proxy_layer.parquet"
     if not path.exists():
@@ -121,6 +246,7 @@ def build_cost_input_ledger(
         "volume",
         "open_interest",
         "cbbo_median_relative_spread",
+        "breadth_spread_source",
         "moneyness_bucket",
     ]
     if spread_surface is not None and not spread_surface.empty:
@@ -170,13 +296,34 @@ def build_cost_input_ledger(
         rel = pd.Series(np.nan, index=cost.index, dtype=float)
     is_vix = cost.get("asset_class", pd.Series("", index=cost.index)).astype(str).eq("vix_option")
     defaults = np.where(is_vix, config.default_vix_option_rel_spread, config.default_equity_option_rel_spread)
-    panel_mask = rel.gt(0)
+    breadth_source = cost.get("breadth_spread_source", pd.Series("", index=cost.index)).fillna("").astype(str)
+    poc_missing_mask = breadth_source.isin(["poc_missing_cbbo", "poc_default_fill"])
+    panel_mask = rel.gt(0) & ~poc_missing_mask
     surface_rel = _surface_relative_spread(cost, spread_surface) if spread_surface is not None else pd.Series(np.nan, index=cost.index, dtype=float)
     surface_mask = (~panel_mask) & surface_rel.gt(0)
-    cost["relative_spread"] = rel.where(panel_mask, surface_rel.where(surface_mask, defaults)).clip(lower=0.0, upper=1.5)
+    inferred_rel = (
+        _inferred_cbbo_proxy_relative_spread(cost, spread_surface, config)
+        if config.use_inferred_spread_proxy and spread_surface is not None
+        else pd.Series(np.nan, index=cost.index, dtype=float)
+    )
+    inferred_mask = (~panel_mask) & (~surface_mask) & inferred_rel.gt(0)
+    current_assumptions = (
+        load_current_spread_assumptions(root, config.current_spread_assumptions_path)
+        if config.use_current_spread_assumptions
+        else _empty_current_spread_assumptions()
+    )
+    current_rel = _current_assumption_relative_spread(cost, current_assumptions)
+    current_mask = (~panel_mask) & (~surface_mask) & (~inferred_mask) & current_rel.gt(0)
+    cost["relative_spread"] = rel.where(
+        panel_mask,
+        surface_rel.where(
+            surface_mask,
+            inferred_rel.where(inferred_mask, current_rel.where(current_mask, defaults)),
+        ),
+    ).clip(lower=0.0, upper=1.5)
     cost["relative_spread_source"] = np.select(
-        [panel_mask, surface_mask],
-        ["panel_cbbo", "surface_cbbo"],
+        [panel_mask, surface_mask, inferred_mask, current_mask],
+        ["panel_cbbo", "surface_cbbo", "inferred_cbbo_proxy", "current_cboe_liquid_quote"],
         default="default",
     )
     cost["borrow_rate_proxy"] = pd.to_numeric(cost["borrow_rate_proxy"], errors="coerce").fillna(0.0).clip(lower=0.0, upper=1.0)
@@ -218,6 +365,158 @@ def _surface_relative_spread(cost: pd.DataFrame, spread_surface: pd.DataFrame | 
         how="left",
     )
     return joined.set_index("_row")["median_relative_spread"].reindex(cost.index).astype(float)
+
+
+def _inferred_cbbo_proxy_relative_spread(
+    cost: pd.DataFrame,
+    spread_surface: pd.DataFrame | None,
+    config: ResearchCostConfig,
+) -> pd.Series:
+    """Infer missing liquid-option spreads from historical CBBO buckets.
+
+    The proxy is point-in-time: each decision row sees only CBBO surface observations
+    whose snapshot date is no later than that decision date.  It deliberately does not
+    condition on underlying, because it is used only where an exact underlying/date
+    panel row is absent.
+    """
+
+    if spread_surface is None or spread_surface.empty or cost.empty:
+        return pd.Series(np.nan, index=cost.index, dtype=float)
+    required = {"snap_date", "moneyness_bucket", "tenor_bucket", "median_relative_spread"}
+    if not required.issubset(spread_surface.columns):
+        return pd.Series(np.nan, index=cost.index, dtype=float)
+
+    source = spread_surface[list(required)].copy()
+    source["snap_date"] = pd.to_datetime(source["snap_date"], errors="coerce").dt.normalize()
+    source["moneyness_bucket"] = _normalize_proxy_moneyness(source["moneyness_bucket"])
+    source["tenor_bucket"] = source["tenor_bucket"].astype(str)
+    source["median_relative_spread"] = pd.to_numeric(source["median_relative_spread"], errors="coerce")
+    source = source.dropna(subset=["snap_date", "moneyness_bucket", "tenor_bucket", "median_relative_spread"])
+    source = source[source["median_relative_spread"].gt(0)].copy()
+    if source.empty:
+        return pd.Series(np.nan, index=cost.index, dtype=float)
+
+    q = float(config.inferred_spread_proxy_quantile)
+    if not np.isfinite(q) or q < 0.0 or q > 1.0:
+        raise ValueError("inferred_spread_proxy_quantile must be between 0 and 1")
+    min_obs = max(1, int(config.inferred_spread_proxy_min_observations))
+
+    lookup = pd.DataFrame(index=cost.index)
+    lookup["decision_date"] = pd.to_datetime(
+        cost.get("decision_date", pd.Series(pd.NaT, index=cost.index)),
+        errors="coerce",
+    ).dt.normalize()
+    lookup["moneyness_bucket"] = _normalize_proxy_moneyness(
+        cost.get("moneyness_bucket", pd.Series(pd.NA, index=cost.index))
+    )
+    lookup["tenor_bucket"] = _tenor_bucket_for_cost_rows(cost)
+
+    values: dict[tuple[pd.Timestamp, str, str], float] = {}
+    unique_keys = (
+        lookup.dropna(subset=["decision_date", "moneyness_bucket", "tenor_bucket"])
+        [["decision_date", "moneyness_bucket", "tenor_bucket"]]
+        .drop_duplicates()
+    )
+    for key in unique_keys.itertuples(index=False):
+        decision_date = pd.Timestamp(key.decision_date)
+        moneyness = str(key.moneyness_bucket)
+        tenor = str(key.tenor_bucket)
+        history = source[source["snap_date"].le(decision_date)]
+        values[(decision_date, moneyness, tenor)] = _proxy_quantile_from_history(
+            history,
+            moneyness,
+            tenor,
+            q,
+            min_obs,
+        )
+
+    out = pd.Series(np.nan, index=cost.index, dtype=float)
+    for idx, row in lookup.iterrows():
+        decision_date = row["decision_date"]
+        moneyness = row["moneyness_bucket"]
+        tenor = row["tenor_bucket"]
+        if pd.isna(decision_date) or pd.isna(moneyness) or pd.isna(tenor):
+            continue
+        out.loc[idx] = values.get((pd.Timestamp(decision_date), str(moneyness), str(tenor)), np.nan)
+    return out.astype(float)
+
+
+def _proxy_quantile_from_history(
+    history: pd.DataFrame,
+    moneyness: str,
+    tenor: str,
+    quantile: float,
+    min_obs: int,
+) -> float:
+    if history.empty:
+        return float("nan")
+    candidates = [
+        history[
+            history["moneyness_bucket"].eq(moneyness)
+            & history["tenor_bucket"].eq(tenor)
+        ]["median_relative_spread"],
+        history[history["moneyness_bucket"].eq(moneyness)]["median_relative_spread"],
+        history[history["tenor_bucket"].eq(tenor)]["median_relative_spread"],
+        history["median_relative_spread"],
+    ]
+    for series in candidates:
+        clean = pd.to_numeric(series, errors="coerce").dropna()
+        if len(clean) >= min_obs:
+            return float(clean.quantile(quantile))
+    clean = pd.to_numeric(history["median_relative_spread"], errors="coerce").dropna()
+    return float(clean.quantile(quantile)) if len(clean) else float("nan")
+
+
+def _normalize_proxy_moneyness(values: object) -> pd.Series:
+    series = pd.Series(values).astype("string").str.strip().str.lower()
+    series = series.str.replace(r"^vix_", "", regex=True)
+    invalid = series.isna() | series.isin(["", "nan", "nat", "none", "<na>"])
+    return series.mask(invalid, pd.NA)
+
+
+def _current_assumption_relative_spread(cost: pd.DataFrame, assumptions: pd.DataFrame | None) -> pd.Series:
+    if assumptions is None or assumptions.empty or cost.empty:
+        return pd.Series(np.nan, index=cost.index, dtype=float)
+    required = {"underlying", "moneyness_bucket", "tenor_bucket", "fill_relative_spread"}
+    if not required.issubset(assumptions.columns):
+        return pd.Series(np.nan, index=cost.index, dtype=float)
+
+    source = assumptions[list(required)].copy()
+    source["underlying"] = source["underlying"].astype(str).str.upper()
+    source["moneyness_bucket"] = source["moneyness_bucket"].astype(str)
+    source["tenor_bucket"] = source["tenor_bucket"].astype(str)
+    source["fill_relative_spread"] = pd.to_numeric(source["fill_relative_spread"], errors="coerce")
+    source = source.dropna(subset=["underlying", "moneyness_bucket", "tenor_bucket", "fill_relative_spread"])
+    source = source[source["fill_relative_spread"].gt(0)].copy()
+    if source.empty:
+        return pd.Series(np.nan, index=cost.index, dtype=float)
+
+    lookup = pd.DataFrame(index=cost.index)
+    lookup["underlying"] = cost.get("underlying", pd.Series(np.nan, index=cost.index)).astype(str).str.upper()
+    lookup["moneyness_bucket"] = cost.get("moneyness_bucket", pd.Series(np.nan, index=cost.index)).astype(str)
+    lookup["tenor_bucket"] = _tenor_bucket_for_cost_rows(cost)
+    lookup["_row"] = cost.index
+
+    exact = _lookup_current_spread(lookup, source, ["underlying", "moneyness_bucket", "tenor_bucket"])
+    by_bucket = _lookup_current_spread(
+        lookup,
+        source[source["tenor_bucket"].eq("all")],
+        ["underlying", "moneyness_bucket"],
+    )
+    by_underlying = _lookup_current_spread(
+        lookup,
+        source[source["moneyness_bucket"].eq("all") & source["tenor_bucket"].eq("all")],
+        ["underlying"],
+    )
+    return exact.combine_first(by_bucket).combine_first(by_underlying).reindex(cost.index).astype(float)
+
+
+def _lookup_current_spread(lookup: pd.DataFrame, source: pd.DataFrame, keys: list[str]) -> pd.Series:
+    if source.empty:
+        return pd.Series(np.nan, index=lookup.index, dtype=float)
+    source_slim = source[keys + ["fill_relative_spread"]].drop_duplicates(keys)
+    joined = lookup[keys + ["_row"]].merge(source_slim, on=keys, how="left")
+    return joined.set_index("_row")["fill_relative_spread"].reindex(lookup.index).astype(float)
 
 
 def _tenor_bucket_for_cost_rows(cost: pd.DataFrame) -> pd.Series:

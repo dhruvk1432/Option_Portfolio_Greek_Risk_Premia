@@ -99,6 +99,11 @@ trailing 36-month window ending at that date, and weights come from the same con
 maximum-Sharpe solver as the headline strategies. An earlier draft of this table silently
 truncated every training window at the global 2020-12-31 split; the pipeline now threads
 explicit window bounds and asserts that no training observation postdates the window end.
+The breadth robustness runner applies the same rule to the production-candidate E1 books:
+CV, refit, and rolling rows rebuild representative contracts, mean and covariance
+estimates, residual covariance, and liquidity caps from each fold's training window before
+scoring the test months. Capacity-infeasible rows are kept as diagnostics and are not
+promoted to deployable headline books.
 
 The point-in-time contract is strict. Decision dates precede return dates. State snapshots,
 Greeks, forecasts, covariances, residuals, betas, borrow proxies, and cost inputs are drawn

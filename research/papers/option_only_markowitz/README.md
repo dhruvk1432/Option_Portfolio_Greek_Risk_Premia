@@ -13,7 +13,7 @@ The paper develops a premium-weighted option-only Markowitz framework for listed
 - `option_only_portfolio_optimization_dhruv_kohli.tex`: LaTeX root.
 - `option_only_portfolio_optimization_dhruv_kohli.pdf`: final compiled paper.
 - `sections/`: article sections and Appendix A.
-- `analysis/`: empirical pipeline, VIX panel construction, cost scenarios, inference, and publication utilities.
+- `analysis/`: empirical pipeline, VIX panel construction, cost scenarios, inference, breadth/capacity diagnostics, and publication utilities.
 - `tables/`, `figures/`, `artifacts/`: generated paper outputs and machine-readable ledgers.
 - `verification/`: independent paper verifier and pass/fail reports.
 - `docs/`: source ledger, replication package, and release notes.
@@ -75,6 +75,41 @@ The verifier records the current check count in `verification/verification_summa
 ## New Research Diagnostics
 
 The pipeline also emits repaired execution-sensitivity scenarios, a cost-aware Sortino variant, a CBBO spread cost surface, and VIX chain state diagnostics. The repaired scenarios use `_repaired` labels and are execution-sensitivity analysis only; they are deliberately excluded from headline growth tables and the reality-check family. The `Cost-aware Sortino + VIX` strategy uses train-window-only entry-cost estimates and is diagnostic rather than a headline or simulation strategy, although its gross and scenario columns expand the reality-check family. `make cbbo-surface` builds `data/feature_store/cbbo_spread_surface.parquet` from the local OPRA full-day CBBO cache when available, refining rows that otherwise fall back to class-default spreads. VIX chain features and vol-of-vol regime tables are diagnostics only and do not feed expected returns. All of these outputs remain research simulation evidence, not live tradability evidence.
+
+### Breadth and Capacity Stage
+
+The latest breadth stage writes `analysis/artifacts/breadth_solutions/`. It tests 8-name, 9-name-with-VIX, 56-name, and 57-name-with-VIX universes across estimator regularization, pre-trade liquidity caps, capped-naive benchmarks, inferred spread costs, and AUM scale. The 8-name no-VIX baseline is exact on equity-option spreads: `p3_spread_source_coverage.csv` reports 5,777 `panel_cbbo` cost rows across 49 asset IDs and all eight baseline underlyings. The 9-name-with-VIX baseline uses the same exact equity-option rows, while VIX option spread costs use the inferred liquid-option CBBO proxy.
+
+Large-universe net rows are source-audited rather than blanket-adjusted. `p3_spread_source_coverage.csv` reports 23,740 added-name equity-option cost rows across 213 asset IDs and 47 underlyings using `inferred_cbbo_proxy`, with median relative spread `1.97%`; VIX proxy rows have median relative spread `2.53%`. At `$1M`, the 57-group E1 book reaches gross Sharpe `1.915` and net Sharpe `1.499`, versus `-1.837` net for the uncapped paper estimator and `0.266` for the best capped-naive benchmark. Without VIX, the 56-name optimizer is positive but essentially tied with capped equal-risk naive (`0.551` versus `0.550` net Sharpe). Full deployment remains capacity-infeasible above small-account scale. The old Cboe delayed-chain assumption file is retained only as an audit/rebuild utility; off-hours snapshots are rejected and are not used in the regenerated P1/P2/P3 breadth tables.
+
+The breadth robustness runner writes `analysis/artifacts/breadth_solutions/robustness/` and locks the E1 capped candidate rather than reselecting knobs in test folds. It uses 12 chronological groups, 66 CPCV splits, 78 total CV splits per config, one-month purge/embargo, 1,000 resampled historical paths, 200 refit paths, 1,000 repriced synthetic paths, circular-block and GARCH-style path simulations, drawdown breach rates, reality-check inference, and rolling 36-month monthly OOS refits. The spread-source audit passes with zero current-Cboe rows and zero default rows. Static full-sample E1 status is: `orig` diagnostic capacity-infeasible, `larger` mixed, `orig+VIX` pass, and `larger+VIX` pass. The `larger+VIX` E1 book keeps net Sharpe `1.499`, net Sortino `4.004`, MC refit p05 net Sharpe `1.262`, MC resampled p05 net Sharpe `0.989`, and rolling net Sharpe `1.217`. Repriced synthetic net paths use a realized full-cost overlay, not synthetic NBBO/CBBO.
+
+Run `make final-results` from the repository root after the breadth robustness artifacts exist. This builds the conclusion's visual scoreboards: `figures/final_breadth_validation_distributions.pdf` for CPCV/resampled/refit distributions and `figures/final_baseline_comparison.pdf` for the regular stock Markowitz and capped-naive option baselines. Those figures make the final claim boundary explicit: the two VIX-enabled E1 books beat both baselines, while `larger` no-VIX is mixed and `orig` no-VIX is capacity-infeasible.
+
+The broad-name and VIX inferred-spread rows are calibrated execution-sensitivity inputs. They should be replaced by matched market-hours OPRA/NBBO or broker CBBO history before any live-trading claim. The paper now cites OPRA, Cboe DataShop, and IBKR operational references for this boundary.
+
+### Forward Shadow Targets
+
+The locked E1 target exporter and broker-neutral shadow runner are the free next step toward production readiness:
+
+```bash
+.venv/bin/python -m research.papers.option_only_markowitz.analysis.export_shadow_targets \
+  --config larger+VIX \
+  --out /tmp/larger_vix_shadow_targets.csv
+
+.venv/bin/python -m src.option_portfolio_production.shadow \
+  --targets /tmp/larger_vix_shadow_targets.csv \
+  --quotes /path/to/market_hours_quotes.csv \
+  --nav 1000000 \
+  --decision-time 2026-07-06T19:45:00Z \
+  --out-dir /tmp/option_shadow_run
+```
+
+The shadow runner writes `shadow_target_ledger.csv`, `shadow_quote_ledger.csv`,
+`shadow_execution_ledger.csv`, `shadow_fill_ledger.csv`, `shadow_margin_ledger.csv`,
+`shadow_rejected_order_ledger.csv`, `shadow_reconciliation_ledger.csv`, and a shadow
+summary. Shadow fills use `shadow_nbbo_displayed_size_cross`; they are not production
+fills and do not satisfy `src.option_portfolio_production.verification`.
 
 ### Distributional Robustness Stage
 

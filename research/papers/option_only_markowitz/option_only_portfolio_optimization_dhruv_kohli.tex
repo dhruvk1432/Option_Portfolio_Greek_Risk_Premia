@@ -134,10 +134,24 @@ can improve the design as volatility instruments only when VX-forward modeling a
 VRO/SOQ settlement support the relevant rows. Post-cost survival is scenario-dependent:
 the leading sleeves remain profitable under executable-cost scenarios but fail under a
 conservative stress-cost layer, and family-wise multiple-testing corrections cannot
-certify skill on sixty months of data. The portfolio-construction contribution is therefore
-not a live-trading claim. It is a disciplined way to decide whether convexity, volatility
-exposure, or short-premium risk deserves capital after premium accounting, costs,
-settlement, beta audits, Greek budgets, and out-of-sample validation.
+certify skill on sixty months of data. A follow-on breadth and capacity diagnostic sharpens
+the limitation: at \(\$1\) million NAV, the 57-group VIX-enabled book moves from
+\(-1.837\) net Sharpe in the uncapped paper configuration to \(+1.499\) net Sharpe
+(gross \(1.915\)) only after the historical-mean estimator is regularized away and
+contract-level liquidity caps bind net positions. Above about \(\$2\) million,
+representative month-end option liquidity rather than optimizer algebra becomes the
+binding constraint.
+The locked E1 breadth candidate is best read as a small-account research candidate rather
+than a live trading strategy. \texttt{larger+VIX} and \texttt{orig+VIX} pass the main
+robustness screens; \texttt{larger} without VIX is mixed; and \texttt{orig} without VIX is
+capacity-infeasible under the hard cap budget. The \texttt{larger+VIX} result survives
+12-group CPCV/PBO diagnostics, resampled and refit Monte Carlo, tail-path simulations, and
+true rolling 36-month refits with positive net Sharpe, while the synthetic repricing
+stress is explicitly labeled as a historical-cost overlay rather than synthetic NBBO.
+The portfolio-construction contribution is therefore not a live-trading claim. It is a
+disciplined way to decide whether convexity, volatility exposure, or short-premium risk
+deserves capital after premium accounting, costs, settlement, beta audits, Greek budgets,
+liquidity, and out-of-sample validation.
 
 \vspace{0.32cm}
 \noindent\colorbox{impactshade}{%
@@ -152,6 +166,18 @@ settlement, beta audits, Greek budgets, and out-of-sample validation.
     hurdles.
     \item VIX options are useful as conditional volatility instruments only when
     VX-forward modeling and exact VRO/SOQ settlement support the evidence.
+    \item The locked E1 result is a robust small-account research candidate, strongest
+    with VIX, not a live-tradability proof. At \(\$1\) million, diagonal residual
+    covariance, \(N\)-scaled shrinkage, structural-only means, and net liquidity caps lift
+    the 57-group book from \(-1.837\) to \(+1.499\) net Sharpe.
+    The locked 57-group VIX candidate remains positive under resampled histories
+    (net Sharpe p05 \(0.989\)), refit stability (p05 \(1.262\)), and rolling
+    36-month OOS refits (net Sharpe \(1.217\)). Against the two simplest baselines,
+    ordinary underlying Markowitz and capped naive option allocation, the VIX-enabled E1
+    books beat both; \texttt{larger} without VIX is mixed because it
+    essentially ties capped equal-risk naive (\(0.551\) versus \(0.550\) net Sharpe);
+    \texttt{orig} without VIX is capacity-infeasible; and all deployable evidence remains
+    limited to small-account scale in the representative contracts studied.
   \end{itemize}
   \end{minipage}}
 
@@ -166,7 +192,9 @@ settlement, beta audits, Greek budgets, and out-of-sample validation.
   before asking whether they deserve capital. The conclusion is useful precisely because it
   is restrained: option-only Markowitz is mathematically clean, but empirical claims survive
   only if premium accounting, settlement, costs, inference, and equity-beta audits support
-  them.
+  them. The breadth experiment adds the same lesson for liquidity: more names help only
+  when the estimator and the pre-trade capacity model are disciplined enough to keep the
+  optimizer from spending scarce option depth on noise.
   \end{minipage}}
 
 \vspace{0.45cm}

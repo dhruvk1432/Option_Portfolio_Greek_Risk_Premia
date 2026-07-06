@@ -1,0 +1,97 @@
+config,strategy,arm,point_id,cov_shrinkage,under_cov_estimator,vol_cov_estimator,residual_estimator,shrinkage_to_zero,historical_weight,structural_weight,resolved_lambda,t_train,n_underlyings,n_contracts,solver_status,aum,gross_sharpe,net_sharpe_noimpact
+orig+VIX,Greek Markowitz,default,default,0.2,sample,sample,sample,0.6,0.25,0.75,0.2,69,9,54,optimal,1000000.0,1.3743892124363595,1.0356458192920948
+orig+VIX,Greek Markowitz,A,A_cov_0p35,0.35,sample,sample,sample,0.6,0.25,0.75,0.35,69,9,54,optimal,1000000.0,1.3811718657066565,1.0986530934333076
+orig+VIX,Greek Markowitz,A,A_cov_0p50,0.5,sample,sample,sample,0.6,0.25,0.75,0.5,69,9,54,optimal,1000000.0,1.367081373728828,1.1072966483326385
+orig+VIX,Greek Markowitz,A,A_cov_0p65,0.65,sample,sample,sample,0.6,0.25,0.75,0.65,69,9,54,optimal,1000000.0,1.3415008558144832,1.0958305827886745
+orig+VIX,Greek Markowitz,A,A_cov_0p80,0.8,sample,sample,sample,0.6,0.25,0.75,0.8,69,9,54,optimal,1000000.0,1.3246010986868486,1.090768358761708
+orig+VIX,Greek Markowitz,A,A_cov_0p90,0.9,sample,sample,sample,0.6,0.25,0.75,0.9,69,9,54,optimal,1000000.0,1.3103253019847305,1.0836813123769684
+orig+VIX,Greek Markowitz,A,A_cov_n_scaled,n_scaled,sample,sample,sample,0.6,0.25,0.75,0.2,69,9,54,optimal,1000000.0,1.3743892124363595,1.0356458192920948
+orig+VIX,Greek Markowitz,B,B_residual_diag_cov_0p20,0.2,sample,sample,diag,0.6,0.25,0.75,0.2,69,9,54,optimal,1000000.0,1.6249082562646722,1.3407228353309206
+orig+VIX,Greek Markowitz,B,B_residual_diag_cov_0p50,0.5,sample,sample,diag,0.6,0.25,0.75,0.5,69,9,54,optimal,1000000.0,1.5407286914602654,1.2823706546366846
+orig+VIX,Greek Markowitz,B,B_residual_lw_cov_0p20,0.2,sample,sample,lw,0.6,0.25,0.75,0.2,69,9,54,optimal,1000000.0,1.476283960344018,1.2369590783614557
+orig+VIX,Greek Markowitz,B,B_residual_lw_cov_0p50,0.5,sample,sample,lw,0.6,0.25,0.75,0.5,69,9,54,optimal,1000000.0,1.3965060550712034,1.1684090889641559
+orig+VIX,Greek Markowitz,C,C_under_lw,0.2,lw,sample,sample,0.6,0.25,0.75,0.2,69,9,54,optimal,1000000.0,1.385509049580177,1.0620132970225937
+orig+VIX,Greek Markowitz,C,C_under_single_factor,0.2,single_factor,sample,sample,0.6,0.25,0.75,0.2,69,9,54,optimal,1000000.0,1.5696928797956418,1.2000233095470707
+orig+VIX,Greek Markowitz,D,D_stz_0p75_hw_0p25,0.2,sample,sample,sample,0.75,0.25,0.75,0.2,69,9,54,optimal,1000000.0,1.4451648017113503,1.103801941362082
+orig+VIX,Greek Markowitz,D,D_stz_0p90_hw_0p25,0.2,sample,sample,sample,0.9,0.25,0.75,0.2,69,9,54,optimal,1000000.0,1.6291797110532962,1.10635269615754
+orig+VIX,Greek Markowitz,D,D_stz_0p60_hw_0p00,0.2,sample,sample,sample,0.6,0.0,0.75,0.2,69,9,54,optimal,1000000.0,1.373399555932535,0.9480401363368758
+orig+VIX,Greek Markowitz,D,D_stz_0p75_hw_0p00,0.2,sample,sample,sample,0.75,0.0,0.75,0.2,69,9,54,optimal,1000000.0,1.5565721442555545,1.1355238481977354
+orig+VIX,Greek Markowitz,D,D_stz_0p90_hw_0p00,0.2,sample,sample,sample,0.9,0.0,0.75,0.2,69,9,54,optimal,1000000.0,1.605382430766964,0.9663706385791306
+orig+VIX,Greek Markowitz,E,E1_residual_diag_n_scaled_hw0_stz075,n_scaled,sample,sample,diag,0.75,0.0,0.75,0.2,69,9,54,optimal,1000000.0,1.7470281074002583,1.4094463954526417
+orig+VIX,Greek Markowitz,E,E2_residual_lw_cov050_hw0_stz060,0.5,sample,sample,lw,0.6,0.0,0.75,0.5,69,9,54,optimal,1000000.0,1.5665648106402437,1.292102489009255
+orig+VIX,Greek Markowitz,E,E3_under_lw_residual_diag_n_scaled,n_scaled,lw,sample,diag,0.6,0.25,0.75,0.2,69,9,54,optimal,1000000.0,1.619253416511109,1.3439669731189678
+orig+VIX,Greek Markowitz,E,E4_residual_diag_cov065_stz075,0.65,sample,sample,diag,0.75,0.25,0.75,0.65,69,9,54,optimal,1000000.0,1.6094763356875867,1.3460183979733678
+orig+VIX,Equal premium,naive,Equal premium,,,,,,,,,69,9,54,reference,1000000.0,-0.029556763365263826,-0.20664721870550404
+orig+VIX,Equal risk,naive,Equal risk,,,,,,,,,69,9,54,reference,1000000.0,0.08183086586465663,-0.12925677247985987
+larger+VIX,Greek Markowitz,default,default,0.2,sample,sample,sample,0.6,0.25,0.75,0.2,69,57,267,optimal,1000000.0,0.7646532722533432,0.2020211332889265
+larger+VIX,Greek Markowitz,A,A_cov_0p35,0.35,sample,sample,sample,0.6,0.25,0.75,0.35,69,57,267,optimal,1000000.0,0.8402942733132734,0.3062318540840908
+larger+VIX,Greek Markowitz,A,A_cov_0p50,0.5,sample,sample,sample,0.6,0.25,0.75,0.5,69,57,267,optimal,1000000.0,0.9124013742586579,0.4150672943930645
+larger+VIX,Greek Markowitz,A,A_cov_0p65,0.65,sample,sample,sample,0.6,0.25,0.75,0.65,69,57,267,optimal,1000000.0,0.9782410164329183,0.5295992643165294
+larger+VIX,Greek Markowitz,A,A_cov_0p80,0.8,sample,sample,sample,0.6,0.25,0.75,0.8,69,57,267,optimal,1000000.0,0.9932254487605283,0.5964484240856501
+larger+VIX,Greek Markowitz,A,A_cov_0p90,0.9,sample,sample,sample,0.6,0.25,0.75,0.9,69,57,267,optimal,1000000.0,0.9396433662187672,0.5791437305682242
+larger+VIX,Greek Markowitz,A,A_cov_n_scaled,n_scaled,sample,sample,sample,0.6,0.25,0.75,0.7932584269662921,69,57,267,optimal,1000000.0,0.9949888157422946,0.5960866357059192
+larger+VIX,Greek Markowitz,B,B_residual_diag_cov_0p20,0.2,sample,sample,diag,0.6,0.25,0.75,0.2,69,57,267,optimal,1000000.0,1.2212962400570524,0.7587200426997576
+larger+VIX,Greek Markowitz,B,B_residual_diag_cov_0p50,0.5,sample,sample,diag,0.6,0.25,0.75,0.5,69,57,267,optimal,1000000.0,1.1874950161369158,0.7746102201711463
+larger+VIX,Greek Markowitz,B,B_residual_lw_cov_0p20,0.2,sample,sample,lw,0.6,0.25,0.75,0.2,69,57,267,optimal,1000000.0,1.2414397295919934,0.9520763449396711
+larger+VIX,Greek Markowitz,B,B_residual_lw_cov_0p50,0.5,sample,sample,lw,0.6,0.25,0.75,0.5,69,57,267,optimal,1000000.0,1.193565012263139,0.9117040126642831
+larger+VIX,Greek Markowitz,C,C_under_lw,0.2,lw,sample,sample,0.6,0.25,0.75,0.2,69,57,267,optimal,1000000.0,0.974177769292511,0.39691695483637096
+larger+VIX,Greek Markowitz,C,C_under_single_factor,0.2,single_factor,sample,sample,0.6,0.25,0.75,0.2,69,57,267,optimal,1000000.0,0.8191947034965755,0.3233960266662392
+larger+VIX,Greek Markowitz,D,D_stz_0p75_hw_0p25,0.2,sample,sample,sample,0.75,0.25,0.75,0.2,69,57,267,optimal,1000000.0,0.8478258570587442,0.27155114750166454
+larger+VIX,Greek Markowitz,D,D_stz_0p90_hw_0p25,0.2,sample,sample,sample,0.9,0.25,0.75,0.2,69,57,267,optimal,1000000.0,0.9279890656046162,0.3338131785012331
+larger+VIX,Greek Markowitz,D,D_stz_0p60_hw_0p00,0.2,sample,sample,sample,0.6,0.0,0.75,0.2,69,57,267,optimal,1000000.0,1.3675823177657822,0.7282765919105038
+larger+VIX,Greek Markowitz,D,D_stz_0p75_hw_0p00,0.2,sample,sample,sample,0.75,0.0,0.75,0.2,69,57,267,optimal,1000000.0,1.4269090645372846,0.7573616418040394
+larger+VIX,Greek Markowitz,D,D_stz_0p90_hw_0p00,0.2,sample,sample,sample,0.9,0.0,0.75,0.2,69,57,267,optimal,1000000.0,1.412435374041173,0.6942302541378724
+larger+VIX,Greek Markowitz,E,E1_residual_diag_n_scaled_hw0_stz075,n_scaled,sample,sample,diag,0.75,0.0,0.75,0.7932584269662921,69,57,267,optimal,1000000.0,1.5007639777977955,1.1565723866108542
+larger+VIX,Greek Markowitz,E,E2_residual_lw_cov050_hw0_stz060,0.5,sample,sample,lw,0.6,0.0,0.75,0.5,69,57,267,optimal,1000000.0,1.4584035036693752,1.158791140117311
+larger+VIX,Greek Markowitz,E,E3_under_lw_residual_diag_n_scaled,n_scaled,lw,sample,diag,0.6,0.25,0.75,0.7932584269662921,69,57,267,optimal,1000000.0,1.0912997888757927,0.7424151091604728
+larger+VIX,Greek Markowitz,E,E4_residual_diag_cov065_stz075,0.65,sample,sample,diag,0.75,0.25,0.75,0.65,69,57,267,optimal,1000000.0,1.2643905413970595,0.8694709878770639
+larger+VIX,Equal premium,naive,Equal premium,,,,,,,,,69,57,267,reference,1000000.0,0.48513564180639357,0.25762030618389237
+larger+VIX,Equal risk,naive,Equal risk,,,,,,,,,69,57,267,reference,1000000.0,0.5755618640569028,0.28225270772920086
+orig,Greek Markowitz,default,default,0.2,sample,sample,sample,0.6,0.25,0.75,0.2,69,8,49,optimal,1000000.0,0.8421199757145471,0.5782028760768797
+orig,Greek Markowitz,A,A_cov_0p35,0.35,sample,sample,sample,0.6,0.25,0.75,0.35,69,8,49,optimal,1000000.0,0.865709078461283,0.6286419090297688
+orig,Greek Markowitz,A,A_cov_0p50,0.5,sample,sample,sample,0.6,0.25,0.75,0.5,69,8,49,optimal,1000000.0,0.8588591085467367,0.6473119382016993
+orig,Greek Markowitz,A,A_cov_0p65,0.65,sample,sample,sample,0.6,0.25,0.75,0.65,69,8,49,optimal,1000000.0,0.8281812844233649,0.6377573003361142
+orig,Greek Markowitz,A,A_cov_0p80,0.8,sample,sample,sample,0.6,0.25,0.75,0.8,69,8,49,optimal,1000000.0,0.7799921890404143,0.6078555573394162
+orig,Greek Markowitz,A,A_cov_0p90,0.9,sample,sample,sample,0.6,0.25,0.75,0.9,69,8,49,optimal,1000000.0,0.733656575601205,0.5698298847205073
+orig,Greek Markowitz,A,A_cov_n_scaled,n_scaled,sample,sample,sample,0.6,0.25,0.75,0.2,69,8,49,optimal,1000000.0,0.8421199757145471,0.5782028760768797
+orig,Greek Markowitz,B,B_residual_diag_cov_0p20,0.2,sample,sample,diag,0.6,0.25,0.75,0.2,69,8,49,optimal,1000000.0,0.9550406165097567,0.7418878412632104
+orig,Greek Markowitz,B,B_residual_diag_cov_0p50,0.5,sample,sample,diag,0.6,0.25,0.75,0.5,69,8,49,optimal,1000000.0,0.8658403136710814,0.6772442874236276
+orig,Greek Markowitz,B,B_residual_lw_cov_0p20,0.2,sample,sample,lw,0.6,0.25,0.75,0.2,69,8,49,optimal,1000000.0,0.9513987509609559,0.723245779484368
+orig,Greek Markowitz,B,B_residual_lw_cov_0p50,0.5,sample,sample,lw,0.6,0.25,0.75,0.5,69,8,49,optimal,1000000.0,0.8380487972419653,0.6437431650170307
+orig,Greek Markowitz,C,C_under_lw,0.2,lw,sample,sample,0.6,0.25,0.75,0.2,69,8,49,optimal,1000000.0,0.8277362038977916,0.5704695946873741
+orig,Greek Markowitz,C,C_under_single_factor,0.2,single_factor,sample,sample,0.6,0.25,0.75,0.2,69,8,49,optimal,1000000.0,0.9113414232432776,0.6379793886851794
+orig,Greek Markowitz,D,D_stz_0p75_hw_0p25,0.2,sample,sample,sample,0.75,0.25,0.75,0.2,69,8,49,optimal,1000000.0,0.8420992459999285,0.5781842179051278
+orig,Greek Markowitz,D,D_stz_0p90_hw_0p25,0.2,sample,sample,sample,0.9,0.25,0.75,0.2,69,8,49,optimal,1000000.0,0.8421167130468764,0.5782000904343965
+orig,Greek Markowitz,D,D_stz_0p60_hw_0p00,0.2,sample,sample,sample,0.6,0.0,0.75,0.2,69,8,49,optimal,1000000.0,0.7248968306052126,0.4982708500310746
+orig,Greek Markowitz,D,D_stz_0p75_hw_0p00,0.2,sample,sample,sample,0.75,0.0,0.75,0.2,69,8,49,optimal,1000000.0,0.7248789859670893,0.49826112839244646
+orig,Greek Markowitz,D,D_stz_0p90_hw_0p00,0.2,sample,sample,sample,0.9,0.0,0.75,0.2,69,8,49,optimal,1000000.0,0.7248773810471779,0.49826271139501693
+orig,Greek Markowitz,E,E1_residual_diag_n_scaled_hw0_stz075,n_scaled,sample,sample,diag,0.75,0.0,0.75,0.2,69,8,49,optimal,1000000.0,0.8448854092345045,0.6607070528074805
+orig,Greek Markowitz,E,E2_residual_lw_cov050_hw0_stz060,0.5,sample,sample,lw,0.6,0.0,0.75,0.5,69,8,49,optimal,1000000.0,0.7803890370393837,0.5858735013528718
+orig,Greek Markowitz,E,E3_under_lw_residual_diag_n_scaled,n_scaled,lw,sample,diag,0.6,0.25,0.75,0.2,69,8,49,optimal,1000000.0,0.9475326482891512,0.7374746888235513
+orig,Greek Markowitz,E,E4_residual_diag_cov065_stz075,0.65,sample,sample,diag,0.75,0.25,0.75,0.65,69,8,49,optimal,1000000.0,0.8116689479260119,0.6350743369022297
+orig,Equal premium,naive,Equal premium,,,,,,,,,69,8,49,reference,1000000.0,0.26720609586855976,0.11521754097438976
+orig,Equal risk,naive,Equal risk,,,,,,,,,69,8,49,reference,1000000.0,0.3398774829634941,0.14927911191754312
+larger,Greek Markowitz,default,default,0.2,sample,sample,sample,0.6,0.25,0.75,0.2,69,56,262,optimal,1000000.0,0.4562219234084396,-0.07505876720352345
+larger,Greek Markowitz,A,A_cov_0p35,0.35,sample,sample,sample,0.6,0.25,0.75,0.35,69,56,262,optimal,1000000.0,0.5091189758854885,0.030081240253139453
+larger,Greek Markowitz,A,A_cov_0p50,0.5,sample,sample,sample,0.6,0.25,0.75,0.5,69,56,262,optimal,1000000.0,0.5625518312581165,0.12693967310749632
+larger,Greek Markowitz,A,A_cov_0p65,0.65,sample,sample,sample,0.6,0.25,0.75,0.65,69,56,262,optimal,1000000.0,0.6178724087852583,0.22927184884633192
+larger,Greek Markowitz,A,A_cov_0p80,0.8,sample,sample,sample,0.6,0.25,0.75,0.8,69,56,262,optimal,1000000.0,0.622316388257731,0.26832015103961404
+larger,Greek Markowitz,A,A_cov_0p90,0.9,sample,sample,sample,0.6,0.25,0.75,0.9,69,56,262,optimal,1000000.0,0.5952395434654205,0.26958104425965257
+larger,Greek Markowitz,A,A_cov_n_scaled,n_scaled,sample,sample,sample,0.6,0.25,0.75,0.7893129770992366,69,56,262,optimal,1000000.0,0.6230440525319111,0.2663361169947594
+larger,Greek Markowitz,B,B_residual_diag_cov_0p20,0.2,sample,sample,diag,0.6,0.25,0.75,0.2,69,56,262,optimal,1000000.0,0.7142681813665206,0.2868715131582177
+larger,Greek Markowitz,B,B_residual_diag_cov_0p50,0.5,sample,sample,diag,0.6,0.25,0.75,0.5,69,56,262,optimal,1000000.0,0.6902780001215922,0.3183699697475014
+larger,Greek Markowitz,B,B_residual_lw_cov_0p20,0.2,sample,sample,lw,0.6,0.25,0.75,0.2,69,56,262,optimal,1000000.0,0.7421544123857772,0.47040289720305706
+larger,Greek Markowitz,B,B_residual_lw_cov_0p50,0.5,sample,sample,lw,0.6,0.25,0.75,0.5,69,56,262,optimal,1000000.0,0.695480990642841,0.4327569325659431
+larger,Greek Markowitz,C,C_under_lw,0.2,lw,sample,sample,0.6,0.25,0.75,0.2,69,56,262,optimal,1000000.0,0.5601824759846378,0.020475752439037032
+larger,Greek Markowitz,C,C_under_single_factor,0.2,single_factor,sample,sample,0.6,0.25,0.75,0.2,69,56,262,optimal,1000000.0,0.44328031101471455,-0.013735782574918247
+larger,Greek Markowitz,D,D_stz_0p75_hw_0p25,0.2,sample,sample,sample,0.75,0.25,0.75,0.2,69,56,262,optimal,1000000.0,0.4562885536935692,-0.07499525719814841
+larger,Greek Markowitz,D,D_stz_0p90_hw_0p25,0.2,sample,sample,sample,0.9,0.25,0.75,0.2,69,56,262,optimal,1000000.0,0.4562282980143694,-0.07505552515219668
+larger,Greek Markowitz,D,D_stz_0p60_hw_0p00,0.2,sample,sample,sample,0.6,0.0,0.75,0.2,69,56,262,optimal,1000000.0,0.8343917116196222,0.2878709838236551
+larger,Greek Markowitz,D,D_stz_0p75_hw_0p00,0.2,sample,sample,sample,0.75,0.0,0.75,0.2,69,56,262,optimal,1000000.0,0.8344172333051743,0.2878913970800528
+larger,Greek Markowitz,D,D_stz_0p90_hw_0p00,0.2,sample,sample,sample,0.9,0.0,0.75,0.2,69,56,262,optimal,1000000.0,0.8343943831508974,0.28789508229012184
+larger,Greek Markowitz,E,E1_residual_diag_n_scaled_hw0_stz075,n_scaled,sample,sample,diag,0.75,0.0,0.75,0.7893129770992366,69,56,262,optimal,1000000.0,0.6539097060262952,0.36787704932987214
+larger,Greek Markowitz,E,E2_residual_lw_cov050_hw0_stz060,0.5,sample,sample,lw,0.6,0.0,0.75,0.5,69,56,262,optimal,1000000.0,0.5100418593149527,0.27528132343821476
+larger,Greek Markowitz,E,E3_under_lw_residual_diag_n_scaled,n_scaled,lw,sample,diag,0.6,0.25,0.75,0.7893129770992366,69,56,262,optimal,1000000.0,0.6531891115214284,0.3342992372386996
+larger,Greek Markowitz,E,E4_residual_diag_cov065_stz075,0.65,sample,sample,diag,0.75,0.25,0.75,0.65,69,56,262,optimal,1000000.0,0.6872926742018693,0.3382081524075381
+larger,Equal premium,naive,Equal premium,,,,,,,,,69,56,262,reference,1000000.0,0.5573332492175173,0.3356091512533899
+larger,Equal risk,naive,Equal risk,,,,,,,,,69,56,262,reference,1000000.0,0.6378869106679349,0.3483486689247493
