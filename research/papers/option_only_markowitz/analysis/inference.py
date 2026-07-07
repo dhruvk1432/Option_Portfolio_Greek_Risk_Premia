@@ -247,6 +247,105 @@ def _monthly_sharpe(values: np.ndarray) -> float:
     return float(np.mean(x) / sd) if sd > 0 else np.nan
 
 
+def sharpe_difference_test(
+    returns_a: pd.Series | np.ndarray,
+    returns_b: pd.Series | np.ndarray,
+    config: BootstrapConfig | None = None,
+) -> dict[str, float]:
+    """Paired tests for the difference between two monthly Sharpe ratios.
+
+    The input series are aligned on their common index and incomplete pairs are
+    dropped.  Reported Sharpe ratios are annualized, but the Jobson-Korkie test
+    uses monthly moments.  With monthly means ``m_a, m_b``, sample standard
+    deviations ``s_a, s_b``, covariance ``s_ab``, monthly Sharpe ratios
+    ``SR_a=m_a/s_a`` and ``SR_b=m_b/s_b``, and ``T`` paired observations, the
+    Memmel-corrected Jobson-Korkie variance is
+
+    ``theta = (1/T) * (2*s_a**2*s_b**2 - 2*s_a*s_b*s_ab
+        + 0.5*m_a**2*s_b**2 + 0.5*m_b**2*s_a**2
+        - (m_a*m_b/(s_a*s_b))*s_ab**2)``.
+
+    Since the test statistic is formed on ``SR_a - SR_b``, the scaled variance
+    is ``theta / (s_a**2*s_b**2)``.  The bootstrap p-value is a percentile sign
+    test on paired circular-block bootstrap draws of the monthly Sharpe
+    difference: ``2 * min(P(delta* <= 0), P(delta* >= 0))``, capped at one.
+    """
+
+    cfg = config or BootstrapConfig()
+    aligned = (
+        pd.concat(
+            [
+                pd.Series(returns_a, dtype=float).rename("a"),
+                pd.Series(returns_b, dtype=float).rename("b"),
+            ],
+            axis=1,
+        )
+        .replace([np.inf, -np.inf], np.nan)
+        .dropna()
+    )
+    n_obs = int(len(aligned))
+    block_size = cfg.block_size or max(2, int(round(np.sqrt(max(n_obs, 1)))))
+    out = {
+        "sharpe_a": np.nan,
+        "sharpe_b": np.nan,
+        "delta_sharpe": np.nan,
+        "jk_z": np.nan,
+        "jk_p": np.nan,
+        "boot_p": np.nan,
+        "n_obs": n_obs,
+        "block_size": int(block_size),
+    }
+    if n_obs < 2:
+        return out
+
+    a = aligned["a"].to_numpy(float)
+    b = aligned["b"].to_numpy(float)
+    sr_a_m = _monthly_sharpe(a)
+    sr_b_m = _monthly_sharpe(b)
+    delta_m = sr_a_m - sr_b_m
+    sqrt_ppy = float(np.sqrt(cfg.periods_per_year))
+    out["sharpe_a"] = float(sr_a_m * sqrt_ppy) if np.isfinite(sr_a_m) else np.nan
+    out["sharpe_b"] = float(sr_b_m * sqrt_ppy) if np.isfinite(sr_b_m) else np.nan
+    out["delta_sharpe"] = float(delta_m * sqrt_ppy) if np.isfinite(delta_m) else np.nan
+
+    ma = float(np.mean(a))
+    mb = float(np.mean(b))
+    sa = float(np.std(a, ddof=1))
+    sb = float(np.std(b, ddof=1))
+    if sa > 0 and sb > 0 and np.isfinite(delta_m):
+        sab = float(np.cov(a, b, ddof=1)[0, 1])
+        theta = (1.0 / n_obs) * (
+            2.0 * sa**2 * sb**2
+            - 2.0 * sa * sb * sab
+            + 0.5 * ma**2 * sb**2
+            + 0.5 * mb**2 * sa**2
+            - (ma * mb / (sa * sb)) * sab**2
+        )
+        theta_scaled = theta / (sa**2 * sb**2)
+        if np.isfinite(theta_scaled) and theta_scaled > 0:
+            z = float(delta_m / np.sqrt(theta_scaled))
+            out["jk_z"] = z
+            out["jk_p"] = float(2.0 * _scipy_stats.norm.sf(abs(z)))
+        elif abs(delta_m) <= 1e-15:
+            out["jk_z"] = 0.0
+            out["jk_p"] = 1.0
+
+    if cfg.n_boot > 0 and np.isfinite(delta_m):
+        rng = np.random.default_rng(cfg.seed)
+        boot = np.empty(cfg.n_boot, dtype=float)
+        row_ids = np.arange(n_obs)
+        for i in range(cfg.n_boot):
+            idx = circular_block_sample(row_ids, rng, block_size).astype(int)
+            boot[i] = _monthly_sharpe(a[idx]) - _monthly_sharpe(b[idx])
+        boot = boot[np.isfinite(boot)]
+        if len(boot):
+            p_lo = float(np.mean(boot <= 0.0))
+            p_hi = float(np.mean(boot >= 0.0))
+            out["boot_p"] = float(min(1.0, 2.0 * min(p_lo, p_hi)))
+
+    return out
+
+
 def _trial_basis(variant: str, delimiter: str = "::") -> str:
     """Cost-basis group of a variant, e.g. 'X::full_spread' -> 'full_spread'."""
 
@@ -356,6 +455,7 @@ __all__ = [
     "circular_block_sample",
     "grouped_metric_inference",
     "hac_ols",
+    "sharpe_difference_test",
     "sharpe_reality_check",
     "strategy_metric_inference",
 ]

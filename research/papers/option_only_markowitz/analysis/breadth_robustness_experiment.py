@@ -16,6 +16,7 @@ import math
 import re
 import subprocess
 import time
+import warnings
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Sequence
@@ -33,6 +34,7 @@ from research.papers.option_only_markowitz.analysis.breadth_solutions_lib import
     cap_feasibility,
     capped_naive_weights,
     compute_liquidity_caps,
+    integerize_book_weights,
     naive_weights,
     rebuild_model,
     solve_gm,
@@ -96,6 +98,7 @@ ROBUSTNESS_DIR = OUT_DIR / "robustness"
 CONFIG_ORDER = ["orig", "orig+VIX", "larger", "larger+VIX"]
 PRIMARY_STRATEGY = "E1 capped"
 BENCHMARK_STRATEGIES = ("GM paper", "Equal premium capped", "Equal risk capped")
+CAPPED_NAIVE_STRATEGIES = ("Equal premium capped", "Equal risk capped")
 STRATEGY_ORDER = (PRIMARY_STRATEGY, *BENCHMARK_STRATEGIES)
 E1_KNOBS = EstimatorKnobs(
     residual_estimator="diag",
@@ -310,8 +313,12 @@ def fit_books(
 ) -> dict[str, FittedBook]:
     prefix = strategy_prefix or ctx.label
     books: dict[str, FittedBook] = {}
+    marks = ctx.spec["mark"]
 
-    paper_weights, paper_status = solve_gm(ctx.base_model, "cvxpy")
+    paper_weights_cont, paper_status = solve_gm(ctx.base_model, "cvxpy")
+    paper_weights = integerize_book_weights(
+        paper_weights_cont, marks, nav=float(nav)
+    )["realized_weight"]
     books["GM paper"] = FittedBook(
         config=prefix,
         strategy="GM paper",
@@ -335,7 +342,10 @@ def fit_books(
     feasibility = cap_feasibility(caps_df, ctx.base_model.constraints)
     caps = caps_df["bound"]
     e1_model = rebuild_model(ctx, E1_KNOBS, per_contract_caps=caps)
-    e1_weights, e1_status = solve_gm(e1_model, "cvxpy")
+    e1_weights_cont, e1_status = solve_gm(e1_model, "cvxpy")
+    e1_weights = integerize_book_weights(
+        e1_weights_cont, marks, nav=float(nav), caps=caps
+    )["realized_weight"]
     books[PRIMARY_STRATEGY] = FittedBook(
         config=prefix,
         strategy=PRIMARY_STRATEGY,
@@ -358,7 +368,10 @@ def fit_books(
     )
     for naive_name, naive_weights_raw in naive_weights(ctx.base_model).items():
         strategy = f"{naive_name} capped"
-        weights = capped_naive_weights(naive_weights_raw, caps, target_gross)
+        weights_cont = capped_naive_weights(naive_weights_raw, caps, target_gross)
+        weights = integerize_book_weights(
+            weights_cont, marks, nav=float(nav), caps=caps
+        )["realized_weight"]
         books[strategy] = FittedBook(
             config=prefix,
             strategy=strategy,
@@ -513,6 +526,8 @@ def run_cv_stage(
     cv_config: CVConfig,
     nav: float,
     participation: float,
+    test_window: pd.DatetimeIndex | None = None,
+    artifact_prefix: str = "breadth_cv",
 ) -> dict[str, pd.DataFrame]:
     schedule_rows: list[dict[str, object]] = []
     ledger_rows: list[dict[str, object]] = []
@@ -522,8 +537,14 @@ def run_cv_stage(
     expected = expected_cv_split_count(cv_config)
 
     for config, panel in panels.items():
-        folds = build_folds(panel.returns.index, cv_config, "kfold") + build_folds(panel.returns.index, cv_config, "cpcv")
-        print(f"[breadth-robustness] CV {config}: {len(folds)} folds", flush=True)
+        folds = build_folds(panel.returns.index, cv_config, "kfold", test_window=test_window) + build_folds(
+            panel.returns.index,
+            cv_config,
+            "cpcv",
+            test_window=test_window,
+        )
+        label = "" if artifact_prefix == "breadth_cv" else f" [{artifact_prefix}]"
+        print(f"[breadth-robustness] CV {config}{label}: {len(folds)} folds", flush=True)
         for fold in folds:
             started = time.monotonic()
             status = "ok"
@@ -621,7 +642,7 @@ def run_cv_stage(
             done = sum(1 for row in schedule_rows if row["config"] == config)
             if done == 1 or done == len(folds) or done % 10 == 0:
                 print(
-                    f"[breadth-robustness] CV {config}: completed {done}/{len(folds)} folds "
+                    f"[breadth-robustness] CV {config}{label}: completed {done}/{len(folds)} folds "
                     f"(last={fold.fold_id}, status={status})",
                     flush=True,
                 )
@@ -642,6 +663,72 @@ def run_cv_stage(
         "pbo_summary": pbo,
         "runtime_log": pd.DataFrame(runtime_rows),
     }
+
+
+def _write_cv_outputs(out_dir: Path, cv: dict[str, pd.DataFrame], *, artifact_prefix: str = "breadth_cv") -> None:
+    out_dir.mkdir(parents=True, exist_ok=True)
+    for key, suffix in [
+        ("fold_schedule", "fold_schedule"),
+        ("fold_ledger", "fold_ledger"),
+        ("split_is_oos", "split_is_oos"),
+        ("test_month_returns", "test_month_returns"),
+        ("cpcv_path_month_returns", "cpcv_path_month_returns"),
+        ("cpcv_path_metrics", "cpcv_path_metrics"),
+        ("pbo_summary", "pbo_summary"),
+        ("runtime_log", "runtime_log"),
+    ]:
+        cv.get(key, pd.DataFrame()).to_csv(out_dir / f"{artifact_prefix}_{suffix}.csv", index=False)
+
+
+def build_relative_cpcv_paths(test_month_returns: pd.DataFrame, cv_config: CVConfig) -> pd.DataFrame:
+    """Build CPCV path metrics for E1 less each capped-naive comparator."""
+
+    if test_month_returns.empty:
+        return assemble_cpcv_paths(pd.DataFrame(), cv_config)[1]
+    required = {"config", "fold_id", "scheme", "return_date", "display_strategy", "basis", "ret"}
+    missing = required.difference(test_month_returns.columns)
+    if missing:
+        raise ValueError(f"test_month_returns missing required column(s): {', '.join(sorted(missing))}")
+
+    df = test_month_returns.copy()
+    df["return_date"] = pd.to_datetime(df["return_date"])
+    df["ret"] = pd.to_numeric(df["ret"], errors="coerce")
+    index_cols = ["config", "fold_id", "scheme", "return_date", "basis"]
+    pivot = df.pivot_table(
+        index=index_cols,
+        columns="display_strategy",
+        values="ret",
+        aggfunc="first",
+    )
+    if PRIMARY_STRATEGY not in pivot.columns:
+        return assemble_cpcv_paths(pd.DataFrame(), cv_config)[1]
+
+    rows: list[dict[str, object]] = []
+    for key, row in pivot.iterrows():
+        key_values = key if isinstance(key, tuple) else (key,)
+        fields = dict(zip(index_cols, key_values))
+        e1_ret = row.get(PRIMARY_STRATEGY, np.nan)
+        if pd.isna(e1_ret) or not np.isfinite(float(e1_ret)):
+            continue
+        for naive in CAPPED_NAIVE_STRATEGIES:
+            naive_ret = row.get(naive, np.nan)
+            if pd.isna(naive_ret) or not np.isfinite(float(naive_ret)):
+                continue
+            config = str(fields["config"])
+            rows.append(
+                {
+                    "config": config,
+                    "fold_id": fields["fold_id"],
+                    "scheme": fields["scheme"],
+                    "return_date": pd.Timestamp(fields["return_date"]),
+                    "strategy": f"{config} E1 minus {naive}",
+                    "display_strategy": f"E1 minus {naive}",
+                    "basis": fields["basis"],
+                    "ret": float(e1_ret) - float(naive_ret),
+                }
+            )
+    _relative_returns, relative_metrics = assemble_cpcv_paths(pd.DataFrame(rows), cv_config)
+    return relative_metrics
 
 
 def _pbo_with_scopes(split_is_oos: pd.DataFrame) -> pd.DataFrame:
@@ -1192,6 +1279,192 @@ def _write_outputs(
         frame.to_csv(out_dir / f"breadth_simulation_paths_{_slug(key)}.csv", index=False)
 
 
+def _read_artifact(out_dir: Path, name: str, *, required: bool = True) -> pd.DataFrame:
+    path = out_dir / name
+    if not path.exists():
+        if required:
+            raise FileNotFoundError(f"required robustness artifact missing: {path}")
+        return pd.DataFrame()
+    return pd.read_csv(path)
+
+
+def _best_naive_strategy(realized: pd.DataFrame, config: str) -> str | None:
+    if realized.empty or "net_sharpe" not in realized:
+        return None
+    subset = realized[
+        realized.get("config", pd.Series(dtype=object)).astype(str).eq(str(config))
+        & realized.get("strategy", pd.Series(dtype=object)).astype(str).isin(CAPPED_NAIVE_STRATEGIES)
+    ].copy()
+    if subset.empty:
+        return None
+    subset["net_sharpe"] = pd.to_numeric(subset["net_sharpe"], errors="coerce")
+    subset = subset.dropna(subset=["net_sharpe"])
+    if subset.empty:
+        return None
+    return str(subset.sort_values("net_sharpe", ascending=False).iloc[0]["strategy"])
+
+
+def _add_claim_relative_summary_columns(
+    summary: pd.DataFrame,
+    *,
+    realized: pd.DataFrame,
+    claim_metrics: pd.DataFrame,
+    relative_metrics: pd.DataFrame,
+) -> pd.DataFrame:
+    out = summary.copy()
+    for col in [
+        "cpcv_claim_net_p05",
+        "cpcv_claim_net_p50",
+        "cpcv_claim_net_p95",
+        "rel_cpcv_net_p05",
+        "rel_cpcv_net_p50",
+    ]:
+        out[col] = np.nan
+
+    for idx, row in out.iterrows():
+        config = str(row["config"])
+        strategy = f"{config} {row['strategy']}"
+        claim = _metric_quantiles(claim_metrics, strategy, "full_cost_net", "sharpe")
+        out.loc[idx, "cpcv_claim_net_p05"] = claim.get("p05", np.nan)
+        out.loc[idx, "cpcv_claim_net_p50"] = claim.get("p50", np.nan)
+        out.loc[idx, "cpcv_claim_net_p95"] = claim.get("p95", np.nan)
+
+        best_naive = _best_naive_strategy(realized, config)
+        if best_naive is None:
+            continue
+        rel_strategy = f"{config} E1 minus {best_naive}"
+        rel = _metric_quantiles(relative_metrics, rel_strategy, "full_cost_net", "sharpe")
+        out.loc[idx, "rel_cpcv_net_p05"] = rel.get("p05", np.nan)
+        out.loc[idx, "rel_cpcv_net_p50"] = rel.get("p50", np.nan)
+    return out
+
+
+def _claim_test_window(panels: dict[str, BreadthPanel]) -> pd.DatetimeIndex:
+    window = pd.DatetimeIndex([])
+    for panel in panels.values():
+        dates = pd.DatetimeIndex(panel.returns.index[panel.returns.index > TRAIN_END])
+        window = window.union(dates)
+    return window.sort_values()
+
+
+def run_summary_stage(
+    *,
+    out_dir: Path = ROBUSTNESS_DIR,
+    cv_config: CVConfig = DEFAULT_CV_CONFIG,
+    nav: float = DEFAULT_NAV,
+    participation: float = DEFAULT_PARTICIPATION,
+) -> dict[str, object]:
+    out_dir.mkdir(parents=True, exist_ok=True)
+    spread_coverage = _read_artifact(out_dir, "breadth_spread_source_coverage.csv")
+    realized = _read_artifact(out_dir, "breadth_realized_candidate_summary.csv")
+    cpcv_metrics = _read_artifact(out_dir, "breadth_cv_cpcv_path_metrics.csv")
+    pbo = _read_artifact(out_dir, "breadth_cv_pbo_summary.csv")
+    mc_summary = _read_artifact(out_dir, "breadth_mc_resampled_summary.csv")
+    refit_summary = _read_artifact(out_dir, "breadth_mc_refit_summary.csv")
+    repriced_summary = _read_artifact(out_dir, "breadth_mc_repriced_summary.csv")
+    sim_summary = _read_artifact(out_dir, "breadth_simulation_summary.csv")
+    drawdown = _read_artifact(out_dir, "breadth_drawdown_breach_rates.csv")
+    reality = _read_artifact(out_dir, "breadth_reality_check_inference.csv")
+    rolling_summary = _read_artifact(out_dir, "breadth_rolling_oos_summary.csv")
+    claim_metrics = _read_artifact(out_dir, "breadth_cv_claim_cpcv_path_metrics.csv", required=False)
+    relative_metrics = _read_artifact(out_dir, "breadth_cv_relative_paths.csv", required=False)
+    claim_relative_metrics = _read_artifact(out_dir, "breadth_cv_claim_relative_paths.csv", required=False)
+    final_scoreboard = _read_artifact(out_dir, "final_result_scoreboard.csv", required=False)
+
+    summary_csv, summary_json, _summary_md = _build_validation_summary(
+        realized,
+        cpcv_metrics,
+        pbo,
+        mc_summary,
+        refit_summary,
+        repriced_summary,
+        sim_summary,
+        drawdown,
+        reality,
+        rolling_summary,
+        spread_policy_status(spread_coverage),
+        cv_config,
+        nav,
+        participation,
+        elapsed=0.0,
+    )
+    summary_csv = _add_claim_relative_summary_columns(
+        summary_csv,
+        realized=realized,
+        claim_metrics=claim_metrics,
+        relative_metrics=relative_metrics,
+    )
+    summary_json["rows"] = summary_csv.to_dict(orient="records")
+    summary_md = _summary_markdown(summary_csv, summary_json)
+    summary_csv.to_csv(out_dir / "breadth_validation_summary.csv", index=False)
+    (out_dir / "breadth_validation_summary.json").write_text(
+        json.dumps(_json_safe(summary_json), indent=2),
+        encoding="utf-8",
+    )
+    (out_dir / "breadth_validation_summary.md").write_text(summary_md, encoding="utf-8")
+    _write_latex_outputs(summary_csv, cpcv_metrics, pbo, mc_summary, sim_summary, rolling_summary)
+    _write_short_cpcv_windows_table(
+        summary_csv,
+        cpcv_metrics,
+        relative_metrics=relative_metrics,
+        claim_relative_metrics=claim_relative_metrics,
+        final_scoreboard=final_scoreboard,
+        realized=realized,
+        claim_metrics_available=not claim_metrics.empty,
+    )
+    return {
+        "summary": summary_json,
+        "out_dir": str(out_dir),
+        "claim_metrics_available": bool(not claim_metrics.empty),
+        "relative_metrics_available": bool(not relative_metrics.empty),
+    }
+
+
+def run_claim_cv_stage(
+    *,
+    selected_configs: Sequence[str] = CONFIG_ORDER,
+    nav: float = DEFAULT_NAV,
+    participation: float = DEFAULT_PARTICIPATION,
+    cv_config: CVConfig = DEFAULT_CV_CONFIG,
+    out_dir: Path = ROBUSTNESS_DIR,
+) -> dict[str, object]:
+    out_dir.mkdir(parents=True, exist_ok=True)
+    selected = [c for c in CONFIG_ORDER if c in set(selected_configs)]
+    panels = build_panels(selected)
+    full_contexts = {label: build_full_context(panel, nav, participation) for label, panel in panels.items()}
+    cv = run_cv_stage(
+        panels,
+        full_contexts,
+        cv_config=cv_config,
+        nav=nav,
+        participation=participation,
+        test_window=_claim_test_window(panels),
+        artifact_prefix="breadth_cv_claim",
+    )
+    _write_cv_outputs(out_dir, cv, artifact_prefix="breadth_cv_claim")
+
+    full_returns_path = out_dir / "breadth_cv_test_month_returns.csv"
+    if full_returns_path.exists():
+        full_relative = build_relative_cpcv_paths(pd.read_csv(full_returns_path), cv_config)
+        full_relative.to_csv(out_dir / "breadth_cv_relative_paths.csv", index=False)
+    else:
+        warnings.warn(
+            f"Skipping breadth_cv_relative_paths.csv because {full_returns_path} is missing.",
+            RuntimeWarning,
+        )
+        full_relative = pd.DataFrame()
+    claim_relative = build_relative_cpcv_paths(cv["test_month_returns"], cv_config)
+    claim_relative.to_csv(out_dir / "breadth_cv_claim_relative_paths.csv", index=False)
+    summary = run_summary_stage(out_dir=out_dir, cv_config=cv_config, nav=nav, participation=participation)
+    return {
+        "cv": cv,
+        "summary": summary,
+        "out_dir": str(out_dir),
+        "full_relative": full_relative,
+        "claim_relative": claim_relative,
+    }
+
+
 def _build_validation_summary(
     realized: pd.DataFrame,
     cpcv_metrics: pd.DataFrame,
@@ -1307,6 +1580,62 @@ def _write_latex_outputs(
     _write_latex_table(rolling_summary.head(40), TABLE_DIR / "breadth_robustness_rolling_oos.tex")
 
 
+def _write_short_cpcv_windows_table(
+    summary: pd.DataFrame,
+    cpcv_metrics: pd.DataFrame,
+    *,
+    relative_metrics: pd.DataFrame,
+    claim_relative_metrics: pd.DataFrame,
+    final_scoreboard: pd.DataFrame,
+    realized: pd.DataFrame,
+    claim_metrics_available: bool,
+) -> None:
+    if not claim_metrics_available:
+        warnings.warn("Skipping short_cpcv_windows.tex because claim CPCV artifacts are missing.", RuntimeWarning)
+        return
+    rows: list[dict[str, object]] = []
+    primary = summary[summary.get("strategy", pd.Series(dtype=object)).astype(str).eq(PRIMARY_STRATEGY)]
+    for config in CONFIG_ORDER:
+        subset = primary[primary.get("config", pd.Series(dtype=object)).astype(str).eq(config)]
+        if subset.empty:
+            continue
+        row = subset.iloc[0]
+        strategy = f"{config} {PRIMARY_STRATEGY}"
+        full = cpcv_metrics[
+            cpcv_metrics.get("strategy", pd.Series(dtype=object)).astype(str).eq(strategy)
+            & cpcv_metrics.get("basis", pd.Series(dtype=object)).astype(str).eq("full_cost_net")
+            & cpcv_metrics.get("status", pd.Series("complete", index=cpcv_metrics.index)).astype(str).eq("complete")
+        ]
+        defaulted = _defaulted_flags(full.get("defaulted", pd.Series(False, index=full.index)))
+        best_naive = _matched_naive_strategy(final_scoreboard, realized, config)
+        rel_strategy = f"{config} E1 minus {best_naive}" if best_naive is not None else ""
+        rel_full = _metric_quantiles(relative_metrics, rel_strategy, "full_cost_net", "sharpe") if rel_strategy else {}
+        rel_claim = _metric_quantiles(claim_relative_metrics, rel_strategy, "full_cost_net", "sharpe") if rel_strategy else {}
+        rows.append(
+            {
+                "Config": config,
+                "Full net p05": row.get("cpcv_net_p05", np.nan),
+                "Full net p50": row.get("cpcv_net_p50", np.nan),
+                "Default share": float(defaulted.mean()) if len(defaulted) else np.nan,
+                "Claim net p05": row.get("cpcv_claim_net_p05", np.nan),
+                "Claim net p50": row.get("cpcv_claim_net_p50", np.nan),
+                "Rel full p05": rel_full.get("p05", np.nan),
+                "Rel claim p05": rel_claim.get("p05", np.nan),
+            }
+        )
+    _write_latex_table(pd.DataFrame(rows), TABLE_DIR / "short_cpcv_windows.tex")
+
+
+def _matched_naive_strategy(final_scoreboard: pd.DataFrame, realized: pd.DataFrame, config: str) -> str | None:
+    if not final_scoreboard.empty and {"config", "best_naive_strategy"}.issubset(final_scoreboard.columns):
+        subset = final_scoreboard[final_scoreboard["config"].astype(str).eq(str(config))]
+        if not subset.empty:
+            value = str(subset.iloc[0]["best_naive_strategy"])
+            if value and value.lower() != "nan":
+                return value
+    return _best_naive_strategy(realized, config)
+
+
 def _compact_cpcv_table(cpcv_metrics: pd.DataFrame) -> pd.DataFrame:
     rows = []
     if cpcv_metrics.empty:
@@ -1314,6 +1643,7 @@ def _compact_cpcv_table(cpcv_metrics: pd.DataFrame) -> pd.DataFrame:
     complete = cpcv_metrics[cpcv_metrics.get("status", pd.Series("complete", index=cpcv_metrics.index)).astype(str).eq("complete")]
     for (strategy, basis), group in complete.groupby(["strategy", "basis"], dropna=False):
         sharpe = pd.to_numeric(group["sharpe"], errors="coerce")
+        defaulted = _defaulted_flags(group.get("defaulted", pd.Series(False, index=group.index)))
         rows.append(
             {
                 "Strategy": strategy,
@@ -1322,9 +1652,18 @@ def _compact_cpcv_table(cpcv_metrics: pd.DataFrame) -> pd.DataFrame:
                 "P05 Sharpe": float(sharpe.quantile(0.05)) if sharpe.notna().any() else np.nan,
                 "P50 Sharpe": float(sharpe.quantile(0.50)) if sharpe.notna().any() else np.nan,
                 "P95 Sharpe": float(sharpe.quantile(0.95)) if sharpe.notna().any() else np.nan,
+                "Default share": float(defaulted.mean()) if len(defaulted) else np.nan,
             }
         )
     return pd.DataFrame(rows).sort_values(["Strategy", "Basis"]).reset_index(drop=True)
+
+
+def _defaulted_flags(values: pd.Series) -> pd.Series:
+    series = pd.Series(values)
+    if pd.api.types.is_bool_dtype(series):
+        return series.fillna(False).astype(bool)
+    text = series.astype(str).str.strip().str.lower()
+    return text.isin({"true", "1", "yes"})
 
 
 def _compact_pbo_table(pbo_summary: pd.DataFrame) -> pd.DataFrame:
@@ -1760,6 +2099,7 @@ def _parse_list(raw: str, valid: Sequence[str]) -> list[str]:
 
 def build_arg_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser()
+    parser.add_argument("--stage", choices=["all", "claim-cv", "summary"], default="all")
     parser.add_argument("--configs", default="all")
     parser.add_argument("--nav", type=float, default=DEFAULT_NAV)
     parser.add_argument("--participation", type=float, default=DEFAULT_PARTICIPATION)
@@ -1789,6 +2129,23 @@ def main(argv: Sequence[str] | None = None) -> int:
     resample_config = ResampleConfig(n_paths=args.mc_paths, n_refit_paths=args.mc_refit_paths)
     reprice_config = RepriceConfig(n_paths=args.mc_reprice_paths)
     simulation_config = SimulationConfig(block_paths=args.simulation_paths, vol_paths=args.simulation_paths)
+    if args.stage == "summary":
+        run_summary_stage(
+            out_dir=args.out_dir,
+            cv_config=cv_config,
+            nav=args.nav,
+            participation=args.participation,
+        )
+        return 0
+    if args.stage == "claim-cv":
+        run_claim_cv_stage(
+            selected_configs=configs,
+            nav=args.nav,
+            participation=args.participation,
+            cv_config=cv_config,
+            out_dir=args.out_dir,
+        )
+        return 0
     run_validation(
         selected_configs=configs,
         nav=args.nav,

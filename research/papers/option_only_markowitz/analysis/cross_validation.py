@@ -170,7 +170,13 @@ def _contiguous_blocks(positions: Sequence[int]) -> list[tuple[int, int]]:
     return blocks
 
 
-def build_folds(dates: pd.DatetimeIndex, config: CVConfig, scheme: str) -> list[FoldSpec]:
+def build_folds(
+    dates: pd.DatetimeIndex,
+    config: CVConfig,
+    scheme: str,
+    *,
+    test_window: pd.DatetimeIndex | None = None,
+) -> list[FoldSpec]:
     scheme = str(scheme).lower()
     if scheme not in {"kfold", "cpcv"}:
         raise ValueError("scheme must be 'kfold' or 'cpcv'")
@@ -180,7 +186,10 @@ def build_folds(dates: pd.DatetimeIndex, config: CVConfig, scheme: str) -> list[
         raise ValueError("config.n_test_groups must be in [1, n_groups]")
 
     unique_dates = _as_sorted_unique_dates(dates)
-    schedule = build_group_schedule(unique_dates, config.n_groups)
+    schedule_dates = unique_dates
+    if test_window is not None:
+        schedule_dates = _as_sorted_unique_dates(test_window).intersection(unique_dates)
+    schedule = build_group_schedule(schedule_dates, config.n_groups)
     positions_by_date = {pd.Timestamp(d): i for i, d in enumerate(unique_dates)}
     all_positions = set(range(len(unique_dates)))
     group_sets: list[tuple[int, ...]]
@@ -624,6 +633,7 @@ def assemble_cpcv_paths(test_month_returns: pd.DataFrame, config: CVConfig) -> t
                     "terminal_wealth",
                     "defaulted",
                     "n_months",
+                    "n_months_le_neg100",
                     "status",
                 ]
             ),
@@ -648,6 +658,7 @@ def assemble_cpcv_paths(test_month_returns: pd.DataFrame, config: CVConfig) -> t
                     "terminal_wealth",
                     "defaulted",
                     "n_months",
+                    "n_months_le_neg100",
                     "status",
                 ]
             ),
@@ -710,6 +721,7 @@ def assemble_cpcv_paths(test_month_returns: pd.DataFrame, config: CVConfig) -> t
                         "terminal_wealth": np.nan,
                         "defaulted": False,
                         "n_months": 0,
+                        "n_months_le_neg100": 0,
                         "status": "incomplete",
                     }
                 )
@@ -734,6 +746,7 @@ def assemble_cpcv_paths(test_month_returns: pd.DataFrame, config: CVConfig) -> t
             ].sort_values("return_date")
             series = pd.Series(series_df["ret"].to_numpy(float), index=series_df["return_date"])
             metrics = _series_metrics(series, config.periods_per_year)
+            numeric_series = pd.to_numeric(series, errors="coerce")
             metric_rows.append(
                 {
                     "path_id": path_id,
@@ -746,6 +759,7 @@ def assemble_cpcv_paths(test_month_returns: pd.DataFrame, config: CVConfig) -> t
                     "terminal_wealth": metrics["terminal_wealth"],
                     "defaulted": metrics["defaulted"],
                     "n_months": int(series.dropna().shape[0]),
+                    "n_months_le_neg100": int(numeric_series.le(-1.0).sum()),
                     "status": "complete",
                 }
             )

@@ -103,6 +103,53 @@ class TestOptionOnlyCrossValidation(unittest.TestCase):
         self.assertEqual(len(build_folds(dates, cfg6, "cpcv")), math.comb(6, 2))
         self.assertEqual(len(build_folds(dates, cfg12, "cpcv")), math.comb(12, 2))
 
+    def test_build_folds_claim_window_keeps_full_grid_train_candidates(self):
+        dates = _month_dates(120)
+        test_window = dates[-58:]
+        cfg = CVConfig(
+            n_groups=12,
+            n_test_groups=2,
+            purge_months=1,
+            embargo_months=1,
+            min_train_months=0,
+        )
+
+        kfold = build_folds(dates, cfg, "kfold", test_window=test_window)
+        cpcv = build_folds(dates, cfg, "cpcv", test_window=test_window)
+        self.assertEqual(len(kfold), 12)
+        self.assertEqual(len(cpcv), math.comb(12, 2))
+        folds = kfold + cpcv
+        window_set = set(test_window)
+        full_pos = {pd.Timestamp(dt): i for i, dt in enumerate(dates)}
+
+        self.assertTrue(all(set(fold.test_dates).issubset(window_set) for fold in folds))
+        self.assertTrue(
+            any(any(pd.Timestamp(dt) < test_window[0] for dt in fold.train_dates) for fold in folds)
+        )
+        for fold in folds:
+            test_pos = [full_pos[dt] for dt in fold.test_dates]
+            train_set = {full_pos[dt] for dt in fold.train_dates}
+            for start, end in _blocks(test_pos):
+                purged = range(
+                    max(0, start - cfg.purge_months),
+                    min(len(dates) - 1, end + cfg.purge_months) + 1,
+                )
+                embargoed = range(
+                    end + cfg.purge_months + 1,
+                    min(len(dates) - 1, end + cfg.purge_months + cfg.embargo_months) + 1,
+                )
+                excluded = set(purged).union(embargoed).difference(test_pos)
+                self.assertTrue(train_set.isdisjoint(excluded), fold.fold_id)
+
+        self.assertEqual(
+            build_folds(dates, cfg, "cpcv"),
+            build_folds(dates, cfg, "cpcv", test_window=None),
+        )
+        self.assertEqual(
+            build_folds(dates, cfg, "kfold"),
+            build_folds(dates, cfg, "kfold", test_window=None),
+        )
+
     def test_purge_embargo_invariant(self):
         dates = _month_dates(48)
         cfg = CVConfig(
@@ -315,6 +362,7 @@ class TestOptionOnlyCrossValidation(unittest.TestCase):
         self.assertTrue(bool(metric["defaulted"]))
         self.assertEqual(metric["terminal_wealth"], 0.0)
         self.assertEqual(metric["max_drawdown"], -1.0)
+        self.assertEqual(metric["n_months_le_neg100"], 1)
 
 
 if __name__ == "__main__":

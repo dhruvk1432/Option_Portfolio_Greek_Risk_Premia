@@ -2,8 +2,8 @@
   "status": "pass",
   "critical_failures": 0,
   "total_failures": 0,
-  "total_checks": 352,
-  "command": "python -m research.papers.option_only_markowitz.verification.verify --skip-regenerate --skip-compile --skip-render",
+  "total_checks": 386,
+  "command": "python -m research.papers.option_only_markowitz.verification.verify",
   "paper": "/Users/dhruvkohli/Desktop/Github Repos/Option_Portfolio_Greek_Risk_Premia/research/papers/option_only_markowitz",
   "outputs": {
     "verification_report": "/Users/dhruvkohli/Desktop/Github Repos/Option_Portfolio_Greek_Risk_Premia/research/papers/option_only_markowitz/verification/verification_report.md",
@@ -17,7 +17,7 @@
       "fail": 0
     },
     "paper": {
-      "pass": 12,
+      "pass": 15,
       "fail": 0
     },
     "artifacts": {
@@ -45,11 +45,11 @@
       "fail": 0
     },
     "robustness": {
-      "pass": 16,
+      "pass": 27,
       "fail": 0
     },
     "inference": {
-      "pass": 63,
+      "pass": 83,
       "fail": 0
     },
     "claims": {

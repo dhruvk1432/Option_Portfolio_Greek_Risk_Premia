@@ -6,13 +6,13 @@ This folder is the self-contained publication bundle for the paper:
 option_only_portfolio_optimization_dhruv_kohli.pdf
 ```
 
-The paper develops a premium-weighted option-only Markowitz framework for listed calls and puts. Options are treated as funded, expiring, state-contingent cashflows rather than ordinary asset-return columns. The empirical layer is a point-in-time research simulation with exact VRO/SOQ settlement gating, post-cost diagnostics, inference, and claim-audit checks. It is not broker-executed or live-trading evidence.
+The paper is now a mid-length theory-first version of the premium-weighted option-only Markowitz framework for listed calls and puts. Options are treated as funded, expiring, state-contingent cashflows rather than ordinary asset-return columns. The empirical layer tests the four locked E1 universes with exact/proxy spread-source labels, full costs, liquidity caps, walk-forward return paths, visual robustness summaries, and a production-readiness boundary. A compact technical appendix keeps the no-free-exposure, monotonicity, conic-solver, net-cap, and PSD-estimator details from the longer version without restoring the old table-heavy appendix. It is not broker-executed or live-trading evidence.
 
 ## What Is Included
 
 - `option_only_portfolio_optimization_dhruv_kohli.tex`: LaTeX root.
 - `option_only_portfolio_optimization_dhruv_kohli.pdf`: final compiled paper.
-- `sections/`: article sections and Appendix A.
+- `sections/`: the canonical paper body, compact technical appendix, and retained legacy long-form section files for audit/reference.
 - `analysis/`: empirical pipeline, VIX panel construction, cost scenarios, inference, breadth/capacity diagnostics, and publication utilities.
 - `tables/`, `figures/`, `artifacts/`: generated paper outputs and machine-readable ledgers.
 - `verification/`: independent paper verifier and pass/fail reports.
@@ -84,7 +84,7 @@ Large-universe net rows are source-audited rather than blanket-adjusted. `p3_spr
 
 The breadth robustness runner writes `analysis/artifacts/breadth_solutions/robustness/` and locks the E1 capped candidate rather than reselecting knobs in test folds. It uses 12 chronological groups, 66 CPCV splits, 78 total CV splits per config, one-month purge/embargo, 1,000 resampled historical paths, 200 refit paths, 1,000 repriced synthetic paths, circular-block and GARCH-style path simulations, drawdown breach rates, reality-check inference, and rolling 36-month monthly OOS refits. The spread-source audit passes with zero current-Cboe rows and zero default rows. Static full-sample E1 status is: `orig` diagnostic capacity-infeasible, `larger` mixed, `orig+VIX` pass, and `larger+VIX` pass. The `larger+VIX` E1 book keeps net Sharpe `1.499`, net Sortino `4.004`, MC refit p05 net Sharpe `1.262`, MC resampled p05 net Sharpe `0.989`, and rolling net Sharpe `1.217`. Repriced synthetic net paths use a realized full-cost overlay, not synthetic NBBO/CBBO.
 
-Run `make final-results` from the repository root after the breadth robustness artifacts exist. This builds the conclusion's visual scoreboards: `figures/final_breadth_validation_distributions.pdf` for CPCV/resampled/refit distributions and `figures/final_baseline_comparison.pdf` for the regular stock Markowitz and capped-naive option baselines. Those figures make the final claim boundary explicit: the two VIX-enabled E1 books beat both baselines, while `larger` no-VIX is mixed and `orig` no-VIX is capacity-infeasible.
+Run `make final-results` from the repository root after the breadth robustness artifacts exist. This builds the paper exhibit set: `figures/short_theory_flow.pdf`, `figures/short_four_variant_scoreboard.pdf`, `figures/short_walk_forward_return_paths.pdf`, `figures/short_validation_distributions.pdf`, `figures/short_robustness_heatmap.pdf`, and `figures/short_capacity_spread_panel.pdf`. The walk-forward figure compounds the rolling OOS full-cost returns for the four E1 variants, matched capped-naive option baselines, and underlying Markowitz. Those figures make the final claim boundary explicit: the two VIX-enabled E1 books beat both baselines, while `larger` no-VIX is mixed and `orig` no-VIX is capacity-infeasible. The older `final_*` charts are still emitted for compatibility.
 
 The broad-name and VIX inferred-spread rows are calibrated execution-sensitivity inputs. They should be replaced by matched market-hours OPRA/NBBO or broker CBBO history before any live-trading claim. The paper now cites OPRA, Cboe DataShop, and IBKR operational references for this boundary.
 

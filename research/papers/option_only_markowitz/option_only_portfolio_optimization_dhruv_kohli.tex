@@ -49,6 +49,12 @@
 \setlength{\abovecaptionskip}{4pt}
 \setlength{\belowcaptionskip}{2pt}
 \setlength{\fboxsep}{7pt}
+\renewcommand{\topfraction}{0.85}
+\renewcommand{\bottomfraction}{0.6}
+\renewcommand{\floatpagefraction}{0.85}
+\renewcommand{\textfraction}{0.07}
+\setcounter{topnumber}{3}
+\setcounter{totalnumber}{5}
 \emergencystretch=2em
 \raggedbottom
 \sloppy
@@ -103,126 +109,68 @@
 \begin{document}
 \thispagestyle{firstpage}
 
-\vspace*{0.55cm}
+\vspace*{0.35cm}
 
 \noindent{\LARGE\bfseries\color{journalgreen}
 Option-Only Portfolio Optimization with\\ Greek-Induced Covariance and\\ Conditional Risk Premia\par}
-\vspace{0.35cm}
+\vspace{0.28cm}
 
 \noindent Dhruv Kohli
 
-\vspace{0.55cm}
+\vspace{0.42cm}
 \noindent{\bfseries\color{journalgreen} Abstract}
 
-How should an allocator choose among listed calls and puts when the instruments are funded,
-expiring, state-contingent cashflows rather than ordinary asset return columns? This paper
-builds the option-only analogue of Markowitz for that problem. Each option is represented
-by premium-funded NAV exposure, payoff and settlement convention, conditional
-option-risk-premium forecast, Greek exposure, implementation screen, and residual risk.
-The covariance matrix is induced by the Greek map,
-\[
-  r_O=\mu_{O,t}+B_t f_{t+1}+\varepsilon_{t+1},\qquad
-  \Sigma_{O,t}=B_t\Omega_tB_t^\top+\Sigma_{\varepsilon,t},
-\]
-and the optimizer applies the familiar efficient-frontier algebra to premium weights scaled
-by portfolio NAV.
+We develop a mean--variance framework for portfolios composed entirely of listed
+options. Option positions enter as premium-funded, expiring cashflows: premium weights
+replace the unit budget constraint, covariance is induced by a Greek/state factor map
+with regularized residual risk, expected returns load on structural risk-premium
+channels rather than historical contract means, and the allocation solves a conic
+program whose feasible set carries transaction costs, Greek and stress budgets, margin,
+and pre-trade liquidity caps. We estimate the model on four option universes---eight
+equity-option names, the same names plus VIX options, 56 names, and 56 names plus
+VIX---at a one-million-dollar account size with contract-level costs and whole-contract
+positions. The two
+VIX-enabled portfolios earn full-cost net Sharpe ratios of 1.628 and 1.383 (gross 2.010
+and 1.675) and beat capped naive option diversification by 1.3 to 2.3 Sharpe points
+(\(p<0.001\)); the no-VIX universes do not clear the same tests. Channel ablations
+attribute the premium to option carry disciplined by stress and vega budgets. Breadth
+pays only when contract-level historical means are replaced by shrunken structural
+forecasts, and displayed option depth confines the strategy to small accounts.
 
-In this sample and under these conventions, the empirical evidence is intentionally mixed.
-The framework is coherent, point-in-time, and auditable. Gross option-only portfolios can
-look attractive, but gross Sharpe is a research diagnostic, not a trading result. VIX options
-can improve the design as volatility instruments only when VX-forward modeling and exact
-VRO/SOQ settlement support the relevant rows. Post-cost survival is scenario-dependent:
-the leading sleeves remain profitable under executable-cost scenarios but fail under a
-conservative stress-cost layer, and family-wise multiple-testing corrections cannot
-certify skill on sixty months of data. A follow-on breadth and capacity diagnostic sharpens
-the limitation: at \(\$1\) million NAV, the 57-group VIX-enabled book moves from
-\(-1.837\) net Sharpe in the uncapped paper configuration to \(+1.499\) net Sharpe
-(gross \(1.915\)) only after the historical-mean estimator is regularized away and
-contract-level liquidity caps bind net positions. Above about \(\$2\) million,
-representative month-end option liquidity rather than optimizer algebra becomes the
-binding constraint.
-The locked E1 breadth candidate is best read as a small-account research candidate rather
-than a live trading strategy. \texttt{larger+VIX} and \texttt{orig+VIX} pass the main
-robustness screens; \texttt{larger} without VIX is mixed; and \texttt{orig} without VIX is
-capacity-infeasible under the hard cap budget. The \texttt{larger+VIX} result survives
-12-group CPCV/PBO diagnostics, resampled and refit Monte Carlo, tail-path simulations, and
-true rolling 36-month refits with positive net Sharpe, while the synthetic repricing
-stress is explicitly labeled as a historical-cost overlay rather than synthetic NBBO.
-The portfolio-construction contribution is therefore not a live-trading claim. It is a
-disciplined way to decide whether convexity, volatility exposure, or short-premium risk
-deserves capital after premium accounting, costs, settlement, beta audits, Greek budgets,
-liquidity, and out-of-sample validation.
-
-\vspace{0.32cm}
+\vspace{0.26cm}
 \noindent\colorbox{impactshade}{%
   \begin{minipage}{0.94\textwidth}
-  \textbf{\color{journalgreen} Key Findings}
+  \textbf{\color{journalgreen} Key results}
   \begin{itemize}
-    \item Option-only Markowitz is feasible when options are treated as premium-funded
-    cashflows with Greek-induced covariance, not as generic return columns.
-    \item Gross option portfolios can appear attractive, but post-cost survival is
-    scenario-dependent: the leading sleeves survive executable-cost scenarios, fail the
-    conservative stress-cost layer, and do not clear family-wise multiple-testing
-    hurdles.
-    \item VIX options are useful as conditional volatility instruments only when
-    VX-forward modeling and exact VRO/SOQ settlement support the evidence.
-    \item The locked E1 result is a robust small-account research candidate, strongest
-    with VIX, not a live-tradability proof. At \(\$1\) million, diagonal residual
-    covariance, \(N\)-scaled shrinkage, structural-only means, and net liquidity caps lift
-    the 57-group book from \(-1.837\) to \(+1.499\) net Sharpe.
-    The locked 57-group VIX candidate remains positive under resampled histories
-    (net Sharpe p05 \(0.989\)), refit stability (p05 \(1.262\)), and rolling
-    36-month OOS refits (net Sharpe \(1.217\)). Against the two simplest baselines,
-    ordinary underlying Markowitz and capped naive option allocation, the VIX-enabled E1
-    books beat both; \texttt{larger} without VIX is mixed because it
-    essentially ties capped equal-risk naive (\(0.551\) versus \(0.550\) net Sharpe);
-    \texttt{orig} without VIX is capacity-infeasible; and all deployable evidence remains
-    limited to small-account scale in the representative contracts studied.
+    \item \texttt{larger+VIX} (56 names + VIX): net Sharpe 1.628, net Sortino 4.377;
+    beats both baselines; rolling out-of-sample Sharpe 1.273.
+    \item \texttt{orig+VIX} (8 names + VIX): net Sharpe 1.383, net Sortino 3.551; beats
+    both baselines.
+    \item \texttt{larger} (56 names): net Sharpe 0.587, indistinguishable from capped
+    naive diversification (0.596) and below stock Markowitz (0.909).
+    \item \texttt{orig} (8 names): positive point estimate (0.778), but displayed option
+    depth cannot support a full book at \(\$1\) million NAV.
   \end{itemize}
   \end{minipage}}
 
-\vspace{0.28cm}
-\noindent\colorbox{impactshade}{%
-  \begin{minipage}{0.94\textwidth}
-  \textbf{\color{journalgreen} Impact Statement}\par
-  Option research often begins with a named trade: covered calls, crash puts, variance
-  spreads, or volatility hedges. This paper begins one layer earlier. It gives a
-  reproducible template for turning arbitrary listed calls and puts into NAV-normalized
-  cashflows, Greek exposures, conditional premia, covariance estimates, and constraints
-  before asking whether they deserve capital. The conclusion is useful precisely because it
-  is restrained: option-only Markowitz is mathematically clean, but empirical claims survive
-  only if premium accounting, settlement, costs, inference, and equity-beta audits support
-  them. The breadth experiment adds the same lesson for liquidity: more names help only
-  when the estimator and the pre-trade capacity model are disciplined enough to keep the
-  optimizer from spending scarce option depth on noise.
-  \end{minipage}}
+\vspace{0.30cm}
 
-\vspace{0.45cm}
-
-\input{sections/introduction}
-\input{sections/data}
-\input{sections/option_cashflow_framework}
-\input{sections/portfolio_model}
-\input{sections/metrics_validation}
-\input{sections/results_discussion}
-\input{sections/distributional_robustness}
-\input{sections/conclusion}
-
-\section*{Data availability statement}
-The reproduction package contains code, generated tables, figures, verification outputs,
-schemas, and artifact hashes. Raw licensed OPRA/Databento data are not redistributed.
-Users with the necessary data rights and API keys can rebuild the local feature panels with
-the documented data-pull commands and environment template. Exact VRO/SOQ files, when
-provided locally, are versioned by source hash before VIX option rows can enter
-settlement-gated tables.
-
-\bibliographystyle{abbrvnat}
-\bibliography{references}
+\input{sections/short_paper}
 
 \clearpage
 \appendix
-\renewcommand{\thesection}{\Alph{section}}
-\renewcommand{\thesubsection}{\thesection.\arabic{subsection}}
-\input{sections/appendix}
+\input{sections/short_appendix}
+
+\clearpage
+\section*{Data availability statement}
+The reproduction package contains code, generated tables, figures, verification outputs,
+schemas, and artifact hashes. Raw licensed OPRA/Databento data are not redistributed. The
+baseline eight equity-option spread rows use local historical panel CBBO. Broad-name and
+VIX spread rows that lack matched historical CBBO use the documented inferred CBBO proxy
+and are labeled as execution-sensitivity evidence. Exact VRO/SOQ settlement files are
+versioned by source hash before VIX option rows enter the reported tables.
+
+\bibliographystyle{abbrvnat}
+\bibliography{references}
 
 \end{document}

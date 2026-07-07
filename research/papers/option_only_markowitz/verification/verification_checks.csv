@@ -1,7 +1,56 @@
 name,category,status,severity,observed,expected,details
-empirical regeneration skipped,producer,pass,warning,,,Fast audit mode explicitly skipped regeneration.
+empirical runner exits cleanly,producer,pass,critical,exit=0,exit=0,
 robustness regeneration skipped,producer,pass,warning,,,Robustness regeneration is opt-in; pass --with-robustness to rerun the long stage.
-paper compile skipped,paper,pass,warning,,,Fast audit mode explicitly skipped LaTeX compilation.
+latex bibtex compile pipeline,paper,pass,critical,exit=0; exit=0; exit=0; exit=0; exit=0,all exit=0,"pe1/public/amsfonts/cm/cmsy10.
+pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pf
+b></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm1
+0.pfb>
+Output written on option_only_portfolio_optimization_dhruv_kohli.pdf (34 pages,
+ 534134 bytes).
+Transcript written on option_only_portfolio_optimization_dhruv_kohli.log.
+
+
+$ /Library/TeX/texbin/lualatex -interaction=nonstopmode option_only_portfolio_optimization_dhruv_kohli.tex
+exit=0
+opentype/public/lm/lmmono10-regular.otf></System/Library/Fonts
+/Supplemental/Times New Roman.ttf></System/Library/Fonts/Supplemental/Times New
+ Roman Bold.ttf></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts
+/cm/cmex10.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/
+cmextra/cmex8.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfon
+ts/cm/cmmi10.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfont
+s/cm/cmmi6.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/
+cm/cmmi8.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm
+/cmr10.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/c
+mr6.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8
+.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.
+pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pf
+b></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm1
+0.pfb>
+Output written on option_only_portfolio_optimization_dhruv_kohli.pdf (34 pages,
+ 534134 bytes).
+Transcript written on option_only_portfolio_optimization_dhruv_kohli.log.
+
+
+$ /Library/TeX/texbin/lualatex -interaction=nonstopmode option_only_portfolio_optimization_dhruv_kohli.tex
+exit=0
+opentype/public/lm/lmmono10-regular.otf></System/Library/Fonts
+/Supplemental/Times New Roman.ttf></System/Library/Fonts/Supplemental/Times New
+ Roman Bold.ttf></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts
+/cm/cmex10.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/
+cmextra/cmex8.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfon
+ts/cm/cmmi10.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfont
+s/cm/cmmi6.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/
+cm/cmmi8.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm
+/cmr10.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/c
+mr6.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8
+.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.
+pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pf
+b></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm1
+0.pfb>
+Output written on option_only_portfolio_optimization_dhruv_kohli.pdf (34 pages,
+ 534134 bytes).
+Transcript written on option_only_portfolio_optimization_dhruv_kohli.log.
+"
 required generated outputs exist,artifacts,pass,critical,[],no missing outputs,
 empirical summary exists,artifacts,pass,critical,/Users/dhruvkohli/Desktop/Github Repos/Option_Portfolio_Greek_Risk_Premia/research/papers/option_only_markowitz/tables/empirical_summary.json,,
 empirical summary schema,artifacts,pass,critical,"[""approximation"", ""claim_audit"", ""claim_strength"", ""cost_diagnostics"", ""cost_input_spread_sources"", ""cost_scenario_diagnostics"", ""data"", ""data_extension_manifest"", ""drawdown_breach_rates"", ""execution_repair_comparison"", ""execution_repair_diagnostics"", ""exposure"", ""factor_regression"", ""figure_visibility"", ""forecast_ablation_components"", ""forecast_ablation_performance"", ""hurdle_summary"", ""inference"", ""leave_one_out"", ""liquidity_tier_diagnostics"", ""liquidity_tier_performance"", ""performance"", ""performance_gross_only"", ""performance_post_cost"", ""pnl_attribution"", ""post_cost_survival"", ""random_feasible"", ""reality_check_inference"", ""regime_performance"", ""repair_config"", ""risk_calibration"", ""rolling_oos"", ""simulation_assumptions"", ""simulation_summary"", ""sortino_diagnostics"", ""sortino_entry_cost_summary"", ""split_adjustments"", ""timing_diagnostics"", ""trading_data_audit"", ""vix_chain_feature_summary"", ""vix_regime_performance"", ""vix_required_settlement_download_audit"", ""vix_settlement_audit"", ""vix_settlement_coverage"", ""vol_of_vol_regime_performance"", ""zero_imputation_diagnostics""]","[""claim_audit"", ""claim_strength"", ""cost_diagnostics"", ""cost_input_spread_sources"", ""cost_scenario_diagnostics"", ""data"", ""data_extension_manifest"", ""drawdown_breach_rates"", ""execution_repair_comparison"", ""execution_repair_diagnostics"", ""exposure"", ""factor_regression"", ""figure_visibility"", ""forecast_ablation_components"", ""forecast_ablation_performance"", ""hurdle_summary"", ""inference"", ""leave_one_out"", ""liquidity_tier_diagnostics"", ""liquidity_tier_performance"", ""performance"", ""performance_post_cost"", ""pnl_attribution"", ""post_cost_survival"", ""random_feasible"", ""reality_check_inference"", ""regime_performance"", ""repair_config"", ""risk_calibration"", ""rolling_oos"", ""simulation_assumptions"", ""simulation_summary"", ""sortino_diagnostics"", ""sortino_entry_cost_summary"", ""timing_diagnostics"", ""trading_data_audit"", ""vix_chain_feature_summary"", ""vix_regime_performance"", ""vix_required_settlement_download_audit"", ""vix_settlement_audit"", ""vix_settlement_coverage"", ""vol_of_vol_regime_performance""]",
@@ -60,7 +109,7 @@ constraint slack nonnegative: Equal premium,optimizer,pass,critical,"{""Beta SPY
 constraint slack nonnegative: Equal risk,optimizer,pass,critical,"{""Beta SPY slack"": null, ""Gross NAV slack"": 1.000000002693291e-06, ""Max underlying gross slack"": null, ""Per-contract slack"": null, ""Short gross slack"": null, ""Strategy"": ""Equal risk"", ""Stress slack"": null, ""VIX vega finite"": true}",all slack >= 0,
 constraint slack nonnegative: VIX hedge sleeve,optimizer,pass,critical,"{""Beta SPY slack"": null, ""Gross NAV slack"": 9.999999999177334e-07, ""Max underlying gross slack"": null, ""Per-contract slack"": null, ""Short gross slack"": null, ""Strategy"": ""VIX hedge sleeve"", ""Stress slack"": null, ""VIX vega finite"": true}",all slack >= 0,
 constraint audit rows written,optimizer,pass,critical,7,>=3,
-post-cost returns no greater than gross for option strategies on average,empirical,pass,critical,"{""Beta/delta-neutral + VIX"": -0.42233972202476094, ""Cost-aware Sortino + VIX"": -13.537098047870877, ""Equal premium"": -0.2591236114652083, ""Equal risk"": -0.11505201556888475, ""Equity-option Greek Markowitz"": -0.7328719186936924, ""Greek Markowitz + VIX"": -0.6104286574897794, ""VIX hedge sleeve"": -0.4232794511500628}",,
+post-cost returns no greater than gross for option strategies on average,empirical,pass,critical,"{""Beta/delta-neutral + VIX"": -0.4223385590026113, ""Cost-aware Sortino + VIX"": -13.537098047870877, ""Equal premium"": -0.2591236114652083, ""Equal risk"": -0.11505201556888475, ""Equity-option Greek Markowitz"": -0.732869318060373, ""Greek Markowitz + VIX"": -0.6104277661483779, ""VIX hedge sleeve"": -0.4232794511500628}",,
 post-cost return schema matches gross,empirical,pass,critical,"[""Beta/delta-neutral + VIX"", ""Cost-aware Sortino + VIX"", ""Delta-matched equities"", ""Equal premium"", ""Equal risk"", ""Equity-option Greek Markowitz"", ""Greek Markowitz + VIX"", ""Underlying Markowitz"", ""VIX hedge sleeve""]","[""Beta/delta-neutral + VIX"", ""Cost-aware Sortino + VIX"", ""Delta-matched equities"", ""Equal premium"", ""Equal risk"", ""Equity-option Greek Markowitz"", ""Greek Markowitz + VIX"", ""Underlying Markowitz"", ""VIX hedge sleeve""]",
 all executable cost scenarios present,empirical,pass,critical,"[""full_spread"", ""half_spread"", ""mid""]",mid/half_spread/full_spread,
 strategy has all cost scenarios: Equity-option Greek Markowitz,empirical,pass,critical,"[""Equity-option Greek Markowitz::full_spread"", ""Equity-option Greek Markowitz::half_spread"", ""Equity-option Greek Markowitz::mid""]","[""Equity-option Greek Markowitz::full_spread"", ""Equity-option Greek Markowitz::half_spread"", ""Equity-option Greek Markowitz::mid""]",
@@ -263,6 +312,17 @@ MC gaussian-copula path counts match config,robustness,pass,critical,"{""gaussia
 repriced assumptions include one-step tenor row,robustness,pass,critical,Pricing Tenor Rule,one-step 1-month,
 repriced assumptions include VX-front convention row,robustness,pass,critical,VIX Forward Convention,VX-front premium / VIX-level settlement,
 robustness table headers escape underscores,robustness,pass,critical,[],no raw underscore in parsed header rows,
+breadth CV purge-gap inputs exist,robustness,pass,critical,[],"breadth CV schedule, ledger, month-return grid, and full-history month grid when needed",
+breadth CV purge-gap artifact schemas,robustness,pass,critical,"{""breadth_cv_fold_ledger"": [], ""breadth_cv_fold_schedule"": [], ""breadth_cv_test_month_returns"": [], ""full_history_month_grid"": []}",required columns present,
+breadth CV purge gap exceeds monthly tenor span,robustness,pass,critical,"{""config"": ""larger"", ""earliest_test"": ""2021-10-29"", ""embargo_months"": 1, ""fold_id"": ""kfold_07"", ""gap_days"": 59, ""latest_train"": ""2021-08-31"", ""purge_months"": 1, ""scheme"": ""kfold""}",minimum realized pre-test train/test calendar gap >44 days,Minimum realized pre-test train/test calendar gap after purge/embargo is 59 days across 484 test blocks. Reconstruction issues: []
+CPCV windows table inputs exist,robustness,pass,critical,[],"full CPCV metrics, claim CPCV metrics, claim relative paths, and final scoreboard",
+CPCV windows table schema,robustness,pass,critical,"{""header"": [""Config"", ""Full net p05"", ""Full net p50"", ""Default share"", ""Claim net p05"", ""Claim net p50"", ""Rel full p05"", ""Rel claim p05""], ""missing_cols"": [], ""rows"": 4}",4 config rows with full/claim/relative CPCV columns,
+CPCV windows artifact schemas,robustness,pass,critical,"{""breadth_cv_claim_cpcv_path_metrics"": [], ""breadth_cv_claim_relative_paths"": [], ""breadth_cv_cpcv_path_metrics"": [], ""breadth_cv_relative_paths"": [], ""final_result_scoreboard"": []}",required columns present,
+CPCV windows table values match artifacts,robustness,pass,critical,[],<2e-3 absolute difference vs recomputed artifact values,
+CPCV windows default shares bounded,robustness,pass,critical,[],"Default share in [0,1]",
+breadth claim CV purge-gap inputs exist,robustness,pass,critical,[],"breadth claim CV schedule, ledger, month-return grid, and full-history month grid when needed",
+breadth claim CV purge-gap artifact schemas,robustness,pass,critical,"{""breadth_cv_claim_fold_ledger"": [], ""breadth_cv_claim_fold_schedule"": [], ""breadth_cv_claim_test_month_returns"": [], ""full_history_month_grid"": []}",required columns present,
+breadth claim CV purge gap exceeds monthly tenor span,robustness,pass,critical,"{""config"": ""larger"", ""earliest_test"": ""2023-04-28"", ""embargo_months"": 1, ""fold_id"": ""kfold_05"", ""gap_days"": 59, ""latest_train"": ""2023-02-28"", ""purge_months"": 1, ""scheme"": ""kfold""}",minimum realized pre-test train/test calendar gap >44 days,Minimum realized pre-test train/test calendar gap after purge/embargo is 59 days across 532 test blocks. Reconstruction issues: []
 independent numpy stat matches table: Gross before costs / Equity-option Greek Markowitz / Ann. return,inference,pass,critical,0.894164572585072,0.894,
 independent numpy stat matches table: Gross before costs / Equity-option Greek Markowitz / Ann. vol,inference,pass,critical,1.0618025335815389,1.062,
 independent numpy stat matches table: Gross before costs / Equity-option Greek Markowitz / Sharpe,inference,pass,critical,0.8421194565895302,0.842,
@@ -290,15 +350,15 @@ independent numpy stat matches table: Gross before costs / Delta-matched equitie
 independent numpy stat matches table: Gross before costs / Underlying Markowitz / Ann. return,inference,pass,critical,0.1785517211015295,0.179,
 independent numpy stat matches table: Gross before costs / Underlying Markowitz / Ann. vol,inference,pass,critical,0.19645175039322108,0.196,
 independent numpy stat matches table: Gross before costs / Underlying Markowitz / Sharpe,inference,pass,critical,0.9088833301008387,0.909,
-independent numpy stat matches table: Post-cost research / Equity-option Greek Markowitz / Ann. return,inference,pass,critical,-7.900298451739237,-7.9,
-independent numpy stat matches table: Post-cost research / Equity-option Greek Markowitz / Ann. vol,inference,pass,critical,5.476484743372529,5.476,
-independent numpy stat matches table: Post-cost research / Equity-option Greek Markowitz / Sharpe,inference,pass,critical,-1.442585677117047,-1.443,
-independent numpy stat matches table: Post-cost research / Greek Markowitz + VIX / Ann. return,inference,pass,critical,-6.078824669747732,-6.079,
-independent numpy stat matches table: Post-cost research / Greek Markowitz + VIX / Ann. vol,inference,pass,critical,4.827242337725747,4.827,
-independent numpy stat matches table: Post-cost research / Greek Markowitz + VIX / Sharpe,inference,pass,critical,-1.2592748083601788,-1.259,
-independent numpy stat matches table: Post-cost research / Beta/delta-neutral + VIX / Ann. return,inference,pass,critical,-3.896012387717328,-3.896,
-independent numpy stat matches table: Post-cost research / Beta/delta-neutral + VIX / Ann. vol,inference,pass,critical,2.8407259390848556,2.841,
-independent numpy stat matches table: Post-cost research / Beta/delta-neutral + VIX / Sharpe,inference,pass,critical,-1.3714847793351141,-1.371,
+independent numpy stat matches table: Post-cost research / Equity-option Greek Markowitz / Ann. return,inference,pass,critical,-7.900267244139405,-7.9,
+independent numpy stat matches table: Post-cost research / Equity-option Greek Markowitz / Ann. vol,inference,pass,critical,5.476489096854859,5.476,
+independent numpy stat matches table: Post-cost research / Equity-option Greek Markowitz / Sharpe,inference,pass,critical,-1.4425788318790809,-1.443,
+independent numpy stat matches table: Post-cost research / Greek Markowitz + VIX / Ann. return,inference,pass,critical,-6.078813973650915,-6.079,
+independent numpy stat matches table: Post-cost research / Greek Markowitz + VIX / Ann. vol,inference,pass,critical,4.8272433122818565,4.827,
+independent numpy stat matches table: Post-cost research / Greek Markowitz + VIX / Sharpe,inference,pass,critical,-1.2592723383519353,-1.259,
+independent numpy stat matches table: Post-cost research / Beta/delta-neutral + VIX / Ann. return,inference,pass,critical,-3.895998431451532,-3.896,
+independent numpy stat matches table: Post-cost research / Beta/delta-neutral + VIX / Ann. vol,inference,pass,critical,2.8407272413436755,2.841,
+independent numpy stat matches table: Post-cost research / Beta/delta-neutral + VIX / Sharpe,inference,pass,critical,-1.3714792376929188,-1.371,
 independent numpy stat matches table: Post-cost research / Cost-aware Sortino + VIX / Ann. return,inference,pass,critical,-157.4251869267162,-157.425,
 independent numpy stat matches table: Post-cost research / Cost-aware Sortino + VIX / Ann. vol,inference,pass,critical,148.97625674304243,148.976,
 independent numpy stat matches table: Post-cost research / Cost-aware Sortino + VIX / Sharpe,inference,pass,critical,-1.0567132667203922,-1.057,
@@ -318,14 +378,34 @@ independent numpy stat matches table: Post-cost research / Underlying Markowitz 
 independent numpy stat matches table: Post-cost research / Underlying Markowitz / Ann. vol,inference,pass,critical,0.19645175039322108,0.196,
 independent numpy stat matches table: Post-cost research / Underlying Markowitz / Sharpe,inference,pass,critical,0.9088833301008387,0.909,
 independent stat recompute coverage,inference,pass,critical,54,>=24,
+final inference panel inputs exist,inference,pass,critical,[],short table plus locked breadth returns/scoreboard/inference/P1 artifacts,
+final inference panel table schema,inference,pass,critical,"[""Config"", ""Net Sharpe"", ""CI lo"", ""CI hi"", ""PSR"", ""DSR"", ""dSR stock"", ""p stock"", ""dSR naive"", ""p naive""]","[""CI hi"", ""CI lo"", ""Config"", ""DSR"", ""Net Sharpe"", ""PSR"", ""p naive"", ""p stock""]",
+final inference panel artifact schemas,inference,pass,critical,"{""final_inference_panel"": [], ""p1_regularization_results"": [], ""scoreboard"": []}",required columns present,
+final inference panel intervals and probabilities valid,inference,pass,critical,[],"CI lo <= Net Sharpe <= CI hi and probabilities in [0,1]",
+final inference table Net Sharpe matches returns: orig,inference,pass,critical,"{""recomputed"": 0.7776672701424105, ""table"": 0.778}",<2e-3 absolute difference,
+final inference scoreboard Net Sharpe matches returns: orig,inference,pass,critical,"{""recomputed"": 0.7776672701424105, ""scoreboard"": 0.7776672701424103}",<1e-9 absolute difference,
+final inference table Net Sharpe matches returns: orig+VIX,inference,pass,critical,"{""recomputed"": 1.3831478314520487, ""table"": 1.383}",<2e-3 absolute difference,
+final inference scoreboard Net Sharpe matches returns: orig+VIX,inference,pass,critical,"{""recomputed"": 1.3831478314520487, ""scoreboard"": 1.3831478314520482}",<1e-9 absolute difference,
+final inference table Net Sharpe matches returns: larger,inference,pass,critical,"{""recomputed"": 0.5871547497312365, ""table"": 0.587}",<2e-3 absolute difference,
+final inference scoreboard Net Sharpe matches returns: larger,inference,pass,critical,"{""recomputed"": 0.5871547497312365, ""scoreboard"": 0.5871547497312364}",<1e-9 absolute difference,
+final inference table Net Sharpe matches returns: larger+VIX,inference,pass,critical,"{""recomputed"": 1.6282919496891226, ""table"": 1.628}",<2e-3 absolute difference,
+final inference scoreboard Net Sharpe matches returns: larger+VIX,inference,pass,critical,"{""recomputed"": 1.6282919496891226, ""scoreboard"": 1.6282919496891228}",<1e-9 absolute difference,
+final inference DSR trial counts match P1 grid,inference,pass,critical,[],22 non-naive unique point_id values per static config,
+E1 channel ablation table schema,inference,pass,critical,"[""Arm"", ""orig"", ""orig+VIX"", ""larger"", ""larger+VIX""]","[""Arm"", ""orig"", ""orig+VIX"", ""larger"", ""larger+VIX""]",
+E1 channel ablation table cells finite,inference,pass,critical,[],all numeric cells finite,
+E1 channel ablation Full E1 row matches scoreboard,inference,pass,critical,[],<2e-3 vs final_result_scoreboard.csv e1_net_sharpe,
+E1 concentration table schema,inference,pass,critical,"[""Config"", ""Candidates"", ""Active"", ""Top 5 share"", ""Deployed gross"", ""At cap share"", ""Cap budget""]","[""Active"", ""At cap share"", ""Candidates"", ""Config"", ""Deployed gross"", ""Top 5 share""]",
+E1 realized candidate summary schema,inference,pass,critical,"[""config"", ""strategy"", ""deployable"", ""mode"", ""solver_status"", ""capacity_infeasible"", ""sum_of_caps"", ""deployed_gross"", ""gross_sharpe"", ""net_sharpe"", ""gross_sortino"", ""net_sortino"", ""gross_max_drawdown"", ""net_max_drawdown""]",config/strategy/deployed_gross,
+E1 concentration table values match artifacts,inference,pass,critical,[],"deployed gross within 2e-3, shares in [0,1], Active <= Candidates",
 CI lo <= CI hi in cv_regime_performance.tex,inference,pass,critical,[],all CI pairs ordered,
 CI lo <= CI hi in inference_summary.tex,inference,pass,critical,[],all CI pairs ordered,
 CI lo <= CI hi in leave_one_out.tex,inference,pass,critical,[],all CI pairs ordered,
 CI lo <= CI hi in portfolio_performance_diagnostics.tex,inference,pass,critical,[],all CI pairs ordered,
 CI lo <= CI hi in portfolio_performance_net_diagnostics.tex,inference,pass,critical,[],all CI pairs ordered,
 CI lo <= CI hi in regime_performance.tex,inference,pass,critical,[],all CI pairs ordered,
+CI lo <= CI hi in short_inference_panel.tex,inference,pass,critical,[],all CI pairs ordered,
 CI lo <= CI hi in vix_regime_performance.tex,inference,pass,critical,[],all CI pairs ordered,
-CI ordering audit covers tables,inference,pass,critical,7,>=4 tables with CI pairs,
+CI ordering audit covers tables,inference,pass,critical,8,>=4 tables with CI pairs,
 VIX exact settlement claim gated by source coverage,claims,pass,critical,"{""Claim"": ""VIX option expiry P\\&L is exact listed settlement P\\&L"", ""Evidence"": ""All VIX expiry rows use exact Cboe VRO/SOQ settlement"", ""Status"": ""Supported"", ""Type"": ""Generated empirical""}",,
 post-cost research claim is generated,claims,pass,critical,"{""Claim"": ""Post-cost research returns include implementation frictions"", ""Evidence"": ""Generated mid, half-spread, full-spread, fee, capacity, required-capital, and assignment-risk ledgers"", ""Status"": ""Implemented as conservative research simulation"", ""Type"": ""Generated empirical""}",,
 broker-executed evidence overclaim rejected,claims,pass,critical,"{""Claim"": ""Pre-production results are broker-executed live evidence"", ""Evidence"": ""No live fills, order routing, broker margin preview, or broker reconciliation"", ""Status"": ""Not claimed"", ""Type"": ""Rejected overclaim""}",,
@@ -340,8 +420,8 @@ source ledger records vix option,claims,pass,critical,vix option,,
 source ledger records artifact,claims,pass,critical,artifact,,
 source ledger keeps NotebookLM/class notes out of paper references,claims,pass,warning,False,,
 LaTeX log clean,paper,pass,critical,[],no warnings/errors/undefined refs,
-compiled PDF exists,paper,pass,critical,769378,>100KB,
-PDF page count plausible,paper,pass,critical,60,>=18,
+compiled PDF exists,paper,pass,critical,534134,>100KB,
+PDF page count plausible,paper,pass,critical,34,25-36 research-paper pages,
 PDF caveat text includes not claimed,paper,pass,critical,not claimed,,
 PDF caveat text includes premium weights,paper,pass,critical,premium weights,,
 PDF text includes exact VRO/SOQ,paper,pass,critical,VRO/SOQ,,
@@ -349,5 +429,8 @@ PDF caveat text includes transaction costs,paper,pass,critical,transaction costs
 PDF caveat text includes slippage,paper,pass,critical,slippage,,
 PDF text includes tail-path simulation caveat,paper,pass,critical,tail-path simulation diagnostics,,
 references include option-risk-premium papers,paper,pass,critical,reference text,,
-PDF render skipped,paper,pass,warning,,,Fast audit mode explicitly skipped rendering.
-hash manifest covers outputs,artifacts,pass,critical,186,>=30,
+PDF pages render to PNG,paper,pass,critical,"exit=0, pages=34",>=25 rendered pages,
+rendered PDF sample pages nonempty,paper,pass,critical,"[165229, 166415]",,
+Appendix all-strategy growth figure has all strategy series,paper,pass,critical,"[""Beta/delta-neutral + VIX"", ""Cost-aware Sortino + VIX"", ""Delta-matched equities"", ""Equal premium"", ""Equal risk"", ""Equity-option Greek Markowitz"", ""Greek Markowitz + VIX"", ""Underlying Markowitz"", ""VIX hedge sleeve""]","[""Beta/delta-neutral + VIX"", ""Cost-aware Sortino + VIX"", ""Delta-matched equities"", ""Equal premium"", ""Equal risk"", ""Equity-option Greek Markowitz"", ""Greek Markowitz + VIX"", ""Underlying Markowitz"", ""VIX hedge sleeve""]",
+Appendix all-strategy growth figure series visible,paper,pass,critical,"[{""Figure"": ""portfolio_growth_all_strategies.pdf"", ""Max"": 18.35005283540228, ""Min"": 0.183011836336598, ""Pass"": ""yes"", ""Series"": ""Equity-option Greek Markowitz"", ""Visible points"": 60}, {""Figure"": ""portfolio_growth_all_strategies.pdf"", ""Max"": 144.51861716831928, ""Min"": 0.6403949030925237, ""Pass"": ""yes"", ""Series"": ""Greek Markowitz + VIX"", ""Visible points"": 60}, {""Figure"": ""portfolio_growth_all_strategies.pdf"", ""Max"": 98.96884463070484, ""Min"": 0.5735594003706624, ""Pass"": ""yes"", ""Series"": ""Beta/delta-neutral + VIX"", ""Visible points"": 60}, {""Figure"": ""portfolio_growth_all_strategies.pdf"", ""Max"": 2.996100619612762, ""Min"": 0.0001, ""Pass"": ""yes"", ""Series"": ""Cost-aware Sortino + VIX"", ""Visible points"": 60}, {""Figure"": ""portfolio_growth_all_strategies.pdf"", ""Max"": 0.8905477325031234, ""Min"": 0.0001782014429151, ""Pass"": ""yes"", ""Series"": ""Equal premium"", ""Visible points"": 60}, {""Figure"": ""portfolio_growth_all_strategies.pdf"", ""Max"": 0.944996867354269, ""Min"": 0.0228823784998115, ""Pass"": ""yes"", ""Series"": ""Equal risk"", ""Visible points"": 60}, {""Figure"": ""portfolio_growth_all_strategies.pdf"", ""Max"": 0.0001, ""Min"": 0.0001, ""Pass"": ""yes"", ""Series"": ""VIX hedge sleeve"", ""Visible points"": 60}, {""Figure"": ""portfolio_growth_all_strategies.pdf"", ""Max"": 33.429827509128316, ""Min"": 0.4455022015082628, ""Pass"": ""yes"", ""Series"": ""Delta-matched equities"", ""Visible points"": 60}, {""Figure"": ""portfolio_growth_all_strategies.pdf"", ""Max"": 2.459772612888149, ""Min"": 0.945644336357695, ""Pass"": ""yes"", ""Series"": ""Underlying Markowitz"", ""Visible points"": 60}]",,
+hash manifest covers outputs,artifacts,pass,critical,201,>=30,

@@ -32,11 +32,16 @@ TABLE_DIR = PAPER / "tables"
 FIG_DIR = PAPER / "figures"
 ART_DIR = PAPER / "artifacts"
 VERIFY_DIR = PAPER / "verification"
+BREADTH_DIR = PAPER / "analysis/artifacts/breadth_solutions"
+BREADTH_ROBUSTNESS_DIR = BREADTH_DIR / "robustness"
 PUBLISHED_STEM = "option_only_portfolio_optimization_dhruv_kohli"
 PUBLISHED_TEX_NAME = f"{PUBLISHED_STEM}.tex"
 PUBLISHED_PDF_NAME = f"{PUBLISHED_STEM}.pdf"
 PUBLISHED_PDF = PAPER / PUBLISHED_PDF_NAME
 PUBLISHED_TEX = PAPER / PUBLISHED_TEX_NAME
+BREADTH_CONFIG_ORDER = ["orig", "orig+VIX", "larger", "larger+VIX"]
+BREADTH_PRIMARY_STRATEGY = "E1 capped"
+BREADTH_NAIVE_POINT_IDS = {"Equal premium", "Equal risk"}
 
 sys.path.insert(0, str(ROOT))
 
@@ -384,6 +389,10 @@ def check_required_outputs(v: Verifier) -> None:
         TABLE_DIR / "vix_settlement_coverage.tex",
         TABLE_DIR / "vix_settlement_audit.tex",
         TABLE_DIR / "vix_required_settlement_download_audit.tex",
+        TABLE_DIR / "short_inference_panel.tex",
+        TABLE_DIR / "short_e1_channel_ablation.tex",
+        TABLE_DIR / "short_e1_concentration.tex",
+        TABLE_DIR / "short_cpcv_windows.tex",
         TABLE_DIR / "factor_regression.tex",
         TABLE_DIR / "pnl_attribution.tex",
         TABLE_DIR / "claim_strength_summary.tex",
@@ -455,6 +464,13 @@ def check_required_outputs(v: Verifier) -> None:
         ART_DIR / "simulation_summary.csv",
         ART_DIR / "simulation_assumptions.csv",
         ART_DIR / "drawdown_breach_rates.csv",
+        BREADTH_ROBUSTNESS_DIR / "breadth_e1_channel_ablation.csv",
+        BREADTH_ROBUSTNESS_DIR / "breadth_e1_book_weights.csv",
+        BREADTH_ROBUSTNESS_DIR / "final_e1_concentration.csv",
+        BREADTH_ROBUSTNESS_DIR / "breadth_cv_claim_cpcv_path_metrics.csv",
+        BREADTH_ROBUSTNESS_DIR / "breadth_cv_claim_fold_schedule.csv",
+        BREADTH_ROBUSTNESS_DIR / "breadth_cv_relative_paths.csv",
+        BREADTH_ROBUSTNESS_DIR / "breadth_cv_claim_relative_paths.csv",
     ]
     missing = [str(p.relative_to(PAPER)) for p in required if not p.exists()]
     v.check("required generated outputs exist", "artifacts", not missing, observed=missing, expected="no missing outputs")
@@ -1614,6 +1630,654 @@ def _tex_cell_text(cell: str) -> str:
     return str(cell).strip().replace("\\_", "_").replace("\\&", "&").replace("\\%", "%")
 
 
+def check_final_inference_panel(v: Verifier) -> None:
+    """Audit the compact final inference panel against locked breadth artifacts."""
+
+    table_path = TABLE_DIR / "short_inference_panel.tex"
+    returns_path = BREADTH_ROBUSTNESS_DIR / "breadth_strategy_returns_net.csv"
+    scoreboard_path = BREADTH_ROBUSTNESS_DIR / "final_result_scoreboard.csv"
+    panel_path = BREADTH_ROBUSTNESS_DIR / "final_inference_panel.csv"
+    p1_path = BREADTH_DIR / "p1_regularization_results.csv"
+
+    inputs = [table_path, returns_path, scoreboard_path, panel_path, p1_path]
+    missing = [str(path.relative_to(PAPER)) for path in inputs if not path.exists()]
+    v.check(
+        "final inference panel inputs exist",
+        "inference",
+        not missing,
+        observed=missing,
+        expected="short table plus locked breadth returns/scoreboard/inference/P1 artifacts",
+    )
+    if missing:
+        return
+
+    header, rows = _parse_tex_table(table_path)
+    idx = {_tex_cell_text(name): i for i, name in enumerate(header)}
+    needed_table_cols = {"Config", "Net Sharpe", "CI lo", "CI hi", "PSR", "DSR", "p stock", "p naive"}
+    missing_cols = sorted(needed_table_cols.difference(idx))
+    v.check("final inference panel table schema", "inference", bool(header) and not missing_cols, observed=header, expected=sorted(needed_table_cols))
+    if missing_cols:
+        return
+
+    try:
+        static_returns = pd.read_csv(returns_path).apply(pd.to_numeric, errors="coerce")
+        scoreboard = pd.read_csv(scoreboard_path)
+        panel = pd.read_csv(panel_path)
+        p1 = pd.read_csv(p1_path)
+    except Exception as exc:
+        v.check("final inference panel artifacts parse", "inference", False, observed=type(exc).__name__, details=str(exc))
+        return
+
+    score_required = {"config", "config_label", "e1_net_sharpe"}
+    panel_required = {"config", "basis", "dsr_trials"}
+    p1_required = {"config", "point_id"}
+    schema_missing = {
+        "scoreboard": sorted(score_required.difference(scoreboard.columns)),
+        "final_inference_panel": sorted(panel_required.difference(panel.columns)),
+        "p1_regularization_results": sorted(p1_required.difference(p1.columns)),
+    }
+    schema_ok = not any(schema_missing.values())
+    v.check("final inference panel artifact schemas", "inference", schema_ok, observed=schema_missing, expected="required columns present")
+    if not schema_ok:
+        return
+
+    row_by_label = {
+        _tex_cell_text(cells[idx["Config"]]): cells
+        for cells in rows
+        if idx["Config"] < len(cells)
+    }
+    score_by_config = scoreboard.set_index("config")
+
+    range_violations: list[dict[str, Any]] = []
+    for cells in rows:
+        if len(cells) <= max(idx.values()):
+            range_violations.append({"row": cells, "issue": "short row"})
+            continue
+        label = _tex_cell_text(cells[idx["Config"]])
+        net = _tex_cell_float(cells[idx["Net Sharpe"]])
+        lo = _tex_cell_float(cells[idx["CI lo"]])
+        hi = _tex_cell_float(cells[idx["CI hi"]])
+        if not (np.isfinite(lo) and np.isfinite(net) and np.isfinite(hi) and lo <= net <= hi):
+            range_violations.append({"config": label, "issue": "Net Sharpe outside CI", "lo": lo, "net": net, "hi": hi})
+        for col in ["PSR", "DSR", "p stock", "p naive"]:
+            value = _tex_cell_float(cells[idx[col]])
+            if not (np.isfinite(value) and 0.0 <= value <= 1.0):
+                range_violations.append({"config": label, "column": col, "value": value})
+    v.check(
+        "final inference panel intervals and probabilities valid",
+        "inference",
+        not range_violations,
+        observed=range_violations[:10],
+        expected="CI lo <= Net Sharpe <= CI hi and probabilities in [0,1]",
+    )
+
+    for config in BREADTH_CONFIG_ORDER:
+        label = str(score_by_config.loc[config, "config_label"]) if config in score_by_config.index else config
+        cells = row_by_label.get(label)
+        col = f"{config} {BREADTH_PRIMARY_STRATEGY}"
+        if cells is None:
+            v.check(f"final inference panel row present: {config}", "inference", False, observed=label, expected="row in short_inference_panel.tex")
+            continue
+        if col not in static_returns.columns:
+            v.check(f"final inference return column present: {config}", "inference", False, observed=col, expected="breadth_strategy_returns_net.csv column")
+            continue
+        x = pd.to_numeric(static_returns[col], errors="coerce").replace([np.inf, -np.inf], np.nan).dropna().to_numpy(float)
+        ann_vol = float(np.std(x, ddof=1) * np.sqrt(12.0)) if len(x) >= 2 else float("nan")
+        recomputed = float(np.mean(x) * 12.0 / ann_vol) if np.isfinite(ann_vol) and ann_vol > 0.0 else float("nan")
+        table_value = _tex_cell_float(cells[idx["Net Sharpe"]])
+        scoreboard_value = float(score_by_config.loc[config, "e1_net_sharpe"]) if config in score_by_config.index else float("nan")
+        v.check(
+            f"final inference table Net Sharpe matches returns: {config}",
+            "inference",
+            np.isfinite(recomputed) and abs(table_value - recomputed) < 2e-3,
+            observed={"table": table_value, "recomputed": recomputed},
+            expected="<2e-3 absolute difference",
+        )
+        v.check(
+            f"final inference scoreboard Net Sharpe matches returns: {config}",
+            "inference",
+            np.isfinite(recomputed) and abs(recomputed - scoreboard_value) < 1e-9,
+            observed={"recomputed": recomputed, "scoreboard": scoreboard_value},
+            expected="<1e-9 absolute difference",
+        )
+
+    static_panel = panel.loc[panel["basis"].astype(str).eq("static")].copy()
+    trial_violations: list[dict[str, Any]] = []
+    for config in BREADTH_CONFIG_ORDER:
+        sub = p1.loc[p1["config"].astype(str).eq(config)].copy()
+        trials = int(sub.loc[~sub["point_id"].astype(str).isin(BREADTH_NAIVE_POINT_IDS), "point_id"].astype(str).nunique())
+        panel_sub = static_panel.loc[static_panel["config"].astype(str).eq(config)]
+        observed = _maybe_int(panel_sub["dsr_trials"].iloc[0]) if not panel_sub.empty else None
+        if trials != 22 or observed != trials:
+            trial_violations.append({"config": config, "recomputed": trials, "final_inference_panel": observed, "expected": 22})
+    v.check(
+        "final inference DSR trial counts match P1 grid",
+        "inference",
+        not trial_violations,
+        observed=trial_violations,
+        expected="22 non-naive unique point_id values per static config",
+    )
+
+
+def check_e1_ablation_and_concentration(v: Verifier) -> None:
+    """Audit the locked E1 ablation and concentration paper tables."""
+
+    scoreboard_path = BREADTH_ROBUSTNESS_DIR / "final_result_scoreboard.csv"
+    realized_path = BREADTH_ROBUSTNESS_DIR / "breadth_realized_candidate_summary.csv"
+    ablation_path = TABLE_DIR / "short_e1_channel_ablation.tex"
+    concentration_path = TABLE_DIR / "short_e1_concentration.tex"
+
+    scoreboard = pd.DataFrame()
+    if scoreboard_path.exists():
+        try:
+            scoreboard = pd.read_csv(scoreboard_path)
+        except Exception as exc:
+            v.check("E1 ablation scoreboard parses", "inference", False, observed=type(exc).__name__, details=str(exc))
+    else:
+        v.check("E1 ablation scoreboard exists", "inference", False, observed=scoreboard_path)
+
+    if ablation_path.exists():
+        header, rows = _parse_tex_table(ablation_path)
+        idx = {_tex_cell_text(name): i for i, name in enumerate(header)}
+        missing_cols = [col for col in ["Arm", *BREADTH_CONFIG_ORDER] if col not in idx]
+        v.check("E1 channel ablation table schema", "inference", bool(header) and not missing_cols, observed=header, expected=["Arm", *BREADTH_CONFIG_ORDER])
+        if not missing_cols:
+            finite_violations: list[dict[str, Any]] = []
+            full_row: list[str] | None = None
+            for cells in rows:
+                if len(cells) <= max(idx.values()):
+                    finite_violations.append({"row": cells, "issue": "short row"})
+                    continue
+                arm = _tex_cell_text(cells[idx["Arm"]])
+                if arm == "Full E1":
+                    full_row = cells
+                for config in BREADTH_CONFIG_ORDER:
+                    value = _tex_cell_float(cells[idx[config]])
+                    if not np.isfinite(value):
+                        finite_violations.append({"arm": arm, "config": config, "value": value})
+            v.check("E1 channel ablation table cells finite", "inference", not finite_violations, observed=finite_violations[:10], expected="all numeric cells finite")
+            if full_row is None:
+                v.check("E1 channel ablation Full E1 row present", "inference", False, observed=[_tex_cell_text(r[idx["Arm"]]) for r in rows if idx["Arm"] < len(r)])
+            elif {"config", "e1_net_sharpe"}.issubset(scoreboard.columns):
+                score_by_config = scoreboard.set_index("config")
+                violations = []
+                for config in BREADTH_CONFIG_ORDER:
+                    table_value = _tex_cell_float(full_row[idx[config]])
+                    expected = float(score_by_config.loc[config, "e1_net_sharpe"]) if config in score_by_config.index else float("nan")
+                    if not (np.isfinite(table_value) and np.isfinite(expected) and abs(table_value - expected) < 2e-3):
+                        violations.append({"config": config, "table": table_value, "scoreboard": expected})
+                v.check(
+                    "E1 channel ablation Full E1 row matches scoreboard",
+                    "inference",
+                    not violations,
+                    observed=violations,
+                    expected="<2e-3 vs final_result_scoreboard.csv e1_net_sharpe",
+                )
+            else:
+                v.check("E1 channel ablation scoreboard schema", "inference", False, observed=list(scoreboard.columns), expected="config/e1_net_sharpe")
+    else:
+        v.check(
+            "E1 channel ablation table exists",
+            "inference",
+            False,
+            observed=ablation_path,
+            expected="required output of final paper build",
+        )
+
+    if concentration_path.exists():
+        header, rows = _parse_tex_table(concentration_path)
+        idx = {_tex_cell_text(name): i for i, name in enumerate(header)}
+        needed_cols = {"Config", "Candidates", "Active", "Top 5 share", "Deployed gross", "At cap share"}
+        missing_cols = sorted(needed_cols.difference(idx))
+        v.check("E1 concentration table schema", "inference", bool(header) and not missing_cols, observed=header, expected=sorted(needed_cols))
+        if not missing_cols:
+            realized = pd.DataFrame()
+            if realized_path.exists():
+                try:
+                    realized = pd.read_csv(realized_path)
+                except Exception as exc:
+                    v.check("E1 realized candidate summary parses", "inference", False, observed=type(exc).__name__, details=str(exc))
+            else:
+                v.check("E1 realized candidate summary exists", "inference", False, observed=realized_path)
+            realized_ok = {"config", "strategy", "deployed_gross"}.issubset(realized.columns)
+            v.check("E1 realized candidate summary schema", "inference", realized_ok, observed=list(realized.columns), expected="config/strategy/deployed_gross")
+            expected_gross = pd.Series(dtype=float)
+            if realized_ok:
+                e1 = realized.loc[realized["strategy"].astype(str).eq(BREADTH_PRIMARY_STRATEGY), ["config", "deployed_gross"]].copy()
+                e1["deployed_gross"] = pd.to_numeric(e1["deployed_gross"], errors="coerce")
+                expected_gross = e1.drop_duplicates("config").set_index("config")["deployed_gross"]
+
+            violations: list[dict[str, Any]] = []
+            for cells in rows:
+                if len(cells) <= max(idx.values()):
+                    violations.append({"row": cells, "issue": "short row"})
+                    continue
+                config = _tex_cell_text(cells[idx["Config"]])
+                candidates = _tex_cell_float(cells[idx["Candidates"]])
+                active = _tex_cell_float(cells[idx["Active"]])
+                top5 = _tex_cell_float(cells[idx["Top 5 share"]])
+                deployed = _tex_cell_float(cells[idx["Deployed gross"]])
+                at_cap = _tex_cell_float(cells[idx["At cap share"]])
+                if not (np.isfinite(top5) and 0.0 <= top5 <= 1.0):
+                    violations.append({"config": config, "column": "Top 5 share", "value": top5})
+                if not (np.isfinite(at_cap) and 0.0 <= at_cap <= 1.0):
+                    violations.append({"config": config, "column": "At cap share", "value": at_cap})
+                if not (np.isfinite(active) and np.isfinite(candidates) and active <= candidates + 1e-9):
+                    violations.append({"config": config, "issue": "Active > Candidates", "active": active, "candidates": candidates})
+                expected = float(expected_gross.loc[config]) if config in expected_gross.index else float("nan")
+                if not (np.isfinite(deployed) and np.isfinite(expected) and abs(deployed - expected) < 2e-3):
+                    violations.append({"config": config, "column": "Deployed gross", "table": deployed, "realized": expected})
+            v.check(
+                "E1 concentration table values match artifacts",
+                "inference",
+                not violations,
+                observed=violations[:10],
+                expected="deployed gross within 2e-3, shares in [0,1], Active <= Candidates",
+            )
+    else:
+        v.check(
+            "E1 concentration table exists",
+            "inference",
+            False,
+            observed=concentration_path,
+            expected="required output of final paper build",
+        )
+
+
+def check_cpcv_windows_table(v: Verifier) -> None:
+    """Audit the compact full-vs-claim CPCV windows table."""
+
+    table_path = TABLE_DIR / "short_cpcv_windows.tex"
+    if not table_path.exists():
+        v.check(
+            "CPCV windows table exists",
+            "robustness",
+            False,
+            observed=table_path.relative_to(PAPER),
+            expected="tables/short_cpcv_windows.tex",
+        )
+        return
+
+    inputs = [
+        BREADTH_ROBUSTNESS_DIR / "breadth_cv_cpcv_path_metrics.csv",
+        BREADTH_ROBUSTNESS_DIR / "breadth_cv_claim_cpcv_path_metrics.csv",
+        BREADTH_ROBUSTNESS_DIR / "breadth_cv_relative_paths.csv",
+        BREADTH_ROBUSTNESS_DIR / "breadth_cv_claim_relative_paths.csv",
+        BREADTH_ROBUSTNESS_DIR / "final_result_scoreboard.csv",
+    ]
+    missing = [str(path.relative_to(PAPER)) for path in inputs if not path.exists()]
+    v.check(
+        "CPCV windows table inputs exist",
+        "robustness",
+        not missing,
+        observed=missing,
+        expected="full CPCV metrics, claim CPCV metrics, claim relative paths, and final scoreboard",
+    )
+    if missing:
+        return
+
+    try:
+        header, rows = _parse_tex_table(table_path)
+        full_metrics = pd.read_csv(inputs[0])
+        claim_metrics = pd.read_csv(inputs[1])
+        full_relative = pd.read_csv(inputs[2])
+        claim_relative = pd.read_csv(inputs[3])
+        scoreboard = pd.read_csv(inputs[4])
+    except Exception as exc:
+        v.check("CPCV windows table artifacts parse", "robustness", False, observed=type(exc).__name__, details=str(exc))
+        return
+
+    idx = {_tex_cell_text(name): i for i, name in enumerate(header)}
+    expected_cols = {
+        "Config",
+        "Full net p05",
+        "Full net p50",
+        "Default share",
+        "Claim net p05",
+        "Claim net p50",
+        "Rel full p05",
+        "Rel claim p05",
+    }
+    missing_cols = sorted(expected_cols.difference(idx))
+    v.check(
+        "CPCV windows table schema",
+        "robustness",
+        bool(header) and len(rows) == 4 and not missing_cols,
+        observed={"header": header, "rows": len(rows), "missing_cols": missing_cols},
+        expected="4 config rows with full/claim/relative CPCV columns",
+    )
+    if missing_cols or len(rows) != 4:
+        return
+
+    scoreboard_required = {"config", "best_naive_strategy"}
+    artifact_missing = {
+        "final_result_scoreboard": sorted(scoreboard_required.difference(scoreboard.columns)),
+        "breadth_cv_cpcv_path_metrics": sorted({"strategy", "basis", "status", "sharpe", "defaulted"}.difference(full_metrics.columns)),
+        "breadth_cv_claim_cpcv_path_metrics": sorted({"strategy", "basis", "status", "sharpe"}.difference(claim_metrics.columns)),
+        "breadth_cv_relative_paths": sorted({"strategy", "basis", "status", "sharpe"}.difference(full_relative.columns)),
+        "breadth_cv_claim_relative_paths": sorted({"strategy", "basis", "status", "sharpe"}.difference(claim_relative.columns)),
+    }
+    schema_ok = not any(artifact_missing.values())
+    v.check("CPCV windows artifact schemas", "robustness", schema_ok, observed=artifact_missing, expected="required columns present")
+    if not schema_ok:
+        return
+
+    score_by_config = scoreboard.drop_duplicates("config").set_index("config")
+    violations: list[dict[str, Any]] = []
+    default_share_violations: list[dict[str, Any]] = []
+    seen_configs: set[str] = set()
+    for cells in rows:
+        if len(cells) <= max(idx.values()):
+            violations.append({"row": cells, "issue": "short row"})
+            continue
+        config = _tex_cell_text(cells[idx["Config"]])
+        seen_configs.add(config)
+        full_strategy = f"{config} {BREADTH_PRIMARY_STRATEGY}"
+        full_sub = _cpcv_metric_slice(full_metrics, full_strategy)
+        claim_sub = _cpcv_metric_slice(claim_metrics, full_strategy)
+        if full_sub.empty or claim_sub.empty:
+            violations.append({"config": config, "issue": "missing full or claim CPCV path metrics"})
+            continue
+        if config not in score_by_config.index:
+            violations.append({"config": config, "issue": "missing final_result_scoreboard row"})
+            continue
+        best_naive = str(score_by_config.loc[config, "best_naive_strategy"])
+        rel_strategy = f"{config} E1 minus {best_naive}"
+        rel_full_sub = _cpcv_metric_slice(full_relative, rel_strategy)
+        rel_claim_sub = _cpcv_metric_slice(claim_relative, rel_strategy)
+        if rel_full_sub.empty or rel_claim_sub.empty:
+            violations.append({"config": config, "issue": "missing relative CPCV path metrics", "strategy": rel_strategy})
+            continue
+
+        expected = {
+            "Full net p05": _quantile(full_sub["sharpe"], 0.05),
+            "Full net p50": _quantile(full_sub["sharpe"], 0.50),
+            "Default share": _default_share(full_sub["defaulted"]),
+            "Claim net p05": _quantile(claim_sub["sharpe"], 0.05),
+            "Claim net p50": _quantile(claim_sub["sharpe"], 0.50),
+            "Rel full p05": _quantile(rel_full_sub["sharpe"], 0.05),
+            "Rel claim p05": _quantile(rel_claim_sub["sharpe"], 0.05),
+        }
+        default_share = expected["Default share"]
+        if not (np.isfinite(default_share) and 0.0 <= default_share <= 1.0):
+            default_share_violations.append({"config": config, "default_share": default_share})
+        for col, expected_value in expected.items():
+            table_value = _tex_cell_float(cells[idx[col]])
+            if not (np.isfinite(table_value) and np.isfinite(expected_value) and abs(table_value - expected_value) <= 2e-3):
+                violations.append({"config": config, "column": col, "table": table_value, "recomputed": expected_value})
+
+    missing_configs = sorted(set(BREADTH_CONFIG_ORDER).difference(seen_configs))
+    if missing_configs:
+        violations.append({"issue": "missing config rows", "configs": missing_configs})
+    v.check(
+        "CPCV windows table values match artifacts",
+        "robustness",
+        not violations,
+        observed=violations[:12],
+        expected="<2e-3 absolute difference vs recomputed artifact values",
+    )
+    v.check(
+        "CPCV windows default shares bounded",
+        "robustness",
+        not default_share_violations,
+        observed=default_share_violations,
+        expected="Default share in [0,1]",
+    )
+
+
+def _cpcv_metric_slice(frame: pd.DataFrame, strategy: str) -> pd.DataFrame:
+    return frame.loc[
+        frame["strategy"].astype(str).eq(strategy)
+        & frame["basis"].astype(str).eq("full_cost_net")
+        & frame["status"].astype(str).eq("complete")
+    ].copy()
+
+
+def _quantile(values: pd.Series, q: float) -> float:
+    numeric = pd.to_numeric(values, errors="coerce").replace([np.inf, -np.inf], np.nan).dropna()
+    return float(numeric.quantile(q)) if len(numeric) else float("nan")
+
+
+def _default_share(values: pd.Series) -> float:
+    if values.empty:
+        return float("nan")
+    if pd.api.types.is_bool_dtype(values):
+        return float(values.fillna(False).astype(bool).mean())
+    text = values.astype(str).str.strip().str.lower()
+    return float(text.isin({"true", "1", "yes"}).mean())
+
+
+def check_cv_purge_gap(v: Verifier) -> None:
+    """Measure the realized calendar gap between pre-test training and test months."""
+
+    _check_breadth_cv_purge_gap(
+        v,
+        artifact_prefix="breadth_cv",
+        label="breadth CV",
+        grid_source_path=None,
+        result_check_name="breadth CV purge gap exceeds monthly tenor span",
+    )
+
+
+def check_claim_cv_purge_gap(v: Verifier) -> None:
+    """Measure the claim-window CV train/test calendar gap."""
+
+    _check_breadth_cv_purge_gap(
+        v,
+        artifact_prefix="breadth_cv_claim",
+        label="breadth claim CV",
+        grid_source_path=BREADTH_ROBUSTNESS_DIR / "breadth_cv_test_month_returns.csv",
+        result_check_name="breadth claim CV purge gap exceeds monthly tenor span",
+    )
+
+
+def _check_breadth_cv_purge_gap(
+    v: Verifier,
+    *,
+    artifact_prefix: str,
+    label: str,
+    grid_source_path: Path | None,
+    result_check_name: str,
+) -> None:
+    schedule_path = BREADTH_ROBUSTNESS_DIR / f"{artifact_prefix}_fold_schedule.csv"
+    ledger_path = BREADTH_ROBUSTNESS_DIR / f"{artifact_prefix}_fold_ledger.csv"
+    returns_path = BREADTH_ROBUSTNESS_DIR / f"{artifact_prefix}_test_month_returns.csv"
+    inputs = [schedule_path, ledger_path, returns_path]
+    if grid_source_path is not None:
+        inputs.append(grid_source_path)
+    missing = [str(path.relative_to(PAPER)) for path in inputs if not path.exists()]
+    v.check(
+        f"{label} purge-gap inputs exist",
+        "robustness",
+        not missing,
+        observed=missing,
+        expected=f"{label} schedule, ledger, month-return grid, and full-history month grid when needed",
+    )
+    if missing:
+        return
+
+    try:
+        schedule = pd.read_csv(schedule_path)
+        ledger = pd.read_csv(ledger_path)
+        month_returns = pd.read_csv(returns_path, usecols=["config", "return_date"])
+        grid_returns = month_returns if grid_source_path is None else pd.read_csv(grid_source_path, usecols=["config", "return_date"])
+    except Exception as exc:
+        v.check(f"{label} purge-gap artifacts parse", "robustness", False, observed=type(exc).__name__, details=str(exc))
+        return
+
+    schedule_required = {"config", "fold_id", "scheme", "test_groups", "n_train", "n_purged", "n_embargoed"}
+    ledger_required = {"config", "fold_id", "status"}
+    month_required = {"config", "return_date"}
+    schema_missing = {
+        f"{artifact_prefix}_fold_schedule": sorted(schedule_required.difference(schedule.columns)),
+        f"{artifact_prefix}_fold_ledger": sorted(ledger_required.difference(ledger.columns)),
+        f"{artifact_prefix}_test_month_returns": sorted(month_required.difference(month_returns.columns)),
+        "full_history_month_grid": sorted(month_required.difference(grid_returns.columns)),
+    }
+    schema_ok = not any(schema_missing.values())
+    v.check(f"{label} purge-gap artifact schemas", "robustness", schema_ok, observed=schema_missing, expected="required columns present")
+    if not schema_ok:
+        return
+
+    ledger_ok = ledger.loc[ledger["status"].astype(str).eq("ok"), ["config", "fold_id"]].drop_duplicates()
+    realized_folds = set(map(tuple, ledger_ok.astype(str).to_numpy()))
+    if not realized_folds:
+        v.check(f"{label} ledger has realized folds", "robustness", False, observed=0)
+        return
+
+    month_returns = month_returns.copy()
+    month_returns["return_date"] = pd.to_datetime(month_returns["return_date"], errors="coerce")
+    grid_returns = grid_returns.copy()
+    grid_returns["return_date"] = pd.to_datetime(grid_returns["return_date"], errors="coerce")
+    min_gap_days: int | None = None
+    min_case: dict[str, Any] = {}
+    reconstruction_violations: list[dict[str, Any]] = []
+    checked_blocks = 0
+
+    for config in sorted(schedule["config"].dropna().astype(str).unique()):
+        cfg_schedule = schedule.loc[schedule["config"].astype(str).eq(config)].copy()
+        cfg_test_months = pd.DatetimeIndex(month_returns.loc[month_returns["config"].astype(str).eq(config), "return_date"].dropna().unique()).sort_values()
+        cfg_months = pd.DatetimeIndex(grid_returns.loc[grid_returns["config"].astype(str).eq(config), "return_date"].dropna().unique()).sort_values()
+        if len(cfg_months) == 0:
+            reconstruction_violations.append({"config": config, "issue": "empty month grid"})
+            continue
+        if len(cfg_test_months) == 0:
+            reconstruction_violations.append({"config": config, "issue": "empty test month grid"})
+            continue
+        group_ids_observed = set()
+        for value in cfg_schedule["test_groups"]:
+            group_ids_observed.update(_parse_group_ids(value))
+        if not group_ids_observed:
+            reconstruction_violations.append({"config": config, "issue": "no parsed test_groups"})
+            continue
+        n_groups = max(group_ids_observed) + 1
+        group_ids = np.full(len(cfg_months), -1, dtype=int)
+        full_pos_by_date = {pd.Timestamp(date): pos for pos, date in enumerate(cfg_months)}
+        missing_test_dates = sorted(pd.Timestamp(date).strftime("%Y-%m-%d") for date in cfg_test_months if pd.Timestamp(date) not in full_pos_by_date)
+        if missing_test_dates:
+            reconstruction_violations.append({"config": config, "issue": "test month not in full grid", "dates": missing_test_dates[:5]})
+            continue
+        for group_id, positions in enumerate(np.array_split(np.arange(len(cfg_test_months)), n_groups)):
+            for test_window_pos in positions:
+                full_pos = full_pos_by_date[pd.Timestamp(cfg_test_months[int(test_window_pos)])]
+                group_ids[full_pos] = group_id
+
+        purge_months, embargo_months, infer_violations = _infer_cv_purge_embargo_months(cfg_schedule, cfg_months, group_ids)
+        if infer_violations:
+            reconstruction_violations.extend({"config": config, **item} for item in infer_violations[:5])
+            continue
+
+        for _, row in cfg_schedule.iterrows():
+            fold_key = (str(row["config"]), str(row["fold_id"]))
+            if fold_key not in realized_folds:
+                continue
+            groups = _parse_group_ids(row.get("test_groups", ""))
+            train_pos, test_pos, _purged_pos, _embargoed_pos = _breadth_cv_positions(
+                cfg_months,
+                group_ids,
+                groups,
+                purge_months=purge_months,
+                embargo_months=embargo_months,
+            )
+            for start, _end in _contiguous_position_blocks(sorted(test_pos)):
+                prior_train = [pos for pos in train_pos if pos < start]
+                if not prior_train:
+                    continue
+                latest_train_pos = max(prior_train)
+                latest_train = pd.Timestamp(cfg_months[latest_train_pos])
+                earliest_test = pd.Timestamp(cfg_months[start])
+                gap_days = int((earliest_test - latest_train).days)
+                checked_blocks += 1
+                if min_gap_days is None or gap_days < min_gap_days:
+                    min_gap_days = gap_days
+                    min_case = {
+                        "config": config,
+                        "fold_id": str(row["fold_id"]),
+                        "scheme": str(row["scheme"]),
+                        "latest_train": latest_train.strftime("%Y-%m-%d"),
+                        "earliest_test": earliest_test.strftime("%Y-%m-%d"),
+                        "gap_days": gap_days,
+                        "purge_months": purge_months,
+                        "embargo_months": embargo_months,
+                    }
+
+    passed = min_gap_days is not None and min_gap_days > 44 and not reconstruction_violations
+    v.check(
+        result_check_name,
+        "robustness",
+        passed,
+        observed=min_case if min_case else {"min_gap_days": min_gap_days, "checked_blocks": checked_blocks},
+        expected="minimum realized pre-test train/test calendar gap >44 days",
+        details=(
+            f"Minimum realized pre-test train/test calendar gap after purge/embargo is "
+            f"{min_gap_days} days across {checked_blocks} test blocks. "
+            f"Reconstruction issues: {reconstruction_violations[:5]}"
+        ),
+    )
+
+
+def _breadth_cv_positions(
+    month_grid: pd.DatetimeIndex,
+    group_ids: np.ndarray,
+    test_groups: set[int],
+    *,
+    purge_months: int,
+    embargo_months: int,
+) -> tuple[set[int], set[int], set[int], set[int]]:
+    all_pos = set(range(len(month_grid)))
+    test_pos = {int(pos) for pos, group_id in enumerate(group_ids) if int(group_id) in test_groups}
+    purged_pos: set[int] = set()
+    embargoed_pos: set[int] = set()
+    for start, end in _contiguous_position_blocks(sorted(test_pos)):
+        purged_pos.update(range(max(0, start - purge_months), min(len(month_grid) - 1, end + purge_months) + 1))
+        embargoed_pos.update(range(end + purge_months + 1, min(len(month_grid) - 1, end + purge_months + embargo_months) + 1))
+    purged_pos.difference_update(test_pos)
+    embargoed_pos.difference_update(test_pos)
+    embargoed_pos.difference_update(purged_pos)
+    train_pos = all_pos.difference(test_pos).difference(purged_pos).difference(embargoed_pos)
+    return train_pos, test_pos, purged_pos, embargoed_pos
+
+
+def _infer_cv_purge_embargo_months(
+    schedule: pd.DataFrame,
+    month_grid: pd.DatetimeIndex,
+    group_ids: np.ndarray,
+) -> tuple[int, int, list[dict[str, Any]]]:
+    best: tuple[int, int, list[dict[str, Any]]] | None = None
+    for purge_months in range(0, 7):
+        for embargo_months in range(0, 7):
+            violations: list[dict[str, Any]] = []
+            for _, row in schedule.iterrows():
+                groups = _parse_group_ids(row.get("test_groups", ""))
+                train_pos, _test_pos, purged_pos, embargoed_pos = _breadth_cv_positions(
+                    month_grid,
+                    group_ids,
+                    groups,
+                    purge_months=purge_months,
+                    embargo_months=embargo_months,
+                )
+                observed = {
+                    "n_train": _maybe_int(row.get("n_train")),
+                    "n_purged": _maybe_int(row.get("n_purged")),
+                    "n_embargoed": _maybe_int(row.get("n_embargoed")),
+                }
+                expected = {
+                    "n_train": len(train_pos),
+                    "n_purged": len(purged_pos),
+                    "n_embargoed": len(embargoed_pos),
+                }
+                bad = {key: {"observed": observed[key], "recomputed": expected[key]} for key in expected if observed[key] is not None and observed[key] != expected[key]}
+                if bad:
+                    violations.append({"fold_id": str(row.get("fold_id", "")), "purge": purge_months, "embargo": embargo_months, "mismatch": bad})
+                    if len(violations) > 10:
+                        break
+            if not violations:
+                return purge_months, embargo_months, []
+            if best is None or len(violations) < len(best[2]):
+                best = (purge_months, embargo_months, violations)
+    return best if best is not None else (0, 0, [{"issue": "no candidate purge/embargo windows evaluated"}])
+
+
 def check_independent_stat_recomputation(v: Verifier) -> None:
     """Raw-numpy re-implementation of Sharpe/ann. return/vol vs published table.
 
@@ -1821,7 +2485,7 @@ def check_paper_quality(v: Verifier, skip_render: bool, skip_compile: bool = Fal
         if info is not None:
             page_match = re.search(r"Pages:\s+(\d+)", info.stdout)
             pages = int(page_match.group(1)) if page_match else 0
-            v.check("PDF page count plausible", "paper", pages >= 18, observed=pages, expected=">=18")
+            v.check("PDF page count plausible", "paper", 25 <= pages <= 36, observed=pages, expected="25-36 research-paper pages")
 
     pdf_text = extract_pdf_text(pdf)
     if pdf_text:
@@ -1856,9 +2520,9 @@ def check_paper_quality(v: Verifier, skip_render: bool, skip_compile: bool = Fal
         return
     with tempfile.TemporaryDirectory(prefix="oom_verify_pdf_") as tmp:
         prefix = Path(tmp) / "page"
-        res = _run(["pdftoppm", "-png", "-f", "1", "-l", "25", "-r", "90", PUBLISHED_PDF_NAME, str(prefix)], PAPER, timeout=120)
+        res = _run(["pdftoppm", "-png", "-f", "1", "-l", "36", "-r", "90", PUBLISHED_PDF_NAME, str(prefix)], PAPER, timeout=120)
         rendered = list(Path(tmp).glob("page-*.png"))
-        v.check("PDF pages render to PNG", "paper", res.returncode == 0 and len(rendered) >= 18, observed=f"exit={res.returncode}, pages={len(rendered)}", expected=">=18 pages")
+        v.check("PDF pages render to PNG", "paper", res.returncode == 0 and len(rendered) >= 25, observed=f"exit={res.returncode}, pages={len(rendered)}", expected=">=25 rendered pages")
         nonempty = all(p.stat().st_size > 10_000 for p in rendered[:5] + rendered[-3:]) if rendered else False
         v.check("rendered PDF sample pages nonempty", "paper", nonempty, observed=[p.stat().st_size for p in rendered[:2]])
 
@@ -1930,7 +2594,12 @@ def run_verification(
     check_empirical_reproduction(v, summary)
     check_pipeline_extension_artifacts(v)
     check_distributional_robustness(v)
+    check_cv_purge_gap(v)
+    check_cpcv_windows_table(v)
+    check_claim_cv_purge_gap(v)
     check_independent_stat_recomputation(v)
+    check_final_inference_panel(v)
+    check_e1_ablation_and_concentration(v)
     check_ci_pairs_ordered(v)
     check_claims_and_bibliography(v)
     check_paper_quality(v, skip_render, skip_compile=skip_compile)

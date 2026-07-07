@@ -1,0 +1,10 @@
+\begin{tabular}{llrrrrrrrr}
+\toprule
+Config & Verdict & Gross Sharpe & Net Sharpe & Net Sortino & Naive Sharpe & Stock Sharpe & Rolling Sharpe & MC resample p05 & MC refit p05 \\
+\midrule
+orig & capacity diagnostic & 0.975 & 0.778 & 1.783 & 0.365 & 0.909 & 0.585 & 0.199 & 0.570 \\
+orig+VIX & pass & 1.675 & 1.383 & 3.551 & -0.890 & 0.909 & 1.033 & 0.873 & 1.178 \\
+larger & mixed & 0.847 & 0.587 & 1.298 & 0.596 & 0.909 & 0.480 & -0.001 & 0.537 \\
+larger+VIX & pass & 2.010 & 1.628 & 4.377 & 0.293 & 0.909 & 1.273 & 1.096 & 1.360 \\
+\bottomrule
+\end{tabular}

@@ -2,7 +2,7 @@ PYTHON ?= .venv/bin/python
 PAPER_DIR := research/papers/option_only_markowitz
 PAPER_STEM := option_only_portfolio_optimization_dhruv_kohli
 
-.PHONY: help install data-plan data-validate data-public data-paid cbbo-surface robustness final-results option-paper paper verify test clean
+.PHONY: help install data-plan data-validate data-public data-paid cbbo-surface robustness final-results e1-ablation option-paper paper verify test clean
 
 help:
 	@echo "Targets:"
@@ -14,6 +14,7 @@ help:
 	@echo "  cbbo-surface   Build the derived OPRA CBBO spread cost surface"
 	@echo "  robustness     Run distributional-robustness diagnostics for the option-only paper"
 	@echo "  final-results  Build final visual scoreboard from breadth robustness artifacts"
+	@echo "  e1-ablation    Run the locked E1 structural-channel ablation"
 	@echo "  option-paper   Regenerate option-only paper artifacts"
 	@echo "  paper          Regenerate artifacts and compile the option-only paper PDF"
 	@echo "  verify         Run the independent option-only paper verifier"
@@ -43,11 +44,18 @@ robustness:
 
 final-results:
 	$(PYTHON) -m research.papers.option_only_markowitz.analysis.build_final_results_summary
+	$(PYTHON) -m research.papers.option_only_markowitz.analysis.build_inference_panel
+
+e1-ablation:
+	$(PYTHON) -m research.papers.option_only_markowitz.analysis.breadth_e1_ablation_experiment
+	$(PYTHON) -m research.papers.option_only_markowitz.analysis.build_e1_concentration
 
 option-paper:
 	$(PYTHON) -m research.papers.option_only_markowitz.analysis.run_empirics --stage all
 	$(PYTHON) -m research.papers.option_only_markowitz.analysis.run_empirics --stage robustness
 	$(PYTHON) -m research.papers.option_only_markowitz.analysis.regenerate_from_artifacts
+	$(PYTHON) -m research.papers.option_only_markowitz.analysis.build_final_results_summary
+	$(PYTHON) -m research.papers.option_only_markowitz.analysis.build_inference_panel
 
 paper: option-paper
 	cd $(PAPER_DIR) && lualatex -interaction=nonstopmode $(PAPER_STEM).tex && bibtex $(PAPER_STEM) && lualatex -interaction=nonstopmode $(PAPER_STEM).tex && lualatex -interaction=nonstopmode $(PAPER_STEM).tex && lualatex -interaction=nonstopmode $(PAPER_STEM).tex

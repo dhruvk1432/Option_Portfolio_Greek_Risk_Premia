@@ -1,65 +1,65 @@
 Return basis,Strategy,Requested method,Simulation,Breach 10%,Breach 25%,Breach 50%,Breach 75%,Breach 90%
-Gross before costs,orig E1 capped,circular_block_bootstrap,circular_block_bootstrap,1.0,1.0,0.762,0.171,0.014
-Gross before costs,orig E1 capped,egarch_or_ewma,garch11_residual_fallback_insufficient_egarch_obs,1.0,0.999,0.804,0.259,0.052
-Gross before costs,orig GM paper,circular_block_bootstrap,circular_block_bootstrap,1.0,1.0,0.983,0.77,0.298
-Gross before costs,orig GM paper,egarch_or_ewma,garch11_residual_fallback_insufficient_egarch_obs,1.0,1.0,0.976,0.742,0.424
-Gross before costs,orig Equal premium capped,circular_block_bootstrap,circular_block_bootstrap,1.0,1.0,0.999,0.793,0.369
-Gross before costs,orig Equal premium capped,egarch_or_ewma,garch11_residual_fallback_insufficient_egarch_obs,1.0,1.0,0.997,0.831,0.47
-Gross before costs,orig Equal risk capped,circular_block_bootstrap,circular_block_bootstrap,1.0,1.0,0.999,0.762,0.333
-Gross before costs,orig Equal risk capped,egarch_or_ewma,garch11_residual_fallback_insufficient_egarch_obs,1.0,1.0,0.996,0.792,0.421
-Gross before costs,orig+VIX E1 capped,circular_block_bootstrap,circular_block_bootstrap,1.0,0.999,0.354,0.0,0.0
-Gross before costs,orig+VIX E1 capped,egarch_or_ewma,garch11_residual_fallback_insufficient_egarch_obs,1.0,0.949,0.33,0.039,0.001
-Gross before costs,orig+VIX GM paper,circular_block_bootstrap,circular_block_bootstrap,1.0,0.996,0.795,0.135,0.005
-Gross before costs,orig+VIX GM paper,egarch_or_ewma,garch11_residual_fallback_insufficient_egarch_obs,1.0,0.996,0.814,0.373,0.146
+Gross before costs,orig E1 capped,circular_block_bootstrap,circular_block_bootstrap,1.0,0.999,0.674,0.111,0.008
+Gross before costs,orig E1 capped,egarch_or_ewma,garch11_residual_fallback_insufficient_egarch_obs,1.0,0.996,0.733,0.197,0.028
+Gross before costs,orig GM paper,circular_block_bootstrap,circular_block_bootstrap,1.0,1.0,0.984,0.776,0.301
+Gross before costs,orig GM paper,egarch_or_ewma,garch11_residual_fallback_insufficient_egarch_obs,1.0,1.0,0.978,0.745,0.416
+Gross before costs,orig Equal premium capped,circular_block_bootstrap,circular_block_bootstrap,1.0,1.0,0.998,0.76,0.323
+Gross before costs,orig Equal premium capped,egarch_or_ewma,garch11_residual_fallback_insufficient_egarch_obs,1.0,1.0,0.997,0.816,0.457
+Gross before costs,orig Equal risk capped,circular_block_bootstrap,circular_block_bootstrap,1.0,1.0,0.996,0.688,0.251
+Gross before costs,orig Equal risk capped,egarch_or_ewma,garch11_residual_fallback_insufficient_egarch_obs,1.0,1.0,0.989,0.748,0.351
+Gross before costs,orig+VIX E1 capped,circular_block_bootstrap,circular_block_bootstrap,1.0,0.996,0.245,0.0,0.0
+Gross before costs,orig+VIX E1 capped,egarch_or_ewma,garch11_residual_fallback_insufficient_egarch_obs,1.0,0.912,0.247,0.023,0.0
+Gross before costs,orig+VIX GM paper,circular_block_bootstrap,circular_block_bootstrap,1.0,0.996,0.803,0.154,0.007
+Gross before costs,orig+VIX GM paper,egarch_or_ewma,garch11_residual_fallback_insufficient_egarch_obs,1.0,0.998,0.831,0.393,0.157
 Gross before costs,orig+VIX Equal premium capped,circular_block_bootstrap,circular_block_bootstrap,1.0,1.0,1.0,1.0,1.0
 Gross before costs,orig+VIX Equal premium capped,egarch_or_ewma,garch11_residual_fallback_insufficient_egarch_obs,1.0,1.0,1.0,1.0,1.0
 Gross before costs,orig+VIX Equal risk capped,circular_block_bootstrap,circular_block_bootstrap,1.0,1.0,1.0,1.0,1.0
 Gross before costs,orig+VIX Equal risk capped,egarch_or_ewma,garch11_residual_fallback_insufficient_egarch_obs,1.0,1.0,1.0,1.0,1.0
-Gross before costs,larger E1 capped,circular_block_bootstrap,circular_block_bootstrap,1.0,1.0,0.797,0.149,0.01
-Gross before costs,larger E1 capped,egarch_or_ewma,garch11_residual_fallback_insufficient_egarch_obs,1.0,1.0,0.919,0.507,0.174
-Gross before costs,larger GM paper,circular_block_bootstrap,circular_block_bootstrap,1.0,1.0,0.92,0.537,0.19
-Gross before costs,larger GM paper,egarch_or_ewma,garch11_residual_fallback_insufficient_egarch_obs,1.0,0.994,0.817,0.393,0.146
-Gross before costs,larger Equal premium capped,circular_block_bootstrap,circular_block_bootstrap,1.0,1.0,0.999,0.846,0.368
-Gross before costs,larger Equal premium capped,egarch_or_ewma,garch11_residual_fallback_insufficient_egarch_obs,1.0,1.0,1.0,0.966,0.793
-Gross before costs,larger Equal risk capped,circular_block_bootstrap,circular_block_bootstrap,1.0,1.0,0.992,0.738,0.237
-Gross before costs,larger Equal risk capped,egarch_or_ewma,garch11_residual_fallback_insufficient_egarch_obs,1.0,1.0,1.0,0.905,0.651
-Gross before costs,larger+VIX E1 capped,circular_block_bootstrap,circular_block_bootstrap,1.0,0.997,0.067,0.0,0.0
-Gross before costs,larger+VIX E1 capped,egarch_or_ewma,garch11_residual_fallback_insufficient_egarch_obs,1.0,0.891,0.267,0.026,0.001
-Gross before costs,larger+VIX GM paper,circular_block_bootstrap,circular_block_bootstrap,1.0,0.996,0.726,0.165,0.012
-Gross before costs,larger+VIX GM paper,egarch_or_ewma,garch11_residual_fallback_insufficient_egarch_obs,1.0,0.978,0.633,0.218,0.057
-Gross before costs,larger+VIX Equal premium capped,circular_block_bootstrap,circular_block_bootstrap,1.0,1.0,1.0,0.966,0.788
-Gross before costs,larger+VIX Equal premium capped,egarch_or_ewma,garch11_residual_fallback_insufficient_egarch_obs,1.0,1.0,1.0,0.999,0.961
-Gross before costs,larger+VIX Equal risk capped,circular_block_bootstrap,circular_block_bootstrap,1.0,1.0,0.998,0.891,0.489
-Gross before costs,larger+VIX Equal risk capped,egarch_or_ewma,garch11_residual_fallback_insufficient_egarch_obs,1.0,1.0,1.0,0.983,0.875
-Full-cost net,orig E1 capped,circular_block_bootstrap,circular_block_bootstrap,1.0,1.0,0.873,0.319,0.05
-Full-cost net,orig E1 capped,egarch_or_ewma,garch11_residual_fallback_insufficient_egarch_obs,1.0,1.0,0.91,0.423,0.11
+Gross before costs,larger E1 capped,circular_block_bootstrap,circular_block_bootstrap,1.0,1.0,0.694,0.109,0.006
+Gross before costs,larger E1 capped,egarch_or_ewma,garch11_residual_fallback_insufficient_egarch_obs,1.0,1.0,0.887,0.42,0.135
+Gross before costs,larger GM paper,circular_block_bootstrap,circular_block_bootstrap,1.0,1.0,0.925,0.537,0.192
+Gross before costs,larger GM paper,egarch_or_ewma,garch11_residual_fallback_insufficient_egarch_obs,1.0,0.994,0.816,0.405,0.154
+Gross before costs,larger Equal premium capped,circular_block_bootstrap,circular_block_bootstrap,1.0,1.0,0.995,0.813,0.295
+Gross before costs,larger Equal premium capped,egarch_or_ewma,garch11_residual_fallback_insufficient_egarch_obs,1.0,1.0,0.999,0.955,0.749
+Gross before costs,larger Equal risk capped,circular_block_bootstrap,circular_block_bootstrap,1.0,1.0,0.981,0.622,0.156
+Gross before costs,larger Equal risk capped,egarch_or_ewma,garch11_residual_fallback_insufficient_egarch_obs,1.0,1.0,0.999,0.878,0.587
+Gross before costs,larger+VIX E1 capped,circular_block_bootstrap,circular_block_bootstrap,1.0,0.98,0.036,0.0,0.0
+Gross before costs,larger+VIX E1 capped,egarch_or_ewma,garch11_residual_fallback_insufficient_egarch_obs,1.0,0.852,0.214,0.025,0.002
+Gross before costs,larger+VIX GM paper,circular_block_bootstrap,circular_block_bootstrap,1.0,0.996,0.711,0.139,0.009
+Gross before costs,larger+VIX GM paper,egarch_or_ewma,garch11_residual_fallback_insufficient_egarch_obs,1.0,0.982,0.648,0.23,0.059
+Gross before costs,larger+VIX Equal premium capped,circular_block_bootstrap,circular_block_bootstrap,1.0,1.0,1.0,0.953,0.749
+Gross before costs,larger+VIX Equal premium capped,egarch_or_ewma,garch11_residual_fallback_insufficient_egarch_obs,1.0,1.0,1.0,0.998,0.95
+Gross before costs,larger+VIX Equal risk capped,circular_block_bootstrap,circular_block_bootstrap,1.0,1.0,0.998,0.858,0.416
+Gross before costs,larger+VIX Equal risk capped,egarch_or_ewma,garch11_residual_fallback_insufficient_egarch_obs,1.0,1.0,1.0,0.971,0.834
+Full-cost net,orig E1 capped,circular_block_bootstrap,circular_block_bootstrap,1.0,1.0,0.803,0.215,0.019
+Full-cost net,orig E1 capped,egarch_or_ewma,garch11_residual_fallback_insufficient_egarch_obs,1.0,0.999,0.834,0.309,0.064
 Full-cost net,orig GM paper,circular_block_bootstrap,circular_block_bootstrap,1.0,1.0,1.0,1.0,1.0
 Full-cost net,orig GM paper,egarch_or_ewma,garch11_residual_fallback_insufficient_egarch_obs,1.0,1.0,1.0,1.0,1.0
-Full-cost net,orig Equal premium capped,circular_block_bootstrap,circular_block_bootstrap,1.0,1.0,1.0,0.902,0.569
-Full-cost net,orig Equal premium capped,egarch_or_ewma,garch11_residual_fallback_insufficient_egarch_obs,1.0,1.0,1.0,0.929,0.67
-Full-cost net,orig Equal risk capped,circular_block_bootstrap,circular_block_bootstrap,1.0,1.0,1.0,0.894,0.565
-Full-cost net,orig Equal risk capped,egarch_or_ewma,garch11_residual_fallback_insufficient_egarch_obs,1.0,1.0,1.0,0.924,0.657
-Full-cost net,orig+VIX E1 capped,circular_block_bootstrap,circular_block_bootstrap,1.0,1.0,0.607,0.033,0.0
-Full-cost net,orig+VIX E1 capped,egarch_or_ewma,garch11_residual_fallback_insufficient_egarch_obs,1.0,0.99,0.551,0.086,0.009
+Full-cost net,orig Equal premium capped,circular_block_bootstrap,circular_block_bootstrap,1.0,1.0,0.999,0.874,0.513
+Full-cost net,orig Equal premium capped,egarch_or_ewma,garch11_residual_fallback_insufficient_egarch_obs,1.0,1.0,0.999,0.921,0.643
+Full-cost net,orig Equal risk capped,circular_block_bootstrap,circular_block_bootstrap,1.0,1.0,0.999,0.845,0.441
+Full-cost net,orig Equal risk capped,egarch_or_ewma,garch11_residual_fallback_insufficient_egarch_obs,1.0,1.0,0.999,0.869,0.539
+Full-cost net,orig+VIX E1 capped,circular_block_bootstrap,circular_block_bootstrap,1.0,1.0,0.437,0.003,0.0
+Full-cost net,orig+VIX E1 capped,egarch_or_ewma,garch11_residual_fallback_insufficient_egarch_obs,1.0,0.971,0.409,0.056,0.002
 Full-cost net,orig+VIX GM paper,circular_block_bootstrap,circular_block_bootstrap,1.0,1.0,1.0,1.0,1.0
 Full-cost net,orig+VIX GM paper,egarch_or_ewma,garch11_residual_fallback_insufficient_egarch_obs,1.0,1.0,1.0,1.0,1.0
 Full-cost net,orig+VIX Equal premium capped,circular_block_bootstrap,circular_block_bootstrap,1.0,1.0,1.0,1.0,1.0
 Full-cost net,orig+VIX Equal premium capped,egarch_or_ewma,garch11_residual_fallback_insufficient_egarch_obs,1.0,1.0,1.0,1.0,1.0
 Full-cost net,orig+VIX Equal risk capped,circular_block_bootstrap,circular_block_bootstrap,1.0,1.0,1.0,1.0,1.0
 Full-cost net,orig+VIX Equal risk capped,egarch_or_ewma,garch11_residual_fallback_insufficient_egarch_obs,1.0,1.0,1.0,1.0,1.0
-Full-cost net,larger E1 capped,circular_block_bootstrap,circular_block_bootstrap,1.0,1.0,0.935,0.369,0.069
-Full-cost net,larger E1 capped,egarch_or_ewma,garch11_residual_fallback_insufficient_egarch_obs,1.0,1.0,0.974,0.732,0.337
+Full-cost net,larger E1 capped,circular_block_bootstrap,circular_block_bootstrap,1.0,1.0,0.895,0.286,0.036
+Full-cost net,larger E1 capped,egarch_or_ewma,garch11_residual_fallback_insufficient_egarch_obs,1.0,1.0,0.956,0.65,0.259
 Full-cost net,larger GM paper,circular_block_bootstrap,circular_block_bootstrap,1.0,1.0,1.0,1.0,1.0
 Full-cost net,larger GM paper,egarch_or_ewma,garch11_residual_fallback_insufficient_egarch_obs,1.0,1.0,1.0,1.0,1.0
-Full-cost net,larger Equal premium capped,circular_block_bootstrap,circular_block_bootstrap,1.0,1.0,1.0,0.955,0.685
-Full-cost net,larger Equal premium capped,egarch_or_ewma,garch11_residual_fallback_insufficient_egarch_obs,1.0,1.0,1.0,0.992,0.916
-Full-cost net,larger Equal risk capped,circular_block_bootstrap,circular_block_bootstrap,1.0,1.0,0.999,0.911,0.527
-Full-cost net,larger Equal risk capped,egarch_or_ewma,garch11_residual_fallback_insufficient_egarch_obs,1.0,1.0,1.0,0.974,0.846
-Full-cost net,larger+VIX E1 capped,circular_block_bootstrap,circular_block_bootstrap,1.0,1.0,0.272,0.001,0.0
-Full-cost net,larger+VIX E1 capped,egarch_or_ewma,garch11_residual_fallback_insufficient_egarch_obs,1.0,0.975,0.494,0.087,0.009
+Full-cost net,larger Equal premium capped,circular_block_bootstrap,circular_block_bootstrap,1.0,1.0,1.0,0.931,0.59
+Full-cost net,larger Equal premium capped,egarch_or_ewma,garch11_residual_fallback_insufficient_egarch_obs,1.0,1.0,1.0,0.988,0.884
+Full-cost net,larger Equal risk capped,circular_block_bootstrap,circular_block_bootstrap,1.0,1.0,0.996,0.849,0.377
+Full-cost net,larger Equal risk capped,egarch_or_ewma,garch11_residual_fallback_insufficient_egarch_obs,1.0,1.0,1.0,0.956,0.778
+Full-cost net,larger+VIX E1 capped,circular_block_bootstrap,circular_block_bootstrap,1.0,0.999,0.168,0.0,0.0
+Full-cost net,larger+VIX E1 capped,egarch_or_ewma,garch11_residual_fallback_insufficient_egarch_obs,1.0,0.946,0.386,0.062,0.007
 Full-cost net,larger+VIX GM paper,circular_block_bootstrap,circular_block_bootstrap,1.0,1.0,1.0,1.0,1.0
 Full-cost net,larger+VIX GM paper,egarch_or_ewma,garch11_residual_fallback_insufficient_egarch_obs,1.0,1.0,1.0,1.0,1.0
-Full-cost net,larger+VIX Equal premium capped,circular_block_bootstrap,circular_block_bootstrap,1.0,1.0,1.0,0.996,0.948
-Full-cost net,larger+VIX Equal premium capped,egarch_or_ewma,garch11_residual_fallback_insufficient_egarch_obs,1.0,1.0,1.0,1.0,0.996
-Full-cost net,larger+VIX Equal risk capped,circular_block_bootstrap,circular_block_bootstrap,1.0,1.0,1.0,0.975,0.815
-Full-cost net,larger+VIX Equal risk capped,egarch_or_ewma,garch11_residual_fallback_insufficient_egarch_obs,1.0,1.0,1.0,0.999,0.96
+Full-cost net,larger+VIX Equal premium capped,circular_block_bootstrap,circular_block_bootstrap,1.0,1.0,1.0,0.991,0.932
+Full-cost net,larger+VIX Equal premium capped,egarch_or_ewma,garch11_residual_fallback_insufficient_egarch_obs,1.0,1.0,1.0,1.0,0.994
+Full-cost net,larger+VIX Equal risk capped,circular_block_bootstrap,circular_block_bootstrap,1.0,1.0,0.999,0.954,0.733
+Full-cost net,larger+VIX Equal risk capped,egarch_or_ewma,garch11_residual_fallback_insufficient_egarch_obs,1.0,1.0,1.0,0.998,0.935

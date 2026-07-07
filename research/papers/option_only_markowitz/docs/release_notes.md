@@ -1,15 +1,64 @@
 # Release Notes: Option-Only Portfolio Optimization
 
+## Whole-contract integer execution as the headline (2026-07-07)
+
+- Every headline book is now scored in **whole option contracts** at the standard
+  100-share multiplier, not fractional contracts. The maximum-Sharpe solver still returns
+  continuous premium weights, but each weight is rounded to the nearest signed integer
+  contract count and clipped so the realized weight never exceeds its per-contract
+  liquidity cap (`integerize_book_weights` in `analysis/breadth_solutions_lib.py`, wired
+  into `fit_books` and the E1 ablation).
+- Effect: full-cost net Sharpe rose on all four books to 0.778 / 1.383 / 0.587 / 1.628
+  (gross 0.975 / 1.675 / 0.847 / 2.010). Because the continuous solution binds its
+  liquidity caps on the thinnest, most expensive legs, cap-respecting integer rounding can
+  only round those down, slightly de-levering the book and reducing net cost drag.
+- Paper updates: §2.2 now states results are whole-contract and adds the "Whole-contract
+  rounding" remark; §3 opens with an explicit three-layer bridge from the clean conic
+  theory to an exchange-realistic book (CBBO-sourced cost stack, volume-aware pre-trade
+  caps, whole-contract execution); every prose number was refreshed to the regenerated
+  artifacts. Verification: 386/386 checks pass, 155 unit tests pass, 34 pages.
+
+## Mid-length theory-first canonical paper (2026-07-06)
+
+- Replaced the 60-page canonical manuscript with a mid-length theory-first paper targeted
+  at the 25-30 page range. The old long-form section files and dense diagnostic artifacts
+  remain in the repository for audit, but they are no longer printed as a table-heavy
+  appendix in the canonical PDF.
+- Added the paper exhibit set:
+  `figures/short_theory_flow.pdf`, `figures/short_four_variant_scoreboard.pdf`,
+  `figures/short_walk_forward_return_paths.pdf`,
+  `figures/short_validation_distributions.pdf`, `figures/short_robustness_heatmap.pdf`,
+  and `figures/short_capacity_spread_panel.pdf`.
+- Added compact manuscript tables:
+  `tables/short_four_scenario_assumptions.tex`, `tables/short_spread_source_ladder.tex`,
+  `tables/short_final_scoreboard.tex`, and `tables/short_robustness_summary.tex`.
+- Reorganized the paper around theory, the four locked E1 scenarios, corrected
+  spread-source assumptions, baselines, distributional validation, real-world capacity,
+  and the forward shadow/production-readiness bridge.
+- Added an explicit front-matter subsection documenting what was retained from the
+  previously pushed long version: cashflow theory, Greek covariance, VIX settlement,
+  cost-stack discipline, breadth/capacity diagnostics, robustness gates, and verification
+  culture.
+- Added a compact technical appendix that restores the useful formal material from the
+  longer draft without reintroducing the dense appendix tables: no-free-exposure scale
+  control, cost/constraint monotonicity, conic maximum-Sharpe reduction, net-cap solver
+  handling, and PSD residual-estimator repair.
+- Updated the verifier's PDF page-count expectation to the 25-30 page range while
+  keeping artifact, claim-boundary, and rendered-PDF checks active.
+
 ## Visual final-result scoreboard (2026-07-06)
 
 - Added `analysis/build_final_results_summary.py` and `make final-results`.
-- Added conclusion figures `figures/final_breadth_validation_distributions.pdf` and
-  `figures/final_baseline_comparison.pdf`, backed by
+- Added conclusion figures `figures/final_breadth_validation_distributions.pdf`,
+  `figures/final_baseline_comparison.pdf`, and
+  `figures/final_walk_forward_return_paths.pdf`, backed by
   `analysis/artifacts/breadth_solutions/robustness/final_result_scoreboard.csv` and
-  `final_validation_distribution_summary.csv`.
+  `final_validation_distribution_summary.csv`, plus
+  `final_walk_forward_return_paths.csv`.
 - Reframed the paper's ending around charts rather than dense tables. The final visual
   answer compares the four locked E1 configurations against CPCV/resampled/refit
-  distributions, ordinary underlying Markowitz, and the best capped naive option book.
+  distributions, ordinary underlying Markowitz, matched capped naive option books, and
+  rolling OOS cumulative return paths.
 - Clarified the final claim: the VIX-enabled E1 books beat both simple baselines;
   `larger` no-VIX is mixed because it essentially ties naive options and remains below
   stock Markowitz; `orig` no-VIX is a capacity diagnostic.

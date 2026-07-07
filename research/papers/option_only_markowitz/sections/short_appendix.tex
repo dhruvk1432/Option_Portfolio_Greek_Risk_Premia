@@ -1,0 +1,213 @@
+\section{Technical appendix}\label{app:technical}
+
+The main text keeps the proof sketches close to the economic argument. This appendix
+records the two mathematical details from the longer draft that are still useful for a
+research-grade version of the paper: why the option-only optimizer has a well-defined
+scale only after operational budgets are imposed, and how the maximum-Sharpe solver is
+connected to a convex conic program.
+
+\subsection{Scale, costs, and no-free-exposure logic}
+
+\begin{proposition}[No free option exposure]\label{prop:app_no_free_exposure}
+Let \(\mathcal C\) include binding gross-premium, short-premium, stress-loss,
+margin/collateral, or contract-level liquidity controls. Then no economically nonzero
+sequence of option positions can take unbounded premium, payoff, or Greek exposure while
+remaining feasible and using zero capital.
+\end{proposition}
+
+\begin{proof}
+The listed controls are positively homogeneous in the premium-weight vector. If
+\(\|w_k\|\to\infty\) along an economically nonzero direction, at least one controlled
+premium, margin, stress, Greek, or liquidity functional diverges. A direction in the null
+space of all such functionals has no priced premium exposure and no admissible tradable
+contract size in this model. Therefore every economically meaningful option direction
+must consume a real budget before scale can diverge.
+\end{proof}
+
+This proposition is the formal reason the paper does not treat gross option Sharpe as a
+trading claim. A cheap option can carry large return exposure per dollar of premium, and
+a short option can receive premium while creating a future liability. The optimizer is
+only an allocation rule after premium, short-premium, stress, margin, concentration, and
+liquidity limits turn the scale-free return object into a feasible book.
+
+\begin{proposition}[Operational monotonicity]\label{prop:app_monotonicity}
+For
+\[
+  V(\mathcal C,c)=
+  \max_{w\in\mathcal C}
+  \widehat\mu^\top w-\frac{\gamma}{2}w^\top\Sigma w-c^\top |w|,
+\]
+with \(\Sigma\succeq0\), if \(\mathcal C_1\subseteq\mathcal C_0\) and
+\(c_1\ge c_0\) componentwise, then \(V(\mathcal C_1,c_1)\le V(\mathcal C_0,c_0)\).
+\end{proposition}
+
+\begin{proof}
+For every \(w\in\mathcal C_1\), the same \(w\) is feasible for \(\mathcal C_0\), and
+\(-c_1^\top |w|\le -c_0^\top |w|\). Maximizing a weakly lower objective over a weakly
+smaller feasible set cannot increase the value.
+\end{proof}
+
+The monotonicity result justifies the conservative reporting convention. Higher spread,
+fee, slippage, margin, assignment, or impact assumptions can only make the utility value
+worse. Tighter displayed-size, stress, or margin budgets can only make the feasible set
+smaller. Positive results under full costs and hard caps are therefore more meaningful
+than positive gross results, while failures under exact execution data would supersede the
+current proxy-spread sensitivity.
+
+\subsection{Mean estimation error, shrinkage, and purge details}\label{app:mean_error}
+
+\begin{proof}[Proof of Proposition~\ref{prop:short_mean_error}]
+Each error \(e_i\) is sub-Gaussian with variance proxy \(\sigma_i^2/T\le\bar\sigma^2/T\),
+so for every \(\lambda>0\),
+\(\E\exp(\lambda e_i)\le\exp(\lambda^2\bar\sigma^2/2T)\) and the same holds for \(-e_i\).
+Let \(M=\max_i|e_i|\), the maximum of the \(m=2n\) variables \(\{\pm e_i\}\). By Jensen's
+inequality and a union bound on the moment generating function,
+\[
+  \exp\big(\lambda\,\E[M]\big)\le\E\exp(\lambda M)
+  \le\sum_{j=1}^{m}\E\exp(\lambda X_j)
+  \le m\exp\!\Big(\frac{\lambda^2\bar\sigma^2}{2T}\Big),
+\]
+so \(\E[M]\le\log(m)/\lambda+\lambda\bar\sigma^2/2T\). Optimizing at
+\(\lambda=\sqrt{2T\log m}/\bar\sigma\) gives
+\(\E[M]\le\bar\sigma\sqrt{2\log(2n)/T}\), the first display. For the second, H\"older's
+inequality gives \(\sup_{w\in\mathcal C}e^\top w\le\sup_{\|w\|_1\le g}e^\top w
+= g\|e\|_\infty=gM\); take expectations. For the objective-loss statement, write the
+optimizer's concave criterion as \(F_\mu(w)=\mu^\top w-R(w)\), where \(R\) collects the
+risk and cost penalties, and let \(\widetilde w\) maximize \(F_{\widehat\mu}\) and
+\(w^\ast\) maximize \(F_{\mu}\) over \(\mathcal C\). Then
+\[
+  F_\mu(\widetilde w)
+  \;\ge\; F_{\widehat\mu}(\widetilde w)-g\|e\|_\infty
+  \;\ge\; F_{\widehat\mu}(w^\ast)-g\|e\|_\infty
+  \;\ge\; F_{\mu}(w^\ast)-2g\|e\|_\infty,
+\]
+so the expected sacrifice of true objective value is at most
+\(2g\,\E\|e\|_\infty\le2g\bar\sigma\sqrt{2\log(2n)/T}\).
+\end{proof}
+
+\begin{proof}[Proof of Corollary~\ref{cor:short_crossover}]
+The sandwich argument above holds verbatim when the mean input is the structural
+forecast: with deterministic bias vector \(b=\mu^{\mathrm{struct}}-\mu\) and
+\(\|b\|_\infty\le\beta\), the loss bound is \(2g\beta\). Comparing the two worst-case
+bounds, the historical mean has the smaller guarantee exactly when
+\(\bar\sigma\sqrt{2\log(2n)/T}<\beta\), which rearranges to
+\(2\log(2n)<T\beta^2/\bar\sigma^2\), i.e.
+\(n<\tfrac12\exp(T\beta^2/2\bar\sigma^2)\). At fixed \(T\) the left side grows in \(n\)
+while the right side is constant, which yields the stated crossover.
+\end{proof}
+
+The bounds compare worst-case guarantees, not realized losses, and the sub-Gaussian model
+ignores the correlation and missingness of real option panels; both simplifications favor
+the historical mean, so the crossover argument is conservative in the direction the paper
+uses it.
+
+\begin{lemma}[One-month purge suffices for monthly option labels]\label{lem:purge_gap}
+Index each label by its return month-end. Assume every tested contract's information
+window spans at most \(\Delta\) calendar days and ends at its return month-end, where
+\(\Delta\approx44\) days is the maximum decision-to-expiry span of the monthly-tenor
+contracts. If the realized calendar gap between the latest training return month-end and
+the earliest test return month-end is \(G>\Delta\) in every fold, then no training
+label's information window overlaps any test label's window.
+\end{lemma}
+
+\begin{proof}
+A training label with return month-end \(t_r\) has window contained in
+\([t_r-\Delta,\,t_r]\). A test label with return month-end \(t_e\) has window contained
+in \([t_e-\Delta,\,t_e]\), which begins at \(t_e-\Delta\). Overlap requires
+\(t_r>t_e-\Delta\), i.e. \(t_e-t_r<\Delta\). The purge/embargo schedule enforces
+\(t_e-t_r\ge G>\Delta\) for every training/test pair, so the windows are disjoint.
+\end{proof}
+
+The quantity \(G\) is not assumed; it is measured. The verifier recomputes the minimum
+gap across all folds, schemes, and configurations from the fold schedule and ledger
+artifacts and asserts \(G>44\) days; in the current artifacts the realized minimum is
+\(G=59\) days. The one-month purge plus one-month embargo is therefore sufficient with
+two weeks of slack, and the sufficiency claim is re-audited on every verification run
+rather than hand-typed.
+
+\subsection{Maximum Sharpe and conic reduction}
+
+Let \(\mu=\widehat\mu_t\) and \(\Sigma=\widehat\Sigma_{O,t}\). When
+\(\Sigma\succ0\), the unconstrained maximum-Sharpe direction is the usual tangency
+direction even though the assets are option cashflows:
+\[
+  \argmax_{w\ne0}\frac{w^\top\mu}{\sqrt{w^\top\Sigma w}}
+  \quad \propto \quad
+  \Sigma^{-1}\mu .
+\]
+The difference from stock Markowitz is not the algebra of the tangency direction; it is
+the construction of \(\mu\), \(\Sigma\), and the feasible set. Option premium weights have
+cash and collateral as the numeraire, so the unit-stock-budget equation is replaced by
+gross premium, short-premium, stress, margin, and liquidity budgets.
+
+\begin{proposition}[Conic maximum-Sharpe form]\label{prop:app_conic}
+Let \(K\subseteq\R^n\) be a closed convex cone containing some \(w\) with
+\(w^\top\mu>0\), and let \(\Sigma\succ0\). Then
+\[
+  \sup_{w\in K\setminus\{0\}}
+  \frac{w^\top\mu}{\sqrt{w^\top\Sigma w}}
+  =
+  \max\{\,y^\top\mu:\ y\in K,\ y^\top\Sigma y\le1\,\}.
+\]
+The right side is a convex quadratically constrained program and is a second-order-cone
+program when a Cholesky or square-root factor of \(\Sigma\) is used.
+\end{proposition}
+
+\begin{proof}
+For any nonzero \(w\in K\), define \(y=w/\sqrt{w^\top\Sigma w}\). Since \(K\) is a cone,
+\(y\in K\), \(y^\top\Sigma y=1\), and \(y^\top\mu\) equals the Sharpe ratio of \(w\). This
+shows that the right side is at least the left. Conversely, any feasible \(y\) with
+\(y^\top\mu>0\) satisfies
+\[
+  \frac{y^\top\mu}{\sqrt{y^\top\Sigma y}}\ge y^\top\mu,
+\]
+so the left side is at least the right. Positive definiteness makes the risk ball
+bounded, and the objective is linear on a closed convex feasible set.
+\end{proof}
+
+The production-candidate problem in the paper has bounded budgets rather than a pure
+cone, so implementation uses the same geometry with a gross-risk or gross-premium
+normalization and then imposes the operational caps directly. Absolute costs are handled
+by positive and negative parts, \(w=w^+-w^-\), but the liquidity cap is imposed on the
+net economic variable:
+\[
+  -\bar w_{i,t}\le w_i^+-w_i^-\le \bar w_{i,t}.
+\]
+Imposing the cap separately on \(w_i^+\) and \(w_i^-\) is not equivalent. It allows
+offsetting positive legs to satisfy an algebraic representation while consuming displayed
+liquidity without taking the intended net contract exposure.
+
+\subsection{Risk-model estimator repair}
+
+The population covariance identity in Proposition~\ref{prop:short_covariance} is
+positive semidefinite by construction. The finite-sample estimate can still fail PSD in
+one practical place: residual covariance estimated from pairwise-complete option
+residuals on an unbalanced contract panel. The implementation therefore applies the
+following repair before the matrix can enter an optimizer:
+\[
+  \widehat\Sigma_{\varepsilon,t}=Q\Lambda Q^\top
+  \quad\Longrightarrow\quad
+  \widehat\Sigma_{\varepsilon,t}^{+}
+  =Q\max(\Lambda,\lambda_{\min}I)Q^\top ,
+\]
+with a small nonnegative eigenvalue floor. The factor term
+\(\widehat B_t\widehat\Omega_t\widehat B_t^\top\) is PSD whenever
+\(\widehat\Omega_t\succeq0\), so the repair is targeted to the residual block rather than
+used as a blanket way to hide a bad risk model.
+
+E1 then makes one additional research choice: it keeps the residual covariance diagonal.
+That is not a statement that residual option risks are literally independent. It is a
+regularization choice motivated by the breadth experiment. In the broad universe, dense
+residual covariance estimated from short, changing contract panels became a false
+diversification channel. Diagonal residual risk preserves contract-specific unexplained
+variance while refusing to invert noisy off-diagonal residual moments.
+
+\subsection{Appendix use and audit trail}
+
+Mathematical mechanics that strengthen the results but would slow the main reading path
+are kept in this appendix. Large empirical ledgers remain machine-readable artifacts
+under \texttt{analysis/artifacts/breadth\_solutions/robustness/}; the body prints only
+the scoreboard, distributional summaries, robustness heatmap, capacity/spread panel, and
+rolling OOS paths. Every number in the body traces to one of those ledgers, and the
+verification harness recomputes the headline statistics from the artifacts on each
+build.

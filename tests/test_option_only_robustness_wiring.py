@@ -8,7 +8,9 @@ import sys
 from pathlib import Path
 
 import matplotlib
+import numpy as np
 import pandas as pd
+import pytest
 
 matplotlib.use("Agg")
 
@@ -364,6 +366,63 @@ def test_plot_mc_universe_distributions_smoke(tmp_path):
     _assert_pdf_nonempty(out)
 
 
+def test_sharpe_difference_test_symmetry_identical_and_known_case():
+    from research.papers.option_only_markowitz.analysis.inference import (
+        BootstrapConfig,
+        sharpe_difference_test,
+    )
+
+    rng = np.random.default_rng(20260706)
+    dates = pd.date_range("2020-01-31", periods=120, freq="ME")
+    common = rng.normal(0.0, 0.015, len(dates))
+    a = pd.Series(0.020 + common + rng.normal(0.0, 0.006, len(dates)), index=dates)
+    b = pd.Series(-0.004 + common + rng.normal(0.0, 0.006, len(dates)), index=dates)
+    cfg = BootstrapConfig(n_boot=40, seed=7, block_size=6)
+
+    ab = sharpe_difference_test(a, b, cfg)
+    ba = sharpe_difference_test(b, a, cfg)
+    assert ab["delta_sharpe"] == pytest.approx(-ba["delta_sharpe"])
+    assert ab["jk_z"] == pytest.approx(-ba["jk_z"])
+
+    same = sharpe_difference_test(a, a, cfg)
+    assert same["delta_sharpe"] == pytest.approx(0.0)
+    assert same["jk_z"] == pytest.approx(0.0)
+    assert same["jk_p"] == pytest.approx(1.0)
+
+    assert ab["jk_p"] < 0.05
+
+
+def test_build_inference_panel_artifacts_and_guard(tmp_path, monkeypatch):
+    from research.papers.option_only_markowitz.analysis import build_inference_panel
+    from research.papers.option_only_markowitz.analysis.inference import BootstrapConfig
+
+    scoreboard_path = _write_synthetic_inference_artifacts(tmp_path, monkeypatch, build_inference_panel)
+    cfg = BootstrapConfig(n_boot=40, seed=11, block_size=5)
+
+    panel = build_inference_panel.main(config=cfg)
+
+    csv_path = build_inference_panel.ROBUSTNESS_DIR / "final_inference_panel.csv"
+    tex_path = build_inference_panel.TABLE_DIR / "short_inference_panel.tex"
+    assert csv_path.exists()
+    assert tex_path.exists()
+    loaded = pd.read_csv(csv_path)
+    assert len(loaded) == 8
+    static = loaded.loc[loaded["basis"].eq("static")]
+    assert len(static) == 4
+    assert (static["net_sharpe_ci_lo"] <= static["net_sharpe"]).all()
+    assert (static["net_sharpe"] <= static["net_sharpe_ci_hi"]).all()
+    assert set(static["dsr_trials"].astype(int)) == {22}
+    assert set(static["dsr_trials_sensitivity"].astype(int)) == {25}
+    assert panel.shape == loaded.shape
+    assert "_" not in _latex_header(tex_path.read_text(encoding="utf-8"))
+
+    scoreboard = pd.read_csv(scoreboard_path)
+    scoreboard.loc[scoreboard["config"].eq("orig"), "e1_net_sharpe"] += 0.01
+    scoreboard.to_csv(scoreboard_path, index=False)
+    with pytest.raises(RuntimeError, match="Static return order validation failed"):
+        build_inference_panel.main(config=cfg)
+
+
 def _assert_pdf_nonempty(path: Path) -> None:
     assert path.exists()
     assert path.stat().st_size > 0
@@ -377,3 +436,179 @@ def _latex_header(text: str) -> str:
                 if " & " in candidate:
                     return candidate
     raise AssertionError("no LaTeX header row found")
+
+
+def _write_synthetic_inference_artifacts(tmp_path: Path, monkeypatch, module) -> Path:
+    breadth_dir = tmp_path / "breadth_solutions"
+    robustness_dir = breadth_dir / "robustness"
+    table_dir = tmp_path / "tables"
+    artifact_dir = tmp_path / "artifacts"
+    for directory in (breadth_dir, robustness_dir, table_dir, artifact_dir):
+        directory.mkdir(parents=True, exist_ok=True)
+    monkeypatch.setattr(module, "BREADTH_DIR", breadth_dir)
+    monkeypatch.setattr(module, "ROBUSTNESS_DIR", robustness_dir)
+    monkeypatch.setattr(module, "TABLE_DIR", table_dir)
+    monkeypatch.setattr(module, "ARTIFACT_DIR", artifact_dir)
+
+    configs = ["orig", "orig+VIX", "larger", "larger+VIX"]
+    best_naive = {
+        "orig": "Equal premium capped",
+        "orig+VIX": "Equal premium capped",
+        "larger": "Equal risk capped",
+        "larger+VIX": "Equal risk capped",
+    }
+    dates = pd.date_range("2021-01-31", periods=60, freq="ME")
+    t = np.arange(len(dates), dtype=float)
+    base = 0.012 + 0.018 * np.sin(t / 3.0) + 0.006 * np.cos(t / 5.0)
+    offsets = {"orig": 0.000, "orig+VIX": 0.006, "larger": -0.002, "larger+VIX": 0.004}
+
+    static_cols: dict[str, np.ndarray] = {}
+    scoreboard_rows = []
+    rolling_rows = []
+    stock = pd.Series(0.004 + 0.40 * base, index=dates, name="Underlying Markowitz")
+    _append_path_rows(
+        rolling_rows,
+        dates,
+        config="stock",
+        config_label="Stock Markowitz",
+        family="Stock baseline",
+        strategy="Underlying Markowitz",
+        values=stock.to_numpy(float),
+    )
+    for config in configs:
+        e1 = base + offsets[config]
+        static_cols[f"{config} E1 capped"] = e1
+        static_cols[f"{config} GM paper"] = 0.75 * e1 - 0.004
+        static_cols[f"{config} Equal premium capped"] = 0.45 * base - 0.003
+        static_cols[f"{config} Equal risk capped"] = 0.35 * base - 0.002
+        naive_strategy = best_naive[config]
+        scoreboard_rows.append(
+            {
+                "config": config,
+                "config_label": config,
+                "e1_net_sharpe": _ann_sharpe(e1),
+                "best_naive_strategy": naive_strategy,
+            }
+        )
+        _append_path_rows(
+            rolling_rows,
+            dates,
+            config=config,
+            config_label=f"{config} E1",
+            family="Locked E1",
+            strategy=f"{config} E1 capped",
+            values=0.80 * e1 + 0.001,
+        )
+        _append_path_rows(
+            rolling_rows,
+            dates,
+            config=config,
+            config_label=f"{config} naive",
+            family="Matched capped naive",
+            strategy=f"{config} {naive_strategy}",
+            values=0.90 * static_cols[f"{config} {naive_strategy}"],
+        )
+
+    pd.DataFrame(static_cols).to_csv(robustness_dir / "breadth_strategy_returns_net.csv", index=False)
+    scoreboard = pd.DataFrame(scoreboard_rows)
+    scoreboard_path = robustness_dir / "final_result_scoreboard.csv"
+    scoreboard.to_csv(scoreboard_path, index=False)
+    pd.DataFrame(rolling_rows).to_csv(robustness_dir / "final_walk_forward_return_paths.csv", index=False)
+    pd.DataFrame({"snap_date": dates, "Underlying Markowitz": stock.to_numpy(float)}).to_csv(
+        artifact_dir / "strategy_returns_post_cost.csv",
+        index=False,
+    )
+
+    p1_rows = []
+    p3_rows = []
+    for cfg_i, config in enumerate(configs):
+        for i in range(22):
+            p1_rows.append(
+                {
+                    "config": config,
+                    "point_id": f"candidate_{i:02d}",
+                    "strategy": "Greek Markowitz",
+                    "arm": "E" if i >= 18 else "A",
+                    "net_sharpe_noimpact": 0.25 + 0.01 * i + 0.03 * cfg_i,
+                }
+            )
+        p1_rows.extend(
+            [
+                {
+                    "config": config,
+                    "point_id": "Equal premium",
+                    "strategy": "Equal premium",
+                    "arm": "naive",
+                    "net_sharpe_noimpact": -0.20,
+                },
+                {
+                    "config": config,
+                    "point_id": "Equal risk",
+                    "strategy": "Equal risk",
+                    "arm": "naive",
+                    "net_sharpe_noimpact": -0.10,
+                },
+            ]
+        )
+        for j in range(3):
+            p3_rows.append(
+                {
+                    "config": config,
+                    "strategy": f"GM combined {j}",
+                    "knobs_label": "primary",
+                    "mode": "hard",
+                    "net_sharpe": 0.50 + 0.05 * j,
+                }
+            )
+        p3_rows.extend(
+            [
+                {
+                    "config": config,
+                    "strategy": "Equal premium capped",
+                    "knobs_label": "naive_capped",
+                    "mode": "hard",
+                    "net_sharpe": 0.1,
+                },
+                {
+                    "config": config,
+                    "strategy": "Equal risk capped",
+                    "knobs_label": "naive_capped",
+                    "mode": "hard",
+                    "net_sharpe": 0.2,
+                },
+            ]
+        )
+    pd.DataFrame(p1_rows).to_csv(breadth_dir / "p1_regularization_results.csv", index=False)
+    pd.DataFrame(p3_rows).to_csv(breadth_dir / "p3_combined_results.csv", index=False)
+    return scoreboard_path
+
+
+def _append_path_rows(
+    rows: list[dict[str, object]],
+    dates: pd.DatetimeIndex,
+    *,
+    config: str,
+    config_label: str,
+    family: str,
+    strategy: str,
+    values: np.ndarray,
+) -> None:
+    wealth = np.cumprod(1.0 + values)
+    for dt, ret, path_wealth in zip(dates, values, wealth):
+        rows.append(
+            {
+                "return_date": dt,
+                "config": config,
+                "config_label": config_label,
+                "family": family,
+                "strategy": strategy,
+                "return": ret,
+                "gross_growth": 1.0 + ret,
+                "wealth": path_wealth,
+            }
+        )
+
+
+def _ann_sharpe(values: np.ndarray) -> float:
+    x = np.asarray(values, dtype=float)
+    return float(np.sqrt(12.0) * x.mean() / x.std(ddof=1))

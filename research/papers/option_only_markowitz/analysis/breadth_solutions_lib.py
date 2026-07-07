@@ -197,6 +197,7 @@ def rebuild_model(
     knobs: EstimatorKnobs,
     per_contract_caps: pd.Series | None = None,
     constraints: OptionMarkowitzConstraints | None = None,
+    premia_config: ConditionalPremiaConfig | None = None,
 ) -> OptionOnlyMarkowitzModel:
     if knobs.under_cov_estimator == "sample":
         under_cov = ctx.base_model.shocks.underlying_cov
@@ -218,21 +219,22 @@ def rebuild_model(
         raise ValueError("vol_cov_estimator must be one of {'sample', 'lw'}, got " f"{knobs.vol_cov_estimator!r}")
 
     premia_knobs = (knobs.shrinkage_to_zero, knobs.historical_weight, knobs.structural_weight)
-    if premia_knobs == _DEFAULT_PREMIA_KNOBS:
+    if premia_config is None and premia_knobs == _DEFAULT_PREMIA_KNOBS:
         mu = ctx.base_model.expected_returns
     else:
         augmented_spec = _context_augmented_spec(ctx)
+        config = premia_config or ConditionalPremiaConfig(
+            horizon_years=21.0 / 252.0,
+            shrinkage_to_zero=knobs.shrinkage_to_zero,
+            historical_weight=knobs.historical_weight,
+            structural_weight=knobs.structural_weight,
+        )
         mu, _components = conditional_expected_returns(
             augmented_spec,
             ctx.train_returns,
             ctx.train_under.reindex(ctx.train_returns.index).fillna(0.0),
             ctx.train_vol.reindex(ctx.train_returns.index).fillna(0.0),
-            ConditionalPremiaConfig(
-                horizon_years=21.0 / 252.0,
-                shrinkage_to_zero=knobs.shrinkage_to_zero,
-                historical_weight=knobs.historical_weight,
-                structural_weight=knobs.structural_weight,
-            ),
+            config,
         )
         mu = mu.reindex(ctx.spec.index).fillna(0.0)
 
@@ -384,6 +386,52 @@ def capped_naive_weights(
     out = alloc * signs
     out.name = getattr(weights, "name", "weight")
     return out.astype(float)
+
+
+def integerize_book_weights(
+    weights: pd.Series,
+    marks: pd.Series,
+    *,
+    nav: float,
+    caps: pd.Series | None = None,
+    option_multiplier: float = 100.0,
+) -> pd.DataFrame:
+    """Round continuous premium weights to whole option contracts.
+
+    A premium weight ``w_i`` implies a continuous contract count
+    ``N_i = w_i * nav / (option_multiplier * C_i)`` at mark ``C_i``.  We round to the
+    nearest whole contract, then, where a per-contract liquidity cap ``caps`` is
+    supplied, step the magnitude down by one contract if rounding up would push the
+    realized weight above the cap (the continuous solution binds many caps, so this
+    clip only ever reduces magnitude).  The realized weight is recomputed from the
+    integer count: ``w_hat_i = N_i * option_multiplier * C_i / nav``.
+
+    Returns a frame indexed like ``weights`` with columns ``contracts`` (signed
+    integer count), ``realized_weight`` and ``continuous_contracts``.
+    """
+
+    w = pd.Series(weights, dtype=float)
+    C = pd.Series(marks, dtype=float).reindex(w.index)
+    if C.isna().any():
+        missing = list(w.index[C.isna()])[:5]
+        raise ValueError(f"integerize_book_weights: missing marks for {missing}")
+    C = C.mask(C.abs() <= 0.0)  # guard divide-by-zero; zero-mark legs cannot be sized
+    ncont = w * float(nav) / (float(option_multiplier) * C)
+    ncont = ncont.fillna(0.0)
+    nint = np.round(ncont.to_numpy(dtype=float))
+    realized = nint * float(option_multiplier) * C.fillna(0.0).to_numpy(dtype=float) / float(nav)
+    if caps is not None:
+        cap = pd.Series(caps, dtype=float).reindex(w.index).fillna(np.inf)
+        breach = np.abs(realized) > cap.to_numpy(dtype=float) + 1e-12
+        nint = np.where(breach, np.sign(ncont.to_numpy(dtype=float)) * np.floor(np.abs(ncont.to_numpy(dtype=float))), nint)
+        realized = nint * float(option_multiplier) * C.fillna(0.0).to_numpy(dtype=float) / float(nav)
+    return pd.DataFrame(
+        {
+            "contracts": pd.Series(nint, index=w.index).astype(float),
+            "realized_weight": pd.Series(realized, index=w.index).astype(float),
+            "continuous_contracts": ncont.astype(float),
+        }
+    )
 
 
 def solve_gm(model: OptionOnlyMarkowitzModel, method: str = "cvxpy") -> tuple[pd.Series, str]:
@@ -887,6 +935,7 @@ __all__ = [
     "delta_neutral_weights",
     "evaluate",
     "gross_sharpe_for_weights",
+    "integerize_book_weights",
     "lw_cov",
     "naive_weights",
     "rebuild_model",
