@@ -1,7 +1,0 @@
-config,fold_id,seconds,status
-orig,kfold_00,7.194695624988526,ok
-orig,kfold_01,7.4348209160380065,ok
-orig,kfold_02,7.427927082870156,ok
-orig,cpcv_00,7.163535417057574,ok
-orig,cpcv_01,7.103217749856412,ok
-orig,cpcv_02,7.263430957915261,ok

@@ -1,7 +1,0 @@
-config,fold_id,scheme,test_groups,test_start,test_end,n_train,n_test,n_purged,n_embargoed,status,expected_splits_per_config
-orig,kfold_00,kfold,0,2015-02-27,2018-09-28,84,43,1,1,ok,6
-orig,kfold_01,kfold,1,2018-10-31,2022-07-29,83,43,2,1,ok,6
-orig,kfold_02,kfold,2,2022-08-31,2026-04-30,85,43,1,0,ok,6
-orig,cpcv_00,cpcv,0,2015-02-27,2018-09-28,84,43,1,1,ok,6
-orig,cpcv_01,cpcv,1,2018-10-31,2022-07-29,83,43,2,1,ok,6
-orig,cpcv_02,cpcv,2,2022-08-31,2026-04-30,85,43,1,0,ok,6
