@@ -5,8 +5,8 @@ latex bibtex compile pipeline,paper,pass,critical,exit=0; exit=0; exit=0; exit=0
 pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pf
 b></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm1
 0.pfb>
-Output written on option_only_portfolio_optimization_dhruv_kohli.pdf (34 pages,
- 534134 bytes).
+Output written on option_only_portfolio_optimization_dhruv_kohli.pdf (35 pages,
+ 555683 bytes).
 Transcript written on option_only_portfolio_optimization_dhruv_kohli.log.
 
 
@@ -26,8 +26,8 @@ mr6.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8
 pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pf
 b></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm1
 0.pfb>
-Output written on option_only_portfolio_optimization_dhruv_kohli.pdf (34 pages,
- 534134 bytes).
+Output written on option_only_portfolio_optimization_dhruv_kohli.pdf (35 pages,
+ 561843 bytes).
 Transcript written on option_only_portfolio_optimization_dhruv_kohli.log.
 
 
@@ -47,8 +47,8 @@ mr6.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8
 pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pf
 b></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm1
 0.pfb>
-Output written on option_only_portfolio_optimization_dhruv_kohli.pdf (34 pages,
- 534134 bytes).
+Output written on option_only_portfolio_optimization_dhruv_kohli.pdf (35 pages,
+ 561843 bytes).
 Transcript written on option_only_portfolio_optimization_dhruv_kohli.log.
 "
 required generated outputs exist,artifacts,pass,critical,[],no missing outputs,
@@ -314,15 +314,15 @@ repriced assumptions include VX-front convention row,robustness,pass,critical,VI
 robustness table headers escape underscores,robustness,pass,critical,[],no raw underscore in parsed header rows,
 breadth CV purge-gap inputs exist,robustness,pass,critical,[],"breadth CV schedule, ledger, month-return grid, and full-history month grid when needed",
 breadth CV purge-gap artifact schemas,robustness,pass,critical,"{""breadth_cv_fold_ledger"": [], ""breadth_cv_fold_schedule"": [], ""breadth_cv_test_month_returns"": [], ""full_history_month_grid"": []}",required columns present,
-breadth CV purge gap exceeds monthly tenor span,robustness,pass,critical,"{""config"": ""larger"", ""earliest_test"": ""2021-10-29"", ""embargo_months"": 1, ""fold_id"": ""kfold_07"", ""gap_days"": 59, ""latest_train"": ""2021-08-31"", ""purge_months"": 1, ""scheme"": ""kfold""}",minimum realized pre-test train/test calendar gap >44 days,Minimum realized pre-test train/test calendar gap after purge/embargo is 59 days across 484 test blocks. Reconstruction issues: []
+breadth CV purge gap exceeds monthly tenor span,robustness,pass,critical,"{""config"": ""larger"", ""embargo_months"": 1, ""fold_id"": ""kfold_09"", ""gap_days"": 59, ""purge_months"": 1, ""scheme"": ""kfold"", ""side"": ""pre_test"", ""test_month"": ""2024-06-28"", ""train_month"": ""2024-04-30""}",minimum realized train/test calendar gap on both sides of every test block >44 days,Minimum realized train/test calendar gap (both sides) after purge/embargo is 59 days across 532 test blocks. Reconstruction issues: []
 CPCV windows table inputs exist,robustness,pass,critical,[],"full CPCV metrics, claim CPCV metrics, claim relative paths, and final scoreboard",
-CPCV windows table schema,robustness,pass,critical,"{""header"": [""Config"", ""Full net p05"", ""Full net p50"", ""Default share"", ""Claim net p05"", ""Claim net p50"", ""Rel full p05"", ""Rel claim p05""], ""missing_cols"": [], ""rows"": 4}",4 config rows with full/claim/relative CPCV columns,
+CPCV windows table schema,robustness,pass,critical,"{""header"": [""Config"", ""Liquid net p05"", ""Liquid net p50"", ""Default share"", ""Claim net p05"", ""Claim net p50"", ""Rel liquid p05"", ""Rel claim p05""], ""missing_cols"": [], ""rows"": 4}",4 config rows with full/claim/relative CPCV columns,
 CPCV windows artifact schemas,robustness,pass,critical,"{""breadth_cv_claim_cpcv_path_metrics"": [], ""breadth_cv_claim_relative_paths"": [], ""breadth_cv_cpcv_path_metrics"": [], ""breadth_cv_relative_paths"": [], ""final_result_scoreboard"": []}",required columns present,
 CPCV windows table values match artifacts,robustness,pass,critical,[],<2e-3 absolute difference vs recomputed artifact values,
 CPCV windows default shares bounded,robustness,pass,critical,[],"Default share in [0,1]",
 breadth claim CV purge-gap inputs exist,robustness,pass,critical,[],"breadth claim CV schedule, ledger, month-return grid, and full-history month grid when needed",
 breadth claim CV purge-gap artifact schemas,robustness,pass,critical,"{""breadth_cv_claim_fold_ledger"": [], ""breadth_cv_claim_fold_schedule"": [], ""breadth_cv_claim_test_month_returns"": [], ""full_history_month_grid"": []}",required columns present,
-breadth claim CV purge gap exceeds monthly tenor span,robustness,pass,critical,"{""config"": ""larger"", ""earliest_test"": ""2023-04-28"", ""embargo_months"": 1, ""fold_id"": ""kfold_05"", ""gap_days"": 59, ""latest_train"": ""2023-02-28"", ""purge_months"": 1, ""scheme"": ""kfold""}",minimum realized pre-test train/test calendar gap >44 days,Minimum realized pre-test train/test calendar gap after purge/embargo is 59 days across 532 test blocks. Reconstruction issues: []
+breadth claim CV purge gap exceeds monthly tenor span,robustness,pass,critical,"{""config"": ""larger"", ""embargo_months"": 1, ""fold_id"": ""kfold_05"", ""gap_days"": 59, ""purge_months"": 1, ""scheme"": ""kfold"", ""side"": ""pre_test"", ""test_month"": ""2023-04-28"", ""train_month"": ""2023-02-28""}",minimum realized train/test calendar gap on both sides of every test block >44 days,Minimum realized train/test calendar gap (both sides) after purge/embargo is 59 days across 532 test blocks. Reconstruction issues: []
 independent numpy stat matches table: Gross before costs / Equity-option Greek Markowitz / Ann. return,inference,pass,critical,0.894164572585072,0.894,
 independent numpy stat matches table: Gross before costs / Equity-option Greek Markowitz / Ann. vol,inference,pass,critical,1.0618025335815389,1.062,
 independent numpy stat matches table: Gross before costs / Equity-option Greek Markowitz / Sharpe,inference,pass,critical,0.8421194565895302,0.842,
@@ -420,8 +420,8 @@ source ledger records vix option,claims,pass,critical,vix option,,
 source ledger records artifact,claims,pass,critical,artifact,,
 source ledger keeps NotebookLM/class notes out of paper references,claims,pass,warning,False,,
 LaTeX log clean,paper,pass,critical,[],no warnings/errors/undefined refs,
-compiled PDF exists,paper,pass,critical,534134,>100KB,
-PDF page count plausible,paper,pass,critical,34,25-36 research-paper pages,
+compiled PDF exists,paper,pass,critical,561843,>100KB,
+PDF page count plausible,paper,pass,critical,35,25-36 research-paper pages,
 PDF caveat text includes not claimed,paper,pass,critical,not claimed,,
 PDF caveat text includes premium weights,paper,pass,critical,premium weights,,
 PDF text includes exact VRO/SOQ,paper,pass,critical,VRO/SOQ,,
@@ -429,8 +429,8 @@ PDF caveat text includes transaction costs,paper,pass,critical,transaction costs
 PDF caveat text includes slippage,paper,pass,critical,slippage,,
 PDF text includes tail-path simulation caveat,paper,pass,critical,tail-path simulation diagnostics,,
 references include option-risk-premium papers,paper,pass,critical,reference text,,
-PDF pages render to PNG,paper,pass,critical,"exit=0, pages=34",>=25 rendered pages,
-rendered PDF sample pages nonempty,paper,pass,critical,"[165229, 166415]",,
+PDF pages render to PNG,paper,pass,critical,"exit=0, pages=35",>=25 rendered pages,
+rendered PDF sample pages nonempty,paper,pass,critical,"[154864, 164891]",,
 Appendix all-strategy growth figure has all strategy series,paper,pass,critical,"[""Beta/delta-neutral + VIX"", ""Cost-aware Sortino + VIX"", ""Delta-matched equities"", ""Equal premium"", ""Equal risk"", ""Equity-option Greek Markowitz"", ""Greek Markowitz + VIX"", ""Underlying Markowitz"", ""VIX hedge sleeve""]","[""Beta/delta-neutral + VIX"", ""Cost-aware Sortino + VIX"", ""Delta-matched equities"", ""Equal premium"", ""Equal risk"", ""Equity-option Greek Markowitz"", ""Greek Markowitz + VIX"", ""Underlying Markowitz"", ""VIX hedge sleeve""]",
 Appendix all-strategy growth figure series visible,paper,pass,critical,"[{""Figure"": ""portfolio_growth_all_strategies.pdf"", ""Max"": 18.35005283540228, ""Min"": 0.183011836336598, ""Pass"": ""yes"", ""Series"": ""Equity-option Greek Markowitz"", ""Visible points"": 60}, {""Figure"": ""portfolio_growth_all_strategies.pdf"", ""Max"": 144.51861716831928, ""Min"": 0.6403949030925237, ""Pass"": ""yes"", ""Series"": ""Greek Markowitz + VIX"", ""Visible points"": 60}, {""Figure"": ""portfolio_growth_all_strategies.pdf"", ""Max"": 98.96884463070484, ""Min"": 0.5735594003706624, ""Pass"": ""yes"", ""Series"": ""Beta/delta-neutral + VIX"", ""Visible points"": 60}, {""Figure"": ""portfolio_growth_all_strategies.pdf"", ""Max"": 2.996100619612762, ""Min"": 0.0001, ""Pass"": ""yes"", ""Series"": ""Cost-aware Sortino + VIX"", ""Visible points"": 60}, {""Figure"": ""portfolio_growth_all_strategies.pdf"", ""Max"": 0.8905477325031234, ""Min"": 0.0001782014429151, ""Pass"": ""yes"", ""Series"": ""Equal premium"", ""Visible points"": 60}, {""Figure"": ""portfolio_growth_all_strategies.pdf"", ""Max"": 0.944996867354269, ""Min"": 0.0228823784998115, ""Pass"": ""yes"", ""Series"": ""Equal risk"", ""Visible points"": 60}, {""Figure"": ""portfolio_growth_all_strategies.pdf"", ""Max"": 0.0001, ""Min"": 0.0001, ""Pass"": ""yes"", ""Series"": ""VIX hedge sleeve"", ""Visible points"": 60}, {""Figure"": ""portfolio_growth_all_strategies.pdf"", ""Max"": 33.429827509128316, ""Min"": 0.4455022015082628, ""Pass"": ""yes"", ""Series"": ""Delta-matched equities"", ""Visible points"": 60}, {""Figure"": ""portfolio_growth_all_strategies.pdf"", ""Max"": 2.459772612888149, ""Min"": 0.945644336357695, ""Pass"": ""yes"", ""Series"": ""Underlying Markowitz"", ""Visible points"": 60}]",,
 hash manifest covers outputs,artifacts,pass,critical,201,>=30,

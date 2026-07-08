@@ -32,6 +32,7 @@ ROBUSTNESS_DIR = PAPER / "analysis/artifacts/breadth_solutions/robustness"
 SUMMARY_DIR = ROBUSTNESS_DIR
 
 CONFIG_ORDER = ["orig", "orig+VIX", "larger", "larger+VIX"]
+BROAD_CONFIGS = ["larger", "larger+VIX"]
 DISPLAY_CONFIG = {
     "orig": "orig",
     "orig+VIX": "orig+VIX",
@@ -39,6 +40,8 @@ DISPLAY_CONFIG = {
     "larger+VIX": "larger+VIX",
 }
 PRIMARY_STRATEGY = "E1 capped"
+STOCK_MARKOWITZ_STRATEGY = "Stock Markowitz"
+BROAD_STOCK_LABEL = "Stock Markowitz (56)"
 NAIVE_STRATEGIES = ["Equal premium capped", "Equal risk capped"]
 COLORS = {
     "pass": "#00552B",
@@ -73,7 +76,7 @@ STATUS_CODE = {
 ROBUSTNESS_CHECK_ORDER = [
     "Baselines",
     "Capacity",
-    "CPCV net full",
+    "CPCV net (2018+)",
     "CPCV net claim",
     "MC resampled",
     "MC refit",
@@ -107,6 +110,21 @@ def _load_underlying_markowitz_sharpe() -> float:
         if row.get("Strategy") == "Underlying Markowitz":
             return float(row["Sharpe"])
     raise ValueError("Underlying Markowitz Sharpe not found in empirical_summary.json")
+
+
+def _load_broad_stock_markowitz_sharpes() -> dict[str, float]:
+    realized = pd.read_csv(_require(ROBUSTNESS_DIR / "breadth_realized_candidate_summary.csv"))
+    rows = realized.loc[
+        realized["config"].astype(str).isin(BROAD_CONFIGS)
+        & realized["strategy"].astype(str).eq(STOCK_MARKOWITZ_STRATEGY)
+    ].copy()
+    if rows.empty:
+        return {}
+    rows["net_sharpe"] = pd.to_numeric(rows["net_sharpe"], errors="coerce")
+    return {
+        str(row["config"]): float(row["net_sharpe"])
+        for _, row in rows.dropna(subset=["net_sharpe"]).iterrows()
+    }
 
 
 def build_baseline_scoreboard() -> pd.DataFrame:
@@ -143,11 +161,17 @@ def build_baseline_scoreboard() -> pd.DataFrame:
 
         e1_net = float(primary_row["net_sharpe"])
         naive_net = float(best_naive["net_sharpe"])
+        # A book that survives the robustness screens but does not beat its capped-naive
+        # baseline has not met the paper's stated bar (beat both baselines), so it is not
+        # promoted to a headline "pass" on robustness alone; it is reported as "mixed".
+        verdict = str(primary_row["verdict"])
+        if verdict == "pass" and not bool(e1_net > naive_net):
+            verdict = "mixed"
         rows.append(
             {
                 "config": config,
                 "config_label": DISPLAY_CONFIG[config],
-                "verdict": str(primary_row["verdict"]),
+                "verdict": verdict,
                 "deployable": bool(primary_row["deployable"]),
                 "e1_net_sharpe": e1_net,
                 "e1_net_sortino": float(primary_row["net_sortino"]),
@@ -201,11 +225,18 @@ def build_validation_distribution_summary() -> pd.DataFrame:
     return pd.DataFrame(rows)
 
 
-def _append_path_values(rows: list[dict[str, object]], frame: pd.DataFrame, *, config: str, validation: str) -> None:
+def _append_path_values(
+    rows: list[dict[str, object]],
+    frame: pd.DataFrame,
+    *,
+    config: str,
+    validation: str,
+    series: str = "E1",
+) -> None:
     values = pd.to_numeric(frame.get("sharpe", pd.Series(dtype=float)), errors="coerce")
     values = values.replace([np.inf, -np.inf], np.nan).dropna()
     for value in values:
-        rows.append({"config": config, "validation": validation, "sharpe": float(value)})
+        rows.append({"config": config, "validation": validation, "series": series, "sharpe": float(value)})
 
 
 def _read_optional_claim_metrics(path: Path) -> pd.DataFrame:
@@ -271,7 +302,63 @@ def build_validation_path_values() -> pd.DataFrame:
             & refit["status"].astype(str).eq("ok")
         ]
         _append_path_values(rows, refit_slice, config=config, validation="MC refit stability")
-    return pd.DataFrame(rows, columns=["config", "validation", "sharpe"])
+
+        if config in BROAD_CONFIGS:
+            stock_strategy = f"{config} {STOCK_MARKOWITZ_STRATEGY}"
+            stock_cpcv_slice = cpcv.loc[
+                cpcv["strategy"].astype(str).eq(stock_strategy)
+                & cpcv["basis"].astype(str).eq("full_cost_net")
+                & cpcv["status"].astype(str).eq("complete")
+            ]
+            _append_path_values(
+                rows,
+                stock_cpcv_slice,
+                config=config,
+                validation="CPCV complete paths",
+                series=STOCK_MARKOWITZ_STRATEGY,
+            )
+
+            if claim_complete:
+                stock_claim_slice = claim.loc[
+                    claim["strategy"].astype(str).eq(stock_strategy)
+                    & claim["basis"].astype(str).eq("full_cost_net")
+                    & claim["status"].astype(str).eq("complete")
+                ]
+                _append_path_values(
+                    rows,
+                    stock_claim_slice,
+                    config=config,
+                    validation="CPCV claim window",
+                    series=STOCK_MARKOWITZ_STRATEGY,
+                )
+
+            stock_resampled_slice = resampled.loc[
+                resampled["strategy"].astype(str).eq(stock_strategy)
+                & resampled["basis"].astype(str).eq("full_cost_net")
+                & resampled["universe_family"].astype(str).eq("resampled")
+            ]
+            _append_path_values(
+                rows,
+                stock_resampled_slice,
+                config=config,
+                validation="MC resampled histories",
+                series=STOCK_MARKOWITZ_STRATEGY,
+            )
+
+            stock_refit_slice = refit.loc[
+                refit["config"].astype(str).eq(config)
+                & refit["display_strategy"].astype(str).eq(STOCK_MARKOWITZ_STRATEGY)
+                & refit["basis"].astype(str).eq("full_cost_net")
+                & refit["status"].astype(str).eq("ok")
+            ]
+            _append_path_values(
+                rows,
+                stock_refit_slice,
+                config=config,
+                validation="MC refit stability",
+                series=STOCK_MARKOWITZ_STRATEGY,
+            )
+    return pd.DataFrame(rows, columns=["config", "validation", "series", "sharpe"])
 
 
 def build_walk_forward_return_paths(scoreboard: pd.DataFrame) -> pd.DataFrame:
@@ -280,7 +367,10 @@ def build_walk_forward_return_paths(scoreboard: pd.DataFrame) -> pd.DataFrame:
     stock = stock[["snap_date", "Underlying Markowitz"]].rename(
         columns={"snap_date": "return_date", "Underlying Markowitz": "return"}
     )
-    rolling_dates = set(pd.to_datetime(rolling["return_date"]).dt.normalize())
+    rolling_return_dates = pd.Series(
+        pd.to_datetime(rolling["return_date"]).dt.normalize().dropna().unique()
+    ).sort_values(ignore_index=True)
+    rolling_dates = set(rolling_return_dates)
     stock = stock.loc[pd.to_datetime(stock["return_date"]).dt.normalize().isin(rolling_dates)]
 
     rows: list[pd.DataFrame] = []
@@ -290,6 +380,48 @@ def build_walk_forward_return_paths(scoreboard: pd.DataFrame) -> pd.DataFrame:
     stock_path["family"] = "Stock baseline"
     stock_path["strategy"] = "Underlying Markowitz"
     rows.append(stock_path[["return_date", "config", "config_label", "family", "strategy", "return"]])
+
+    breadth_returns_path = ROBUSTNESS_DIR / "breadth_strategy_returns_net.csv"
+    broad_stock_col = "larger+VIX Stock Markowitz"
+    if breadth_returns_path.exists():
+        breadth_returns = pd.read_csv(breadth_returns_path)
+        if broad_stock_col not in breadth_returns.columns:
+            print(
+                f"WARNING: skipping {BROAD_STOCK_LABEL} walk-forward line; "
+                f"missing column {broad_stock_col!r} in {breadth_returns_path.name}"
+            )
+        elif len(rolling_return_dates) != 60 or len(breadth_returns) != len(rolling_return_dates):
+            print(
+                f"WARNING: skipping {BROAD_STOCK_LABEL} walk-forward line; "
+                f"cannot positionally align {len(breadth_returns)} return rows "
+                f"to {len(rolling_return_dates)} rolling dates"
+            )
+        else:
+            broad_returns = pd.to_numeric(breadth_returns[broad_stock_col], errors="coerce").replace(
+                [np.inf, -np.inf], np.nan
+            )
+            if broad_returns.isna().any():
+                print(
+                    f"WARNING: skipping {BROAD_STOCK_LABEL} walk-forward line; "
+                    f"{broad_stock_col!r} contains non-numeric or missing returns"
+                )
+            else:
+                broad_stock_path = pd.DataFrame({"return_date": rolling_return_dates, "return": broad_returns})
+                broad_stock_path = broad_stock_path.loc[
+                    pd.to_datetime(broad_stock_path["return_date"]).dt.normalize().isin(rolling_dates)
+                ].copy()
+                broad_stock_path["config"] = "stock_56"
+                broad_stock_path["config_label"] = BROAD_STOCK_LABEL
+                broad_stock_path["family"] = "Stock baseline"
+                broad_stock_path["strategy"] = broad_stock_col
+                rows.append(
+                    broad_stock_path[["return_date", "config", "config_label", "family", "strategy", "return"]]
+                )
+    else:
+        print(
+            f"WARNING: skipping {BROAD_STOCK_LABEL} walk-forward line; "
+            f"missing {breadth_returns_path}"
+        )
 
     best_naive_by_config = dict(zip(scoreboard["config"], scoreboard["best_naive_strategy"]))
     for config in CONFIG_ORDER:
@@ -383,7 +515,7 @@ def build_short_robustness_matrix(scoreboard: pd.DataFrame) -> pd.DataFrame:
         checks = [
             ("Baselines", baseline_status, float(score["e1_net_sharpe"])),
             ("Capacity", "pass" if bool(score["deployable"]) and float(val["sum_of_caps"]) >= 1.0 else "fail", float(val["sum_of_caps"])),
-            ("CPCV net full", _status_from_tail(float(val["cpcv_net_p05"]), float(val["cpcv_net_p50"])), float(val["cpcv_net_p50"])),
+            ("CPCV net (2018+)", _status_from_tail(float(val["cpcv_net_p05"]), float(val["cpcv_net_p50"])), float(val["cpcv_net_p50"])),
             ("MC resampled", _status_from_tail(float(val["mc_resampled_net_p05"]), float(val["mc_resampled_net_p50"])), float(val["mc_resampled_net_p05"])),
             ("MC refit", _status_from_tail(float(val["mc_refit_net_p05"]), float(val["mc_refit_net_p50"])), float(val["mc_refit_net_p05"])),
             ("Rolling OOS", "pass" if float(val["rolling_net_sharpe"]) > 0.0 else "fail", float(val["rolling_net_sharpe"])),
@@ -569,6 +701,9 @@ def write_scoreboard_tables(scoreboard: pd.DataFrame, distributions: pd.DataFram
 def plot_validation_distributions(path_values: pd.DataFrame, scoreboard: pd.DataFrame) -> None:
     FIG_DIR.mkdir(parents=True, exist_ok=True)
     frame = path_values.copy()
+    if "series" not in frame.columns:
+        frame["series"] = "E1"
+    frame["series"] = frame["series"].fillna("E1").astype(str)
     frame["sharpe"] = pd.to_numeric(frame.get("sharpe", pd.Series(dtype=float)), errors="coerce")
     frame = frame.replace([np.inf, -np.inf], np.nan).dropna(subset=["sharpe"])
     panel_order = [
@@ -583,6 +718,17 @@ def plot_validation_distributions(path_values: pd.DataFrame, scoreboard: pd.Data
     y_labels = [DISPLAY_CONFIG[c] for c in CONFIG_ORDER]
     y_positions = np.arange(len(CONFIG_ORDER))
     realized_by_config = dict(zip(scoreboard["config"], scoreboard["e1_net_sharpe"]))
+    has_stock_series = frame["series"].eq(STOCK_MARKOWITZ_STRATEGY).any()
+
+    def _series_slot(subset: pd.DataFrame, config: str, series: str, y: float) -> tuple[float, float]:
+        stock_values = subset.loc[
+            subset["config"].astype(str).eq(config)
+            & subset["series"].eq(STOCK_MARKOWITZ_STRATEGY),
+            "sharpe",
+        ].dropna()
+        if config in BROAD_CONFIGS and not stock_values.empty:
+            return (float(y) + 0.18, 0.34) if series == STOCK_MARKOWITZ_STRATEGY else (float(y) - 0.18, 0.34)
+        return float(y), 0.72
 
     fig, axes_raw = plt.subplots(1, len(validations), figsize=(11.2, 4.25), sharex=True, sharey=True, squeeze=False)
     axes = axes_raw[0]
@@ -591,56 +737,78 @@ def plot_validation_distributions(path_values: pd.DataFrame, scoreboard: pd.Data
     all_vals.extend(float(v) for v in realized_by_config.values() if np.isfinite(float(v)))
     for ax, validation in zip(axes, validations):
         subset = frame.loc[frame["validation"].astype(str).eq(validation)]
-        positions: list[int] = []
+        positions: list[float] = []
+        widths: list[float] = []
         data: list[np.ndarray] = []
         colors: list[str] = []
+        alphas: list[float] = []
         for y, config in zip(y_positions, CONFIG_ORDER):
-            values = subset.loc[subset["config"].astype(str).eq(config), "sharpe"].dropna()
-            if values.empty:
-                continue
-            arr = values.to_numpy(float)
-            positions.append(int(y))
-            data.append(arr)
-            colors.append(LINE_COLORS.get(config, COLORS["interval"]))
+            for series in ["E1", STOCK_MARKOWITZ_STRATEGY]:
+                if series == STOCK_MARKOWITZ_STRATEGY and config not in BROAD_CONFIGS:
+                    continue
+                values = subset.loc[
+                    subset["config"].astype(str).eq(config)
+                    & subset["series"].eq(series),
+                    "sharpe",
+                ].dropna()
+                if values.empty:
+                    continue
+                arr = values.to_numpy(float)
+                y_slot, width = _series_slot(subset, config, series, float(y))
+                positions.append(y_slot)
+                widths.append(width)
+                data.append(arr)
+                colors.append(COLORS["stock"] if series == STOCK_MARKOWITZ_STRATEGY else LINE_COLORS.get(config, COLORS["interval"]))
+                alphas.append(0.36 if series == STOCK_MARKOWITZ_STRATEGY else 0.45)
         if data:
             parts = ax.violinplot(
                 data,
                 positions=positions,
                 orientation="horizontal",
-                widths=0.72,
+                widths=widths,
                 showmedians=True,
                 showextrema=False,
             )
-            for body, color in zip(parts["bodies"], colors):
+            for body, color, alpha in zip(parts["bodies"], colors, alphas):
                 body.set_facecolor(color)
                 body.set_edgecolor("#263238")
-                body.set_alpha(0.45)
+                body.set_alpha(alpha)
                 body.set_linewidth(0.8)
             if "cmedians" in parts:
                 parts["cmedians"].set_color("#202020")
                 parts["cmedians"].set_linewidth(1.1)
         if validation.startswith("CPCV"):
             for y, config in zip(y_positions, CONFIG_ORDER):
-                values = subset.loc[subset["config"].astype(str).eq(config), "sharpe"].dropna()
-                if values.empty:
-                    continue
-                arr = values.to_numpy(float)
-                offsets = np.linspace(-0.22, 0.22, len(arr)) if len(arr) > 1 else np.array([0.0])
-                ax.scatter(
-                    arr,
-                    np.full(len(arr), y, dtype=float) + offsets,
-                    s=14,
-                    color="#202020",
-                    alpha=0.68,
-                    linewidths=0,
-                    zorder=4,
-                )
+                for series in ["E1", STOCK_MARKOWITZ_STRATEGY]:
+                    if series == STOCK_MARKOWITZ_STRATEGY and config not in BROAD_CONFIGS:
+                        continue
+                    values = subset.loc[
+                        subset["config"].astype(str).eq(config)
+                        & subset["series"].eq(series),
+                        "sharpe",
+                    ].dropna()
+                    if values.empty:
+                        continue
+                    arr = values.to_numpy(float)
+                    y_slot, width = _series_slot(subset, config, series, float(y))
+                    span = 0.22 if width > 0.5 else 0.10
+                    offsets = np.linspace(-span, span, len(arr)) if len(arr) > 1 else np.array([0.0])
+                    ax.scatter(
+                        arr,
+                        np.full(len(arr), y_slot, dtype=float) + offsets,
+                        s=14,
+                        color="#202020",
+                        alpha=0.68,
+                        linewidths=0,
+                        zorder=4,
+                    )
         for y, config in zip(y_positions, CONFIG_ORDER):
             realized = float(realized_by_config.get(config, np.nan))
             if np.isfinite(realized):
+                y_slot, _ = _series_slot(subset, config, "E1", float(y))
                 ax.scatter(
                     realized,
-                    y,
+                    y_slot,
                     s=50,
                     marker="D",
                     color=COLORS["realized"],
@@ -694,10 +862,31 @@ def plot_validation_distributions(path_values: pd.DataFrame, scoreboard: pd.Data
         alpha=0.68,
         label="CPCV path Sharpe",
     )
+    handles = [median_handle, realized_handle, path_handle]
+    ncol = 3
+    if has_stock_series:
+        e1_handle = plt.Line2D(
+            [0],
+            [0],
+            color=COLORS["interval"],
+            linewidth=6,
+            alpha=0.45,
+            label="Locked E1",
+        )
+        stock_handle = plt.Line2D(
+            [0],
+            [0],
+            color=COLORS["stock"],
+            linewidth=6,
+            alpha=0.36,
+            label=BROAD_STOCK_LABEL,
+        )
+        handles = [e1_handle, stock_handle, *handles]
+        ncol = 5
     fig.legend(
-        handles=[median_handle, realized_handle, path_handle],
+        handles=handles,
         loc="lower center",
-        ncol=3,
+        ncol=ncol,
         fontsize=8,
         frameon=False,
     )
@@ -713,6 +902,7 @@ def plot_baseline_comparison(scoreboard: pd.DataFrame) -> None:
     width = 0.34
     e1_colors = [COLORS.get(v, COLORS["interval"]) for v in scoreboard["verdict"]]
     stock = float(scoreboard["stock_markowitz_sharpe"].iloc[0])
+    broad_stock_sharpes = _load_broad_stock_markowitz_sharpes()
 
     fig, ax = plt.subplots(figsize=(8.8, 4.45))
     ax.bar(
@@ -733,6 +923,26 @@ def plot_baseline_comparison(scoreboard: pd.DataFrame) -> None:
         edgecolor="#263238",
         linewidth=0.55,
     )
+    broad_positions: list[float] = []
+    broad_values: list[float] = []
+    for i, row in scoreboard.iterrows():
+        config = str(row["config"])
+        if config not in broad_stock_sharpes:
+            continue
+        broad_positions.append(float(i) + 1.45 * width)
+        broad_values.append(float(broad_stock_sharpes[config]))
+    if broad_values:
+        ax.bar(
+            broad_positions,
+            broad_values,
+            width * 0.78,
+            label=BROAD_STOCK_LABEL,
+            color=COLORS["stock"],
+            edgecolor="#263238",
+            linewidth=0.55,
+            hatch="//",
+            alpha=0.78,
+        )
     ax.axhline(stock, color=COLORS["stock"], linewidth=2.0, linestyle="-.", label=f"Underlying Markowitz ({stock:.3f})")
     ax.axhline(0.0, color="#555", linewidth=0.9, linestyle="--", alpha=0.65)
     for i, row in scoreboard.iterrows():
@@ -755,9 +965,12 @@ def plot_baseline_comparison(scoreboard: pd.DataFrame) -> None:
     ax.set_ylabel("Full-cost net Sharpe")
     ax.set_title("Final baseline comparison at $1M NAV")
     ax.grid(True, axis="y", alpha=0.20, linewidth=0.7)
-    ax.legend(loc="upper center", bbox_to_anchor=(0.5, -0.14), ncol=3, fontsize=8, frameon=False)
-    ymin = min(-0.25, float(scoreboard[["e1_net_sharpe", "best_naive_net_sharpe"]].min().min()) - 0.15)
-    ymax = max(1.75, float(scoreboard[["e1_net_sharpe", "best_naive_net_sharpe"]].max().max()) + 0.28, stock + 0.25)
+    ax.legend(loc="upper center", bbox_to_anchor=(0.5, -0.14), ncol=4 if broad_values else 3, fontsize=8, frameon=False)
+    plotted_values = scoreboard[["e1_net_sharpe", "best_naive_net_sharpe"]].to_numpy(float).ravel().tolist()
+    plotted_values.extend(broad_values)
+    finite_values = [float(v) for v in plotted_values if np.isfinite(float(v))]
+    ymin = min(-0.25, min(finite_values) - 0.15)
+    ymax = max(1.75, max(finite_values) + 0.28, stock + 0.25)
     ax.set_ylim(ymin, ymax)
     plt.tight_layout(rect=(0, 0.08, 1, 1))
     plt.savefig(FIG_DIR / "final_baseline_comparison.pdf")
@@ -902,17 +1115,32 @@ def plot_walk_forward_return_paths(paths: pd.DataFrame) -> None:
         ("Matched capped naive", "larger"): 0.82,
         ("Matched capped naive", "larger+VIX"): 0.86,
     }
-    stock_offsets = {"Locked E1": 0.82, "Matched capped naive": 1.22}
+    stock_offsets = {
+        ("Locked E1", "Stock Markowitz"): 0.82,
+        ("Locked E1", BROAD_STOCK_LABEL): 1.04,
+        ("Matched capped naive", "Stock Markowitz"): 1.22,
+        ("Matched capped naive", BROAD_STOCK_LABEL): 0.92,
+    }
+    stock_styles = {
+        "Stock Markowitz": (COLORS["stock"], "-.", "Underlying Markowitz", 2.1),
+        BROAD_STOCK_LABEL: ("#174A7A", ":", BROAD_STOCK_LABEL, 2.0),
+    }
     for ax, title, family in panel_specs:
-        ax.plot(
-            stock["return_date"],
-            stock["wealth"],
-            color=COLORS["stock"],
-            linewidth=2.1,
-            linestyle="-.",
-            label="Underlying Markowitz",
-            zorder=4,
-        )
+        for stock_label, stock_line in stock.groupby("config_label", sort=False):
+            stock_line = stock_line.sort_values("return_date")
+            color, linestyle, legend_label, linewidth = stock_styles.get(
+                str(stock_label),
+                (COLORS["stock"], "-.", str(stock_label), 2.0),
+            )
+            ax.plot(
+                stock_line["return_date"],
+                stock_line["wealth"],
+                color=color,
+                linewidth=linewidth,
+                linestyle=linestyle,
+                label=legend_label,
+                zorder=4,
+            )
         subset = paths.loc[paths["family"].eq(family)].copy()
         for config in CONFIG_ORDER:
             line = subset.loc[subset["config"].eq(config)].sort_values("return_date")
@@ -937,15 +1165,23 @@ def plot_walk_forward_return_paths(paths: pd.DataFrame) -> None:
                 color=LINE_COLORS[config],
                 va="center",
             )
-        stock_last = stock.iloc[-1]
-        ax.text(
-            stock_last["return_date"],
-            float(stock_last["wealth"]) * stock_offsets.get(family, 1.0),
-            f" {float(stock_last['wealth']):.2g}x",
-            fontsize=7.2,
-            color=COLORS["stock"],
-            va="center",
-        )
+        for stock_label, stock_line in stock.groupby("config_label", sort=False):
+            stock_line = stock_line.sort_values("return_date")
+            if stock_line.empty:
+                continue
+            color, _, _, _ = stock_styles.get(
+                str(stock_label),
+                (COLORS["stock"], "-.", str(stock_label), 2.0),
+            )
+            stock_last = stock_line.iloc[-1]
+            ax.text(
+                stock_last["return_date"],
+                float(stock_last["wealth"]) * stock_offsets.get((family, str(stock_label)), 1.0),
+                f" {float(stock_last['wealth']):.2g}x",
+                fontsize=7.2,
+                color=color,
+                va="center",
+            )
         ax.axhline(1.0, color="#555", linewidth=0.85, linestyle=":", alpha=0.75)
         ax.set_yscale("log")
         ax.set_ylabel("Cumulative wealth\n(log scale)")

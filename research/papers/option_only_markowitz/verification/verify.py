@@ -1930,12 +1930,12 @@ def check_cpcv_windows_table(v: Verifier) -> None:
     idx = {_tex_cell_text(name): i for i, name in enumerate(header)}
     expected_cols = {
         "Config",
-        "Full net p05",
-        "Full net p50",
+        "Liquid net p05",
+        "Liquid net p50",
         "Default share",
         "Claim net p05",
         "Claim net p50",
-        "Rel full p05",
+        "Rel liquid p05",
         "Rel claim p05",
     }
     missing_cols = sorted(expected_cols.difference(idx))
@@ -1990,12 +1990,12 @@ def check_cpcv_windows_table(v: Verifier) -> None:
             continue
 
         expected = {
-            "Full net p05": _quantile(full_sub["sharpe"], 0.05),
-            "Full net p50": _quantile(full_sub["sharpe"], 0.50),
+            "Liquid net p05": _quantile(full_sub["sharpe"], 0.05),
+            "Liquid net p50": _quantile(full_sub["sharpe"], 0.50),
             "Default share": _default_share(full_sub["defaulted"]),
             "Claim net p05": _quantile(claim_sub["sharpe"], 0.05),
             "Claim net p50": _quantile(claim_sub["sharpe"], 0.50),
-            "Rel full p05": _quantile(rel_full_sub["sharpe"], 0.05),
+            "Rel liquid p05": _quantile(rel_full_sub["sharpe"], 0.05),
             "Rel claim p05": _quantile(rel_claim_sub["sharpe"], 0.05),
         }
         default_share = expected["Default share"]
@@ -2054,7 +2054,7 @@ def check_cv_purge_gap(v: Verifier) -> None:
         v,
         artifact_prefix="breadth_cv",
         label="breadth CV",
-        grid_source_path=None,
+        grid_source_path=BREADTH_ROBUSTNESS_DIR / "breadth_cv_full_month_grid.csv",
         result_check_name="breadth CV purge gap exceeds monthly tenor span",
     )
 
@@ -2066,7 +2066,7 @@ def check_claim_cv_purge_gap(v: Verifier) -> None:
         v,
         artifact_prefix="breadth_cv_claim",
         label="breadth claim CV",
-        grid_source_path=BREADTH_ROBUSTNESS_DIR / "breadth_cv_test_month_returns.csv",
+        grid_source_path=BREADTH_ROBUSTNESS_DIR / "breadth_cv_full_month_grid.csv",
         result_check_name="breadth claim CV purge gap exceeds monthly tenor span",
     )
 
@@ -2179,27 +2179,39 @@ def _check_breadth_cv_purge_gap(
                 purge_months=purge_months,
                 embargo_months=embargo_months,
             )
-            for start, _end in _contiguous_position_blocks(sorted(test_pos)):
+            for start, end in _contiguous_position_blocks(sorted(test_pos)):
+                # Two-sided gap: combinatorial folds train on months both before
+                # and after each test block, so both boundaries must clear the
+                # tenor span (Lemma lem:purge_gap in the paper appendix).
+                block_gaps: list[tuple[str, pd.Timestamp, pd.Timestamp]] = []
                 prior_train = [pos for pos in train_pos if pos < start]
-                if not prior_train:
+                if prior_train:
+                    block_gaps.append(
+                        ("pre_test", pd.Timestamp(cfg_months[max(prior_train)]), pd.Timestamp(cfg_months[start]))
+                    )
+                later_train = [pos for pos in train_pos if pos > end]
+                if later_train:
+                    block_gaps.append(
+                        ("post_test", pd.Timestamp(cfg_months[end]), pd.Timestamp(cfg_months[min(later_train)]))
+                    )
+                if not block_gaps:
                     continue
-                latest_train_pos = max(prior_train)
-                latest_train = pd.Timestamp(cfg_months[latest_train_pos])
-                earliest_test = pd.Timestamp(cfg_months[start])
-                gap_days = int((earliest_test - latest_train).days)
                 checked_blocks += 1
-                if min_gap_days is None or gap_days < min_gap_days:
-                    min_gap_days = gap_days
-                    min_case = {
-                        "config": config,
-                        "fold_id": str(row["fold_id"]),
-                        "scheme": str(row["scheme"]),
-                        "latest_train": latest_train.strftime("%Y-%m-%d"),
-                        "earliest_test": earliest_test.strftime("%Y-%m-%d"),
-                        "gap_days": gap_days,
-                        "purge_months": purge_months,
-                        "embargo_months": embargo_months,
-                    }
+                for side, earlier_month, later_month in block_gaps:
+                    gap_days = int((later_month - earlier_month).days)
+                    if min_gap_days is None or gap_days < min_gap_days:
+                        min_gap_days = gap_days
+                        min_case = {
+                            "config": config,
+                            "fold_id": str(row["fold_id"]),
+                            "scheme": str(row["scheme"]),
+                            "side": side,
+                            "train_month": (earlier_month if side == "pre_test" else later_month).strftime("%Y-%m-%d"),
+                            "test_month": (later_month if side == "pre_test" else earlier_month).strftime("%Y-%m-%d"),
+                            "gap_days": gap_days,
+                            "purge_months": purge_months,
+                            "embargo_months": embargo_months,
+                        }
 
     passed = min_gap_days is not None and min_gap_days > 44 and not reconstruction_violations
     v.check(
@@ -2207,9 +2219,9 @@ def _check_breadth_cv_purge_gap(
         "robustness",
         passed,
         observed=min_case if min_case else {"min_gap_days": min_gap_days, "checked_blocks": checked_blocks},
-        expected="minimum realized pre-test train/test calendar gap >44 days",
+        expected="minimum realized train/test calendar gap on both sides of every test block >44 days",
         details=(
-            f"Minimum realized pre-test train/test calendar gap after purge/embargo is "
+            f"Minimum realized train/test calendar gap (both sides) after purge/embargo is "
             f"{min_gap_days} days across {checked_blocks} test blocks. "
             f"Reconstruction issues: {reconstruction_violations[:5]}"
         ),

@@ -1,7 +1,7 @@
 {
   "provenance": {
-    "git_rev": "cf8f714",
-    "created_at": "2026-07-07T15:08:05.185389+00:00",
+    "git_rev": "41fcdb8",
+    "created_at": "2026-07-08T02:51:49.615661+00:00",
     "elapsed_seconds": 0.0,
     "nav": 1000000.0,
     "participation": 0.05,
@@ -43,10 +43,10 @@
       "net_sortino": 1.7831594051787354,
       "deployed_gross": 0.496758,
       "sum_of_caps": 0.7385426750000001,
-      "cpcv_net_p05": -0.167428958963107,
-      "cpcv_net_p50": -0.1242666320194193,
-      "cpcv_net_p95": -0.014703464192699953,
-      "cpcv_gross_p50": 0.9630741560166456,
+      "cpcv_net_p05": 0.8602871455894197,
+      "cpcv_net_p50": 0.9078382000592642,
+      "cpcv_net_p95": 0.9729438090760325,
+      "cpcv_gross_p50": 1.056765936665738,
       "mc_resampled_net_p05": 0.199156096528141,
       "mc_resampled_net_p50": 0.7783270134752307,
       "mc_refit_net_p05": 0.570443857903392,
@@ -58,8 +58,8 @@
       "cpcv_claim_net_p05": 0.43714261965135554,
       "cpcv_claim_net_p50": 0.4895613112907895,
       "cpcv_claim_net_p95": 0.7224736640288509,
-      "rel_cpcv_net_p05": 0.017849339829372653,
-      "rel_cpcv_net_p50": 0.1694227486494629
+      "rel_cpcv_net_p05": -0.5611022716918894,
+      "rel_cpcv_net_p50": -0.3398381697849769
     },
     {
       "config": "orig+VIX",
@@ -70,10 +70,10 @@
       "net_sortino": 3.550775602812473,
       "deployed_gross": 0.7234180000000001,
       "sum_of_caps": 1.093102425,
-      "cpcv_net_p05": -0.13381323141462426,
-      "cpcv_net_p50": -0.1151026186969857,
-      "cpcv_net_p95": -0.043742563805864,
-      "cpcv_gross_p50": 0.8370398610914145,
+      "cpcv_net_p05": 0.72670021505238,
+      "cpcv_net_p50": 0.7491340500222091,
+      "cpcv_net_p95": 0.7939584037180968,
+      "cpcv_gross_p50": 0.9812528446351144,
       "mc_resampled_net_p05": 0.8729747074033762,
       "mc_resampled_net_p50": 1.376689993387232,
       "mc_refit_net_p05": 1.17762396755954,
@@ -85,22 +85,22 @@
       "cpcv_claim_net_p05": 1.0031858786778327,
       "cpcv_claim_net_p50": 1.0618179890993873,
       "cpcv_claim_net_p95": 1.249342513095974,
-      "rel_cpcv_net_p05": 0.23804900529004164,
-      "rel_cpcv_net_p50": 0.294797420990701
+      "rel_cpcv_net_p05": 0.2142513284134822,
+      "rel_cpcv_net_p50": 0.2461473147859866
     },
     {
       "config": "larger",
       "strategy": "E1 capped",
       "deployable": true,
-      "verdict": "mixed",
+      "verdict": "pass",
       "net_sharpe": 0.5871547497312364,
       "net_sortino": 1.298187296830978,
       "deployed_gross": 0.5944670000000001,
       "sum_of_caps": 1.1602636,
-      "cpcv_net_p05": -0.375630245925373,
-      "cpcv_net_p50": -0.2784026915521059,
-      "cpcv_net_p95": -0.08085337543983415,
-      "cpcv_gross_p50": 1.144705685701897,
+      "cpcv_net_p05": 0.7658364576755752,
+      "cpcv_net_p50": 0.801849943307422,
+      "cpcv_net_p95": 0.9130347150903331,
+      "cpcv_gross_p50": 1.3287367407685775,
       "mc_resampled_net_p05": -0.0013743420164889,
       "mc_resampled_net_p50": 0.589472056134462,
       "mc_refit_net_p05": 0.5366688308085992,
@@ -112,8 +112,8 @@
       "cpcv_claim_net_p05": 0.6600327701916247,
       "cpcv_claim_net_p50": 0.7055790424414227,
       "cpcv_claim_net_p95": 0.8266936692967335,
-      "rel_cpcv_net_p05": 0.4433431053015559,
-      "rel_cpcv_net_p50": 0.8303112563372329
+      "rel_cpcv_net_p05": -0.26544981076005136,
+      "rel_cpcv_net_p50": 0.3312839759288443
     },
     {
       "config": "larger+VIX",
@@ -124,10 +124,10 @@
       "net_sortino": 4.376850879622032,
       "deployed_gross": 0.836012,
       "sum_of_caps": 1.51482335,
-      "cpcv_net_p05": -0.4539329821693522,
-      "cpcv_net_p50": -0.3204279914548726,
-      "cpcv_net_p95": -0.23278885904397573,
-      "cpcv_gross_p50": 0.8123260241601046,
+      "cpcv_net_p05": 0.49996171945314405,
+      "cpcv_net_p50": 0.5321465809291748,
+      "cpcv_net_p95": 0.6921762560139674,
+      "cpcv_gross_p50": 0.99041073224188,
       "mc_resampled_net_p05": 1.0958190511653805,
       "mc_resampled_net_p50": 1.636411548431088,
       "mc_refit_net_p05": 1.3603367122089285,
@@ -139,8 +139,8 @@
       "cpcv_claim_net_p05": 1.445269498848067,
       "cpcv_claim_net_p50": 1.474053181350513,
       "cpcv_claim_net_p95": 1.7224139789220825,
-      "rel_cpcv_net_p05": 0.4264351890642646,
-      "rel_cpcv_net_p50": 0.698330937197428
+      "rel_cpcv_net_p05": 0.1027681310178607,
+      "rel_cpcv_net_p50": 0.2503994570690636
     }
   ],
   "pbo": [
@@ -149,30 +149,30 @@
       "config": "all",
       "Basis": "full_cost_net",
       "N splits": 78,
-      "N strategies": 16,
-      "PBO": 0.1025641025641025,
-      "Median lambda": 0.6061358035703157,
-      "Rank correlation IS OOS": 0.6811965284477453
+      "N strategies": 18,
+      "PBO": 0.3846153846153846,
+      "Median lambda": 0.2113090936672071,
+      "Rank correlation IS OOS": 0.5462453443419185
     },
     {
       "scope": "within_config",
       "config": "larger",
       "Basis": "full_cost_net",
       "N splits": 78,
-      "N strategies": 4,
-      "PBO": 0.0897435897435897,
-      "Median lambda": 1.3862943611198908,
-      "Rank correlation IS OOS": 0.8615384615384614
+      "N strategies": 5,
+      "PBO": 0.4615384615384615,
+      "Median lambda": 0.0,
+      "Rank correlation IS OOS": 0.5641025641025639
     },
     {
       "scope": "within_config",
       "config": "larger+VIX",
       "Basis": "full_cost_net",
       "N splits": 78,
-      "N strategies": 4,
-      "PBO": 0.282051282051282,
-      "Median lambda": 1.3862943611198908,
-      "Rank correlation IS OOS": 0.6743589743589743
+      "N strategies": 5,
+      "PBO": 0.3846153846153846,
+      "Median lambda": 0.6931471805599452,
+      "Rank correlation IS OOS": 0.5961538461538459
     },
     {
       "scope": "within_config",
@@ -180,9 +180,9 @@
       "Basis": "full_cost_net",
       "N splits": 78,
       "N strategies": 4,
-      "PBO": 0.1282051282051282,
+      "PBO": 0.2307692307692307,
       "Median lambda": 1.3862943611198908,
-      "Rank correlation IS OOS": 0.7387464387464387
+      "Rank correlation IS OOS": 0.7222222222222223
     },
     {
       "scope": "within_config",
@@ -190,39 +190,39 @@
       "Basis": "full_cost_net",
       "N splits": 78,
       "N strategies": 4,
-      "PBO": 0.2179487179487179,
+      "PBO": 0.1794871794871795,
       "Median lambda": 1.3862943611198908,
-      "Rank correlation IS OOS": 0.7059829059829059
+      "Rank correlation IS OOS": 0.6632478632478632
     },
     {
       "scope": "all_configs",
       "config": "all",
       "Basis": "gross",
       "N splits": 78,
-      "N strategies": 16,
-      "PBO": 0.5512820512820513,
-      "Median lambda": -0.1177830356563835,
-      "Rank correlation IS OOS": 0.1562756887240215
+      "N strategies": 18,
+      "PBO": 0.7051282051282052,
+      "Median lambda": -0.8979415932059585,
+      "Rank correlation IS OOS": 0.1281151190072469
     },
     {
       "scope": "within_config",
       "config": "larger",
       "Basis": "gross",
       "N splits": 78,
-      "N strategies": 4,
-      "PBO": 0.5897435897435898,
-      "Median lambda": -1.3862943611198906,
-      "Rank correlation IS OOS": 0.0974358974358974
+      "N strategies": 5,
+      "PBO": 0.7307692307692307,
+      "Median lambda": -1.6094379124341005,
+      "Rank correlation IS OOS": -0.1858974358974358
     },
     {
       "scope": "within_config",
       "config": "larger+VIX",
       "Basis": "gross",
       "N splits": 78,
-      "N strategies": 4,
-      "PBO": 0.6153846153846154,
-      "Median lambda": -0.4054651081081643,
-      "Rank correlation IS OOS": -0.0230769230769231
+      "N strategies": 5,
+      "PBO": 0.6666666666666666,
+      "Median lambda": -1.6094379124341005,
+      "Rank correlation IS OOS": -0.1012820512820512
     },
     {
       "scope": "within_config",
@@ -230,9 +230,9 @@
       "Basis": "gross",
       "N splits": 78,
       "N strategies": 4,
-      "PBO": 0.4615384615384615,
-      "Median lambda": 0.4054651081081642,
-      "Rank correlation IS OOS": 0.2615384615384615
+      "PBO": 0.3333333333333333,
+      "Median lambda": 1.3862943611198908,
+      "Rank correlation IS OOS": 0.3091168091168091
     },
     {
       "scope": "within_config",
@@ -240,9 +240,9 @@
       "Basis": "gross",
       "N splits": 78,
       "N strategies": 4,
-      "PBO": 0.2948717948717949,
+      "PBO": 0.2179487179487179,
       "Median lambda": 0.4054651081081642,
-      "Rank correlation IS OOS": 0.4094017094017094
+      "Rank correlation IS OOS": 0.5447293447293448
     }
   ],
   "cost_overlay_note": "Repriced net rows subtract a circular-block sample of realized full-cost drag; they are not synthetic NBBO/CBBO quotes."

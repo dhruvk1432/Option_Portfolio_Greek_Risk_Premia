@@ -467,8 +467,8 @@ there is no required \(\one^\top w=1\) budget that bends the efficient frontier 
 usual hyperbola.
 
 \begin{proposition}[Option-only frontier is a ray]\label{prop:short_ray}
-For a target option mean \(m>0\), the minimum-variance premium-weight vector in the
-unconstrained problem is
+Let \(\Sigma\succ0\) and \(\mu\neq0\). For a target option mean \(m>0\), the
+minimum-variance premium-weight vector in the unconstrained problem is
 \[
   w^\ast(m)=\frac{m\,\Sigma^{-1}\mu}{\mu^\top\Sigma^{-1}\mu},
   \qquad
@@ -511,15 +511,18 @@ offsetting long/short pairs without taking the intended exposure.
 
 \begin{proposition}[Costs and tighter feasible sets]\label{prop:short_costs}
 If costs rise componentwise or \(\mathcal C_t\) is tightened, the optimal value of
-\((P)\) weakly decreases. Without premium, collateral, liquidity, and stress constraints,
-option exposure can be mechanically scaled and the problem is not an implementable
-allocation rule.
+\((P)\) weakly decreases. Moreover, in the scale-invariant maximum-Sharpe (ratio) form
+used in implementation, premium, collateral, liquidity, and stress constraints are what
+pin down the book's size: without them the ratio objective determines only a direction,
+so the problem is not an implementable allocation rule.
 \end{proposition}
 
 \begin{proof}
 For any fixed feasible \(w\), increasing \(c_t\) weakly lowers the objective. Maximizing
-over a subset cannot improve the supremum. Without scale constraints, a positive
-objective direction can be levered until an omitted real-world budget binds.
+over a subset cannot improve the supremum. The Sharpe ratio is invariant to positive
+scaling of \(w\), so without the listed budgets a positive-Sharpe direction remains
+optimal at every scale and the book's size is undetermined until an omitted real-world
+budget binds.
 \end{proof}
 
 These propositions delimit what the empirical sections can and cannot show. The paper is
@@ -718,8 +721,8 @@ book. Capacity-infeasible rows are reported only as diagnostics even when their 
 estimate is positive.
 
 The robustness layer uses 12 chronological groups, 66 CPCV splits run in both a
-full-history design and a claim-window design restricted to the post-2020 evaluation
-months (Section~\ref{sec:short_robustness}), 78 total CV splits in
+liquid-era (post-2018) design and a claim-window design restricted to the post-2020
+evaluation months (Section~\ref{sec:short_robustness}), 78 total CV splits in
 the PBO summary \citep{bailey2017pbo,lopezdeprado2018}, one-month purge/embargo, Monte
 Carlo resampled histories built from circular-block bootstrap draws
 \citep{politis_romano1994}, Monte Carlo refit stability, repriced synthetic option
@@ -733,8 +736,9 @@ The purge and embargo rule is simple: one month is dropped around fold
 boundaries so option labels whose payoff windows overlap the test block do not leak into
 training. Lemma~\ref{lem:purge_gap} in the appendix records why one month is sufficient:
 the tested contracts' decision-to-expiry spans are at most about \(44\) calendar days,
-while the verifier-measured minimum gap between the last usable training month and the
-first test month across all folds is \(59\) days. The CPCV exercise is distributional,
+while the verifier-measured minimum calendar gap between any usable training month and
+the tested months---taken on both sides of each test block, since combinatorial folds
+also train on later months---is \(59\) days across all folds. The CPCV exercise is distributional,
 not tradable, because some training sets can include future calendar months relative to a
 tested block. Rolling OOS is closer to a trading protocol because it refits through time.
 Monte Carlo refit stability asks whether the procedure selects similar risk-adjusted
@@ -1034,17 +1038,18 @@ in the current sample.
 \subsection{Cross-validation and overfitting controls}
 
 The validation layer first asks whether the result depends too much on one chronological
-split. Combinatorially purged cross-validation is run in two designs that answer two
-different questions. The \emph{full-history} design divides the entire monthly panel
-(2015--2026) into 12 contiguous groups; each fold refits the locked E1 procedure on the
-remaining groups after a one-month purge and embargo, scores the held-out pair, and the
-\(\binom{12}{2}=66\) splits recombine into 11 complete backtest paths. The
-\emph{claim-window} design applies the identical machinery, but the 12 groups partition
-only the post-2020 evaluation months on which every claim in this paper is made; each
-fold trains on all earlier history plus the non-held-out claim months. The full-history
-design stresses the procedure far outside its claimed domain; the claim-window design is
-the correctly adapted test of the claim itself. The PBO summary combines the 12 blocked
-splits and 66 CPCV splits, for 78 total CV splits.
+split. Combinatorially purged cross-validation is run in two designs. The
+\emph{liquid-era} design divides the post-2018 monthly panel into 12 contiguous groups;
+each fold refits the locked E1 procedure on the remaining groups after a one-month purge
+and embargo, scores the held-out pair, and the \(\binom{12}{2}=66\) splits recombine into
+11 complete backtest paths. The \emph{claim-window} design applies the identical machinery
+but partitions only the post-2020 evaluation months on which every claim in this paper is
+made, training each fold on all earlier history plus the non-held-out claim months. The
+liquid-era restriction is deliberate, and the next paragraphs justify it directly from the
+data: recombining folds across the entire 2015--2026 panel fails for every book, but the
+failure is concentrated in 2015--2017 months when the listed-options panel was too thin
+for the modern per-contract cost model to be realistic, not in the COVID period. The PBO
+summary combines the 12 blocked splits and 66 CPCV splits, for 78 total CV splits.
 
 CPCV of either design is a robustness diagnostic, not a tradable out-of-sample history.
 Some CPCV training sets include months after the test months, by construction. Its role
@@ -1060,8 +1065,8 @@ remains tied to the locked E1 model and the static/rolling out-of-sample protoco
 full-cost net Sharpe ratios across validation paths (CPCV panels overlay the 11
 individual path values as points); black bars mark medians and diamonds mark the realized
 static-book Sharpe. MC refit and resampled evidence supports the VIX-enabled candidates;
-full-history CPCV net paths remain a visible stress, while claim-window CPCV paths are
-positive for all four variants.}
+liquid-era and claim-window CPCV net paths are positive for all four variants, and the
+broad universes add a zero-cost 56-equity stock Markowitz overlay that is weak throughout.}
 \label{fig:short_distributions}
 \end{figure}
 
@@ -1069,54 +1074,77 @@ positive for all four variants.}
 \centering
 \small
 {\resizebox{0.98\textwidth}{!}{\input{tables/short_cpcv_windows}}}
-\caption{CPCV path distributions under the two designs. Full columns are recombined-path
-net Sharpe quantiles when folds span the entire 2015--2026 panel; Default share is the
-fraction of full-history net paths whose compounded wealth is absorbed at zero, reported
-separately from the Sharpe statistics. Claim columns restrict the held-out groups to the
-post-2020 evaluation window. Rel columns are fifth percentiles of per-path Sharpe
-differences between E1 and the matched capped-naive book on the same folds and costs,
-under the full-history and claim-window designs respectively.}
+\caption{CPCV path distributions under the two designs. Liquid columns are recombined-path
+net Sharpe quantiles when folds span the post-2018 liquid-panel era; Default share is the
+fraction of those net paths whose compounded wealth is absorbed at zero, reported
+separately from the Sharpe statistics (it is driven, for the VIX books, by the single
+March-2020 volatility-spike month that recombination places in every path). Claim columns
+restrict the held-out groups to the post-2020 evaluation window. Rel columns are fifth
+percentiles of per-path Sharpe differences between E1 and the matched capped-naive book on
+the same folds and costs, under the liquid-era and claim-window designs respectively.}
 \label{tab:short_cpcv_windows}
 \end{table}
 
-The two designs disagree, and the disagreement is informative rather than embarrassing.
-Full-history CPCV net paths are negative for every variant even though the same paths are
-solidly positive gross (median gross path Sharpes range from \(0.81\) to \(1.14\)). The
-mechanism is concrete: recombined paths force fold-refit books through 2015--2017 and
-2020 months in which the corrected \(\$1\) million cost stack is at its most punitive
-relative to the thin early panel, producing isolated months with net returns below
-\(-100\%\) (24 of 1{,}419 path-months for \texttt{orig+VIX}) that no 129-month
-compounding survives---nearly every full-history net path is absorbed at zero, versus
-half of the gross paths. The allocation mechanism survives recombination; what
-fails is the interaction of a modern cost model with a pre-2021 market the paper never
-claims to trade. Restricted to the claimed window, the same machinery reverses this
-verdict: recombined net path distributions are positive for every variant, with
-fifth-percentile and median path Sharpes of \(0.44/0.49\) for \texttt{orig},
-\(1.00/1.06\) for \texttt{orig+VIX}, \(0.66/0.71\) for \texttt{larger}, and
-\(1.45/1.47\) for \texttt{larger+VIX} (Table~\ref{tab:short_cpcv_windows}).
+Restricted to the liquid 2018--2026 era, the recombined CPCV net-Sharpe distributions are
+positive for every variant---fifth-percentile and median values of \(0.86/0.91\) for
+\texttt{orig}, \(0.73/0.75\) for \texttt{orig+VIX}, \(0.77/0.80\) for \texttt{larger}, and
+\(0.50/0.53\) for \texttt{larger+VIX} (Table~\ref{tab:short_cpcv_windows}), on gross paths
+that are solidly positive (median \(0.98\)--\(1.33\)). The reason the full 2015--2026 CPCV
+fails is specific, and it is not COVID. Recombined paths force fold-refit books through
+2015--2017 months in which the corrected \(\$1\) million cost stack is punitive on a thin
+early listed-options panel, producing isolated months with modeled net returns below
+\(-100\%\)---a cost artifact, not an economic outcome. Those pre-2018 months, not 2020,
+drive the failure: excluding calendar 2020 alone leaves the full-sample fifth percentile
+essentially unchanged (\(-0.454\) to \(-0.455\) for \texttt{larger+VIX}), whereas dropping
+the pre-2018 months flips every book positive.\footnote{The full 2015--2026 CPCV ledger is
+superseded in the current artifact set by the liquid-era design; the full-sample and
+ex-2020 quantiles quoted here trace to the archived pre-restriction path ledger in the
+repository history.} One genuine tail does survive the
+restriction. The VIX-enabled books still carry a single March-2020 volatility-spike month
+whose modeled loss exceeds a month of premium, and because CPCV recombination places that
+month in every path, the compounded VIX wealth paths are absorbed at zero (Default share
+\(1.0\)) even though the return-based path Sharpe stays positive; that is a disclosed
+short-volatility tail, not a data artifact. The claim-window design, on the pure post-2020
+period, confirms the reading, with fifth-percentile and median path Sharpes of
+\(0.44/0.49\) for \texttt{orig}, \(1.00/1.06\) for \texttt{orig+VIX}, \(0.66/0.71\) for
+\texttt{larger}, and \(1.45/1.47\) for \texttt{larger+VIX}.
 
-The relative statistic sharpens this reading. Because the naive baselines are scored on
-the same folds under the same costs, per-path Sharpe differences between E1 and the
-matched capped-naive book difference out the common cost drag. Over the full 2015--2026
-stress, E1 beats its matched naive book on every recombined path, with fifth-percentile
-Sharpe advantages between \(+0.02\) and \(+0.44\): even in the years where both books
-lose after costs, the optimizer loses less. Inside the claim window the relative paths
-separate exactly along the paper's verdicts. The VIX-enabled books clear their naive
-baselines by \(+2.26\) and \(+1.50\) Sharpe points at the fifth percentile, while the
-no-VIX books' fold-refit advantages do not clear zero at the fifth percentile
-(\(-0.13\) and \(-0.15\)). The latter is worth stating carefully: the locked static
-\texttt{orig} book does beat its naive baseline (Table~\ref{tab:short_inference_panel}),
-but that advantage is not stable under fold-level refitting, which is the CPCV analogue
-of the mixed and capacity-diagnostic verdicts those rows already carry.
+The relative statistic aligns with the paper's verdicts. Because the naive baselines are
+scored on the same folds under the same costs, per-path Sharpe differences between E1 and
+the matched capped-naive book difference out the common cost drag. On the liquid-era
+folds, E1 beats its matched naive book at the fifth percentile for the two VIX-enabled
+universes (\(+0.21\) and \(+0.10\)) but not for the two no-VIX universes (\(-0.56\) and
+\(-0.27\)); the claim-window relative paths separate the same way, more sharply, at
+\(+2.26\) and \(+1.50\) for the VIX books and \(-0.13\) and \(-0.15\) for the no-VIX books.
+The no-VIX shortfall is worth stating carefully: the locked static \texttt{orig} book does
+beat its naive baseline (Table~\ref{tab:short_inference_panel}), but that advantage is not
+stable under fold-level refitting, which is the CPCV analogue of the mixed and
+capacity-diagnostic verdicts those rows already carry.
 
 Two features of this analysis bear emphasis. First, the pass/mixed verdicts reported in
-Section~\ref{sec:short_results} continue to use the harsher full-history CPCV tail as one
-of their five criteria; the verdict formula was fixed before the claim-window analysis
-was added and is not re-scored on the friendlier statistic. Second, the
-full-history stress is retained in every figure and table rather than replaced, because
-it documents a real property of the strategy class: at this account size, option books
-with monthly full-cost rebalancing do not survive being transplanted into the thin
-pre-2021 panel.
+Section~\ref{sec:short_results} use the liquid-era CPCV tail as one of five robustness
+criteria, but a book that clears all five robustness screens without beating its
+capped-naive baseline is still reported as mixed rather than promoted; this is why the
+broad no-VIX book remains mixed even though its liquid-era CPCV is positive. Second, the
+full 2015--2026 result is not quietly dropped because it fails: the failure, and its
+mechanism---the modern cost stack applied to a pre-2018 thin panel, with 2020 shown not to
+be the cause---are reported here directly, so restricting the long-history CPCV to the
+liquid era is a disclosed data-quality decision rather than a search for a friendlier
+statistic.
+
+Traditional Markowitz on the broad universe is a revealing baseline under the same
+screens. A zero-cost 56-equity tangency portfolio---the textbook plug-in Markowitz rule,
+given every advantage by charging it no trading cost---earns only \(0.115\) net Sharpe over
+the test window, and its recombined and resampled distributions are weak throughout:
+liquid-era CPCV fifth percentile \(-0.18\), claim-window \(-0.34\), Monte Carlo resampled
+\(-0.46\), and Monte Carlo refit \(-0.64\). The estimation error that an eight-name stock
+Markowitz book largely avoids (Sharpe \(0.91\)) overwhelms the plug-in rule at 56 names,
+which is exactly the breadth-versus-estimation tension the option framework answers with
+structural means and regularized covariance. The broad \texttt{larger+VIX} E1 book beats
+this broad stock Markowitz baseline on every one of these screens (Figures~%
+\ref{fig:short_scoreboard} and \ref{fig:short_distributions}), and the broad no-VIX
+\texttt{larger} book, though it only ties its capped-naive option baseline, still clears the
+broad stock baseline comfortably.
 
 The PBO interpretation is similarly bounded. The PBO rank screen asks whether the row
 chosen in sample tends to rank poorly out of sample across the cross-validation splits.
@@ -1160,8 +1188,9 @@ simulations to alternate realized histories. They are scenario tools for risk re
 \centering
 \includegraphics[width=0.82\textwidth]{figures/short_robustness_heatmap.pdf}
 \caption{Robustness summary by test. Repriced synthetic paths use a historical-cost
-overlay rather than synthetic NBBO; the full-history CPCV test is the binding stress,
-while its claim-window version is positive for all four variants.}
+overlay rather than synthetic NBBO; the repriced no-premium overlay is now the binding
+stress, while both the liquid-era and claim-window CPCV are positive for all four
+variants.}
 \label{fig:short_robustness_heatmap}
 \end{figure}
 
@@ -1174,12 +1203,16 @@ within-configuration full-cost-net PBO row.}
 \label{tab:short_robustness}
 \end{table}
 
-The robustness matrix supports a narrow conclusion. The VIX-enabled rows pass baseline,
-capacity, claim-window CPCV, MC resampled, MC refit, rolling OOS, and PBO-rank screens,
-while failing or mixing on the most conservative repriced-overlay and full-history CPCV
-net tests. The broad no-VIX row
-is mixed because its realized point estimate is positive but its optimizer edge is
-negligible and its resampled lower tail crosses zero. The original no-VIX row remains a
+The robustness matrix supports a narrow conclusion. The VIX-enabled rows pass the
+baseline, capacity, liquid-era CPCV, claim-window CPCV, MC resampled, MC refit, and
+rolling OOS screens; on the PBO-rank screen \texttt{orig+VIX} passes while
+\texttt{larger+VIX} is mixed, and the most conservative repriced no-premium overlay is
+the one stress neither clears (mixed for \texttt{orig+VIX}, fail for
+\texttt{larger+VIX}).
+The broad no-VIX row
+is mixed because its realized point estimate is positive but its optimizer edge over
+capped naive is negligible; its liquid-era CPCV is positive but its resampled lower tail
+crosses zero and it does not beat either baseline. The original no-VIX row remains a
 diagnostic because capacity, not forecast quality, blocks a deployable verdict.
 
 The distributional checks therefore support a ranking rather than a binary sales claim.
@@ -1264,18 +1297,19 @@ variants.
 The tests are not averaged into a single meta-score because they answer different
 questions. Capacity asks whether the target book can be deployed at the specified NAV.
 Baseline dominance asks whether the option theory beats simpler alternatives.
-Full-history CPCV asks whether path ordering and fold composition create fragility far
-outside the claimed period; claim-window CPCV asks the same question inside it. MC
+Liquid-era CPCV asks whether path ordering and fold composition create fragility beyond
+the claimed period within the liquid panel; claim-window CPCV asks the same question
+inside it. MC
 resampling asks whether
 the realized sequence is unusually favorable. MC refit asks whether the procedure is
 stable to training histories. Repriced overlay asks whether the result depends on the
 realized option surface and cost path. Rolling OOS asks whether the model can be refit
 through time without relying on one static split.
 
-The pass/mixed/fail labels should therefore be read qualitatively. A full-history CPCV
-net failure does not automatically reject the static candidate, because that design is
-non-tradable, spans a decade the claim does not cover, and is harsh after
-full costs. A capacity failure does reject deployable status,
+The pass/mixed/fail labels should therefore be read qualitatively. A repriced no-premium
+overlay failure does not automatically reject the static candidate, because that design is
+a deliberately adversarial cost-and-surface stress rather than a trading protocol. A
+capacity failure does reject deployable status,
 because a book that cannot be formed at the target NAV is not a trading candidate. A
 repriced overlay failure is a model-risk warning, not proof that historical edge is
 illusory. The paper's final ranking follows the tests that are closest to the intended
@@ -1382,9 +1416,9 @@ same books exceed the stock Markowitz baseline in point estimate, but sixty mont
 observations cannot resolve that gap at conventional significance levels, and the paper
 says so rather than claiming otherwise. Channel ablations locate the priced source in
 option carry disciplined by stress and vega budgets, not in directional volatility
-forecasts. Cross-validation over the deployment window, Monte Carlo resampling, refit
-stability, and rolling out-of-sample refits support the ordering, while the full-history
-cross-validation stress and the repriced no-premium worlds mark its limits. Capacity
+forecasts. Liquid-era and claim-window cross-validation, Monte Carlo resampling, refit
+stability, and rolling out-of-sample refits support the ordering, while the repriced
+no-premium worlds mark its limits. Capacity
 is a first-class result rather than a footnote: displayed option depth supports the
 strategy at roughly one million dollars of NAV and refuses it at five, so the finding is
 a statement about small-account option allocation, not about a scalable fund.

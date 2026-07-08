@@ -27,6 +27,6 @@ machine-readable research outputs.
 Operational data-source URLs are documented in `REPRODUCIBILITY.md`, not in the scholarly
 bibliography.
 
-| Publication replication package, artifact hashes, environment lock, and OPRA redistribution boundary | `docs/replication_package.md`; `artifact_hash_manifest.csv`; `environment_lock.json`; operational provenance only, not scholarly bibliography |
+| Publication replication commands, artifact hashes, environment lock, and OPRA redistribution boundary | `REPRODUCIBILITY.md`; `artifact_hash_manifest.csv`; `environment_lock.json`; operational provenance only, not scholarly bibliography |
 | Exact VRO/SOQ public ingestion and VIX headline gating | `data_pull/cboe_vro_soq.py`; `analysis/vix_option_panel.py`; `artifacts/vix_settlement_coverage.csv`; `artifacts/vix_settlement_audit.csv`; Cboe VRO/SOQ operational convention recorded here, not in bibliography |
 | Pre-production executable-cost scenarios, required capital, liquidity tiers, forecast ablations, and reality-check inference | `analysis/execution_cost_scenarios.py`; `analysis/publication_costs.py`; `analysis/inference.py`; `artifacts/net_strategy_returns_by_cost_scenario.csv`; `artifacts/required_capital_returns.csv`; `artifacts/post_cost_survival.csv` when generated through summary tables; `artifacts/reality_check_inference.csv`; operational cost/capacity route from the local knowledge base, not cited as a scholarly reference |

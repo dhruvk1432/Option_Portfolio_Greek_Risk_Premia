@@ -10,7 +10,9 @@ connected to a convex conic program.
 
 \begin{proposition}[No free option exposure]\label{prop:app_no_free_exposure}
 Let \(\mathcal C\) include binding gross-premium, short-premium, stress-loss,
-margin/collateral, or contract-level liquidity controls. Then no economically nonzero
+margin/collateral, or contract-level liquidity controls, and assume the imposed controls
+jointly separate exposure: any premium-weight direction on which every imposed control
+vanishes carries no premium, payoff, or Greek exposure. Then no economically nonzero
 sequence of option positions can take unbounded premium, payoff, or Greek exposure while
 remaining feasible and using zero capital.
 \end{proposition}
@@ -18,10 +20,12 @@ remaining feasible and using zero capital.
 \begin{proof}
 The listed controls are positively homogeneous in the premium-weight vector. If
 \(\|w_k\|\to\infty\) along an economically nonzero direction, at least one controlled
-premium, margin, stress, Greek, or liquidity functional diverges. A direction in the null
-space of all such functionals has no priced premium exposure and no admissible tradable
-contract size in this model. Therefore every economically meaningful option direction
-must consume a real budget before scale can diverge.
+premium, margin, stress, Greek, or liquidity functional diverges, violating feasibility
+at some finite scale. The only directions along which no imposed control diverges lie in
+the joint null space of the controls, and by the separation assumption those directions
+carry no premium, payoff, or Greek exposure, so they are not economically nonzero.
+Therefore every economically meaningful option direction must consume a real budget
+before scale can diverge.
 \end{proof}
 
 This proposition is the formal reason the paper does not treat gross option Sharpe as a
@@ -105,25 +109,30 @@ uses it.
 Index each label by its return month-end. Assume every tested contract's information
 window spans at most \(\Delta\) calendar days and ends at its return month-end, where
 \(\Delta\approx44\) days is the maximum decision-to-expiry span of the monthly-tenor
-contracts. If the realized calendar gap between the latest training return month-end and
-the earliest test return month-end is \(G>\Delta\) in every fold, then no training
-label's information window overlaps any test label's window.
+contracts. If the realized calendar distance \(|t_e-t_r|\) between every training return
+month-end \(t_r\) and every test return month-end \(t_e\) is at least \(G\) with
+\(G>\Delta\) in every fold---a two-sided requirement, because combinatorial folds train
+on months both before and after each tested block---then no training label's information
+window overlaps any test label's window.
 \end{lemma}
 
 \begin{proof}
 A training label with return month-end \(t_r\) has window contained in
-\([t_r-\Delta,\,t_r]\). A test label with return month-end \(t_e\) has window contained
-in \([t_e-\Delta,\,t_e]\), which begins at \(t_e-\Delta\). Overlap requires
-\(t_r>t_e-\Delta\), i.e. \(t_e-t_r<\Delta\). The purge/embargo schedule enforces
-\(t_e-t_r\ge G>\Delta\) for every training/test pair, so the windows are disjoint.
+\([t_r-\Delta,\,t_r]\); a test label with return month-end \(t_e\) has window contained
+in \([t_e-\Delta,\,t_e]\). If \(t_r\le t_e\), overlap requires \(t_r\ge t_e-\Delta\); if
+\(t_r>t_e\), overlap requires \(t_r-\Delta\le t_e\). Either way overlap requires
+\(|t_e-t_r|\le\Delta\). The purge/embargo schedule enforces
+\(|t_e-t_r|\ge G>\Delta\) for every training/test pair, so the windows are disjoint.
 \end{proof}
 
 The quantity \(G\) is not assumed; it is measured. The verifier recomputes the minimum
 gap across all folds, schemes, and configurations from the fold schedule and ledger
-artifacts and asserts \(G>44\) days; in the current artifacts the realized minimum is
-\(G=59\) days. The one-month purge plus one-month embargo is therefore sufficient with
-two weeks of slack, and the sufficiency claim is re-audited on every verification run
-rather than hand-typed.
+artifacts---on both sides of every test block, since the pre-test boundary is set by the
+purge alone while the post-test boundary is set by the purge plus embargo---and asserts
+\(G>44\) days; in the current artifacts the realized minimum is \(G=59\) days, attained
+on the pre-test side. The one-month purge plus one-month embargo is therefore sufficient
+with two weeks of slack, and the sufficiency claim is re-audited on every verification
+run rather than hand-typed.
 
 \subsection{Maximum Sharpe and conic reduction}
 

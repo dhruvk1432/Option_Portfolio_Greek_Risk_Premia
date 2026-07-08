@@ -87,7 +87,8 @@ clipped so the realized weight never exceeds its per-contract liquidity cap. Bec
 is the single chokepoint, it propagates to every CV/MC/rolling refit automatically.
 
 The checked run uses `nav=1_000_000`, `participation=0.05`, 12 chronological groups, 66
-CPCV splits, 78 total CV/PBO splits per config, one-month purge/embargo, 1,000 resampled
+CPCV splits in each of two designs (a liquid-era post-2018 primary and a claim-window
+post-2020 design), 78 total CV/PBO splits per config, one-month purge/embargo, 1,000 resampled
 paths, 200 refit paths, 1,000 repriced paths, 1,000 path simulations, and rolling 36-month
 OOS refits. The spread-source audit passes with zero `current_cboe_liquid_quote` rows and
 zero `default` rows.

@@ -6,7 +6,7 @@ Standalone publication repository for the paper:
 research/papers/option_only_markowitz/option_only_portfolio_optimization_dhruv_kohli.pdf
 ```
 
-This project asks how an allocator should choose among listed calls and puts when every instrument is a funded, expiring, state-contingent cashflow rather than a standard asset-return column. The canonical PDF is now a mid-length theory-first paper: it gives the option-allocation mathematics up front, tests the four locked E1 universes with artifact-backed figures, compact tables, real-world costs, liquidity caps, and robustness checks, and keeps detailed solver/proof mechanics in a compact technical appendix.
+This project asks how an allocator should choose among listed calls and puts when every instrument is a funded, expiring, state-contingent cashflow rather than a standard asset-return column. The paper is theory-first: it develops the option-allocation mathematics up front, tests four locked E1 universes with artifact-backed figures, compact tables, real-world costs, liquidity caps, and robustness checks, and keeps detailed solver/proof mechanics in a compact technical appendix.
 
 The contribution is a disciplined option allocation and validation framework. The empirical evidence is a point-in-time, pre-production research simulation. It does **not** claim live alpha, broker-executed performance, live margin parity, production tradability, or deployable option trading performance.
 
@@ -18,17 +18,28 @@ The contribution is a disciplined option allocation and validation framework. Th
 - **VIX options are volatility instruments.** VIX option Greeks are anchored to VX futures/forwards, and expiry P&L is headline-grade only when exact VRO/SOQ settlement supports the relevant rows.
 - **Validation gates matter.** Gross Sharpe is treated as a diagnostic; post-cost, settlement, beta/Greek attribution, liquidity/capacity, assignment-risk, inference, and no-lookahead checks determine what can be claimed.
 
-## Latest Breadth/Capacity Diagnostic
+## Headline Results
 
-The newest diagnostic asks whether expanding from the eight-name equity-option universe to 56 names fixes the post-cost result. The baseline eight equity names use historical panel CBBO for spread inputs: the `orig` source-coverage ledger has 5,777 panel-CBBO cost rows across 49 asset IDs and all eight baseline underlyings. Missing added-name and VIX spread rows now use a point-in-time inferred CBBO proxy calibrated from the historical liquid equity/ETF CBBO surface, not stale off-hours Cboe snapshots or blanket 10%/15% class defaults.
+The paper evaluates one locked specification (E1: structural-only means, diagonal residual covariance, N-scaled covariance shrinkage, 75% shrink-to-zero, and pre-trade net liquidity caps at 5% of displayed training-window volume) on four universes at `$1M` NAV. Every book is rounded to whole option contracts before any performance number is computed. Full-cost net results over the 60-month test window:
 
-The updated result is that breadth pays with VIX at `$1M` when the mean estimator is fixed and liquidity caps bind net contract positions. The 57-group E1 book (diagonal residual covariance, N-scaled shrinkage, structural-only mean) reaches gross Sharpe `1.915` and net Sharpe `1.499`; the old paper configuration remains negative at `-1.837` net and the best capped-naive benchmark reaches only `0.266`. Without VIX, the 56-name optimizer is positive but does not establish edge (`0.551` net versus `0.550` for capped equal-risk). The same run is also the capacity warning: above roughly `$2M`, representative month-end contracts do not support full deployment under the tested participation caps, and positive relaxed rows deploy only a trivial fraction of NAV. The machine-readable audit is under `research/papers/option_only_markowitz/analysis/artifacts/breadth_solutions/`.
+| Universe | Gross → Net Sharpe | Net Sortino | Verdict |
+|---|---|---|---|
+| `orig` (8 equity names) | 0.975 → 0.778 | 1.783 | capacity diagnostic (cap budget below one NAV) |
+| `orig+VIX` | 1.675 → 1.383 | 3.551 | pass |
+| `larger` (56 names) | 0.847 → 0.587 | 1.298 | mixed (ties capped-naive options) |
+| `larger+VIX` | 2.010 → 1.628 | 4.377 | pass |
 
-The breadth robustness layer is now under `analysis/artifacts/breadth_solutions/robustness/`. It validates the locked E1 capped candidates for `orig`, `orig+VIX`, `larger`, and `larger+VIX` with 12 blocked chronological groups, 66 CPCV splits, purge/embargo of one month, 1,000 resampled paths, 200 refit paths, 1,000 repriced paths, path simulations, drawdown breach rates, reality-check inference, and true rolling 36-month monthly refits. The spread audit passes with zero `current_cboe_liquid_quote` and zero `default` rows. The static full-run rows classify `orig` as diagnostic capacity-infeasible, `larger` as mixed, and the VIX-enabled E1 books as passes; `larger+VIX` has net Sharpe `1.499`, net Sortino `4.004`, rolling net Sharpe `1.217`, MC refit net Sharpe p05 `1.262`, and MC resampled net Sharpe p05 `0.989`.
+Three findings frame the numbers:
 
-The paper now uses a visual-first mid-length exhibit set plus a compact technical appendix for no-free-exposure, monotonicity, conic-solver, net-cap, and PSD-estimator details. Run `make final-results` to regenerate `figures/short_theory_flow.pdf`, `figures/short_four_variant_scoreboard.pdf`, `figures/short_walk_forward_return_paths.pdf`, `figures/short_validation_distributions.pdf`, `figures/short_robustness_heatmap.pdf`, `figures/short_capacity_spread_panel.pdf`, and the underlying `final_result_scoreboard.csv` plus `final_walk_forward_return_paths.csv`. The baseline charts compare the locked E1 option books against two simple benchmarks: ordinary underlying Markowitz and matched capped naive option allocations. The VIX-enabled books beat both baselines; the no-VIX books do not clear that stronger bar.
+- **The VIX-enabled books beat both baselines** — ordinary stock Markowitz on the same underlyings and capped naive option books under identical costs and caps. The optimizer edge over capped naive is `+2.273` and `+1.335` annualized Sharpe points (`p < 0.001`, Jobson–Korkie–Memmel with paired block bootstrap). The edge over stock Markowitz is positive in point estimate but not statistically resolvable on 60 monthly observations, and the paper says so directly.
+- **The edge is carry, not volatility timing.** Channel ablations attribute the VIX-book performance to option carry disciplined by stress and vega budgets rather than directional volatility forecasts.
+- **Capacity is a first-class result.** Displayed month-end option depth supports the strategy at roughly `$1M` NAV and refuses it at `$5M` and above, so this is a small-account allocation claim, not a scalable-fund claim.
 
-The broad-name spread rows are not final execution proof. Exact historical market-hours OPRA/NBBO or broker CBBO matched to every decision row remains the main execution-data caveat. The inferred broad-name and VIX spread rows are calibrated execution-sensitivity inputs; they are explicitly separated from the baseline eight-name historical panel-CBBO rows.
+## Robustness Layer
+
+The locked candidates are validated in `analysis/artifacts/breadth_solutions/robustness/` with 12 blocked chronological groups and 66 CPCV splits run in two designs — a liquid-era (post-2018) design and a claim-window (post-2020) design, each with a one-month purge and embargo whose realized train/test gap the verifier measures on both sides of every test block — plus PBO, Monte Carlo resampled histories, refit-stability draws, repriced synthetic option universes, drawdown-breach and volatility-path simulations, reality-check and deflated-Sharpe inference, and true rolling 36-month out-of-sample refits (rolling net Sharpe `1.273` for `larger+VIX`, `1.033` for `orig+VIX`). Both CPCV designs are positive for all four books; the binding stress is the adversarial repriced no-premium overlay, and a zero-cost 56-equity stock-Markowitz baseline fails the same screens the option books pass. Run `make final-results` to regenerate the scoreboard, distribution, heatmap, capacity, and walk-forward exhibits from these ledgers.
+
+Spread sourcing is separated by evidentiary weight: the eight baseline equity names use exact historical market-hours panel CBBO, while VIX rows and added broad names use a point-in-time inferred CBBO proxy calibrated from the liquid CBBO surface (about four-fifths of broad cost rows). The proxy rows are calibrated execution-sensitivity inputs, not final execution proof; exact market-hours NBBO/CBBO matched to every decision row remains the main execution-data caveat.
 
 ## Forward Shadow Layer
 
@@ -61,7 +72,7 @@ Option_Portfolio_Greek_Risk_Premia/
 │   ├── option_only_portfolio_optimization_dhruv_kohli.tex
 │   ├── analysis/                  # Empirical runner, costs, inference, VIX panel, simulation
 │   ├── artifacts/                 # Machine-readable generated outputs
-│   ├── docs/                      # Source ledger, replication package, release notes
+│   ├── docs/                      # Source ledger and release notes
 │   ├── figures/                   # Generated paper figures
 │   ├── sections/                  # Manuscript sections
 │   ├── tables/                    # Generated LaTeX tables and empirical summary
@@ -123,7 +134,6 @@ make verify           # run the independent verifier
 The exact replication command sequence and data-availability note are in:
 
 ```text
-research/papers/option_only_markowitz/docs/replication_package.md
 research/papers/option_only_markowitz/REPRODUCIBILITY.md
 ```
 
@@ -166,7 +176,7 @@ make clean           # remove local Python/LaTeX intermediates
 
 ## Verification Standard
 
-The verifier checks generated outputs, point-in-time timing, optimizer constraints, settlement coverage, cost ledgers, figure visibility, inference outputs, bibliography scope, PDF availability, and claim boundaries. In the public standalone package, raw licensed data checks are documented and replaced by artifact-level verification unless the licensed inputs are present locally.
+The full verifier (`make verify`) regenerates the fast empirical core, recompiles the PDF, and runs 386 independent checks covering generated outputs, point-in-time timing (including the two-sided CPCV purge/embargo gap), optimizer constraints, settlement coverage, cost ledgers, figure visibility, inference outputs, bibliography scope, PDF availability, and claim boundaries; `make test` runs 155 focused unit tests. In the public standalone package, raw licensed data checks are documented and replaced by artifact-level verification unless the licensed inputs are present locally.
 
 The latest included verifier outputs are under:
 

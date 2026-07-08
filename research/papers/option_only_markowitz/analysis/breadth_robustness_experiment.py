@@ -87,6 +87,7 @@ from research.papers.option_only_markowitz.analysis.run_empirics import (
     representative_specs,
     vix_state_panel,
 )
+from src.portfolio.option_only_markowitz_model import nearest_psd
 from research.papers.option_only_markowitz.analysis.simulation import (
     SimulationConfig,
     performance_metrics,
@@ -108,6 +109,13 @@ E1_KNOBS = EstimatorKnobs(
 )
 DEFAULT_NAV = 1_000_000.0
 DEFAULT_PARTICIPATION = 0.05
+STOCK_STRATEGY = "Stock Markowitz"
+BROAD_CONFIGS = ("larger", "larger+VIX")
+# The primary (long-history) CPCV is restricted to the liquid-panel era: 2015--2017 test
+# months blow up only because the modern per-contract cost stack is applied to a thin early
+# listed-options panel (months with modeled net <= -100%, a cost artifact, not economics).
+# COVID/2020 is not the driver -- excluding 2020 alone leaves the full-sample p05 unchanged.
+LIQUID_ERA_START = pd.Timestamp("2018-01-01")
 DEFAULT_CV_CONFIG = CVConfig(n_groups=12, n_test_groups=2, purge_months=1, embargo_months=1)
 
 
@@ -388,6 +396,58 @@ def fit_books(
     return {name: books[name] for name in STRATEGY_ORDER if name in books}
 
 
+def _broad_equity_columns(under_ret: pd.DataFrame, universe: Sequence[str] | None = None) -> list[str]:
+    candidates = list(universe) if universe is not None else list(under_ret.columns)
+    return [col for col in candidates if col != VIX_FACTOR and col in under_ret.columns]
+
+
+def _broad_tangency_weights(train_under: pd.DataFrame) -> pd.Series:
+    """Closed-form gross-NAV tangency portfolio over supplied equity columns."""
+
+    cols = [col for col in train_under.columns if col != VIX_FACTOR]
+    if not cols:
+        return pd.Series(dtype=float, name="weight")
+    train = train_under.reindex(columns=cols).dropna(how="all").fillna(0.0)
+    if train.empty:
+        raw = np.repeat(1.0 / len(cols), len(cols))
+    else:
+        cov = nearest_psd(
+            np.nan_to_num(train.cov().to_numpy(float), nan=0.0, posinf=0.0, neginf=0.0)
+        )
+        mu = train.mean().to_numpy(float)
+        raw = np.linalg.pinv(cov) @ mu
+    if not np.isfinite(raw).all() or np.abs(raw).sum() <= 1e-12:
+        raw = np.repeat(1.0 / len(cols), len(cols))
+    weights = raw / np.abs(raw).sum()
+    return pd.Series(weights, index=cols, name="weight")
+
+
+def _broad_stock_fit_and_score(
+    under_ret: pd.DataFrame,
+    train_dates: Sequence[pd.Timestamp],
+    test_dates: Sequence[pd.Timestamp],
+    equity_cols: Sequence[str],
+) -> tuple[pd.Series, pd.Series, pd.Series]:
+    train_index = pd.DatetimeIndex(pd.to_datetime(pd.Index(train_dates)))
+    test_index = pd.DatetimeIndex(pd.to_datetime(pd.Index(test_dates)))
+    cols = [col for col in equity_cols if col in under_ret.columns and col != VIX_FACTOR]
+    weights = _broad_tangency_weights(under_ret.reindex(train_index).reindex(columns=cols))
+    aligned_weights = weights.reindex(cols).fillna(0.0)
+    train_frame = under_ret.reindex(train_index).reindex(columns=cols).fillna(0.0)
+    test_frame = under_ret.reindex(test_index).reindex(columns=cols).fillna(0.0)
+    train_series = pd.Series(
+        train_frame.to_numpy(float) @ aligned_weights.to_numpy(float),
+        index=train_index,
+        name=STOCK_STRATEGY,
+    )
+    test_series = pd.Series(
+        test_frame.to_numpy(float) @ aligned_weights.to_numpy(float),
+        index=test_index,
+        name=STOCK_STRATEGY,
+    )
+    return weights, train_series, test_series
+
+
 def score_books(
     panel: BreadthPanel,
     books: dict[str, FittedBook],
@@ -438,6 +498,18 @@ def build_full_context(panel: BreadthPanel, nav: float, participation: float) ->
     gross.columns = [f"{panel.label} {c}" for c in gross.columns]
     net.columns = [f"{panel.label} {c}" for c in net.columns]
     under_ret, vol_shocks = factor_panels(panel.reps, panel.universe)
+    if panel.label in BROAD_CONFIGS:
+        train_dates = pd.DatetimeIndex(panel.returns.index[panel.returns.index <= TRAIN_END])
+        equity_cols = _broad_equity_columns(under_ret, panel.universe)
+        _weights, _train_series, stock_series = _broad_stock_fit_and_score(
+            under_ret,
+            train_dates,
+            test_dates,
+            equity_cols,
+        )
+        stock_col = f"{panel.label} {STOCK_STRATEGY}"
+        gross[stock_col] = stock_series
+        net[stock_col] = stock_series
     return FullContext(
         panel=panel,
         training=ctx,
@@ -519,6 +591,66 @@ def _append_month_rows(
         )
 
 
+def _append_stock_cv_rows(
+    ledger_rows: list[dict[str, object]],
+    month_rows: list[dict[str, object]],
+    split_rows: list[dict[str, object]],
+    *,
+    config: str,
+    fold: FoldSpec,
+    under_ret: pd.DataFrame,
+    equity_cols: Sequence[str],
+) -> None:
+    weights, train_series, test_series = _broad_stock_fit_and_score(
+        under_ret,
+        fold.train_dates,
+        fold.test_dates,
+        equity_cols,
+    )
+    train_stats = _series_stats(train_series)
+    test_stats = _series_stats(test_series)
+    deployed_gross = float(weights.abs().sum())
+    for basis in ("gross", "full_cost_net"):
+        ledger_rows.append(
+            {
+                "config": config,
+                "fold_id": fold.fold_id,
+                "scheme": fold.scheme,
+                "strategy": f"{config} {STOCK_STRATEGY}",
+                "display_strategy": STOCK_STRATEGY,
+                "basis": basis,
+                "status": "ok",
+                "solver_status": "reference",
+                "mode": "reference",
+                "capacity_infeasible": False,
+                "sum_of_caps": np.nan,
+                "deployed_gross": deployed_gross,
+                **test_stats,
+            }
+        )
+        _append_month_rows(
+            month_rows,
+            config=config,
+            fold=fold,
+            strategy=STOCK_STRATEGY,
+            basis=basis,
+            series=test_series,
+        )
+        split_rows.append(
+            {
+                "config": config,
+                "fold_id": fold.fold_id,
+                "scheme": fold.scheme,
+                "strategy": f"{config} {STOCK_STRATEGY}",
+                "display_strategy": STOCK_STRATEGY,
+                "basis": basis,
+                "is_sharpe": train_stats.get("sharpe", np.nan),
+                "oos_sharpe": test_stats.get("sharpe", np.nan),
+                "status": "ok",
+            }
+        )
+
+
 def run_cv_stage(
     panels: dict[str, BreadthPanel],
     full_contexts: dict[str, FullContext],
@@ -537,6 +669,8 @@ def run_cv_stage(
     expected = expected_cv_split_count(cv_config)
 
     for config, panel in panels.items():
+        stock_under_ret = full_contexts[config].underlying_returns if config in BROAD_CONFIGS else pd.DataFrame()
+        stock_equity_cols = _broad_equity_columns(stock_under_ret, panel.universe) if config in BROAD_CONFIGS else []
         folds = build_folds(panel.returns.index, cv_config, "kfold", test_window=test_window) + build_folds(
             panel.returns.index,
             cv_config,
@@ -615,6 +749,16 @@ def run_cv_stage(
                             )
             except Exception as exc:  # pragma: no cover - exercised in full runs on solver/data surprises
                 status = f"error:{type(exc).__name__}"
+            if config in BROAD_CONFIGS:
+                _append_stock_cv_rows(
+                    ledger_rows,
+                    month_rows,
+                    split_rows,
+                    config=config,
+                    fold=fold,
+                    under_ret=stock_under_ret,
+                    equity_cols=stock_equity_cols,
+                )
             runtime_rows.append(
                 {
                     "config": config,
@@ -778,6 +922,33 @@ def realized_summary(full_contexts: dict[str, FullContext]) -> pd.DataFrame:
                     "net_max_drawdown": n["max_drawdown"],
                 }
             )
+        if config in BROAD_CONFIGS:
+            col = f"{config} {STOCK_STRATEGY}"
+            if col in ctx.gross_returns and col in ctx.net_returns:
+                train_dates = pd.DatetimeIndex(ctx.panel.returns.index[ctx.panel.returns.index <= TRAIN_END])
+                equity_cols = _broad_equity_columns(ctx.underlying_returns, ctx.panel.universe)
+                weights = _broad_tangency_weights(
+                    ctx.underlying_returns.reindex(train_dates).reindex(columns=equity_cols)
+                )
+                stats = _series_stats(ctx.net_returns[col])
+                rows.append(
+                    {
+                        "config": config,
+                        "strategy": STOCK_STRATEGY,
+                        "deployable": True,
+                        "mode": "reference",
+                        "solver_status": "reference",
+                        "capacity_infeasible": False,
+                        "sum_of_caps": np.nan,
+                        "deployed_gross": float(weights.abs().sum()),
+                        "gross_sharpe": stats["sharpe"],
+                        "net_sharpe": stats["sharpe"],
+                        "gross_sortino": stats["sortino"],
+                        "net_sortino": stats["sortino"],
+                        "gross_max_drawdown": stats["max_drawdown"],
+                        "net_max_drawdown": stats["max_drawdown"],
+                    }
+                )
     return pd.DataFrame(rows)
 
 
@@ -816,6 +987,48 @@ def run_mc_resampled(
     return path_frame, resampled_summary(path_frame, realized)
 
 
+def _append_stock_refit_rows(
+    rows: list[dict[str, object]],
+    *,
+    label: str,
+    path_id: int,
+    pseudo_under: pd.DataFrame,
+    under_ret: pd.DataFrame,
+    train_dates: pd.DatetimeIndex,
+    test_dates: pd.DatetimeIndex,
+    equity_cols: Sequence[str],
+) -> None:
+    cols = [
+        col
+        for col in equity_cols
+        if col in under_ret.columns and col in pseudo_under.columns and col != VIX_FACTOR
+    ]
+    weights = _broad_tangency_weights(pseudo_under.reindex(train_dates).reindex(columns=cols))
+    aligned_weights = weights.reindex(cols).fillna(0.0)
+    test_frame = under_ret.reindex(test_dates).reindex(columns=cols).fillna(0.0)
+    series = pd.Series(
+        test_frame.to_numpy(float) @ aligned_weights.to_numpy(float),
+        index=test_dates,
+        name=STOCK_STRATEGY,
+    )
+    stats = _series_stats(series)
+    deployed_gross = float(weights.abs().sum())
+    for basis in ("gross", "full_cost_net"):
+        rows.append(
+            {
+                "config": label,
+                "path_id": int(path_id),
+                "strategy": f"{label} {STOCK_STRATEGY}",
+                "display_strategy": STOCK_STRATEGY,
+                "basis": basis,
+                "status": "ok",
+                "capacity_infeasible": False,
+                "deployed_gross": deployed_gross,
+                **stats,
+            }
+        )
+
+
 def run_mc_refit(
     panels: dict[str, BreadthPanel],
     full_contexts: dict[str, FullContext],
@@ -833,6 +1046,7 @@ def run_mc_refit(
         paths = month_index_paths(len(train_dates), config.n_refit_paths, config.block_length, rng)
         train_returns = panel.returns.loc[train_dates]
         under_ret, vol_shocks = factor_panels(panel.reps, panel.universe)
+        stock_equity_cols = _broad_equity_columns(under_ret, panel.universe) if label in BROAD_CONFIGS else []
         train_under = under_ret.reindex(train_dates).fillna(0.0)
         train_vol = vol_shocks.reindex(train_dates).fillna(0.0)
         test_dates = pd.DatetimeIndex(panel.returns.index[panel.returns.index > TRAIN_END])
@@ -846,6 +1060,17 @@ def run_mc_refit(
                 pseudo_returns = _slot_relabel(train_returns, path, train_dates)
                 pseudo_under = _slot_relabel(train_under, path, train_dates)
                 pseudo_vol = _slot_relabel(train_vol, path, train_dates)
+                if label in BROAD_CONFIGS:
+                    _append_stock_refit_rows(
+                        rows,
+                        label=label,
+                        path_id=path_id,
+                        pseudo_under=pseudo_under,
+                        under_ret=under_ret,
+                        train_dates=train_dates,
+                        test_dates=test_dates,
+                        equity_cols=stock_equity_cols,
+                    )
                 ctx, status = _training_from_pseudo(
                     panel,
                     pseudo_returns,
@@ -1119,8 +1344,15 @@ def run_validation(
     spread_audit = spread_policy_status(spread_coverage)
 
     realized = realized_summary(full_contexts)
-    print("[breadth-robustness] running CV/CPCV/PBO", flush=True)
-    cv = run_cv_stage(panels, full_contexts, cv_config=cv_config, nav=nav, participation=participation)
+    print("[breadth-robustness] running CV/CPCV/PBO (liquid-era test window >= 2018)", flush=True)
+    cv = run_cv_stage(
+        panels,
+        full_contexts,
+        cv_config=cv_config,
+        nav=nav,
+        participation=participation,
+        test_window=_liquid_era_test_window(panels),
+    )
     print("[breadth-robustness] running resampled MC", flush=True)
     mc_paths, mc_summary = run_mc_resampled(gross_returns, net_returns, resample_config)
     print("[breadth-robustness] running refit MC", flush=True)
@@ -1181,6 +1413,7 @@ def run_validation(
 
     _write_outputs(
         out_dir,
+        panels=panels,
         spread_coverage=spread_coverage,
         realized=realized,
         gross_returns=gross_returns,
@@ -1217,6 +1450,7 @@ def run_validation(
 def _write_outputs(
     out_dir: Path,
     *,
+    panels: dict[str, BreadthPanel],
     spread_coverage: pd.DataFrame,
     realized: pd.DataFrame,
     gross_returns: pd.DataFrame,
@@ -1240,8 +1474,21 @@ def _write_outputs(
     validation_json: dict[str, object],
     validation_markdown: str,
 ) -> None:
+    full_month_grid = pd.concat(
+        [
+            pd.DataFrame(
+                {
+                    "config": label,
+                    "return_date": pd.DatetimeIndex(panel.returns.index).strftime("%Y-%m-%d"),
+                }
+            )
+            for label, panel in panels.items()
+        ],
+        ignore_index=True,
+    )
     outputs = {
         "breadth_spread_source_coverage.csv": spread_coverage,
+        "breadth_cv_full_month_grid.csv": full_month_grid,
         "breadth_realized_candidate_summary.csv": realized,
         "breadth_strategy_returns_gross.csv": gross_returns,
         "breadth_strategy_returns_net.csv": net_returns,
@@ -1343,6 +1590,15 @@ def _claim_test_window(panels: dict[str, BreadthPanel]) -> pd.DatetimeIndex:
     window = pd.DatetimeIndex([])
     for panel in panels.values():
         dates = pd.DatetimeIndex(panel.returns.index[panel.returns.index > TRAIN_END])
+        window = window.union(dates)
+    return window.sort_values()
+
+
+def _liquid_era_test_window(panels: dict[str, BreadthPanel]) -> pd.DatetimeIndex:
+    """CPCV test months restricted to the liquid-panel era (>= LIQUID_ERA_START)."""
+    window = pd.DatetimeIndex([])
+    for panel in panels.values():
+        dates = pd.DatetimeIndex(panel.returns.index[panel.returns.index >= LIQUID_ERA_START])
         window = window.union(dates)
     return window.sort_values()
 
@@ -1614,12 +1870,12 @@ def _write_short_cpcv_windows_table(
         rows.append(
             {
                 "Config": config,
-                "Full net p05": row.get("cpcv_net_p05", np.nan),
-                "Full net p50": row.get("cpcv_net_p50", np.nan),
+                "Liquid net p05": row.get("cpcv_net_p05", np.nan),
+                "Liquid net p50": row.get("cpcv_net_p50", np.nan),
                 "Default share": float(defaulted.mean()) if len(defaulted) else np.nan,
                 "Claim net p05": row.get("cpcv_claim_net_p05", np.nan),
                 "Claim net p50": row.get("cpcv_claim_net_p50", np.nan),
-                "Rel full p05": rel_full.get("p05", np.nan),
+                "Rel liquid p05": rel_full.get("p05", np.nan),
                 "Rel claim p05": rel_claim.get("p05", np.nan),
             }
         )

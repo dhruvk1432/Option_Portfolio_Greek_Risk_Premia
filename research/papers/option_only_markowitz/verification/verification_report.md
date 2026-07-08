@@ -32,8 +32,8 @@ No failed checks.
 pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pf
 b></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm1
 0.pfb>
-Output written on option_only_portfolio_optimization_dhruv_kohli.pdf (34 pages,
- 534134 bytes).
+Output written on option_only_portfolio_optimization_dhruv_kohli.pdf (35 pages,
+ 555683 bytes).
 Transcript written on option_only_portfolio_optimization_dhruv_kohli.log.
 
 
@@ -53,8 +53,8 @@ mr6.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8
 pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pf
 b></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm1
 0.pfb>
-Output written on option_only_portfolio_optimization_dhruv_kohli.pdf (34 pages,
- 534134 bytes).
+Output written on option_only_portfolio_optimization_dhruv_kohli.pdf (35 pages,
+ 561843 bytes).
 Transcript written on option_only_portfolio_optimization_dhruv_kohli.log.
 
 
@@ -74,8 +74,8 @@ mr6.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8
 pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pf
 b></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm1
 0.pfb>
-Output written on option_only_portfolio_optimization_dhruv_kohli.pdf (34 pages,
- 534134 bytes).
+Output written on option_only_portfolio_optimization_dhruv_kohli.pdf (35 pages,
+ 561843 bytes).
 Transcript written on option_only_portfolio_optimization_dhruv_kohli.log.
 
 - `artifacts` / `required generated outputs exist`: []
@@ -341,15 +341,15 @@ Transcript written on option_only_portfolio_optimization_dhruv_kohli.log.
 - `robustness` / `robustness table headers escape underscores`: []
 - `robustness` / `breadth CV purge-gap inputs exist`: []
 - `robustness` / `breadth CV purge-gap artifact schemas`: {"breadth_cv_fold_ledger": [], "breadth_cv_fold_schedule": [], "breadth_cv_test_month_returns": [], "full_history_month_grid": []}
-- `robustness` / `breadth CV purge gap exceeds monthly tenor span`: Minimum realized pre-test train/test calendar gap after purge/embargo is 59 days across 484 test blocks. Reconstruction issues: []
+- `robustness` / `breadth CV purge gap exceeds monthly tenor span`: Minimum realized train/test calendar gap (both sides) after purge/embargo is 59 days across 532 test blocks. Reconstruction issues: []
 - `robustness` / `CPCV windows table inputs exist`: []
-- `robustness` / `CPCV windows table schema`: {"header": ["Config", "Full net p05", "Full net p50", "Default share", "Claim net p05", "Claim net p50", "Rel full p05", "Rel claim p05"], "missing_cols": [], "rows": 4}
+- `robustness` / `CPCV windows table schema`: {"header": ["Config", "Liquid net p05", "Liquid net p50", "Default share", "Claim net p05", "Claim net p50", "Rel liquid p05", "Rel claim p05"], "missing_cols": [], "rows": 4}
 - `robustness` / `CPCV windows artifact schemas`: {"breadth_cv_claim_cpcv_path_metrics": [], "breadth_cv_claim_relative_paths": [], "breadth_cv_cpcv_path_metrics": [], "breadth_cv_relative_paths": [], "final_result_scoreboard": []}
 - `robustness` / `CPCV windows table values match artifacts`: []
 - `robustness` / `CPCV windows default shares bounded`: []
 - `robustness` / `breadth claim CV purge-gap inputs exist`: []
 - `robustness` / `breadth claim CV purge-gap artifact schemas`: {"breadth_cv_claim_fold_ledger": [], "breadth_cv_claim_fold_schedule": [], "breadth_cv_claim_test_month_returns": [], "full_history_month_grid": []}
-- `robustness` / `breadth claim CV purge gap exceeds monthly tenor span`: Minimum realized pre-test train/test calendar gap after purge/embargo is 59 days across 532 test blocks. Reconstruction issues: []
+- `robustness` / `breadth claim CV purge gap exceeds monthly tenor span`: Minimum realized train/test calendar gap (both sides) after purge/embargo is 59 days across 532 test blocks. Reconstruction issues: []
 - `inference` / `independent numpy stat matches table: Gross before costs / Equity-option Greek Markowitz / Ann. return`: 0.894164572585072
 - `inference` / `independent numpy stat matches table: Gross before costs / Equity-option Greek Markowitz / Ann. vol`: 1.0618025335815389
 - `inference` / `independent numpy stat matches table: Gross before costs / Equity-option Greek Markowitz / Sharpe`: 0.8421194565895302
@@ -446,8 +446,8 @@ Transcript written on option_only_portfolio_optimization_dhruv_kohli.log.
 - `claims` / `source ledger records vix option`: vix option
 - `claims` / `source ledger records artifact`: artifact
 - `paper` / `LaTeX log clean`: []
-- `paper` / `compiled PDF exists`: 534134
-- `paper` / `PDF page count plausible`: 34
+- `paper` / `compiled PDF exists`: 561843
+- `paper` / `PDF page count plausible`: 35
 - `paper` / `PDF caveat text includes not claimed`: not claimed
 - `paper` / `PDF caveat text includes premium weights`: premium weights
 - `paper` / `PDF text includes exact VRO/SOQ`: VRO/SOQ
@@ -455,8 +455,8 @@ Transcript written on option_only_portfolio_optimization_dhruv_kohli.log.
 - `paper` / `PDF caveat text includes slippage`: slippage
 - `paper` / `PDF text includes tail-path simulation caveat`: tail-path simulation diagnostics
 - `paper` / `references include option-risk-premium papers`: reference text
-- `paper` / `PDF pages render to PNG`: exit=0, pages=34
-- `paper` / `rendered PDF sample pages nonempty`: [165229, 166415]
+- `paper` / `PDF pages render to PNG`: exit=0, pages=35
+- `paper` / `rendered PDF sample pages nonempty`: [154864, 164891]
 - `paper` / `Appendix all-strategy growth figure has all strategy series`: ["Beta/delta-neutral + VIX", "Cost-aware Sortino + VIX", "Delta-matched equities", "Equal premium", "Equal risk", "Equity-option Greek Markowitz", "Greek Markowitz + VIX", "Underlying Markowitz", "VIX hedge sleeve"]
 - `paper` / `Appendix all-strategy growth figure series visible`: [{"Figure": "portfolio_growth_all_strategies.pdf", "Max": 18.35005283540228, "Min": 0.183011836336598, "Pass": "yes", "Series": "Equity-option Greek Markowitz", "Visible points": 60}, {"Figure": "portfolio_growth_all_strategies.pdf", "Max": 144.51861716831928, "Min": 0.6403949030925237, "Pass": "yes", "Series": "Greek Markowitz + VIX", "Visible points": 60}, {"Figure": "portfolio_growth_all_strategies.pdf", "Max": 98.96884463070484, "Min": 0.5735594003706624, "Pass": "yes", "Series": "Beta/delta-neutral + VIX", "Visible points": 60}, {"Figure": "portfolio_growth_all_strategies.pdf", "Max": 2.996100619612762, "Min": 0.0001, "Pass": "yes", "Series": "Cost-aware Sortino + VIX", "Visible points": 60}, {"Figure": "portfolio_growth_all_strategies.pdf", "Max": 0.8905477325031234, "Min": 0.0001782014429151, "Pass": "yes", "Series": "Equal premium", "Visible points": 60}, {"Figure": "portfolio_growth_all_strategies.pdf", "Max": 0.944996867354269, "Min": 0.0228823784998115, "Pass": "yes", "Series": "Equal risk", "Visible points": 60}, {"Figure": "portfolio_growth_all_strategies.pdf", "Max": 0.0001, "Min": 0.0001, "Pass": "yes", "Series": "VIX hedge sleeve", "Visible points": 60}, {"Figure": "portfolio_growth_all_strategies.pdf", "Max": 33.429827509128316, "Min": 0.4455022015082628, "Pass": "yes", "Series": "Delta-matched equities", "Visible points": 60}, {"Figure": "portfolio_growth_all_strategies.pdf", "Max": 2.459772612888149, "Min": 0.945644336357695, "Pass": "yes", "Series": "Underlying Markowitz", "Visible points": 60}]
 - `artifacts` / `hash manifest covers outputs`: 201
