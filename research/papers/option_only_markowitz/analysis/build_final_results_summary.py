@@ -871,7 +871,7 @@ def plot_validation_distributions(path_values: pd.DataFrame, scoreboard: pd.Data
             color=COLORS["interval"],
             linewidth=6,
             alpha=0.45,
-            label="Locked E1",
+            label="Legacy E1",
         )
         stock_handle = plt.Line2D(
             [0],
@@ -909,7 +909,7 @@ def plot_baseline_comparison(scoreboard: pd.DataFrame) -> None:
         x - width / 2,
         scoreboard["e1_net_sharpe"].to_numpy(float),
         width,
-        label="Locked E1 option book",
+        label="Legacy E1 development book",
         color=e1_colors,
         edgecolor="#263238",
         linewidth=0.55,
@@ -986,9 +986,9 @@ def plot_short_theory_flow() -> None:
     boxes = [
         ("1. Listed option", "premium, payoff,\nsettlement, Greeks"),
         ("2. Cashflow map", "NAV return,\nconditional premium"),
-        ("3. Risk model", "$\\Sigma_O=B\\Omega B^\\top+\\Sigma_\\varepsilon$"),
-        ("4. Robust allocation", "$\\max_w\\ \\hat\\mu^\\top w-\\frac{\\gamma}{2}w^\\top\\Sigma w$\n$-\\ c^\\top|w|$"),
-        ("5. Validation", "net caps, costs,\nCPCV, MC, rolling OOS"),
+        ("3. Joint risk model", "$\\Sigma_O=[B\\ I]\\Sigma_{f,\\varepsilon}[B\\ I]^\\top$"),
+        ("4. R1 net utility", "net mean - variance\nCVaR, stress, margin, cash"),
+        ("5. Survival first", "integer feasibility,\nwalk-forward, ruin gate"),
     ]
     xs = np.linspace(0.015, 0.795, len(boxes))
     w, h = 0.19, 0.56

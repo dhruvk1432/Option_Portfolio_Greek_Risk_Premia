@@ -1454,11 +1454,11 @@
     {
       "Liquidity tier": "top_volume_quartile",
       "Strategy": "Greek Markowitz",
-      "Ann. return": 2.526134501171973,
-      "Ann. vol": 2.0209005780985363,
-      "Sharpe": 1.250004343879604,
-      "Calmar": 3.05152660125299,
-      "Omega": 3.1037344122269954
+      "Ann. return": 2.5261330738449486,
+      "Ann. vol": 2.0208973825933985,
+      "Sharpe": 1.2500056141411722,
+      "Calmar": 3.0515281843231126,
+      "Omega": 3.1037387879315723
     },
     {
       "Liquidity tier": "top_volume_quartile",
@@ -1472,20 +1472,20 @@
     {
       "Liquidity tier": "top_volume_quartile",
       "Strategy": "Equal risk",
-      "Ann. return": -0.3863656502558095,
-      "Ann. vol": 2.1839471975979072,
-      "Sharpe": -0.1769116261971753,
-      "Calmar": -0.3863658542494987,
-      "Omega": 0.8758611931290181
+      "Ann. return": -0.3863656502558109,
+      "Ann. vol": 2.183947197597906,
+      "Sharpe": -0.17691162619717604,
+      "Calmar": -0.3863658542495001,
+      "Omega": 0.8758611931290177
     },
     {
       "Liquidity tier": "top_volume_quartile",
       "Strategy": "Delta neutral",
-      "Ann. return": 2.1254579520308203,
-      "Ann. vol": 1.5251047754203533,
-      "Sharpe": 1.3936471685658425,
-      "Calmar": 2.5319548593205963,
-      "Omega": 3.1972700102186558
+      "Ann. return": 2.1254579463411787,
+      "Ann. vol": 1.5251047731299756,
+      "Sharpe": 1.393647166928143,
+      "Calmar": 2.5319548491796637,
+      "Omega": 3.1972700065811646
     },
     {
       "Liquidity tier": "top_volume_quartile",
@@ -1585,7 +1585,7 @@
       "Method": "rerun_optimizer_on_tier",
       "Eligible assets": 14,
       "Active assets": 11,
-      "Gross NAV used": 0.9396358245135128,
+      "Gross NAV used": 0.9396361569814008,
       "Status": "ok"
     },
     {
@@ -1603,7 +1603,7 @@
       "Method": "rerun_optimizer_on_tier",
       "Eligible assets": 14,
       "Active assets": 14,
-      "Gross NAV used": 0.9999999999999999,
+      "Gross NAV used": 1.0,
       "Status": "ok"
     },
     {
@@ -1612,7 +1612,7 @@
       "Method": "rerun_optimizer_on_tier",
       "Eligible assets": 14,
       "Active assets": 13,
-      "Gross NAV used": 0.9335082043994865,
+      "Gross NAV used": 0.9335082039872618,
       "Status": "ok"
     },
     {

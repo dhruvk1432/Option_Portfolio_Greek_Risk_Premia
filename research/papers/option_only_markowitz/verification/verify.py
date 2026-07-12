@@ -34,6 +34,8 @@ ART_DIR = PAPER / "artifacts"
 VERIFY_DIR = PAPER / "verification"
 BREADTH_DIR = PAPER / "analysis/artifacts/breadth_solutions"
 BREADTH_ROBUSTNESS_DIR = BREADTH_DIR / "robustness"
+R1_DIR = PAPER / "analysis/artifacts/r1_repaired"
+R11_DIR = PAPER / "analysis/artifacts/r11_higher_risk"
 PUBLISHED_STEM = "option_only_portfolio_optimization_dhruv_kohli"
 PUBLISHED_TEX_NAME = f"{PUBLISHED_STEM}.tex"
 PUBLISHED_PDF_NAME = f"{PUBLISHED_STEM}.pdf"
@@ -237,7 +239,12 @@ def _md(value: Any) -> str:
     return str(value).replace("|", "\\|").replace("\n", " ")[:500]
 
 
-def _run(cmd: list[str], cwd: Path, timeout: int = 600) -> subprocess.CompletedProcess[str]:
+def _run(
+    cmd: list[str],
+    cwd: Path,
+    timeout: int = 600,
+    env: dict[str, str] | None = None,
+) -> subprocess.CompletedProcess[str]:
     return subprocess.run(
         cmd,
         cwd=str(cwd),
@@ -245,6 +252,7 @@ def _run(cmd: list[str], cwd: Path, timeout: int = 600) -> subprocess.CompletedP
         stdout=subprocess.PIPE,
         stderr=subprocess.STDOUT,
         timeout=timeout,
+        env=env,
     )
 
 
@@ -306,8 +314,13 @@ def compile_paper(v: Verifier, skip: bool) -> None:
     ]
     outputs = []
     ok = True
+    tex_cache = Path("/tmp/option_only_markowitz_texmfvar")
+    tex_cache.mkdir(parents=True, exist_ok=True)
+    tex_env = os.environ.copy()
+    tex_env["TEXMFVAR"] = str(tex_cache)
+    tex_env["TEXMFCACHE"] = str(tex_cache)
     for cmd in commands:
-        res = _run(cmd, PAPER, timeout=240)
+        res = _run(cmd, PAPER, timeout=240, env=tex_env)
         outputs.append(f"$ {' '.join(cmd)}\nexit={res.returncode}\n{res.stdout[-1200:]}")
         ok = ok and res.returncode == 0
     ok = ok and PUBLISHED_PDF.exists()
@@ -2473,6 +2486,268 @@ def check_claims_and_bibliography(v: Verifier) -> None:
         v.check("source ledger exists", "claims", False, observed=source)
 
 
+def check_r1_repaired_artifacts(v: Verifier) -> None:
+    required = {
+        "returns": R1_DIR / "r1_monthly_development_returns.csv",
+        "weights": R1_DIR / "r1_monthly_weights.csv",
+        "summary": R1_DIR / "r1_survival_summary.csv",
+        "registry": R1_DIR / "research_trial_registry.csv",
+        "registry_meta": R1_DIR / "research_trial_registry.json",
+        "freeze": R1_DIR / "prospective_freeze_manifest.json",
+        "comparisons": R1_DIR / "r1_paired_bootstrap_comparisons.csv",
+        "table": TABLE_DIR / "short_r1_survival_summary.tex",
+    }
+    missing = [name for name, path in required.items() if not path.exists()]
+    v.check("R1 repaired artifacts exist", "r1", not missing, observed=missing)
+    if missing:
+        return
+    returns = pd.read_csv(required["returns"], parse_dates=["return_date", "decision_date", "train_end"])
+    required_return_cols = {
+        "config", "strategy", "return_date", "decision_date", "train_end", "gross_return",
+        "predicted_cost", "net_return", "gross_nav", "scenario_cvar_loss",
+        "short_margin_used", "collateral_used", "integer_repair_failed", "information_set_valid",
+    }
+    v.check("R1 return schema", "r1", required_return_cols.issubset(returns.columns), observed=sorted(set(required_return_cols) - set(returns.columns)))
+    timing_ok = bool(
+        len(returns)
+        and (returns["train_end"] < returns["return_date"]).all()
+        and (returns["decision_date"] < returns["return_date"]).all()
+        and returns["information_set_valid"].astype(bool).all()
+    )
+    v.check("R1 information sets are point-in-time", "r1", timing_ok, observed=len(returns))
+    v.check("R1 gross is an upper bound", "r1", bool((returns["gross_nav"] <= 1.0 + 1e-7).all()), observed=float(returns["gross_nav"].max()))
+    v.check("R1 hard operational limits hold", "r1", bool(
+        (returns["scenario_cvar_loss"] <= 0.10 + 1e-6).all()
+        and (returns["short_margin_used"] <= 0.75 + 1e-6).all()
+        and (returns["collateral_used"] <= 1.0 + 1e-6).all()
+    ), observed={
+        "max_cvar": float(returns["scenario_cvar_loss"].max()),
+        "max_margin": float(returns["short_margin_used"].max()),
+        "max_collateral": float(returns["collateral_used"].max()),
+    })
+    summary = pd.read_csv(required["summary"])
+    v.check("R1 labels all existing evidence development", "r1", bool(summary["evidence_status"].astype(str).eq("retrospective_development_sample").all()), observed=summary.get("evidence_status", pd.Series(dtype=str)).tolist())
+    hard_failure = (
+        summary.get("ruin_count", 0).fillna(0).gt(0)
+        | summary.get("margin_breaches", 0).fillna(0).gt(0)
+        | summary.get("collateral_breaches", 0).fillna(0).gt(0)
+        | summary.get("integer_failures", 0).fillna(0).gt(0)
+        | summary.get("absorbed_validation_paths", 0).fillna(0).gt(0)
+    )
+    verdict_ok = summary.loc[hard_failure, "verdict"].astype(str).eq("fail_survival_gate").all()
+    v.check("R1 hard survival gate controls verdict", "r1", bool(verdict_ok), observed=summary[["config", "verdict"]].to_dict(orient="records"))
+    registry_meta = json.loads(required["registry_meta"].read_text(encoding="utf-8"))
+    registry = pd.read_csv(required["registry"])
+    v.check("R1 trial registry reports a lower bound", "r1", bool(
+        not registry_meta.get("is_complete", True)
+        and int(registry_meta.get("known_trial_count_lower_bound", -1)) == len(registry)
+    ), observed=registry_meta)
+    freeze = json.loads(required["freeze"].read_text(encoding="utf-8"))
+    v.check("R1 prospective protocol requires 36 untouched months", "r1", bool(
+        freeze.get("required_untouched_monthly_observations") == 36
+        and freeze.get("confirmatory_claim_allowed") is False
+        and freeze.get("evidence_before_freeze") == "retrospective_development_sample"
+    ), observed=freeze)
+    source_hashes = freeze.get("source_sha256", {})
+    hash_matches = {
+        rel: Path(ROOT / rel).exists() and hashlib.sha256((ROOT / rel).read_bytes()).hexdigest() == expected
+        for rel, expected in source_hashes.items()
+    }
+    v.check("R1 frozen source hashes remain unchanged", "r1", bool(hash_matches) and all(hash_matches.values()), observed=hash_matches)
+    comparisons = pd.read_csv(required["comparisons"])
+    expected_pairs = {(config, benchmark) for config in BREADTH_CONFIG_ORDER for benchmark in ["matched_capped_naive", "stock_markowitz"]}
+    observed_pairs = set(zip(comparisons.get("config", []), comparisons.get("benchmark", [])))
+    v.check("R1 paired growth/tail comparisons cover both baselines", "r1", expected_pairs.issubset(observed_pairs), observed=sorted(observed_pairs), expected=sorted(expected_pairs))
+
+
+def check_r11_higher_risk_artifacts(v: Verifier) -> None:
+    required = {
+        "returns": R11_DIR / "r11_monthly_development_returns.csv",
+        "weights": R11_DIR / "r11_monthly_weights.csv",
+        "repairs": R11_DIR / "r11_integer_repair_candidates.csv",
+        "repair_summary": R11_DIR / "r11_integer_repair_method_summary.csv",
+        "summary": R11_DIR / "r11_survival_summary.csv",
+        "events": R11_DIR / "r11_vix_risk_off_events.csv",
+        "calendar": R11_DIR / "r11_vix_exposure_calendar.csv",
+        "requests": R11_DIR / "r11_event_quote_request.csv",
+        "execution": R11_DIR / "r11_intervention_execution_summary.csv",
+        "gate": R11_DIR / "r11_egarch_gate.json",
+        "registry": R11_DIR / "r11_research_trial_registry.csv",
+        "registry_meta": R11_DIR / "r11_research_trial_registry.json",
+        "freeze": R11_DIR / "r11_prospective_freeze_manifest.json",
+        "status": R11_DIR / "r11_specification_status.csv",
+        "table": TABLE_DIR / "short_r11_development_summary.tex",
+        "repair_table": TABLE_DIR / "short_r11_integer_repair_summary.tex",
+    }
+    missing = [name for name, path in required.items() if not path.exists()]
+    v.check("R1.1 artifacts exist", "r11", not missing, observed=missing)
+    if missing:
+        return
+    returns = pd.read_csv(required["returns"], parse_dates=["return_date", "decision_date", "train_end"])
+    core = returns[~returns["strategy"].astype(str).str.contains("risk-off", regex=False)].copy()
+    required_cols = {
+        "config", "strategy", "return_date", "decision_date", "train_end", "gross_nav",
+        "predicted_annual_vol", "continuous_predicted_annual_vol", "deployment_target", "deployment_target_feasible",
+        "deployment_target_met_after_integer_repair", "march_2020_observation_policy",
+        "scenario_cvar_loss", "short_margin_used", "collateral_used", "integer_repair_failed",
+        "integer_execution_abstained", "integer_conversion_feasible", "integer_abstention_reason",
+        "integer_repair_method", "pre_repair_feasible", "pre_repair_max_breach",
+        "best_failed_method", "failed_max_breach", "failed_breach_cvar",
+        "direct_truncation_max_breach", "direct_truncation_breach_cvar",
+        "information_set_valid",
+    }
+    v.check("R1.1 return schema", "r11", required_cols.issubset(returns.columns), observed=sorted(required_cols - set(returns.columns)))
+    v.check("R1.1 information sets are point-in-time", "r11", bool(
+        len(core)
+        and (core["train_end"] < core["return_date"]).all()
+        and (core["decision_date"] < core["return_date"]).all()
+        and core["information_set_valid"].astype(bool).all()
+    ), observed=len(core))
+    v.check("R1.1 uses the 25 percent risk cap", "r11", bool(
+        core["deployment_target"].eq(0.50).all()
+        and (core["predicted_annual_vol"] <= 0.25 + 1e-6).all()
+        and (core["gross_nav"] <= 1.0 + 1e-7).all()
+    ), observed={
+        "max_vol": float(core["predicted_annual_vol"].max()),
+        "max_gross": float(core["gross_nav"].max()),
+        "target_hits": int(core["deployment_target_met_after_integer_repair"].sum()),
+    })
+    v.check("R1.1 keeps March 2020 observations", "r11", bool(
+        core["march_2020_observation_policy"].astype(str).eq("retained_if_in_window").all()
+        and core.loc[core["train_end"].ge(pd.Timestamp("2020-03-31")), "march_2020_in_training_window"].astype(bool).any()
+    ), observed=core["march_2020_observation_policy"].astype(str).unique().tolist())
+    v.check("R1.1 hard limits hold for returned books", "r11", bool(
+        (core["scenario_cvar_loss"] <= 0.10 + 1e-6).all()
+        and (core["short_margin_used"] <= 0.75 + 1e-6).all()
+        and (core["collateral_used"] <= 1.0 + 1e-6).all()
+    ), observed={
+        "max_cvar": float(core["scenario_cvar_loss"].max()),
+        "max_margin": float(core["short_margin_used"].max()),
+        "max_collateral": float(core["collateral_used"].max()),
+    })
+    repairs = pd.read_csv(required["repairs"])
+    expected_methods = {
+        "truncate_toward_cash",
+        "cash_abstention",
+    }
+    repair_groups = repairs.groupby(
+        ["config", "strategy", "return_date", "decision_date"], observed=True
+    )
+    method_sets = repair_groups["method"].agg(lambda values: set(values.astype(str)))
+    selected_counts = repair_groups["selected"].sum()
+    selected_rows = repairs[repairs["selected"].astype(bool)]
+    v.check("R1.1 records direct conversion and cash abstention", "r11", bool(
+        len(method_sets) == len(core)
+        and method_sets.map(lambda methods: methods == expected_methods).all()
+        and selected_counts.eq(1).all()
+        and selected_rows["feasible"].astype(bool).all()
+        and (~core["integer_repair_failed"].astype(bool)).all()
+        and core["integer_execution_abstained"].astype(bool).eq(
+            ~core["integer_conversion_feasible"].astype(bool)
+        ).all()
+    ), observed={
+        "repair_groups": len(method_sets),
+        "core_rows": len(core),
+        "methods": sorted(set(repairs["method"].astype(str))),
+        "bad_selected_counts": int(selected_counts.ne(1).sum()),
+    })
+    repair_summary = pd.read_csv(required["repair_summary"])
+    v.check("R1.1 integer method summary reconciles", "r11", bool(
+        set(repair_summary["method"].astype(str)) == expected_methods
+        and int(repair_summary["selected_periods"].sum()) == len(core)
+        and int(repair_summary["candidate_periods"].sum()) == len(repairs)
+    ), observed={
+        "selected_periods": int(repair_summary["selected_periods"].sum()),
+        "core_rows": len(core),
+        "candidate_periods": int(repair_summary["candidate_periods"].sum()),
+        "candidate_rows": len(repairs),
+    })
+    direct = repairs[repairs["method"].astype(str).eq("truncate_toward_cash")]
+    cash = repairs[repairs["method"].astype(str).eq("cash_abstention")]
+    v.check("R1.1 abstains exactly when direct conversion is infeasible", "r11", bool(
+        len(direct) == len(core)
+        and len(cash) == len(core)
+        and int(cash["selected"].astype(bool).sum()) == int(core["integer_execution_abstained"].sum())
+        and int(direct["selected"].astype(bool).sum()) == int(core["integer_conversion_feasible"].sum())
+        and cash["feasible"].astype(bool).all()
+    ), observed={
+        "direct_feasible": int(direct["feasible"].astype(bool).sum()),
+        "cash_abstentions": int(cash["selected"].astype(bool).sum()),
+    })
+    failed_truncation = core[~core["pre_repair_feasible"].astype(bool)]
+    v.check("R1.1 preserves pre-repair failure diagnostics", "r11", bool(
+        len(failed_truncation)
+        and failed_truncation["pre_repair_max_breach"].gt(0).all()
+        and failed_truncation["direct_truncation_max_breach"].gt(0).all()
+        and failed_truncation["best_failed_method"].fillna("").astype(str).ne("").all()
+        and failed_truncation["failed_max_breach"].gt(0).all()
+    ), observed={
+        "failed_direct_truncations": len(failed_truncation),
+        "recorded_cvar_breaches": int(failed_truncation["failed_breach_cvar"].gt(0).sum()),
+    })
+
+    events = pd.read_csv(required["events"], parse_dates=["signal_date", "execution_date"])
+    march_exit = events[(events["execution_date"].eq(pd.Timestamp("2020-03-02"))) & events["action"].eq("exit")]
+    march_reentry = events[(events["execution_date"].eq(pd.Timestamp("2020-03-03"))) & events["action"].eq("reenter")]
+    v.check("R1.1 March instruction is deduplicated and next-session", "r11", bool(
+        len(march_exit) == 1
+        and int(march_exit.iloc[0]["deduplicated_signal_count"]) == 2
+        and "user_attested_manual_2020" in str(march_exit.iloc[0]["source"])
+        and len(march_reentry) == 1
+    ), observed=events[events["execution_date"].between("2020-03-02", "2020-03-03")].to_dict(orient="records"))
+    calendar = pd.read_csv(required["calendar"], parse_dates=["session"]).set_index("session")
+    v.check("R1.1 risk-off exposure is cash then re-enters", "r11", bool(
+        calendar.loc[pd.Timestamp("2020-03-02"), "exposure_multiplier"] == 0.0
+        and calendar.loc[pd.Timestamp("2020-03-03"), "exposure_multiplier"] == 1.0
+    ), observed=calendar.loc["2020-03-02":"2020-03-03"].to_dict(orient="index"))
+    requests = pd.read_csv(required["requests"])
+    execution = pd.read_csv(required["execution"])
+    risk_off = returns[returns["strategy"].astype(str).str.contains("risk-off", regex=False)]
+    v.check("R1.1 missing licensed event quotes remain unscored", "r11", bool(
+        len(requests)
+        and len(execution)
+        and (~execution["execution_feasible"].astype(bool)).all()
+        and risk_off["evidence_status"].astype(str).eq("unscored_missing_or_incomplete_executable_quotes").all()
+        and risk_off["net_return"].isna().any()
+    ), observed={"requests": len(requests), "execution_rows": len(execution), "unscored_returns": int(risk_off["net_return"].isna().sum())})
+
+    summary = pd.read_csv(required["summary"])
+    scored_summary = summary[summary["evidence_status"].astype(str).eq("retrospective_development_sample")]
+    hard_failure = (
+        scored_summary.get("ruin_count", 0).fillna(0).gt(0)
+        | scored_summary.get("margin_breaches", 0).fillna(0).gt(0)
+        | scored_summary.get("collateral_breaches", 0).fillna(0).gt(0)
+        | scored_summary.get("integer_failures", 0).fillna(0).gt(0)
+    )
+    v.check("R1.1 cash abstentions are not integer failures", "r11", bool(
+        scored_summary["integer_failures"].fillna(0).eq(0).all()
+        and scored_summary.loc[hard_failure, "verdict"].astype(str).eq("fail_survival_gate").all()
+    ), observed=scored_summary[["config", "strategy", "integer_failures", "integer_abstentions", "verdict"]].to_dict(orient="records"))
+    gate = json.loads(required["gate"].read_text(encoding="utf-8"))
+    v.check("R1.1 EGARCH obeys its promotion gate", "r11", bool(
+        gate.get("passed") is False and gate.get("promotion_status") == "diagnostic_only"
+    ), observed=gate)
+    registry = pd.read_csv(required["registry"])
+    registry_meta = json.loads(required["registry_meta"].read_text(encoding="utf-8"))
+    v.check("R1.1 trial registry includes all new arms", "r11", bool(
+        int(registry_meta.get("known_trial_count_lower_bound", -1)) == len(registry)
+        and registry["trial_key"].astype(str).str.startswith("R1.1_").sum() == 9
+    ), observed=registry_meta)
+    freeze = json.loads(required["freeze"].read_text(encoding="utf-8"))
+    v.check("R1.1 has a separate 36-month prospective freeze", "r11", bool(
+        freeze.get("specification") == "R1.1"
+        and freeze.get("required_untouched_monthly_observations") == 36
+        and freeze.get("confirmatory_claim_allowed") is False
+        and freeze.get("march_2020_market_data_deleted") is False
+        and freeze.get("integer_execution_policy", {}).get("infeasible_action") == "cash_abstention_for_the_period"
+        and freeze.get("integer_execution_policy", {}).get("substitute_portfolios_allowed") is False
+    ), observed=freeze)
+    status = pd.read_csv(required["status"])
+    v.check("R1.1 status preserves legacy E1 absorbed-zero failure", "r11", bool(
+        status["status"].astype(str).eq("fail_survival_gate_absorbed_zero").any()
+    ), observed=status[status["specification"].astype(str).str.contains("E1", regex=False)].to_dict(orient="records"))
+
+
 def check_paper_quality(v: Verifier, skip_render: bool, skip_compile: bool = False) -> None:
     log = PAPER / f"{PUBLISHED_STEM}.log"
     if log.exists():
@@ -2497,7 +2772,7 @@ def check_paper_quality(v: Verifier, skip_render: bool, skip_compile: bool = Fal
         if info is not None:
             page_match = re.search(r"Pages:\s+(\d+)", info.stdout)
             pages = int(page_match.group(1)) if page_match else 0
-            v.check("PDF page count plausible", "paper", 25 <= pages <= 36, observed=pages, expected="25-36 research-paper pages")
+            v.check("PDF page count plausible", "paper", 25 <= pages <= 40, observed=pages, expected="25-40 research-paper pages")
 
     pdf_text = extract_pdf_text(pdf)
     if pdf_text:
@@ -2565,7 +2840,7 @@ def extract_pdf_text(pdf: Path) -> str:
 
 def build_hash_manifest(v: Verifier) -> pd.DataFrame:
     rows = []
-    roots = [TABLE_DIR, FIG_DIR, ART_DIR]
+    roots = [TABLE_DIR, FIG_DIR, ART_DIR, R1_DIR, R11_DIR]
     files = [PUBLISHED_PDF]
     for root in roots:
         if root.exists():
@@ -2613,6 +2888,8 @@ def run_verification(
     check_final_inference_panel(v)
     check_e1_ablation_and_concentration(v)
     check_ci_pairs_ordered(v)
+    check_r1_repaired_artifacts(v)
+    check_r11_higher_risk_artifacts(v)
     check_claims_and_bibliography(v)
     check_paper_quality(v, skip_render, skip_compile=skip_compile)
     manifest = build_hash_manifest(v)

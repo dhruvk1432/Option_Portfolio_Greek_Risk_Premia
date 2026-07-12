@@ -1,0 +1,608 @@
+source,trial_key,count_status
+analysis/artifacts/breadth_solutions/p1_regularization_results.csv,config=orig+VIX|strategy=Greek Markowitz|arm=default|point_id=default|aum=1000000.0,known_lower_bound
+analysis/artifacts/breadth_solutions/p1_regularization_results.csv,config=orig+VIX|strategy=Greek Markowitz|arm=A|point_id=A_cov_0p35|aum=1000000.0,known_lower_bound
+analysis/artifacts/breadth_solutions/p1_regularization_results.csv,config=orig+VIX|strategy=Greek Markowitz|arm=A|point_id=A_cov_0p50|aum=1000000.0,known_lower_bound
+analysis/artifacts/breadth_solutions/p1_regularization_results.csv,config=orig+VIX|strategy=Greek Markowitz|arm=A|point_id=A_cov_0p65|aum=1000000.0,known_lower_bound
+analysis/artifacts/breadth_solutions/p1_regularization_results.csv,config=orig+VIX|strategy=Greek Markowitz|arm=A|point_id=A_cov_0p80|aum=1000000.0,known_lower_bound
+analysis/artifacts/breadth_solutions/p1_regularization_results.csv,config=orig+VIX|strategy=Greek Markowitz|arm=A|point_id=A_cov_0p90|aum=1000000.0,known_lower_bound
+analysis/artifacts/breadth_solutions/p1_regularization_results.csv,config=orig+VIX|strategy=Greek Markowitz|arm=A|point_id=A_cov_n_scaled|aum=1000000.0,known_lower_bound
+analysis/artifacts/breadth_solutions/p1_regularization_results.csv,config=orig+VIX|strategy=Greek Markowitz|arm=B|point_id=B_residual_diag_cov_0p20|aum=1000000.0,known_lower_bound
+analysis/artifacts/breadth_solutions/p1_regularization_results.csv,config=orig+VIX|strategy=Greek Markowitz|arm=B|point_id=B_residual_diag_cov_0p50|aum=1000000.0,known_lower_bound
+analysis/artifacts/breadth_solutions/p1_regularization_results.csv,config=orig+VIX|strategy=Greek Markowitz|arm=B|point_id=B_residual_lw_cov_0p20|aum=1000000.0,known_lower_bound
+analysis/artifacts/breadth_solutions/p1_regularization_results.csv,config=orig+VIX|strategy=Greek Markowitz|arm=B|point_id=B_residual_lw_cov_0p50|aum=1000000.0,known_lower_bound
+analysis/artifacts/breadth_solutions/p1_regularization_results.csv,config=orig+VIX|strategy=Greek Markowitz|arm=C|point_id=C_under_lw|aum=1000000.0,known_lower_bound
+analysis/artifacts/breadth_solutions/p1_regularization_results.csv,config=orig+VIX|strategy=Greek Markowitz|arm=C|point_id=C_under_single_factor|aum=1000000.0,known_lower_bound
+analysis/artifacts/breadth_solutions/p1_regularization_results.csv,config=orig+VIX|strategy=Greek Markowitz|arm=D|point_id=D_stz_0p75_hw_0p25|aum=1000000.0,known_lower_bound
+analysis/artifacts/breadth_solutions/p1_regularization_results.csv,config=orig+VIX|strategy=Greek Markowitz|arm=D|point_id=D_stz_0p90_hw_0p25|aum=1000000.0,known_lower_bound
+analysis/artifacts/breadth_solutions/p1_regularization_results.csv,config=orig+VIX|strategy=Greek Markowitz|arm=D|point_id=D_stz_0p60_hw_0p00|aum=1000000.0,known_lower_bound
+analysis/artifacts/breadth_solutions/p1_regularization_results.csv,config=orig+VIX|strategy=Greek Markowitz|arm=D|point_id=D_stz_0p75_hw_0p00|aum=1000000.0,known_lower_bound
+analysis/artifacts/breadth_solutions/p1_regularization_results.csv,config=orig+VIX|strategy=Greek Markowitz|arm=D|point_id=D_stz_0p90_hw_0p00|aum=1000000.0,known_lower_bound
+analysis/artifacts/breadth_solutions/p1_regularization_results.csv,config=orig+VIX|strategy=Greek Markowitz|arm=E|point_id=E1_residual_diag_n_scaled_hw0_stz075|aum=1000000.0,known_lower_bound
+analysis/artifacts/breadth_solutions/p1_regularization_results.csv,config=orig+VIX|strategy=Greek Markowitz|arm=E|point_id=E2_residual_lw_cov050_hw0_stz060|aum=1000000.0,known_lower_bound
+analysis/artifacts/breadth_solutions/p1_regularization_results.csv,config=orig+VIX|strategy=Greek Markowitz|arm=E|point_id=E3_under_lw_residual_diag_n_scaled|aum=1000000.0,known_lower_bound
+analysis/artifacts/breadth_solutions/p1_regularization_results.csv,config=orig+VIX|strategy=Greek Markowitz|arm=E|point_id=E4_residual_diag_cov065_stz075|aum=1000000.0,known_lower_bound
+analysis/artifacts/breadth_solutions/p1_regularization_results.csv,config=orig+VIX|strategy=Equal premium|arm=naive|point_id=Equal premium|aum=1000000.0,known_lower_bound
+analysis/artifacts/breadth_solutions/p1_regularization_results.csv,config=orig+VIX|strategy=Equal risk|arm=naive|point_id=Equal risk|aum=1000000.0,known_lower_bound
+analysis/artifacts/breadth_solutions/p1_regularization_results.csv,config=larger+VIX|strategy=Greek Markowitz|arm=default|point_id=default|aum=1000000.0,known_lower_bound
+analysis/artifacts/breadth_solutions/p1_regularization_results.csv,config=larger+VIX|strategy=Greek Markowitz|arm=A|point_id=A_cov_0p35|aum=1000000.0,known_lower_bound
+analysis/artifacts/breadth_solutions/p1_regularization_results.csv,config=larger+VIX|strategy=Greek Markowitz|arm=A|point_id=A_cov_0p50|aum=1000000.0,known_lower_bound
+analysis/artifacts/breadth_solutions/p1_regularization_results.csv,config=larger+VIX|strategy=Greek Markowitz|arm=A|point_id=A_cov_0p65|aum=1000000.0,known_lower_bound
+analysis/artifacts/breadth_solutions/p1_regularization_results.csv,config=larger+VIX|strategy=Greek Markowitz|arm=A|point_id=A_cov_0p80|aum=1000000.0,known_lower_bound
+analysis/artifacts/breadth_solutions/p1_regularization_results.csv,config=larger+VIX|strategy=Greek Markowitz|arm=A|point_id=A_cov_0p90|aum=1000000.0,known_lower_bound
+analysis/artifacts/breadth_solutions/p1_regularization_results.csv,config=larger+VIX|strategy=Greek Markowitz|arm=A|point_id=A_cov_n_scaled|aum=1000000.0,known_lower_bound
+analysis/artifacts/breadth_solutions/p1_regularization_results.csv,config=larger+VIX|strategy=Greek Markowitz|arm=B|point_id=B_residual_diag_cov_0p20|aum=1000000.0,known_lower_bound
+analysis/artifacts/breadth_solutions/p1_regularization_results.csv,config=larger+VIX|strategy=Greek Markowitz|arm=B|point_id=B_residual_diag_cov_0p50|aum=1000000.0,known_lower_bound
+analysis/artifacts/breadth_solutions/p1_regularization_results.csv,config=larger+VIX|strategy=Greek Markowitz|arm=B|point_id=B_residual_lw_cov_0p20|aum=1000000.0,known_lower_bound
+analysis/artifacts/breadth_solutions/p1_regularization_results.csv,config=larger+VIX|strategy=Greek Markowitz|arm=B|point_id=B_residual_lw_cov_0p50|aum=1000000.0,known_lower_bound
+analysis/artifacts/breadth_solutions/p1_regularization_results.csv,config=larger+VIX|strategy=Greek Markowitz|arm=C|point_id=C_under_lw|aum=1000000.0,known_lower_bound
+analysis/artifacts/breadth_solutions/p1_regularization_results.csv,config=larger+VIX|strategy=Greek Markowitz|arm=C|point_id=C_under_single_factor|aum=1000000.0,known_lower_bound
+analysis/artifacts/breadth_solutions/p1_regularization_results.csv,config=larger+VIX|strategy=Greek Markowitz|arm=D|point_id=D_stz_0p75_hw_0p25|aum=1000000.0,known_lower_bound
+analysis/artifacts/breadth_solutions/p1_regularization_results.csv,config=larger+VIX|strategy=Greek Markowitz|arm=D|point_id=D_stz_0p90_hw_0p25|aum=1000000.0,known_lower_bound
+analysis/artifacts/breadth_solutions/p1_regularization_results.csv,config=larger+VIX|strategy=Greek Markowitz|arm=D|point_id=D_stz_0p60_hw_0p00|aum=1000000.0,known_lower_bound
+analysis/artifacts/breadth_solutions/p1_regularization_results.csv,config=larger+VIX|strategy=Greek Markowitz|arm=D|point_id=D_stz_0p75_hw_0p00|aum=1000000.0,known_lower_bound
+analysis/artifacts/breadth_solutions/p1_regularization_results.csv,config=larger+VIX|strategy=Greek Markowitz|arm=D|point_id=D_stz_0p90_hw_0p00|aum=1000000.0,known_lower_bound
+analysis/artifacts/breadth_solutions/p1_regularization_results.csv,config=larger+VIX|strategy=Greek Markowitz|arm=E|point_id=E1_residual_diag_n_scaled_hw0_stz075|aum=1000000.0,known_lower_bound
+analysis/artifacts/breadth_solutions/p1_regularization_results.csv,config=larger+VIX|strategy=Greek Markowitz|arm=E|point_id=E2_residual_lw_cov050_hw0_stz060|aum=1000000.0,known_lower_bound
+analysis/artifacts/breadth_solutions/p1_regularization_results.csv,config=larger+VIX|strategy=Greek Markowitz|arm=E|point_id=E3_under_lw_residual_diag_n_scaled|aum=1000000.0,known_lower_bound
+analysis/artifacts/breadth_solutions/p1_regularization_results.csv,config=larger+VIX|strategy=Greek Markowitz|arm=E|point_id=E4_residual_diag_cov065_stz075|aum=1000000.0,known_lower_bound
+analysis/artifacts/breadth_solutions/p1_regularization_results.csv,config=larger+VIX|strategy=Equal premium|arm=naive|point_id=Equal premium|aum=1000000.0,known_lower_bound
+analysis/artifacts/breadth_solutions/p1_regularization_results.csv,config=larger+VIX|strategy=Equal risk|arm=naive|point_id=Equal risk|aum=1000000.0,known_lower_bound
+analysis/artifacts/breadth_solutions/p1_regularization_results.csv,config=orig|strategy=Greek Markowitz|arm=default|point_id=default|aum=1000000.0,known_lower_bound
+analysis/artifacts/breadth_solutions/p1_regularization_results.csv,config=orig|strategy=Greek Markowitz|arm=A|point_id=A_cov_0p35|aum=1000000.0,known_lower_bound
+analysis/artifacts/breadth_solutions/p1_regularization_results.csv,config=orig|strategy=Greek Markowitz|arm=A|point_id=A_cov_0p50|aum=1000000.0,known_lower_bound
+analysis/artifacts/breadth_solutions/p1_regularization_results.csv,config=orig|strategy=Greek Markowitz|arm=A|point_id=A_cov_0p65|aum=1000000.0,known_lower_bound
+analysis/artifacts/breadth_solutions/p1_regularization_results.csv,config=orig|strategy=Greek Markowitz|arm=A|point_id=A_cov_0p80|aum=1000000.0,known_lower_bound
+analysis/artifacts/breadth_solutions/p1_regularization_results.csv,config=orig|strategy=Greek Markowitz|arm=A|point_id=A_cov_0p90|aum=1000000.0,known_lower_bound
+analysis/artifacts/breadth_solutions/p1_regularization_results.csv,config=orig|strategy=Greek Markowitz|arm=A|point_id=A_cov_n_scaled|aum=1000000.0,known_lower_bound
+analysis/artifacts/breadth_solutions/p1_regularization_results.csv,config=orig|strategy=Greek Markowitz|arm=B|point_id=B_residual_diag_cov_0p20|aum=1000000.0,known_lower_bound
+analysis/artifacts/breadth_solutions/p1_regularization_results.csv,config=orig|strategy=Greek Markowitz|arm=B|point_id=B_residual_diag_cov_0p50|aum=1000000.0,known_lower_bound
+analysis/artifacts/breadth_solutions/p1_regularization_results.csv,config=orig|strategy=Greek Markowitz|arm=B|point_id=B_residual_lw_cov_0p20|aum=1000000.0,known_lower_bound
+analysis/artifacts/breadth_solutions/p1_regularization_results.csv,config=orig|strategy=Greek Markowitz|arm=B|point_id=B_residual_lw_cov_0p50|aum=1000000.0,known_lower_bound
+analysis/artifacts/breadth_solutions/p1_regularization_results.csv,config=orig|strategy=Greek Markowitz|arm=C|point_id=C_under_lw|aum=1000000.0,known_lower_bound
+analysis/artifacts/breadth_solutions/p1_regularization_results.csv,config=orig|strategy=Greek Markowitz|arm=C|point_id=C_under_single_factor|aum=1000000.0,known_lower_bound
+analysis/artifacts/breadth_solutions/p1_regularization_results.csv,config=orig|strategy=Greek Markowitz|arm=D|point_id=D_stz_0p75_hw_0p25|aum=1000000.0,known_lower_bound
+analysis/artifacts/breadth_solutions/p1_regularization_results.csv,config=orig|strategy=Greek Markowitz|arm=D|point_id=D_stz_0p90_hw_0p25|aum=1000000.0,known_lower_bound
+analysis/artifacts/breadth_solutions/p1_regularization_results.csv,config=orig|strategy=Greek Markowitz|arm=D|point_id=D_stz_0p60_hw_0p00|aum=1000000.0,known_lower_bound
+analysis/artifacts/breadth_solutions/p1_regularization_results.csv,config=orig|strategy=Greek Markowitz|arm=D|point_id=D_stz_0p75_hw_0p00|aum=1000000.0,known_lower_bound
+analysis/artifacts/breadth_solutions/p1_regularization_results.csv,config=orig|strategy=Greek Markowitz|arm=D|point_id=D_stz_0p90_hw_0p00|aum=1000000.0,known_lower_bound
+analysis/artifacts/breadth_solutions/p1_regularization_results.csv,config=orig|strategy=Greek Markowitz|arm=E|point_id=E1_residual_diag_n_scaled_hw0_stz075|aum=1000000.0,known_lower_bound
+analysis/artifacts/breadth_solutions/p1_regularization_results.csv,config=orig|strategy=Greek Markowitz|arm=E|point_id=E2_residual_lw_cov050_hw0_stz060|aum=1000000.0,known_lower_bound
+analysis/artifacts/breadth_solutions/p1_regularization_results.csv,config=orig|strategy=Greek Markowitz|arm=E|point_id=E3_under_lw_residual_diag_n_scaled|aum=1000000.0,known_lower_bound
+analysis/artifacts/breadth_solutions/p1_regularization_results.csv,config=orig|strategy=Greek Markowitz|arm=E|point_id=E4_residual_diag_cov065_stz075|aum=1000000.0,known_lower_bound
+analysis/artifacts/breadth_solutions/p1_regularization_results.csv,config=orig|strategy=Equal premium|arm=naive|point_id=Equal premium|aum=1000000.0,known_lower_bound
+analysis/artifacts/breadth_solutions/p1_regularization_results.csv,config=orig|strategy=Equal risk|arm=naive|point_id=Equal risk|aum=1000000.0,known_lower_bound
+analysis/artifacts/breadth_solutions/p1_regularization_results.csv,config=larger|strategy=Greek Markowitz|arm=default|point_id=default|aum=1000000.0,known_lower_bound
+analysis/artifacts/breadth_solutions/p1_regularization_results.csv,config=larger|strategy=Greek Markowitz|arm=A|point_id=A_cov_0p35|aum=1000000.0,known_lower_bound
+analysis/artifacts/breadth_solutions/p1_regularization_results.csv,config=larger|strategy=Greek Markowitz|arm=A|point_id=A_cov_0p50|aum=1000000.0,known_lower_bound
+analysis/artifacts/breadth_solutions/p1_regularization_results.csv,config=larger|strategy=Greek Markowitz|arm=A|point_id=A_cov_0p65|aum=1000000.0,known_lower_bound
+analysis/artifacts/breadth_solutions/p1_regularization_results.csv,config=larger|strategy=Greek Markowitz|arm=A|point_id=A_cov_0p80|aum=1000000.0,known_lower_bound
+analysis/artifacts/breadth_solutions/p1_regularization_results.csv,config=larger|strategy=Greek Markowitz|arm=A|point_id=A_cov_0p90|aum=1000000.0,known_lower_bound
+analysis/artifacts/breadth_solutions/p1_regularization_results.csv,config=larger|strategy=Greek Markowitz|arm=A|point_id=A_cov_n_scaled|aum=1000000.0,known_lower_bound
+analysis/artifacts/breadth_solutions/p1_regularization_results.csv,config=larger|strategy=Greek Markowitz|arm=B|point_id=B_residual_diag_cov_0p20|aum=1000000.0,known_lower_bound
+analysis/artifacts/breadth_solutions/p1_regularization_results.csv,config=larger|strategy=Greek Markowitz|arm=B|point_id=B_residual_diag_cov_0p50|aum=1000000.0,known_lower_bound
+analysis/artifacts/breadth_solutions/p1_regularization_results.csv,config=larger|strategy=Greek Markowitz|arm=B|point_id=B_residual_lw_cov_0p20|aum=1000000.0,known_lower_bound
+analysis/artifacts/breadth_solutions/p1_regularization_results.csv,config=larger|strategy=Greek Markowitz|arm=B|point_id=B_residual_lw_cov_0p50|aum=1000000.0,known_lower_bound
+analysis/artifacts/breadth_solutions/p1_regularization_results.csv,config=larger|strategy=Greek Markowitz|arm=C|point_id=C_under_lw|aum=1000000.0,known_lower_bound
+analysis/artifacts/breadth_solutions/p1_regularization_results.csv,config=larger|strategy=Greek Markowitz|arm=C|point_id=C_under_single_factor|aum=1000000.0,known_lower_bound
+analysis/artifacts/breadth_solutions/p1_regularization_results.csv,config=larger|strategy=Greek Markowitz|arm=D|point_id=D_stz_0p75_hw_0p25|aum=1000000.0,known_lower_bound
+analysis/artifacts/breadth_solutions/p1_regularization_results.csv,config=larger|strategy=Greek Markowitz|arm=D|point_id=D_stz_0p90_hw_0p25|aum=1000000.0,known_lower_bound
+analysis/artifacts/breadth_solutions/p1_regularization_results.csv,config=larger|strategy=Greek Markowitz|arm=D|point_id=D_stz_0p60_hw_0p00|aum=1000000.0,known_lower_bound
+analysis/artifacts/breadth_solutions/p1_regularization_results.csv,config=larger|strategy=Greek Markowitz|arm=D|point_id=D_stz_0p75_hw_0p00|aum=1000000.0,known_lower_bound
+analysis/artifacts/breadth_solutions/p1_regularization_results.csv,config=larger|strategy=Greek Markowitz|arm=D|point_id=D_stz_0p90_hw_0p00|aum=1000000.0,known_lower_bound
+analysis/artifacts/breadth_solutions/p1_regularization_results.csv,config=larger|strategy=Greek Markowitz|arm=E|point_id=E1_residual_diag_n_scaled_hw0_stz075|aum=1000000.0,known_lower_bound
+analysis/artifacts/breadth_solutions/p1_regularization_results.csv,config=larger|strategy=Greek Markowitz|arm=E|point_id=E2_residual_lw_cov050_hw0_stz060|aum=1000000.0,known_lower_bound
+analysis/artifacts/breadth_solutions/p1_regularization_results.csv,config=larger|strategy=Greek Markowitz|arm=E|point_id=E3_under_lw_residual_diag_n_scaled|aum=1000000.0,known_lower_bound
+analysis/artifacts/breadth_solutions/p1_regularization_results.csv,config=larger|strategy=Greek Markowitz|arm=E|point_id=E4_residual_diag_cov065_stz075|aum=1000000.0,known_lower_bound
+analysis/artifacts/breadth_solutions/p1_regularization_results.csv,config=larger|strategy=Equal premium|arm=naive|point_id=Equal premium|aum=1000000.0,known_lower_bound
+analysis/artifacts/breadth_solutions/p1_regularization_results.csv,config=larger|strategy=Equal risk|arm=naive|point_id=Equal risk|aum=1000000.0,known_lower_bound
+analysis/artifacts/breadth_solutions/p2_liquidity_results.csv,config=orig+VIX|strategy=GM X=inf|participation=inf|aum=1000000.0|mode=uncapped,known_lower_bound
+analysis/artifacts/breadth_solutions/p2_liquidity_results.csv,config=orig+VIX|strategy=GM X=0.02|participation=0.02|aum=1000000.0|mode=hard,known_lower_bound
+analysis/artifacts/breadth_solutions/p2_liquidity_results.csv,config=orig+VIX|strategy=GM X=0.02|participation=0.02|aum=1000000.0|mode=relaxed,known_lower_bound
+analysis/artifacts/breadth_solutions/p2_liquidity_results.csv,config=orig+VIX|strategy=Equal premium capped X=0.02|participation=0.02|aum=1000000.0|mode=relaxed,known_lower_bound
+analysis/artifacts/breadth_solutions/p2_liquidity_results.csv,config=orig+VIX|strategy=Equal risk capped X=0.02|participation=0.02|aum=1000000.0|mode=relaxed,known_lower_bound
+analysis/artifacts/breadth_solutions/p2_liquidity_results.csv,config=orig+VIX|strategy=GM X=0.05|participation=0.05|aum=1000000.0|mode=hard,known_lower_bound
+analysis/artifacts/breadth_solutions/p2_liquidity_results.csv,config=orig+VIX|strategy=Equal premium capped X=0.05|participation=0.05|aum=1000000.0|mode=hard,known_lower_bound
+analysis/artifacts/breadth_solutions/p2_liquidity_results.csv,config=orig+VIX|strategy=Equal risk capped X=0.05|participation=0.05|aum=1000000.0|mode=hard,known_lower_bound
+analysis/artifacts/breadth_solutions/p2_liquidity_results.csv,config=orig+VIX|strategy=GM X=0.10|participation=0.1|aum=1000000.0|mode=hard,known_lower_bound
+analysis/artifacts/breadth_solutions/p2_liquidity_results.csv,config=orig+VIX|strategy=Equal premium capped X=0.10|participation=0.1|aum=1000000.0|mode=hard,known_lower_bound
+analysis/artifacts/breadth_solutions/p2_liquidity_results.csv,config=orig+VIX|strategy=Equal risk capped X=0.10|participation=0.1|aum=1000000.0|mode=hard,known_lower_bound
+analysis/artifacts/breadth_solutions/p2_liquidity_results.csv,config=orig+VIX|strategy=Equal premium|participation=nan|aum=1000000.0|mode=naive,known_lower_bound
+analysis/artifacts/breadth_solutions/p2_liquidity_results.csv,config=orig+VIX|strategy=Equal risk|participation=nan|aum=1000000.0|mode=naive,known_lower_bound
+analysis/artifacts/breadth_solutions/p2_liquidity_results.csv,config=orig+VIX|strategy=GM X=inf|participation=inf|aum=5000000.0|mode=uncapped,known_lower_bound
+analysis/artifacts/breadth_solutions/p2_liquidity_results.csv,config=orig+VIX|strategy=GM X=0.02|participation=0.02|aum=5000000.0|mode=hard,known_lower_bound
+analysis/artifacts/breadth_solutions/p2_liquidity_results.csv,config=orig+VIX|strategy=GM X=0.02|participation=0.02|aum=5000000.0|mode=relaxed,known_lower_bound
+analysis/artifacts/breadth_solutions/p2_liquidity_results.csv,config=orig+VIX|strategy=Equal premium capped X=0.02|participation=0.02|aum=5000000.0|mode=relaxed,known_lower_bound
+analysis/artifacts/breadth_solutions/p2_liquidity_results.csv,config=orig+VIX|strategy=Equal risk capped X=0.02|participation=0.02|aum=5000000.0|mode=relaxed,known_lower_bound
+analysis/artifacts/breadth_solutions/p2_liquidity_results.csv,config=orig+VIX|strategy=GM X=0.05|participation=0.05|aum=5000000.0|mode=hard,known_lower_bound
+analysis/artifacts/breadth_solutions/p2_liquidity_results.csv,config=orig+VIX|strategy=GM X=0.05|participation=0.05|aum=5000000.0|mode=relaxed,known_lower_bound
+analysis/artifacts/breadth_solutions/p2_liquidity_results.csv,config=orig+VIX|strategy=Equal premium capped X=0.05|participation=0.05|aum=5000000.0|mode=relaxed,known_lower_bound
+analysis/artifacts/breadth_solutions/p2_liquidity_results.csv,config=orig+VIX|strategy=Equal risk capped X=0.05|participation=0.05|aum=5000000.0|mode=relaxed,known_lower_bound
+analysis/artifacts/breadth_solutions/p2_liquidity_results.csv,config=orig+VIX|strategy=GM X=0.10|participation=0.1|aum=5000000.0|mode=hard,known_lower_bound
+analysis/artifacts/breadth_solutions/p2_liquidity_results.csv,config=orig+VIX|strategy=GM X=0.10|participation=0.1|aum=5000000.0|mode=relaxed,known_lower_bound
+analysis/artifacts/breadth_solutions/p2_liquidity_results.csv,config=orig+VIX|strategy=Equal premium capped X=0.10|participation=0.1|aum=5000000.0|mode=relaxed,known_lower_bound
+analysis/artifacts/breadth_solutions/p2_liquidity_results.csv,config=orig+VIX|strategy=Equal risk capped X=0.10|participation=0.1|aum=5000000.0|mode=relaxed,known_lower_bound
+analysis/artifacts/breadth_solutions/p2_liquidity_results.csv,config=orig+VIX|strategy=Equal premium|participation=nan|aum=5000000.0|mode=naive,known_lower_bound
+analysis/artifacts/breadth_solutions/p2_liquidity_results.csv,config=orig+VIX|strategy=Equal risk|participation=nan|aum=5000000.0|mode=naive,known_lower_bound
+analysis/artifacts/breadth_solutions/p2_liquidity_results.csv,config=orig+VIX|strategy=GM X=inf|participation=inf|aum=10000000.0|mode=uncapped,known_lower_bound
+analysis/artifacts/breadth_solutions/p2_liquidity_results.csv,config=orig+VIX|strategy=GM X=0.02|participation=0.02|aum=10000000.0|mode=hard,known_lower_bound
+analysis/artifacts/breadth_solutions/p2_liquidity_results.csv,config=orig+VIX|strategy=GM X=0.02|participation=0.02|aum=10000000.0|mode=relaxed,known_lower_bound
+analysis/artifacts/breadth_solutions/p2_liquidity_results.csv,config=orig+VIX|strategy=Equal premium capped X=0.02|participation=0.02|aum=10000000.0|mode=relaxed,known_lower_bound
+analysis/artifacts/breadth_solutions/p2_liquidity_results.csv,config=orig+VIX|strategy=Equal risk capped X=0.02|participation=0.02|aum=10000000.0|mode=relaxed,known_lower_bound
+analysis/artifacts/breadth_solutions/p2_liquidity_results.csv,config=orig+VIX|strategy=GM X=0.05|participation=0.05|aum=10000000.0|mode=hard,known_lower_bound
+analysis/artifacts/breadth_solutions/p2_liquidity_results.csv,config=orig+VIX|strategy=GM X=0.05|participation=0.05|aum=10000000.0|mode=relaxed,known_lower_bound
+analysis/artifacts/breadth_solutions/p2_liquidity_results.csv,config=orig+VIX|strategy=Equal premium capped X=0.05|participation=0.05|aum=10000000.0|mode=relaxed,known_lower_bound
+analysis/artifacts/breadth_solutions/p2_liquidity_results.csv,config=orig+VIX|strategy=Equal risk capped X=0.05|participation=0.05|aum=10000000.0|mode=relaxed,known_lower_bound
+analysis/artifacts/breadth_solutions/p2_liquidity_results.csv,config=orig+VIX|strategy=GM X=0.10|participation=0.1|aum=10000000.0|mode=hard,known_lower_bound
+analysis/artifacts/breadth_solutions/p2_liquidity_results.csv,config=orig+VIX|strategy=GM X=0.10|participation=0.1|aum=10000000.0|mode=relaxed,known_lower_bound
+analysis/artifacts/breadth_solutions/p2_liquidity_results.csv,config=orig+VIX|strategy=Equal premium capped X=0.10|participation=0.1|aum=10000000.0|mode=relaxed,known_lower_bound
+analysis/artifacts/breadth_solutions/p2_liquidity_results.csv,config=orig+VIX|strategy=Equal risk capped X=0.10|participation=0.1|aum=10000000.0|mode=relaxed,known_lower_bound
+analysis/artifacts/breadth_solutions/p2_liquidity_results.csv,config=orig+VIX|strategy=Equal premium|participation=nan|aum=10000000.0|mode=naive,known_lower_bound
+analysis/artifacts/breadth_solutions/p2_liquidity_results.csv,config=orig+VIX|strategy=Equal risk|participation=nan|aum=10000000.0|mode=naive,known_lower_bound
+analysis/artifacts/breadth_solutions/p2_liquidity_results.csv,config=orig+VIX|strategy=GM X=inf|participation=inf|aum=25000000.0|mode=uncapped,known_lower_bound
+analysis/artifacts/breadth_solutions/p2_liquidity_results.csv,config=orig+VIX|strategy=GM X=0.02|participation=0.02|aum=25000000.0|mode=hard,known_lower_bound
+analysis/artifacts/breadth_solutions/p2_liquidity_results.csv,config=orig+VIX|strategy=GM X=0.02|participation=0.02|aum=25000000.0|mode=relaxed,known_lower_bound
+analysis/artifacts/breadth_solutions/p2_liquidity_results.csv,config=orig+VIX|strategy=Equal premium capped X=0.02|participation=0.02|aum=25000000.0|mode=relaxed,known_lower_bound
+analysis/artifacts/breadth_solutions/p2_liquidity_results.csv,config=orig+VIX|strategy=Equal risk capped X=0.02|participation=0.02|aum=25000000.0|mode=relaxed,known_lower_bound
+analysis/artifacts/breadth_solutions/p2_liquidity_results.csv,config=orig+VIX|strategy=GM X=0.05|participation=0.05|aum=25000000.0|mode=hard,known_lower_bound
+analysis/artifacts/breadth_solutions/p2_liquidity_results.csv,config=orig+VIX|strategy=GM X=0.05|participation=0.05|aum=25000000.0|mode=relaxed,known_lower_bound
+analysis/artifacts/breadth_solutions/p2_liquidity_results.csv,config=orig+VIX|strategy=Equal premium capped X=0.05|participation=0.05|aum=25000000.0|mode=relaxed,known_lower_bound
+analysis/artifacts/breadth_solutions/p2_liquidity_results.csv,config=orig+VIX|strategy=Equal risk capped X=0.05|participation=0.05|aum=25000000.0|mode=relaxed,known_lower_bound
+analysis/artifacts/breadth_solutions/p2_liquidity_results.csv,config=orig+VIX|strategy=GM X=0.10|participation=0.1|aum=25000000.0|mode=hard,known_lower_bound
+analysis/artifacts/breadth_solutions/p2_liquidity_results.csv,config=orig+VIX|strategy=GM X=0.10|participation=0.1|aum=25000000.0|mode=relaxed,known_lower_bound
+analysis/artifacts/breadth_solutions/p2_liquidity_results.csv,config=orig+VIX|strategy=Equal premium capped X=0.10|participation=0.1|aum=25000000.0|mode=relaxed,known_lower_bound
+analysis/artifacts/breadth_solutions/p2_liquidity_results.csv,config=orig+VIX|strategy=Equal risk capped X=0.10|participation=0.1|aum=25000000.0|mode=relaxed,known_lower_bound
+analysis/artifacts/breadth_solutions/p2_liquidity_results.csv,config=orig+VIX|strategy=Equal premium|participation=nan|aum=25000000.0|mode=naive,known_lower_bound
+analysis/artifacts/breadth_solutions/p2_liquidity_results.csv,config=orig+VIX|strategy=Equal risk|participation=nan|aum=25000000.0|mode=naive,known_lower_bound
+analysis/artifacts/breadth_solutions/p2_liquidity_results.csv,config=larger+VIX|strategy=GM X=inf|participation=inf|aum=1000000.0|mode=uncapped,known_lower_bound
+analysis/artifacts/breadth_solutions/p2_liquidity_results.csv,config=larger+VIX|strategy=GM X=0.02|participation=0.02|aum=1000000.0|mode=hard,known_lower_bound
+analysis/artifacts/breadth_solutions/p2_liquidity_results.csv,config=larger+VIX|strategy=GM X=0.02|participation=0.02|aum=1000000.0|mode=relaxed,known_lower_bound
+analysis/artifacts/breadth_solutions/p2_liquidity_results.csv,config=larger+VIX|strategy=Equal premium capped X=0.02|participation=0.02|aum=1000000.0|mode=relaxed,known_lower_bound
+analysis/artifacts/breadth_solutions/p2_liquidity_results.csv,config=larger+VIX|strategy=Equal risk capped X=0.02|participation=0.02|aum=1000000.0|mode=relaxed,known_lower_bound
+analysis/artifacts/breadth_solutions/p2_liquidity_results.csv,config=larger+VIX|strategy=GM X=0.05|participation=0.05|aum=1000000.0|mode=hard,known_lower_bound
+analysis/artifacts/breadth_solutions/p2_liquidity_results.csv,config=larger+VIX|strategy=Equal premium capped X=0.05|participation=0.05|aum=1000000.0|mode=hard,known_lower_bound
+analysis/artifacts/breadth_solutions/p2_liquidity_results.csv,config=larger+VIX|strategy=Equal risk capped X=0.05|participation=0.05|aum=1000000.0|mode=hard,known_lower_bound
+analysis/artifacts/breadth_solutions/p2_liquidity_results.csv,config=larger+VIX|strategy=GM X=0.10|participation=0.1|aum=1000000.0|mode=hard,known_lower_bound
+analysis/artifacts/breadth_solutions/p2_liquidity_results.csv,config=larger+VIX|strategy=Equal premium capped X=0.10|participation=0.1|aum=1000000.0|mode=hard,known_lower_bound
+analysis/artifacts/breadth_solutions/p2_liquidity_results.csv,config=larger+VIX|strategy=Equal risk capped X=0.10|participation=0.1|aum=1000000.0|mode=hard,known_lower_bound
+analysis/artifacts/breadth_solutions/p2_liquidity_results.csv,config=larger+VIX|strategy=Equal premium|participation=nan|aum=1000000.0|mode=naive,known_lower_bound
+analysis/artifacts/breadth_solutions/p2_liquidity_results.csv,config=larger+VIX|strategy=Equal risk|participation=nan|aum=1000000.0|mode=naive,known_lower_bound
+analysis/artifacts/breadth_solutions/p2_liquidity_results.csv,config=larger+VIX|strategy=GM X=inf|participation=inf|aum=5000000.0|mode=uncapped,known_lower_bound
+analysis/artifacts/breadth_solutions/p2_liquidity_results.csv,config=larger+VIX|strategy=GM X=0.02|participation=0.02|aum=5000000.0|mode=hard,known_lower_bound
+analysis/artifacts/breadth_solutions/p2_liquidity_results.csv,config=larger+VIX|strategy=GM X=0.02|participation=0.02|aum=5000000.0|mode=relaxed,known_lower_bound
+analysis/artifacts/breadth_solutions/p2_liquidity_results.csv,config=larger+VIX|strategy=Equal premium capped X=0.02|participation=0.02|aum=5000000.0|mode=relaxed,known_lower_bound
+analysis/artifacts/breadth_solutions/p2_liquidity_results.csv,config=larger+VIX|strategy=Equal risk capped X=0.02|participation=0.02|aum=5000000.0|mode=relaxed,known_lower_bound
+analysis/artifacts/breadth_solutions/p2_liquidity_results.csv,config=larger+VIX|strategy=GM X=0.05|participation=0.05|aum=5000000.0|mode=hard,known_lower_bound
+analysis/artifacts/breadth_solutions/p2_liquidity_results.csv,config=larger+VIX|strategy=GM X=0.05|participation=0.05|aum=5000000.0|mode=relaxed,known_lower_bound
+analysis/artifacts/breadth_solutions/p2_liquidity_results.csv,config=larger+VIX|strategy=Equal premium capped X=0.05|participation=0.05|aum=5000000.0|mode=relaxed,known_lower_bound
+analysis/artifacts/breadth_solutions/p2_liquidity_results.csv,config=larger+VIX|strategy=Equal risk capped X=0.05|participation=0.05|aum=5000000.0|mode=relaxed,known_lower_bound
+analysis/artifacts/breadth_solutions/p2_liquidity_results.csv,config=larger+VIX|strategy=GM X=0.10|participation=0.1|aum=5000000.0|mode=hard,known_lower_bound
+analysis/artifacts/breadth_solutions/p2_liquidity_results.csv,config=larger+VIX|strategy=GM X=0.10|participation=0.1|aum=5000000.0|mode=relaxed,known_lower_bound
+analysis/artifacts/breadth_solutions/p2_liquidity_results.csv,config=larger+VIX|strategy=Equal premium capped X=0.10|participation=0.1|aum=5000000.0|mode=relaxed,known_lower_bound
+analysis/artifacts/breadth_solutions/p2_liquidity_results.csv,config=larger+VIX|strategy=Equal risk capped X=0.10|participation=0.1|aum=5000000.0|mode=relaxed,known_lower_bound
+analysis/artifacts/breadth_solutions/p2_liquidity_results.csv,config=larger+VIX|strategy=Equal premium|participation=nan|aum=5000000.0|mode=naive,known_lower_bound
+analysis/artifacts/breadth_solutions/p2_liquidity_results.csv,config=larger+VIX|strategy=Equal risk|participation=nan|aum=5000000.0|mode=naive,known_lower_bound
+analysis/artifacts/breadth_solutions/p2_liquidity_results.csv,config=larger+VIX|strategy=GM X=inf|participation=inf|aum=10000000.0|mode=uncapped,known_lower_bound
+analysis/artifacts/breadth_solutions/p2_liquidity_results.csv,config=larger+VIX|strategy=GM X=0.02|participation=0.02|aum=10000000.0|mode=hard,known_lower_bound
+analysis/artifacts/breadth_solutions/p2_liquidity_results.csv,config=larger+VIX|strategy=GM X=0.02|participation=0.02|aum=10000000.0|mode=relaxed,known_lower_bound
+analysis/artifacts/breadth_solutions/p2_liquidity_results.csv,config=larger+VIX|strategy=Equal premium capped X=0.02|participation=0.02|aum=10000000.0|mode=relaxed,known_lower_bound
+analysis/artifacts/breadth_solutions/p2_liquidity_results.csv,config=larger+VIX|strategy=Equal risk capped X=0.02|participation=0.02|aum=10000000.0|mode=relaxed,known_lower_bound
+analysis/artifacts/breadth_solutions/p2_liquidity_results.csv,config=larger+VIX|strategy=GM X=0.05|participation=0.05|aum=10000000.0|mode=hard,known_lower_bound
+analysis/artifacts/breadth_solutions/p2_liquidity_results.csv,config=larger+VIX|strategy=GM X=0.05|participation=0.05|aum=10000000.0|mode=relaxed,known_lower_bound
+analysis/artifacts/breadth_solutions/p2_liquidity_results.csv,config=larger+VIX|strategy=Equal premium capped X=0.05|participation=0.05|aum=10000000.0|mode=relaxed,known_lower_bound
+analysis/artifacts/breadth_solutions/p2_liquidity_results.csv,config=larger+VIX|strategy=Equal risk capped X=0.05|participation=0.05|aum=10000000.0|mode=relaxed,known_lower_bound
+analysis/artifacts/breadth_solutions/p2_liquidity_results.csv,config=larger+VIX|strategy=GM X=0.10|participation=0.1|aum=10000000.0|mode=hard,known_lower_bound
+analysis/artifacts/breadth_solutions/p2_liquidity_results.csv,config=larger+VIX|strategy=GM X=0.10|participation=0.1|aum=10000000.0|mode=relaxed,known_lower_bound
+analysis/artifacts/breadth_solutions/p2_liquidity_results.csv,config=larger+VIX|strategy=Equal premium capped X=0.10|participation=0.1|aum=10000000.0|mode=relaxed,known_lower_bound
+analysis/artifacts/breadth_solutions/p2_liquidity_results.csv,config=larger+VIX|strategy=Equal risk capped X=0.10|participation=0.1|aum=10000000.0|mode=relaxed,known_lower_bound
+analysis/artifacts/breadth_solutions/p2_liquidity_results.csv,config=larger+VIX|strategy=Equal premium|participation=nan|aum=10000000.0|mode=naive,known_lower_bound
+analysis/artifacts/breadth_solutions/p2_liquidity_results.csv,config=larger+VIX|strategy=Equal risk|participation=nan|aum=10000000.0|mode=naive,known_lower_bound
+analysis/artifacts/breadth_solutions/p2_liquidity_results.csv,config=larger+VIX|strategy=GM X=inf|participation=inf|aum=25000000.0|mode=uncapped,known_lower_bound
+analysis/artifacts/breadth_solutions/p2_liquidity_results.csv,config=larger+VIX|strategy=GM X=0.02|participation=0.02|aum=25000000.0|mode=hard,known_lower_bound
+analysis/artifacts/breadth_solutions/p2_liquidity_results.csv,config=larger+VIX|strategy=GM X=0.02|participation=0.02|aum=25000000.0|mode=relaxed,known_lower_bound
+analysis/artifacts/breadth_solutions/p2_liquidity_results.csv,config=larger+VIX|strategy=Equal premium capped X=0.02|participation=0.02|aum=25000000.0|mode=relaxed,known_lower_bound
+analysis/artifacts/breadth_solutions/p2_liquidity_results.csv,config=larger+VIX|strategy=Equal risk capped X=0.02|participation=0.02|aum=25000000.0|mode=relaxed,known_lower_bound
+analysis/artifacts/breadth_solutions/p2_liquidity_results.csv,config=larger+VIX|strategy=GM X=0.05|participation=0.05|aum=25000000.0|mode=hard,known_lower_bound
+analysis/artifacts/breadth_solutions/p2_liquidity_results.csv,config=larger+VIX|strategy=GM X=0.05|participation=0.05|aum=25000000.0|mode=relaxed,known_lower_bound
+analysis/artifacts/breadth_solutions/p2_liquidity_results.csv,config=larger+VIX|strategy=Equal premium capped X=0.05|participation=0.05|aum=25000000.0|mode=relaxed,known_lower_bound
+analysis/artifacts/breadth_solutions/p2_liquidity_results.csv,config=larger+VIX|strategy=Equal risk capped X=0.05|participation=0.05|aum=25000000.0|mode=relaxed,known_lower_bound
+analysis/artifacts/breadth_solutions/p2_liquidity_results.csv,config=larger+VIX|strategy=GM X=0.10|participation=0.1|aum=25000000.0|mode=hard,known_lower_bound
+analysis/artifacts/breadth_solutions/p2_liquidity_results.csv,config=larger+VIX|strategy=GM X=0.10|participation=0.1|aum=25000000.0|mode=relaxed,known_lower_bound
+analysis/artifacts/breadth_solutions/p2_liquidity_results.csv,config=larger+VIX|strategy=Equal premium capped X=0.10|participation=0.1|aum=25000000.0|mode=relaxed,known_lower_bound
+analysis/artifacts/breadth_solutions/p2_liquidity_results.csv,config=larger+VIX|strategy=Equal risk capped X=0.10|participation=0.1|aum=25000000.0|mode=relaxed,known_lower_bound
+analysis/artifacts/breadth_solutions/p2_liquidity_results.csv,config=larger+VIX|strategy=Equal premium|participation=nan|aum=25000000.0|mode=naive,known_lower_bound
+analysis/artifacts/breadth_solutions/p2_liquidity_results.csv,config=larger+VIX|strategy=Equal risk|participation=nan|aum=25000000.0|mode=naive,known_lower_bound
+analysis/artifacts/breadth_solutions/p2_liquidity_results.csv,config=orig|strategy=GM X=inf|participation=inf|aum=1000000.0|mode=uncapped,known_lower_bound
+analysis/artifacts/breadth_solutions/p2_liquidity_results.csv,config=orig|strategy=GM X=0.02|participation=0.02|aum=1000000.0|mode=hard,known_lower_bound
+analysis/artifacts/breadth_solutions/p2_liquidity_results.csv,config=orig|strategy=GM X=0.02|participation=0.02|aum=1000000.0|mode=relaxed,known_lower_bound
+analysis/artifacts/breadth_solutions/p2_liquidity_results.csv,config=orig|strategy=Equal premium capped X=0.02|participation=0.02|aum=1000000.0|mode=relaxed,known_lower_bound
+analysis/artifacts/breadth_solutions/p2_liquidity_results.csv,config=orig|strategy=Equal risk capped X=0.02|participation=0.02|aum=1000000.0|mode=relaxed,known_lower_bound
+analysis/artifacts/breadth_solutions/p2_liquidity_results.csv,config=orig|strategy=GM X=0.05|participation=0.05|aum=1000000.0|mode=hard,known_lower_bound
+analysis/artifacts/breadth_solutions/p2_liquidity_results.csv,config=orig|strategy=GM X=0.05|participation=0.05|aum=1000000.0|mode=relaxed,known_lower_bound
+analysis/artifacts/breadth_solutions/p2_liquidity_results.csv,config=orig|strategy=Equal premium capped X=0.05|participation=0.05|aum=1000000.0|mode=relaxed,known_lower_bound
+analysis/artifacts/breadth_solutions/p2_liquidity_results.csv,config=orig|strategy=Equal risk capped X=0.05|participation=0.05|aum=1000000.0|mode=relaxed,known_lower_bound
+analysis/artifacts/breadth_solutions/p2_liquidity_results.csv,config=orig|strategy=GM X=0.10|participation=0.1|aum=1000000.0|mode=hard,known_lower_bound
+analysis/artifacts/breadth_solutions/p2_liquidity_results.csv,config=orig|strategy=Equal premium capped X=0.10|participation=0.1|aum=1000000.0|mode=hard,known_lower_bound
+analysis/artifacts/breadth_solutions/p2_liquidity_results.csv,config=orig|strategy=Equal risk capped X=0.10|participation=0.1|aum=1000000.0|mode=hard,known_lower_bound
+analysis/artifacts/breadth_solutions/p2_liquidity_results.csv,config=orig|strategy=Equal premium|participation=nan|aum=1000000.0|mode=naive,known_lower_bound
+analysis/artifacts/breadth_solutions/p2_liquidity_results.csv,config=orig|strategy=Equal risk|participation=nan|aum=1000000.0|mode=naive,known_lower_bound
+analysis/artifacts/breadth_solutions/p2_liquidity_results.csv,config=orig|strategy=GM X=inf|participation=inf|aum=5000000.0|mode=uncapped,known_lower_bound
+analysis/artifacts/breadth_solutions/p2_liquidity_results.csv,config=orig|strategy=GM X=0.02|participation=0.02|aum=5000000.0|mode=hard,known_lower_bound
+analysis/artifacts/breadth_solutions/p2_liquidity_results.csv,config=orig|strategy=GM X=0.02|participation=0.02|aum=5000000.0|mode=relaxed,known_lower_bound
+analysis/artifacts/breadth_solutions/p2_liquidity_results.csv,config=orig|strategy=Equal premium capped X=0.02|participation=0.02|aum=5000000.0|mode=relaxed,known_lower_bound
+analysis/artifacts/breadth_solutions/p2_liquidity_results.csv,config=orig|strategy=Equal risk capped X=0.02|participation=0.02|aum=5000000.0|mode=relaxed,known_lower_bound
+analysis/artifacts/breadth_solutions/p2_liquidity_results.csv,config=orig|strategy=GM X=0.05|participation=0.05|aum=5000000.0|mode=hard,known_lower_bound
+analysis/artifacts/breadth_solutions/p2_liquidity_results.csv,config=orig|strategy=GM X=0.05|participation=0.05|aum=5000000.0|mode=relaxed,known_lower_bound
+analysis/artifacts/breadth_solutions/p2_liquidity_results.csv,config=orig|strategy=Equal premium capped X=0.05|participation=0.05|aum=5000000.0|mode=relaxed,known_lower_bound
+analysis/artifacts/breadth_solutions/p2_liquidity_results.csv,config=orig|strategy=Equal risk capped X=0.05|participation=0.05|aum=5000000.0|mode=relaxed,known_lower_bound
+analysis/artifacts/breadth_solutions/p2_liquidity_results.csv,config=orig|strategy=GM X=0.10|participation=0.1|aum=5000000.0|mode=hard,known_lower_bound
+analysis/artifacts/breadth_solutions/p2_liquidity_results.csv,config=orig|strategy=GM X=0.10|participation=0.1|aum=5000000.0|mode=relaxed,known_lower_bound
+analysis/artifacts/breadth_solutions/p2_liquidity_results.csv,config=orig|strategy=Equal premium capped X=0.10|participation=0.1|aum=5000000.0|mode=relaxed,known_lower_bound
+analysis/artifacts/breadth_solutions/p2_liquidity_results.csv,config=orig|strategy=Equal risk capped X=0.10|participation=0.1|aum=5000000.0|mode=relaxed,known_lower_bound
+analysis/artifacts/breadth_solutions/p2_liquidity_results.csv,config=orig|strategy=Equal premium|participation=nan|aum=5000000.0|mode=naive,known_lower_bound
+analysis/artifacts/breadth_solutions/p2_liquidity_results.csv,config=orig|strategy=Equal risk|participation=nan|aum=5000000.0|mode=naive,known_lower_bound
+analysis/artifacts/breadth_solutions/p2_liquidity_results.csv,config=orig|strategy=GM X=inf|participation=inf|aum=10000000.0|mode=uncapped,known_lower_bound
+analysis/artifacts/breadth_solutions/p2_liquidity_results.csv,config=orig|strategy=GM X=0.02|participation=0.02|aum=10000000.0|mode=hard,known_lower_bound
+analysis/artifacts/breadth_solutions/p2_liquidity_results.csv,config=orig|strategy=GM X=0.02|participation=0.02|aum=10000000.0|mode=relaxed,known_lower_bound
+analysis/artifacts/breadth_solutions/p2_liquidity_results.csv,config=orig|strategy=Equal premium capped X=0.02|participation=0.02|aum=10000000.0|mode=relaxed,known_lower_bound
+analysis/artifacts/breadth_solutions/p2_liquidity_results.csv,config=orig|strategy=Equal risk capped X=0.02|participation=0.02|aum=10000000.0|mode=relaxed,known_lower_bound
+analysis/artifacts/breadth_solutions/p2_liquidity_results.csv,config=orig|strategy=GM X=0.05|participation=0.05|aum=10000000.0|mode=hard,known_lower_bound
+analysis/artifacts/breadth_solutions/p2_liquidity_results.csv,config=orig|strategy=GM X=0.05|participation=0.05|aum=10000000.0|mode=relaxed,known_lower_bound
+analysis/artifacts/breadth_solutions/p2_liquidity_results.csv,config=orig|strategy=Equal premium capped X=0.05|participation=0.05|aum=10000000.0|mode=relaxed,known_lower_bound
+analysis/artifacts/breadth_solutions/p2_liquidity_results.csv,config=orig|strategy=Equal risk capped X=0.05|participation=0.05|aum=10000000.0|mode=relaxed,known_lower_bound
+analysis/artifacts/breadth_solutions/p2_liquidity_results.csv,config=orig|strategy=GM X=0.10|participation=0.1|aum=10000000.0|mode=hard,known_lower_bound
+analysis/artifacts/breadth_solutions/p2_liquidity_results.csv,config=orig|strategy=GM X=0.10|participation=0.1|aum=10000000.0|mode=relaxed,known_lower_bound
+analysis/artifacts/breadth_solutions/p2_liquidity_results.csv,config=orig|strategy=Equal premium capped X=0.10|participation=0.1|aum=10000000.0|mode=relaxed,known_lower_bound
+analysis/artifacts/breadth_solutions/p2_liquidity_results.csv,config=orig|strategy=Equal risk capped X=0.10|participation=0.1|aum=10000000.0|mode=relaxed,known_lower_bound
+analysis/artifacts/breadth_solutions/p2_liquidity_results.csv,config=orig|strategy=Equal premium|participation=nan|aum=10000000.0|mode=naive,known_lower_bound
+analysis/artifacts/breadth_solutions/p2_liquidity_results.csv,config=orig|strategy=Equal risk|participation=nan|aum=10000000.0|mode=naive,known_lower_bound
+analysis/artifacts/breadth_solutions/p2_liquidity_results.csv,config=orig|strategy=GM X=inf|participation=inf|aum=25000000.0|mode=uncapped,known_lower_bound
+analysis/artifacts/breadth_solutions/p2_liquidity_results.csv,config=orig|strategy=GM X=0.02|participation=0.02|aum=25000000.0|mode=hard,known_lower_bound
+analysis/artifacts/breadth_solutions/p2_liquidity_results.csv,config=orig|strategy=GM X=0.02|participation=0.02|aum=25000000.0|mode=relaxed,known_lower_bound
+analysis/artifacts/breadth_solutions/p2_liquidity_results.csv,config=orig|strategy=Equal premium capped X=0.02|participation=0.02|aum=25000000.0|mode=relaxed,known_lower_bound
+analysis/artifacts/breadth_solutions/p2_liquidity_results.csv,config=orig|strategy=Equal risk capped X=0.02|participation=0.02|aum=25000000.0|mode=relaxed,known_lower_bound
+analysis/artifacts/breadth_solutions/p2_liquidity_results.csv,config=orig|strategy=GM X=0.05|participation=0.05|aum=25000000.0|mode=hard,known_lower_bound
+analysis/artifacts/breadth_solutions/p2_liquidity_results.csv,config=orig|strategy=GM X=0.05|participation=0.05|aum=25000000.0|mode=relaxed,known_lower_bound
+analysis/artifacts/breadth_solutions/p2_liquidity_results.csv,config=orig|strategy=Equal premium capped X=0.05|participation=0.05|aum=25000000.0|mode=relaxed,known_lower_bound
+analysis/artifacts/breadth_solutions/p2_liquidity_results.csv,config=orig|strategy=Equal risk capped X=0.05|participation=0.05|aum=25000000.0|mode=relaxed,known_lower_bound
+analysis/artifacts/breadth_solutions/p2_liquidity_results.csv,config=orig|strategy=GM X=0.10|participation=0.1|aum=25000000.0|mode=hard,known_lower_bound
+analysis/artifacts/breadth_solutions/p2_liquidity_results.csv,config=orig|strategy=GM X=0.10|participation=0.1|aum=25000000.0|mode=relaxed,known_lower_bound
+analysis/artifacts/breadth_solutions/p2_liquidity_results.csv,config=orig|strategy=Equal premium capped X=0.10|participation=0.1|aum=25000000.0|mode=relaxed,known_lower_bound
+analysis/artifacts/breadth_solutions/p2_liquidity_results.csv,config=orig|strategy=Equal risk capped X=0.10|participation=0.1|aum=25000000.0|mode=relaxed,known_lower_bound
+analysis/artifacts/breadth_solutions/p2_liquidity_results.csv,config=orig|strategy=Equal premium|participation=nan|aum=25000000.0|mode=naive,known_lower_bound
+analysis/artifacts/breadth_solutions/p2_liquidity_results.csv,config=orig|strategy=Equal risk|participation=nan|aum=25000000.0|mode=naive,known_lower_bound
+analysis/artifacts/breadth_solutions/p2_liquidity_results.csv,config=larger|strategy=GM X=inf|participation=inf|aum=1000000.0|mode=uncapped,known_lower_bound
+analysis/artifacts/breadth_solutions/p2_liquidity_results.csv,config=larger|strategy=GM X=0.02|participation=0.02|aum=1000000.0|mode=hard,known_lower_bound
+analysis/artifacts/breadth_solutions/p2_liquidity_results.csv,config=larger|strategy=GM X=0.02|participation=0.02|aum=1000000.0|mode=relaxed,known_lower_bound
+analysis/artifacts/breadth_solutions/p2_liquidity_results.csv,config=larger|strategy=Equal premium capped X=0.02|participation=0.02|aum=1000000.0|mode=relaxed,known_lower_bound
+analysis/artifacts/breadth_solutions/p2_liquidity_results.csv,config=larger|strategy=Equal risk capped X=0.02|participation=0.02|aum=1000000.0|mode=relaxed,known_lower_bound
+analysis/artifacts/breadth_solutions/p2_liquidity_results.csv,config=larger|strategy=GM X=0.05|participation=0.05|aum=1000000.0|mode=hard,known_lower_bound
+analysis/artifacts/breadth_solutions/p2_liquidity_results.csv,config=larger|strategy=Equal premium capped X=0.05|participation=0.05|aum=1000000.0|mode=hard,known_lower_bound
+analysis/artifacts/breadth_solutions/p2_liquidity_results.csv,config=larger|strategy=Equal risk capped X=0.05|participation=0.05|aum=1000000.0|mode=hard,known_lower_bound
+analysis/artifacts/breadth_solutions/p2_liquidity_results.csv,config=larger|strategy=GM X=0.10|participation=0.1|aum=1000000.0|mode=hard,known_lower_bound
+analysis/artifacts/breadth_solutions/p2_liquidity_results.csv,config=larger|strategy=Equal premium capped X=0.10|participation=0.1|aum=1000000.0|mode=hard,known_lower_bound
+analysis/artifacts/breadth_solutions/p2_liquidity_results.csv,config=larger|strategy=Equal risk capped X=0.10|participation=0.1|aum=1000000.0|mode=hard,known_lower_bound
+analysis/artifacts/breadth_solutions/p2_liquidity_results.csv,config=larger|strategy=Equal premium|participation=nan|aum=1000000.0|mode=naive,known_lower_bound
+analysis/artifacts/breadth_solutions/p2_liquidity_results.csv,config=larger|strategy=Equal risk|participation=nan|aum=1000000.0|mode=naive,known_lower_bound
+analysis/artifacts/breadth_solutions/p2_liquidity_results.csv,config=larger|strategy=GM X=inf|participation=inf|aum=5000000.0|mode=uncapped,known_lower_bound
+analysis/artifacts/breadth_solutions/p2_liquidity_results.csv,config=larger|strategy=GM X=0.02|participation=0.02|aum=5000000.0|mode=hard,known_lower_bound
+analysis/artifacts/breadth_solutions/p2_liquidity_results.csv,config=larger|strategy=GM X=0.02|participation=0.02|aum=5000000.0|mode=relaxed,known_lower_bound
+analysis/artifacts/breadth_solutions/p2_liquidity_results.csv,config=larger|strategy=Equal premium capped X=0.02|participation=0.02|aum=5000000.0|mode=relaxed,known_lower_bound
+analysis/artifacts/breadth_solutions/p2_liquidity_results.csv,config=larger|strategy=Equal risk capped X=0.02|participation=0.02|aum=5000000.0|mode=relaxed,known_lower_bound
+analysis/artifacts/breadth_solutions/p2_liquidity_results.csv,config=larger|strategy=GM X=0.05|participation=0.05|aum=5000000.0|mode=hard,known_lower_bound
+analysis/artifacts/breadth_solutions/p2_liquidity_results.csv,config=larger|strategy=GM X=0.05|participation=0.05|aum=5000000.0|mode=relaxed,known_lower_bound
+analysis/artifacts/breadth_solutions/p2_liquidity_results.csv,config=larger|strategy=Equal premium capped X=0.05|participation=0.05|aum=5000000.0|mode=relaxed,known_lower_bound
+analysis/artifacts/breadth_solutions/p2_liquidity_results.csv,config=larger|strategy=Equal risk capped X=0.05|participation=0.05|aum=5000000.0|mode=relaxed,known_lower_bound
+analysis/artifacts/breadth_solutions/p2_liquidity_results.csv,config=larger|strategy=GM X=0.10|participation=0.1|aum=5000000.0|mode=hard,known_lower_bound
+analysis/artifacts/breadth_solutions/p2_liquidity_results.csv,config=larger|strategy=GM X=0.10|participation=0.1|aum=5000000.0|mode=relaxed,known_lower_bound
+analysis/artifacts/breadth_solutions/p2_liquidity_results.csv,config=larger|strategy=Equal premium capped X=0.10|participation=0.1|aum=5000000.0|mode=relaxed,known_lower_bound
+analysis/artifacts/breadth_solutions/p2_liquidity_results.csv,config=larger|strategy=Equal risk capped X=0.10|participation=0.1|aum=5000000.0|mode=relaxed,known_lower_bound
+analysis/artifacts/breadth_solutions/p2_liquidity_results.csv,config=larger|strategy=Equal premium|participation=nan|aum=5000000.0|mode=naive,known_lower_bound
+analysis/artifacts/breadth_solutions/p2_liquidity_results.csv,config=larger|strategy=Equal risk|participation=nan|aum=5000000.0|mode=naive,known_lower_bound
+analysis/artifacts/breadth_solutions/p2_liquidity_results.csv,config=larger|strategy=GM X=inf|participation=inf|aum=10000000.0|mode=uncapped,known_lower_bound
+analysis/artifacts/breadth_solutions/p2_liquidity_results.csv,config=larger|strategy=GM X=0.02|participation=0.02|aum=10000000.0|mode=hard,known_lower_bound
+analysis/artifacts/breadth_solutions/p2_liquidity_results.csv,config=larger|strategy=GM X=0.02|participation=0.02|aum=10000000.0|mode=relaxed,known_lower_bound
+analysis/artifacts/breadth_solutions/p2_liquidity_results.csv,config=larger|strategy=Equal premium capped X=0.02|participation=0.02|aum=10000000.0|mode=relaxed,known_lower_bound
+analysis/artifacts/breadth_solutions/p2_liquidity_results.csv,config=larger|strategy=Equal risk capped X=0.02|participation=0.02|aum=10000000.0|mode=relaxed,known_lower_bound
+analysis/artifacts/breadth_solutions/p2_liquidity_results.csv,config=larger|strategy=GM X=0.05|participation=0.05|aum=10000000.0|mode=hard,known_lower_bound
+analysis/artifacts/breadth_solutions/p2_liquidity_results.csv,config=larger|strategy=GM X=0.05|participation=0.05|aum=10000000.0|mode=relaxed,known_lower_bound
+analysis/artifacts/breadth_solutions/p2_liquidity_results.csv,config=larger|strategy=Equal premium capped X=0.05|participation=0.05|aum=10000000.0|mode=relaxed,known_lower_bound
+analysis/artifacts/breadth_solutions/p2_liquidity_results.csv,config=larger|strategy=Equal risk capped X=0.05|participation=0.05|aum=10000000.0|mode=relaxed,known_lower_bound
+analysis/artifacts/breadth_solutions/p2_liquidity_results.csv,config=larger|strategy=GM X=0.10|participation=0.1|aum=10000000.0|mode=hard,known_lower_bound
+analysis/artifacts/breadth_solutions/p2_liquidity_results.csv,config=larger|strategy=GM X=0.10|participation=0.1|aum=10000000.0|mode=relaxed,known_lower_bound
+analysis/artifacts/breadth_solutions/p2_liquidity_results.csv,config=larger|strategy=Equal premium capped X=0.10|participation=0.1|aum=10000000.0|mode=relaxed,known_lower_bound
+analysis/artifacts/breadth_solutions/p2_liquidity_results.csv,config=larger|strategy=Equal risk capped X=0.10|participation=0.1|aum=10000000.0|mode=relaxed,known_lower_bound
+analysis/artifacts/breadth_solutions/p2_liquidity_results.csv,config=larger|strategy=Equal premium|participation=nan|aum=10000000.0|mode=naive,known_lower_bound
+analysis/artifacts/breadth_solutions/p2_liquidity_results.csv,config=larger|strategy=Equal risk|participation=nan|aum=10000000.0|mode=naive,known_lower_bound
+analysis/artifacts/breadth_solutions/p2_liquidity_results.csv,config=larger|strategy=GM X=inf|participation=inf|aum=25000000.0|mode=uncapped,known_lower_bound
+analysis/artifacts/breadth_solutions/p2_liquidity_results.csv,config=larger|strategy=GM X=0.02|participation=0.02|aum=25000000.0|mode=hard,known_lower_bound
+analysis/artifacts/breadth_solutions/p2_liquidity_results.csv,config=larger|strategy=GM X=0.02|participation=0.02|aum=25000000.0|mode=relaxed,known_lower_bound
+analysis/artifacts/breadth_solutions/p2_liquidity_results.csv,config=larger|strategy=Equal premium capped X=0.02|participation=0.02|aum=25000000.0|mode=relaxed,known_lower_bound
+analysis/artifacts/breadth_solutions/p2_liquidity_results.csv,config=larger|strategy=Equal risk capped X=0.02|participation=0.02|aum=25000000.0|mode=relaxed,known_lower_bound
+analysis/artifacts/breadth_solutions/p2_liquidity_results.csv,config=larger|strategy=GM X=0.05|participation=0.05|aum=25000000.0|mode=hard,known_lower_bound
+analysis/artifacts/breadth_solutions/p2_liquidity_results.csv,config=larger|strategy=GM X=0.05|participation=0.05|aum=25000000.0|mode=relaxed,known_lower_bound
+analysis/artifacts/breadth_solutions/p2_liquidity_results.csv,config=larger|strategy=Equal premium capped X=0.05|participation=0.05|aum=25000000.0|mode=relaxed,known_lower_bound
+analysis/artifacts/breadth_solutions/p2_liquidity_results.csv,config=larger|strategy=Equal risk capped X=0.05|participation=0.05|aum=25000000.0|mode=relaxed,known_lower_bound
+analysis/artifacts/breadth_solutions/p2_liquidity_results.csv,config=larger|strategy=GM X=0.10|participation=0.1|aum=25000000.0|mode=hard,known_lower_bound
+analysis/artifacts/breadth_solutions/p2_liquidity_results.csv,config=larger|strategy=GM X=0.10|participation=0.1|aum=25000000.0|mode=relaxed,known_lower_bound
+analysis/artifacts/breadth_solutions/p2_liquidity_results.csv,config=larger|strategy=Equal premium capped X=0.10|participation=0.1|aum=25000000.0|mode=relaxed,known_lower_bound
+analysis/artifacts/breadth_solutions/p2_liquidity_results.csv,config=larger|strategy=Equal risk capped X=0.10|participation=0.1|aum=25000000.0|mode=relaxed,known_lower_bound
+analysis/artifacts/breadth_solutions/p2_liquidity_results.csv,config=larger|strategy=Equal premium|participation=nan|aum=25000000.0|mode=naive,known_lower_bound
+analysis/artifacts/breadth_solutions/p2_liquidity_results.csv,config=larger|strategy=Equal risk|participation=nan|aum=25000000.0|mode=naive,known_lower_bound
+analysis/artifacts/breadth_solutions/p3_combined_results.csv,config=orig+VIX|strategy=GM paper|participation=nan|aum=1000000.0|mode=uncapped,known_lower_bound
+analysis/artifacts/breadth_solutions/p3_combined_results.csv,config=orig+VIX|strategy=Delta neutral|participation=nan|aum=1000000.0|mode=uncapped,known_lower_bound
+analysis/artifacts/breadth_solutions/p3_combined_results.csv,config=orig+VIX|strategy=Equal premium|participation=nan|aum=1000000.0|mode=naive,known_lower_bound
+analysis/artifacts/breadth_solutions/p3_combined_results.csv,config=orig+VIX|strategy=Equal risk|participation=nan|aum=1000000.0|mode=naive,known_lower_bound
+analysis/artifacts/breadth_solutions/p3_combined_results.csv,config=orig+VIX|strategy=GM combined|participation=0.05|aum=1000000.0|mode=hard,known_lower_bound
+analysis/artifacts/breadth_solutions/p3_combined_results.csv,config=orig+VIX|strategy=GM combined alt|participation=0.05|aum=1000000.0|mode=hard,known_lower_bound
+analysis/artifacts/breadth_solutions/p3_combined_results.csv,config=orig+VIX|strategy=Equal premium capped|participation=0.05|aum=1000000.0|mode=hard,known_lower_bound
+analysis/artifacts/breadth_solutions/p3_combined_results.csv,config=orig+VIX|strategy=Equal risk capped|participation=0.05|aum=1000000.0|mode=hard,known_lower_bound
+analysis/artifacts/breadth_solutions/p3_combined_results.csv,config=orig+VIX|strategy=GM paper|participation=nan|aum=5000000.0|mode=uncapped,known_lower_bound
+analysis/artifacts/breadth_solutions/p3_combined_results.csv,config=orig+VIX|strategy=Delta neutral|participation=nan|aum=5000000.0|mode=uncapped,known_lower_bound
+analysis/artifacts/breadth_solutions/p3_combined_results.csv,config=orig+VIX|strategy=Equal premium|participation=nan|aum=5000000.0|mode=naive,known_lower_bound
+analysis/artifacts/breadth_solutions/p3_combined_results.csv,config=orig+VIX|strategy=Equal risk|participation=nan|aum=5000000.0|mode=naive,known_lower_bound
+analysis/artifacts/breadth_solutions/p3_combined_results.csv,config=orig+VIX|strategy=GM combined|participation=0.05|aum=5000000.0|mode=hard,known_lower_bound
+analysis/artifacts/breadth_solutions/p3_combined_results.csv,config=orig+VIX|strategy=GM combined|participation=0.05|aum=5000000.0|mode=relaxed,known_lower_bound
+analysis/artifacts/breadth_solutions/p3_combined_results.csv,config=orig+VIX|strategy=GM combined alt|participation=0.05|aum=5000000.0|mode=hard,known_lower_bound
+analysis/artifacts/breadth_solutions/p3_combined_results.csv,config=orig+VIX|strategy=GM combined alt|participation=0.05|aum=5000000.0|mode=relaxed,known_lower_bound
+analysis/artifacts/breadth_solutions/p3_combined_results.csv,config=orig+VIX|strategy=Equal premium capped|participation=0.05|aum=5000000.0|mode=relaxed,known_lower_bound
+analysis/artifacts/breadth_solutions/p3_combined_results.csv,config=orig+VIX|strategy=Equal risk capped|participation=0.05|aum=5000000.0|mode=relaxed,known_lower_bound
+analysis/artifacts/breadth_solutions/p3_combined_results.csv,config=orig+VIX|strategy=GM paper|participation=nan|aum=10000000.0|mode=uncapped,known_lower_bound
+analysis/artifacts/breadth_solutions/p3_combined_results.csv,config=orig+VIX|strategy=Delta neutral|participation=nan|aum=10000000.0|mode=uncapped,known_lower_bound
+analysis/artifacts/breadth_solutions/p3_combined_results.csv,config=orig+VIX|strategy=Equal premium|participation=nan|aum=10000000.0|mode=naive,known_lower_bound
+analysis/artifacts/breadth_solutions/p3_combined_results.csv,config=orig+VIX|strategy=Equal risk|participation=nan|aum=10000000.0|mode=naive,known_lower_bound
+analysis/artifacts/breadth_solutions/p3_combined_results.csv,config=orig+VIX|strategy=GM combined|participation=0.05|aum=10000000.0|mode=hard,known_lower_bound
+analysis/artifacts/breadth_solutions/p3_combined_results.csv,config=orig+VIX|strategy=GM combined|participation=0.05|aum=10000000.0|mode=relaxed,known_lower_bound
+analysis/artifacts/breadth_solutions/p3_combined_results.csv,config=orig+VIX|strategy=GM combined alt|participation=0.05|aum=10000000.0|mode=hard,known_lower_bound
+analysis/artifacts/breadth_solutions/p3_combined_results.csv,config=orig+VIX|strategy=GM combined alt|participation=0.05|aum=10000000.0|mode=relaxed,known_lower_bound
+analysis/artifacts/breadth_solutions/p3_combined_results.csv,config=orig+VIX|strategy=Equal premium capped|participation=0.05|aum=10000000.0|mode=relaxed,known_lower_bound
+analysis/artifacts/breadth_solutions/p3_combined_results.csv,config=orig+VIX|strategy=Equal risk capped|participation=0.05|aum=10000000.0|mode=relaxed,known_lower_bound
+analysis/artifacts/breadth_solutions/p3_combined_results.csv,config=orig+VIX|strategy=GM paper|participation=nan|aum=25000000.0|mode=uncapped,known_lower_bound
+analysis/artifacts/breadth_solutions/p3_combined_results.csv,config=orig+VIX|strategy=Delta neutral|participation=nan|aum=25000000.0|mode=uncapped,known_lower_bound
+analysis/artifacts/breadth_solutions/p3_combined_results.csv,config=orig+VIX|strategy=Equal premium|participation=nan|aum=25000000.0|mode=naive,known_lower_bound
+analysis/artifacts/breadth_solutions/p3_combined_results.csv,config=orig+VIX|strategy=Equal risk|participation=nan|aum=25000000.0|mode=naive,known_lower_bound
+analysis/artifacts/breadth_solutions/p3_combined_results.csv,config=orig+VIX|strategy=GM combined|participation=0.05|aum=25000000.0|mode=hard,known_lower_bound
+analysis/artifacts/breadth_solutions/p3_combined_results.csv,config=orig+VIX|strategy=GM combined|participation=0.05|aum=25000000.0|mode=relaxed,known_lower_bound
+analysis/artifacts/breadth_solutions/p3_combined_results.csv,config=orig+VIX|strategy=GM combined alt|participation=0.05|aum=25000000.0|mode=hard,known_lower_bound
+analysis/artifacts/breadth_solutions/p3_combined_results.csv,config=orig+VIX|strategy=GM combined alt|participation=0.05|aum=25000000.0|mode=relaxed,known_lower_bound
+analysis/artifacts/breadth_solutions/p3_combined_results.csv,config=orig+VIX|strategy=Equal premium capped|participation=0.05|aum=25000000.0|mode=relaxed,known_lower_bound
+analysis/artifacts/breadth_solutions/p3_combined_results.csv,config=orig+VIX|strategy=Equal risk capped|participation=0.05|aum=25000000.0|mode=relaxed,known_lower_bound
+analysis/artifacts/breadth_solutions/p3_combined_results.csv,config=larger+VIX|strategy=GM paper|participation=nan|aum=1000000.0|mode=uncapped,known_lower_bound
+analysis/artifacts/breadth_solutions/p3_combined_results.csv,config=larger+VIX|strategy=Delta neutral|participation=nan|aum=1000000.0|mode=uncapped,known_lower_bound
+analysis/artifacts/breadth_solutions/p3_combined_results.csv,config=larger+VIX|strategy=Equal premium|participation=nan|aum=1000000.0|mode=naive,known_lower_bound
+analysis/artifacts/breadth_solutions/p3_combined_results.csv,config=larger+VIX|strategy=Equal risk|participation=nan|aum=1000000.0|mode=naive,known_lower_bound
+analysis/artifacts/breadth_solutions/p3_combined_results.csv,config=larger+VIX|strategy=GM combined|participation=0.05|aum=1000000.0|mode=hard,known_lower_bound
+analysis/artifacts/breadth_solutions/p3_combined_results.csv,config=larger+VIX|strategy=GM combined alt|participation=0.05|aum=1000000.0|mode=hard,known_lower_bound
+analysis/artifacts/breadth_solutions/p3_combined_results.csv,config=larger+VIX|strategy=Equal premium capped|participation=0.05|aum=1000000.0|mode=hard,known_lower_bound
+analysis/artifacts/breadth_solutions/p3_combined_results.csv,config=larger+VIX|strategy=Equal risk capped|participation=0.05|aum=1000000.0|mode=hard,known_lower_bound
+analysis/artifacts/breadth_solutions/p3_combined_results.csv,config=larger+VIX|strategy=GM paper|participation=nan|aum=5000000.0|mode=uncapped,known_lower_bound
+analysis/artifacts/breadth_solutions/p3_combined_results.csv,config=larger+VIX|strategy=Delta neutral|participation=nan|aum=5000000.0|mode=uncapped,known_lower_bound
+analysis/artifacts/breadth_solutions/p3_combined_results.csv,config=larger+VIX|strategy=Equal premium|participation=nan|aum=5000000.0|mode=naive,known_lower_bound
+analysis/artifacts/breadth_solutions/p3_combined_results.csv,config=larger+VIX|strategy=Equal risk|participation=nan|aum=5000000.0|mode=naive,known_lower_bound
+analysis/artifacts/breadth_solutions/p3_combined_results.csv,config=larger+VIX|strategy=GM combined|participation=0.05|aum=5000000.0|mode=hard,known_lower_bound
+analysis/artifacts/breadth_solutions/p3_combined_results.csv,config=larger+VIX|strategy=GM combined|participation=0.05|aum=5000000.0|mode=relaxed,known_lower_bound
+analysis/artifacts/breadth_solutions/p3_combined_results.csv,config=larger+VIX|strategy=GM combined alt|participation=0.05|aum=5000000.0|mode=hard,known_lower_bound
+analysis/artifacts/breadth_solutions/p3_combined_results.csv,config=larger+VIX|strategy=GM combined alt|participation=0.05|aum=5000000.0|mode=relaxed,known_lower_bound
+analysis/artifacts/breadth_solutions/p3_combined_results.csv,config=larger+VIX|strategy=Equal premium capped|participation=0.05|aum=5000000.0|mode=relaxed,known_lower_bound
+analysis/artifacts/breadth_solutions/p3_combined_results.csv,config=larger+VIX|strategy=Equal risk capped|participation=0.05|aum=5000000.0|mode=relaxed,known_lower_bound
+analysis/artifacts/breadth_solutions/p3_combined_results.csv,config=larger+VIX|strategy=GM paper|participation=nan|aum=10000000.0|mode=uncapped,known_lower_bound
+analysis/artifacts/breadth_solutions/p3_combined_results.csv,config=larger+VIX|strategy=Delta neutral|participation=nan|aum=10000000.0|mode=uncapped,known_lower_bound
+analysis/artifacts/breadth_solutions/p3_combined_results.csv,config=larger+VIX|strategy=Equal premium|participation=nan|aum=10000000.0|mode=naive,known_lower_bound
+analysis/artifacts/breadth_solutions/p3_combined_results.csv,config=larger+VIX|strategy=Equal risk|participation=nan|aum=10000000.0|mode=naive,known_lower_bound
+analysis/artifacts/breadth_solutions/p3_combined_results.csv,config=larger+VIX|strategy=GM combined|participation=0.05|aum=10000000.0|mode=hard,known_lower_bound
+analysis/artifacts/breadth_solutions/p3_combined_results.csv,config=larger+VIX|strategy=GM combined|participation=0.05|aum=10000000.0|mode=relaxed,known_lower_bound
+analysis/artifacts/breadth_solutions/p3_combined_results.csv,config=larger+VIX|strategy=GM combined alt|participation=0.05|aum=10000000.0|mode=hard,known_lower_bound
+analysis/artifacts/breadth_solutions/p3_combined_results.csv,config=larger+VIX|strategy=GM combined alt|participation=0.05|aum=10000000.0|mode=relaxed,known_lower_bound
+analysis/artifacts/breadth_solutions/p3_combined_results.csv,config=larger+VIX|strategy=Equal premium capped|participation=0.05|aum=10000000.0|mode=relaxed,known_lower_bound
+analysis/artifacts/breadth_solutions/p3_combined_results.csv,config=larger+VIX|strategy=Equal risk capped|participation=0.05|aum=10000000.0|mode=relaxed,known_lower_bound
+analysis/artifacts/breadth_solutions/p3_combined_results.csv,config=larger+VIX|strategy=GM paper|participation=nan|aum=25000000.0|mode=uncapped,known_lower_bound
+analysis/artifacts/breadth_solutions/p3_combined_results.csv,config=larger+VIX|strategy=Delta neutral|participation=nan|aum=25000000.0|mode=uncapped,known_lower_bound
+analysis/artifacts/breadth_solutions/p3_combined_results.csv,config=larger+VIX|strategy=Equal premium|participation=nan|aum=25000000.0|mode=naive,known_lower_bound
+analysis/artifacts/breadth_solutions/p3_combined_results.csv,config=larger+VIX|strategy=Equal risk|participation=nan|aum=25000000.0|mode=naive,known_lower_bound
+analysis/artifacts/breadth_solutions/p3_combined_results.csv,config=larger+VIX|strategy=GM combined|participation=0.05|aum=25000000.0|mode=hard,known_lower_bound
+analysis/artifacts/breadth_solutions/p3_combined_results.csv,config=larger+VIX|strategy=GM combined|participation=0.05|aum=25000000.0|mode=relaxed,known_lower_bound
+analysis/artifacts/breadth_solutions/p3_combined_results.csv,config=larger+VIX|strategy=GM combined alt|participation=0.05|aum=25000000.0|mode=hard,known_lower_bound
+analysis/artifacts/breadth_solutions/p3_combined_results.csv,config=larger+VIX|strategy=GM combined alt|participation=0.05|aum=25000000.0|mode=relaxed,known_lower_bound
+analysis/artifacts/breadth_solutions/p3_combined_results.csv,config=larger+VIX|strategy=Equal premium capped|participation=0.05|aum=25000000.0|mode=relaxed,known_lower_bound
+analysis/artifacts/breadth_solutions/p3_combined_results.csv,config=larger+VIX|strategy=Equal risk capped|participation=0.05|aum=25000000.0|mode=relaxed,known_lower_bound
+analysis/artifacts/breadth_solutions/p3_combined_results.csv,config=orig|strategy=GM paper|participation=nan|aum=1000000.0|mode=uncapped,known_lower_bound
+analysis/artifacts/breadth_solutions/p3_combined_results.csv,config=orig|strategy=Delta neutral|participation=nan|aum=1000000.0|mode=uncapped,known_lower_bound
+analysis/artifacts/breadth_solutions/p3_combined_results.csv,config=orig|strategy=Equal premium|participation=nan|aum=1000000.0|mode=naive,known_lower_bound
+analysis/artifacts/breadth_solutions/p3_combined_results.csv,config=orig|strategy=Equal risk|participation=nan|aum=1000000.0|mode=naive,known_lower_bound
+analysis/artifacts/breadth_solutions/p3_combined_results.csv,config=orig|strategy=GM combined|participation=0.05|aum=1000000.0|mode=hard,known_lower_bound
+analysis/artifacts/breadth_solutions/p3_combined_results.csv,config=orig|strategy=GM combined|participation=0.05|aum=1000000.0|mode=relaxed,known_lower_bound
+analysis/artifacts/breadth_solutions/p3_combined_results.csv,config=orig|strategy=GM combined alt|participation=0.05|aum=1000000.0|mode=hard,known_lower_bound
+analysis/artifacts/breadth_solutions/p3_combined_results.csv,config=orig|strategy=GM combined alt|participation=0.05|aum=1000000.0|mode=relaxed,known_lower_bound
+analysis/artifacts/breadth_solutions/p3_combined_results.csv,config=orig|strategy=Equal premium capped|participation=0.05|aum=1000000.0|mode=relaxed,known_lower_bound
+analysis/artifacts/breadth_solutions/p3_combined_results.csv,config=orig|strategy=Equal risk capped|participation=0.05|aum=1000000.0|mode=relaxed,known_lower_bound
+analysis/artifacts/breadth_solutions/p3_combined_results.csv,config=orig|strategy=GM paper|participation=nan|aum=5000000.0|mode=uncapped,known_lower_bound
+analysis/artifacts/breadth_solutions/p3_combined_results.csv,config=orig|strategy=Delta neutral|participation=nan|aum=5000000.0|mode=uncapped,known_lower_bound
+analysis/artifacts/breadth_solutions/p3_combined_results.csv,config=orig|strategy=Equal premium|participation=nan|aum=5000000.0|mode=naive,known_lower_bound
+analysis/artifacts/breadth_solutions/p3_combined_results.csv,config=orig|strategy=Equal risk|participation=nan|aum=5000000.0|mode=naive,known_lower_bound
+analysis/artifacts/breadth_solutions/p3_combined_results.csv,config=orig|strategy=GM combined|participation=0.05|aum=5000000.0|mode=hard,known_lower_bound
+analysis/artifacts/breadth_solutions/p3_combined_results.csv,config=orig|strategy=GM combined|participation=0.05|aum=5000000.0|mode=relaxed,known_lower_bound
+analysis/artifacts/breadth_solutions/p3_combined_results.csv,config=orig|strategy=GM combined alt|participation=0.05|aum=5000000.0|mode=hard,known_lower_bound
+analysis/artifacts/breadth_solutions/p3_combined_results.csv,config=orig|strategy=GM combined alt|participation=0.05|aum=5000000.0|mode=relaxed,known_lower_bound
+analysis/artifacts/breadth_solutions/p3_combined_results.csv,config=orig|strategy=Equal premium capped|participation=0.05|aum=5000000.0|mode=relaxed,known_lower_bound
+analysis/artifacts/breadth_solutions/p3_combined_results.csv,config=orig|strategy=Equal risk capped|participation=0.05|aum=5000000.0|mode=relaxed,known_lower_bound
+analysis/artifacts/breadth_solutions/p3_combined_results.csv,config=orig|strategy=GM paper|participation=nan|aum=10000000.0|mode=uncapped,known_lower_bound
+analysis/artifacts/breadth_solutions/p3_combined_results.csv,config=orig|strategy=Delta neutral|participation=nan|aum=10000000.0|mode=uncapped,known_lower_bound
+analysis/artifacts/breadth_solutions/p3_combined_results.csv,config=orig|strategy=Equal premium|participation=nan|aum=10000000.0|mode=naive,known_lower_bound
+analysis/artifacts/breadth_solutions/p3_combined_results.csv,config=orig|strategy=Equal risk|participation=nan|aum=10000000.0|mode=naive,known_lower_bound
+analysis/artifacts/breadth_solutions/p3_combined_results.csv,config=orig|strategy=GM combined|participation=0.05|aum=10000000.0|mode=hard,known_lower_bound
+analysis/artifacts/breadth_solutions/p3_combined_results.csv,config=orig|strategy=GM combined|participation=0.05|aum=10000000.0|mode=relaxed,known_lower_bound
+analysis/artifacts/breadth_solutions/p3_combined_results.csv,config=orig|strategy=GM combined alt|participation=0.05|aum=10000000.0|mode=hard,known_lower_bound
+analysis/artifacts/breadth_solutions/p3_combined_results.csv,config=orig|strategy=GM combined alt|participation=0.05|aum=10000000.0|mode=relaxed,known_lower_bound
+analysis/artifacts/breadth_solutions/p3_combined_results.csv,config=orig|strategy=Equal premium capped|participation=0.05|aum=10000000.0|mode=relaxed,known_lower_bound
+analysis/artifacts/breadth_solutions/p3_combined_results.csv,config=orig|strategy=Equal risk capped|participation=0.05|aum=10000000.0|mode=relaxed,known_lower_bound
+analysis/artifacts/breadth_solutions/p3_combined_results.csv,config=orig|strategy=GM paper|participation=nan|aum=25000000.0|mode=uncapped,known_lower_bound
+analysis/artifacts/breadth_solutions/p3_combined_results.csv,config=orig|strategy=Delta neutral|participation=nan|aum=25000000.0|mode=uncapped,known_lower_bound
+analysis/artifacts/breadth_solutions/p3_combined_results.csv,config=orig|strategy=Equal premium|participation=nan|aum=25000000.0|mode=naive,known_lower_bound
+analysis/artifacts/breadth_solutions/p3_combined_results.csv,config=orig|strategy=Equal risk|participation=nan|aum=25000000.0|mode=naive,known_lower_bound
+analysis/artifacts/breadth_solutions/p3_combined_results.csv,config=orig|strategy=GM combined|participation=0.05|aum=25000000.0|mode=hard,known_lower_bound
+analysis/artifacts/breadth_solutions/p3_combined_results.csv,config=orig|strategy=GM combined|participation=0.05|aum=25000000.0|mode=relaxed,known_lower_bound
+analysis/artifacts/breadth_solutions/p3_combined_results.csv,config=orig|strategy=GM combined alt|participation=0.05|aum=25000000.0|mode=hard,known_lower_bound
+analysis/artifacts/breadth_solutions/p3_combined_results.csv,config=orig|strategy=GM combined alt|participation=0.05|aum=25000000.0|mode=relaxed,known_lower_bound
+analysis/artifacts/breadth_solutions/p3_combined_results.csv,config=orig|strategy=Equal premium capped|participation=0.05|aum=25000000.0|mode=relaxed,known_lower_bound
+analysis/artifacts/breadth_solutions/p3_combined_results.csv,config=orig|strategy=Equal risk capped|participation=0.05|aum=25000000.0|mode=relaxed,known_lower_bound
+analysis/artifacts/breadth_solutions/p3_combined_results.csv,config=larger|strategy=GM paper|participation=nan|aum=1000000.0|mode=uncapped,known_lower_bound
+analysis/artifacts/breadth_solutions/p3_combined_results.csv,config=larger|strategy=Delta neutral|participation=nan|aum=1000000.0|mode=uncapped,known_lower_bound
+analysis/artifacts/breadth_solutions/p3_combined_results.csv,config=larger|strategy=Equal premium|participation=nan|aum=1000000.0|mode=naive,known_lower_bound
+analysis/artifacts/breadth_solutions/p3_combined_results.csv,config=larger|strategy=Equal risk|participation=nan|aum=1000000.0|mode=naive,known_lower_bound
+analysis/artifacts/breadth_solutions/p3_combined_results.csv,config=larger|strategy=GM combined|participation=0.05|aum=1000000.0|mode=hard,known_lower_bound
+analysis/artifacts/breadth_solutions/p3_combined_results.csv,config=larger|strategy=GM combined alt|participation=0.05|aum=1000000.0|mode=hard,known_lower_bound
+analysis/artifacts/breadth_solutions/p3_combined_results.csv,config=larger|strategy=Equal premium capped|participation=0.05|aum=1000000.0|mode=hard,known_lower_bound
+analysis/artifacts/breadth_solutions/p3_combined_results.csv,config=larger|strategy=Equal risk capped|participation=0.05|aum=1000000.0|mode=hard,known_lower_bound
+analysis/artifacts/breadth_solutions/p3_combined_results.csv,config=larger|strategy=GM paper|participation=nan|aum=5000000.0|mode=uncapped,known_lower_bound
+analysis/artifacts/breadth_solutions/p3_combined_results.csv,config=larger|strategy=Delta neutral|participation=nan|aum=5000000.0|mode=uncapped,known_lower_bound
+analysis/artifacts/breadth_solutions/p3_combined_results.csv,config=larger|strategy=Equal premium|participation=nan|aum=5000000.0|mode=naive,known_lower_bound
+analysis/artifacts/breadth_solutions/p3_combined_results.csv,config=larger|strategy=Equal risk|participation=nan|aum=5000000.0|mode=naive,known_lower_bound
+analysis/artifacts/breadth_solutions/p3_combined_results.csv,config=larger|strategy=GM combined|participation=0.05|aum=5000000.0|mode=hard,known_lower_bound
+analysis/artifacts/breadth_solutions/p3_combined_results.csv,config=larger|strategy=GM combined|participation=0.05|aum=5000000.0|mode=relaxed,known_lower_bound
+analysis/artifacts/breadth_solutions/p3_combined_results.csv,config=larger|strategy=GM combined alt|participation=0.05|aum=5000000.0|mode=hard,known_lower_bound
+analysis/artifacts/breadth_solutions/p3_combined_results.csv,config=larger|strategy=GM combined alt|participation=0.05|aum=5000000.0|mode=relaxed,known_lower_bound
+analysis/artifacts/breadth_solutions/p3_combined_results.csv,config=larger|strategy=Equal premium capped|participation=0.05|aum=5000000.0|mode=relaxed,known_lower_bound
+analysis/artifacts/breadth_solutions/p3_combined_results.csv,config=larger|strategy=Equal risk capped|participation=0.05|aum=5000000.0|mode=relaxed,known_lower_bound
+analysis/artifacts/breadth_solutions/p3_combined_results.csv,config=larger|strategy=GM paper|participation=nan|aum=10000000.0|mode=uncapped,known_lower_bound
+analysis/artifacts/breadth_solutions/p3_combined_results.csv,config=larger|strategy=Delta neutral|participation=nan|aum=10000000.0|mode=uncapped,known_lower_bound
+analysis/artifacts/breadth_solutions/p3_combined_results.csv,config=larger|strategy=Equal premium|participation=nan|aum=10000000.0|mode=naive,known_lower_bound
+analysis/artifacts/breadth_solutions/p3_combined_results.csv,config=larger|strategy=Equal risk|participation=nan|aum=10000000.0|mode=naive,known_lower_bound
+analysis/artifacts/breadth_solutions/p3_combined_results.csv,config=larger|strategy=GM combined|participation=0.05|aum=10000000.0|mode=hard,known_lower_bound
+analysis/artifacts/breadth_solutions/p3_combined_results.csv,config=larger|strategy=GM combined|participation=0.05|aum=10000000.0|mode=relaxed,known_lower_bound
+analysis/artifacts/breadth_solutions/p3_combined_results.csv,config=larger|strategy=GM combined alt|participation=0.05|aum=10000000.0|mode=hard,known_lower_bound
+analysis/artifacts/breadth_solutions/p3_combined_results.csv,config=larger|strategy=GM combined alt|participation=0.05|aum=10000000.0|mode=relaxed,known_lower_bound
+analysis/artifacts/breadth_solutions/p3_combined_results.csv,config=larger|strategy=Equal premium capped|participation=0.05|aum=10000000.0|mode=relaxed,known_lower_bound
+analysis/artifacts/breadth_solutions/p3_combined_results.csv,config=larger|strategy=Equal risk capped|participation=0.05|aum=10000000.0|mode=relaxed,known_lower_bound
+analysis/artifacts/breadth_solutions/p3_combined_results.csv,config=larger|strategy=GM paper|participation=nan|aum=25000000.0|mode=uncapped,known_lower_bound
+analysis/artifacts/breadth_solutions/p3_combined_results.csv,config=larger|strategy=Delta neutral|participation=nan|aum=25000000.0|mode=uncapped,known_lower_bound
+analysis/artifacts/breadth_solutions/p3_combined_results.csv,config=larger|strategy=Equal premium|participation=nan|aum=25000000.0|mode=naive,known_lower_bound
+analysis/artifacts/breadth_solutions/p3_combined_results.csv,config=larger|strategy=Equal risk|participation=nan|aum=25000000.0|mode=naive,known_lower_bound
+analysis/artifacts/breadth_solutions/p3_combined_results.csv,config=larger|strategy=GM combined|participation=0.05|aum=25000000.0|mode=hard,known_lower_bound
+analysis/artifacts/breadth_solutions/p3_combined_results.csv,config=larger|strategy=GM combined|participation=0.05|aum=25000000.0|mode=relaxed,known_lower_bound
+analysis/artifacts/breadth_solutions/p3_combined_results.csv,config=larger|strategy=GM combined alt|participation=0.05|aum=25000000.0|mode=hard,known_lower_bound
+analysis/artifacts/breadth_solutions/p3_combined_results.csv,config=larger|strategy=GM combined alt|participation=0.05|aum=25000000.0|mode=relaxed,known_lower_bound
+analysis/artifacts/breadth_solutions/p3_combined_results.csv,config=larger|strategy=Equal premium capped|participation=0.05|aum=25000000.0|mode=relaxed,known_lower_bound
+analysis/artifacts/breadth_solutions/p3_combined_results.csv,config=larger|strategy=Equal risk capped|participation=0.05|aum=25000000.0|mode=relaxed,known_lower_bound
+analysis/artifacts/breadth_solutions/robustness/breadth_realized_candidate_summary.csv,config=orig|strategy=E1 capped|mode=hard,known_lower_bound
+analysis/artifacts/breadth_solutions/robustness/breadth_realized_candidate_summary.csv,config=orig|strategy=GM paper|mode=uncapped,known_lower_bound
+analysis/artifacts/breadth_solutions/robustness/breadth_realized_candidate_summary.csv,config=orig|strategy=Equal premium capped|mode=relaxed,known_lower_bound
+analysis/artifacts/breadth_solutions/robustness/breadth_realized_candidate_summary.csv,config=orig|strategy=Equal risk capped|mode=relaxed,known_lower_bound
+analysis/artifacts/breadth_solutions/robustness/breadth_realized_candidate_summary.csv,config=orig+VIX|strategy=E1 capped|mode=hard,known_lower_bound
+analysis/artifacts/breadth_solutions/robustness/breadth_realized_candidate_summary.csv,config=orig+VIX|strategy=GM paper|mode=uncapped,known_lower_bound
+analysis/artifacts/breadth_solutions/robustness/breadth_realized_candidate_summary.csv,config=orig+VIX|strategy=Equal premium capped|mode=hard,known_lower_bound
+analysis/artifacts/breadth_solutions/robustness/breadth_realized_candidate_summary.csv,config=orig+VIX|strategy=Equal risk capped|mode=hard,known_lower_bound
+analysis/artifacts/breadth_solutions/robustness/breadth_realized_candidate_summary.csv,config=larger|strategy=E1 capped|mode=hard,known_lower_bound
+analysis/artifacts/breadth_solutions/robustness/breadth_realized_candidate_summary.csv,config=larger|strategy=GM paper|mode=uncapped,known_lower_bound
+analysis/artifacts/breadth_solutions/robustness/breadth_realized_candidate_summary.csv,config=larger|strategy=Equal premium capped|mode=hard,known_lower_bound
+analysis/artifacts/breadth_solutions/robustness/breadth_realized_candidate_summary.csv,config=larger|strategy=Equal risk capped|mode=hard,known_lower_bound
+analysis/artifacts/breadth_solutions/robustness/breadth_realized_candidate_summary.csv,config=larger|strategy=Stock Markowitz|mode=reference,known_lower_bound
+analysis/artifacts/breadth_solutions/robustness/breadth_realized_candidate_summary.csv,config=larger+VIX|strategy=E1 capped|mode=hard,known_lower_bound
+analysis/artifacts/breadth_solutions/robustness/breadth_realized_candidate_summary.csv,config=larger+VIX|strategy=GM paper|mode=uncapped,known_lower_bound
+analysis/artifacts/breadth_solutions/robustness/breadth_realized_candidate_summary.csv,config=larger+VIX|strategy=Equal premium capped|mode=hard,known_lower_bound
+analysis/artifacts/breadth_solutions/robustness/breadth_realized_candidate_summary.csv,config=larger+VIX|strategy=Equal risk capped|mode=hard,known_lower_bound
+analysis/artifacts/breadth_solutions/robustness/breadth_realized_candidate_summary.csv,config=larger+VIX|strategy=Stock Markowitz|mode=reference,known_lower_bound
+analysis/artifacts/breadth_solutions/robustness/breadth_e1_channel_ablation.csv,config=orig|arm=Full E1,known_lower_bound
+analysis/artifacts/breadth_solutions/robustness/breadth_e1_channel_ablation.csv,config=orig|arm=No carry,known_lower_bound
+analysis/artifacts/breadth_solutions/robustness/breadth_e1_channel_ablation.csv,config=orig|arm=No delta,known_lower_bound
+analysis/artifacts/breadth_solutions/robustness/breadth_e1_channel_ablation.csv,config=orig|arm=No vol/VRP,known_lower_bound
+analysis/artifacts/breadth_solutions/robustness/breadth_e1_channel_ablation.csv,config=orig|arm=No skew/tail,known_lower_bound
+analysis/artifacts/breadth_solutions/robustness/breadth_e1_channel_ablation.csv,config=orig|arm=No relative value,known_lower_bound
+analysis/artifacts/breadth_solutions/robustness/breadth_e1_channel_ablation.csv,config=orig+VIX|arm=Full E1,known_lower_bound
+analysis/artifacts/breadth_solutions/robustness/breadth_e1_channel_ablation.csv,config=orig+VIX|arm=No carry,known_lower_bound
+analysis/artifacts/breadth_solutions/robustness/breadth_e1_channel_ablation.csv,config=orig+VIX|arm=No delta,known_lower_bound
+analysis/artifacts/breadth_solutions/robustness/breadth_e1_channel_ablation.csv,config=orig+VIX|arm=No vol/VRP,known_lower_bound
+analysis/artifacts/breadth_solutions/robustness/breadth_e1_channel_ablation.csv,config=orig+VIX|arm=No skew/tail,known_lower_bound
+analysis/artifacts/breadth_solutions/robustness/breadth_e1_channel_ablation.csv,config=orig+VIX|arm=No relative value,known_lower_bound
+analysis/artifacts/breadth_solutions/robustness/breadth_e1_channel_ablation.csv,config=larger|arm=Full E1,known_lower_bound
+analysis/artifacts/breadth_solutions/robustness/breadth_e1_channel_ablation.csv,config=larger|arm=No carry,known_lower_bound
+analysis/artifacts/breadth_solutions/robustness/breadth_e1_channel_ablation.csv,config=larger|arm=No delta,known_lower_bound
+analysis/artifacts/breadth_solutions/robustness/breadth_e1_channel_ablation.csv,config=larger|arm=No vol/VRP,known_lower_bound
+analysis/artifacts/breadth_solutions/robustness/breadth_e1_channel_ablation.csv,config=larger|arm=No skew/tail,known_lower_bound
+analysis/artifacts/breadth_solutions/robustness/breadth_e1_channel_ablation.csv,config=larger|arm=No relative value,known_lower_bound
+analysis/artifacts/breadth_solutions/robustness/breadth_e1_channel_ablation.csv,config=larger+VIX|arm=Full E1,known_lower_bound
+analysis/artifacts/breadth_solutions/robustness/breadth_e1_channel_ablation.csv,config=larger+VIX|arm=No carry,known_lower_bound
+analysis/artifacts/breadth_solutions/robustness/breadth_e1_channel_ablation.csv,config=larger+VIX|arm=No delta,known_lower_bound
+analysis/artifacts/breadth_solutions/robustness/breadth_e1_channel_ablation.csv,config=larger+VIX|arm=No vol/VRP,known_lower_bound
+analysis/artifacts/breadth_solutions/robustness/breadth_e1_channel_ablation.csv,config=larger+VIX|arm=No skew/tail,known_lower_bound
+analysis/artifacts/breadth_solutions/robustness/breadth_e1_channel_ablation.csv,config=larger+VIX|arm=No relative value,known_lower_bound
+analysis/artifacts/breadth_solutions/robustness/breadth_simulation_summary.csv,Return basis=Gross before costs|Strategy=orig E1 capped|Requested method=circular_block_bootstrap|Simulation=circular_block_bootstrap,known_lower_bound
+analysis/artifacts/breadth_solutions/robustness/breadth_simulation_summary.csv,Return basis=Gross before costs|Strategy=orig E1 capped|Requested method=egarch_or_ewma|Simulation=garch11_residual_fallback_insufficient_egarch_obs,known_lower_bound
+analysis/artifacts/breadth_solutions/robustness/breadth_simulation_summary.csv,Return basis=Gross before costs|Strategy=orig GM paper|Requested method=circular_block_bootstrap|Simulation=circular_block_bootstrap,known_lower_bound
+analysis/artifacts/breadth_solutions/robustness/breadth_simulation_summary.csv,Return basis=Gross before costs|Strategy=orig GM paper|Requested method=egarch_or_ewma|Simulation=garch11_residual_fallback_insufficient_egarch_obs,known_lower_bound
+analysis/artifacts/breadth_solutions/robustness/breadth_simulation_summary.csv,Return basis=Gross before costs|Strategy=orig Equal premium capped|Requested method=circular_block_bootstrap|Simulation=circular_block_bootstrap,known_lower_bound
+analysis/artifacts/breadth_solutions/robustness/breadth_simulation_summary.csv,Return basis=Gross before costs|Strategy=orig Equal premium capped|Requested method=egarch_or_ewma|Simulation=garch11_residual_fallback_insufficient_egarch_obs,known_lower_bound
+analysis/artifacts/breadth_solutions/robustness/breadth_simulation_summary.csv,Return basis=Gross before costs|Strategy=orig Equal risk capped|Requested method=circular_block_bootstrap|Simulation=circular_block_bootstrap,known_lower_bound
+analysis/artifacts/breadth_solutions/robustness/breadth_simulation_summary.csv,Return basis=Gross before costs|Strategy=orig Equal risk capped|Requested method=egarch_or_ewma|Simulation=garch11_residual_fallback_insufficient_egarch_obs,known_lower_bound
+analysis/artifacts/breadth_solutions/robustness/breadth_simulation_summary.csv,Return basis=Gross before costs|Strategy=orig+VIX E1 capped|Requested method=circular_block_bootstrap|Simulation=circular_block_bootstrap,known_lower_bound
+analysis/artifacts/breadth_solutions/robustness/breadth_simulation_summary.csv,Return basis=Gross before costs|Strategy=orig+VIX E1 capped|Requested method=egarch_or_ewma|Simulation=garch11_residual_fallback_insufficient_egarch_obs,known_lower_bound
+analysis/artifacts/breadth_solutions/robustness/breadth_simulation_summary.csv,Return basis=Gross before costs|Strategy=orig+VIX GM paper|Requested method=circular_block_bootstrap|Simulation=circular_block_bootstrap,known_lower_bound
+analysis/artifacts/breadth_solutions/robustness/breadth_simulation_summary.csv,Return basis=Gross before costs|Strategy=orig+VIX GM paper|Requested method=egarch_or_ewma|Simulation=garch11_residual_fallback_insufficient_egarch_obs,known_lower_bound
+analysis/artifacts/breadth_solutions/robustness/breadth_simulation_summary.csv,Return basis=Gross before costs|Strategy=orig+VIX Equal premium capped|Requested method=circular_block_bootstrap|Simulation=circular_block_bootstrap,known_lower_bound
+analysis/artifacts/breadth_solutions/robustness/breadth_simulation_summary.csv,Return basis=Gross before costs|Strategy=orig+VIX Equal premium capped|Requested method=egarch_or_ewma|Simulation=garch11_residual_fallback_insufficient_egarch_obs,known_lower_bound
+analysis/artifacts/breadth_solutions/robustness/breadth_simulation_summary.csv,Return basis=Gross before costs|Strategy=orig+VIX Equal risk capped|Requested method=circular_block_bootstrap|Simulation=circular_block_bootstrap,known_lower_bound
+analysis/artifacts/breadth_solutions/robustness/breadth_simulation_summary.csv,Return basis=Gross before costs|Strategy=orig+VIX Equal risk capped|Requested method=egarch_or_ewma|Simulation=garch11_residual_fallback_insufficient_egarch_obs,known_lower_bound
+analysis/artifacts/breadth_solutions/robustness/breadth_simulation_summary.csv,Return basis=Gross before costs|Strategy=larger E1 capped|Requested method=circular_block_bootstrap|Simulation=circular_block_bootstrap,known_lower_bound
+analysis/artifacts/breadth_solutions/robustness/breadth_simulation_summary.csv,Return basis=Gross before costs|Strategy=larger E1 capped|Requested method=egarch_or_ewma|Simulation=garch11_residual_fallback_insufficient_egarch_obs,known_lower_bound
+analysis/artifacts/breadth_solutions/robustness/breadth_simulation_summary.csv,Return basis=Gross before costs|Strategy=larger GM paper|Requested method=circular_block_bootstrap|Simulation=circular_block_bootstrap,known_lower_bound
+analysis/artifacts/breadth_solutions/robustness/breadth_simulation_summary.csv,Return basis=Gross before costs|Strategy=larger GM paper|Requested method=egarch_or_ewma|Simulation=garch11_residual_fallback_insufficient_egarch_obs,known_lower_bound
+analysis/artifacts/breadth_solutions/robustness/breadth_simulation_summary.csv,Return basis=Gross before costs|Strategy=larger Equal premium capped|Requested method=circular_block_bootstrap|Simulation=circular_block_bootstrap,known_lower_bound
+analysis/artifacts/breadth_solutions/robustness/breadth_simulation_summary.csv,Return basis=Gross before costs|Strategy=larger Equal premium capped|Requested method=egarch_or_ewma|Simulation=garch11_residual_fallback_insufficient_egarch_obs,known_lower_bound
+analysis/artifacts/breadth_solutions/robustness/breadth_simulation_summary.csv,Return basis=Gross before costs|Strategy=larger Equal risk capped|Requested method=circular_block_bootstrap|Simulation=circular_block_bootstrap,known_lower_bound
+analysis/artifacts/breadth_solutions/robustness/breadth_simulation_summary.csv,Return basis=Gross before costs|Strategy=larger Equal risk capped|Requested method=egarch_or_ewma|Simulation=garch11_residual_fallback_insufficient_egarch_obs,known_lower_bound
+analysis/artifacts/breadth_solutions/robustness/breadth_simulation_summary.csv,Return basis=Gross before costs|Strategy=larger Stock Markowitz|Requested method=circular_block_bootstrap|Simulation=circular_block_bootstrap,known_lower_bound
+analysis/artifacts/breadth_solutions/robustness/breadth_simulation_summary.csv,Return basis=Gross before costs|Strategy=larger Stock Markowitz|Requested method=egarch_or_ewma|Simulation=garch11_residual_fallback_insufficient_egarch_obs,known_lower_bound
+analysis/artifacts/breadth_solutions/robustness/breadth_simulation_summary.csv,Return basis=Gross before costs|Strategy=larger+VIX E1 capped|Requested method=circular_block_bootstrap|Simulation=circular_block_bootstrap,known_lower_bound
+analysis/artifacts/breadth_solutions/robustness/breadth_simulation_summary.csv,Return basis=Gross before costs|Strategy=larger+VIX E1 capped|Requested method=egarch_or_ewma|Simulation=garch11_residual_fallback_insufficient_egarch_obs,known_lower_bound
+analysis/artifacts/breadth_solutions/robustness/breadth_simulation_summary.csv,Return basis=Gross before costs|Strategy=larger+VIX GM paper|Requested method=circular_block_bootstrap|Simulation=circular_block_bootstrap,known_lower_bound
+analysis/artifacts/breadth_solutions/robustness/breadth_simulation_summary.csv,Return basis=Gross before costs|Strategy=larger+VIX GM paper|Requested method=egarch_or_ewma|Simulation=garch11_residual_fallback_insufficient_egarch_obs,known_lower_bound
+analysis/artifacts/breadth_solutions/robustness/breadth_simulation_summary.csv,Return basis=Gross before costs|Strategy=larger+VIX Equal premium capped|Requested method=circular_block_bootstrap|Simulation=circular_block_bootstrap,known_lower_bound
+analysis/artifacts/breadth_solutions/robustness/breadth_simulation_summary.csv,Return basis=Gross before costs|Strategy=larger+VIX Equal premium capped|Requested method=egarch_or_ewma|Simulation=garch11_residual_fallback_insufficient_egarch_obs,known_lower_bound
+analysis/artifacts/breadth_solutions/robustness/breadth_simulation_summary.csv,Return basis=Gross before costs|Strategy=larger+VIX Equal risk capped|Requested method=circular_block_bootstrap|Simulation=circular_block_bootstrap,known_lower_bound
+analysis/artifacts/breadth_solutions/robustness/breadth_simulation_summary.csv,Return basis=Gross before costs|Strategy=larger+VIX Equal risk capped|Requested method=egarch_or_ewma|Simulation=garch11_residual_fallback_insufficient_egarch_obs,known_lower_bound
+analysis/artifacts/breadth_solutions/robustness/breadth_simulation_summary.csv,Return basis=Gross before costs|Strategy=larger+VIX Stock Markowitz|Requested method=circular_block_bootstrap|Simulation=circular_block_bootstrap,known_lower_bound
+analysis/artifacts/breadth_solutions/robustness/breadth_simulation_summary.csv,Return basis=Gross before costs|Strategy=larger+VIX Stock Markowitz|Requested method=egarch_or_ewma|Simulation=garch11_residual_fallback_insufficient_egarch_obs,known_lower_bound
+analysis/artifacts/breadth_solutions/robustness/breadth_simulation_summary.csv,Return basis=Full-cost net|Strategy=orig E1 capped|Requested method=circular_block_bootstrap|Simulation=circular_block_bootstrap,known_lower_bound
+analysis/artifacts/breadth_solutions/robustness/breadth_simulation_summary.csv,Return basis=Full-cost net|Strategy=orig E1 capped|Requested method=egarch_or_ewma|Simulation=garch11_residual_fallback_insufficient_egarch_obs,known_lower_bound
+analysis/artifacts/breadth_solutions/robustness/breadth_simulation_summary.csv,Return basis=Full-cost net|Strategy=orig GM paper|Requested method=circular_block_bootstrap|Simulation=circular_block_bootstrap,known_lower_bound
+analysis/artifacts/breadth_solutions/robustness/breadth_simulation_summary.csv,Return basis=Full-cost net|Strategy=orig GM paper|Requested method=egarch_or_ewma|Simulation=garch11_residual_fallback_insufficient_egarch_obs,known_lower_bound
+analysis/artifacts/breadth_solutions/robustness/breadth_simulation_summary.csv,Return basis=Full-cost net|Strategy=orig Equal premium capped|Requested method=circular_block_bootstrap|Simulation=circular_block_bootstrap,known_lower_bound
+analysis/artifacts/breadth_solutions/robustness/breadth_simulation_summary.csv,Return basis=Full-cost net|Strategy=orig Equal premium capped|Requested method=egarch_or_ewma|Simulation=garch11_residual_fallback_insufficient_egarch_obs,known_lower_bound
+analysis/artifacts/breadth_solutions/robustness/breadth_simulation_summary.csv,Return basis=Full-cost net|Strategy=orig Equal risk capped|Requested method=circular_block_bootstrap|Simulation=circular_block_bootstrap,known_lower_bound
+analysis/artifacts/breadth_solutions/robustness/breadth_simulation_summary.csv,Return basis=Full-cost net|Strategy=orig Equal risk capped|Requested method=egarch_or_ewma|Simulation=garch11_residual_fallback_insufficient_egarch_obs,known_lower_bound
+analysis/artifacts/breadth_solutions/robustness/breadth_simulation_summary.csv,Return basis=Full-cost net|Strategy=orig+VIX E1 capped|Requested method=circular_block_bootstrap|Simulation=circular_block_bootstrap,known_lower_bound
+analysis/artifacts/breadth_solutions/robustness/breadth_simulation_summary.csv,Return basis=Full-cost net|Strategy=orig+VIX E1 capped|Requested method=egarch_or_ewma|Simulation=garch11_residual_fallback_insufficient_egarch_obs,known_lower_bound
+analysis/artifacts/breadth_solutions/robustness/breadth_simulation_summary.csv,Return basis=Full-cost net|Strategy=orig+VIX GM paper|Requested method=circular_block_bootstrap|Simulation=circular_block_bootstrap,known_lower_bound
+analysis/artifacts/breadth_solutions/robustness/breadth_simulation_summary.csv,Return basis=Full-cost net|Strategy=orig+VIX GM paper|Requested method=egarch_or_ewma|Simulation=garch11_residual_fallback_insufficient_egarch_obs,known_lower_bound
+analysis/artifacts/breadth_solutions/robustness/breadth_simulation_summary.csv,Return basis=Full-cost net|Strategy=orig+VIX Equal premium capped|Requested method=circular_block_bootstrap|Simulation=circular_block_bootstrap,known_lower_bound
+analysis/artifacts/breadth_solutions/robustness/breadth_simulation_summary.csv,Return basis=Full-cost net|Strategy=orig+VIX Equal premium capped|Requested method=egarch_or_ewma|Simulation=garch11_residual_fallback_insufficient_egarch_obs,known_lower_bound
+analysis/artifacts/breadth_solutions/robustness/breadth_simulation_summary.csv,Return basis=Full-cost net|Strategy=orig+VIX Equal risk capped|Requested method=circular_block_bootstrap|Simulation=circular_block_bootstrap,known_lower_bound
+analysis/artifacts/breadth_solutions/robustness/breadth_simulation_summary.csv,Return basis=Full-cost net|Strategy=orig+VIX Equal risk capped|Requested method=egarch_or_ewma|Simulation=garch11_residual_fallback_insufficient_egarch_obs,known_lower_bound
+analysis/artifacts/breadth_solutions/robustness/breadth_simulation_summary.csv,Return basis=Full-cost net|Strategy=larger E1 capped|Requested method=circular_block_bootstrap|Simulation=circular_block_bootstrap,known_lower_bound
+analysis/artifacts/breadth_solutions/robustness/breadth_simulation_summary.csv,Return basis=Full-cost net|Strategy=larger E1 capped|Requested method=egarch_or_ewma|Simulation=garch11_residual_fallback_insufficient_egarch_obs,known_lower_bound
+analysis/artifacts/breadth_solutions/robustness/breadth_simulation_summary.csv,Return basis=Full-cost net|Strategy=larger GM paper|Requested method=circular_block_bootstrap|Simulation=circular_block_bootstrap,known_lower_bound
+analysis/artifacts/breadth_solutions/robustness/breadth_simulation_summary.csv,Return basis=Full-cost net|Strategy=larger GM paper|Requested method=egarch_or_ewma|Simulation=garch11_residual_fallback_insufficient_egarch_obs,known_lower_bound
+analysis/artifacts/breadth_solutions/robustness/breadth_simulation_summary.csv,Return basis=Full-cost net|Strategy=larger Equal premium capped|Requested method=circular_block_bootstrap|Simulation=circular_block_bootstrap,known_lower_bound
+analysis/artifacts/breadth_solutions/robustness/breadth_simulation_summary.csv,Return basis=Full-cost net|Strategy=larger Equal premium capped|Requested method=egarch_or_ewma|Simulation=garch11_residual_fallback_insufficient_egarch_obs,known_lower_bound
+analysis/artifacts/breadth_solutions/robustness/breadth_simulation_summary.csv,Return basis=Full-cost net|Strategy=larger Equal risk capped|Requested method=circular_block_bootstrap|Simulation=circular_block_bootstrap,known_lower_bound
+analysis/artifacts/breadth_solutions/robustness/breadth_simulation_summary.csv,Return basis=Full-cost net|Strategy=larger Equal risk capped|Requested method=egarch_or_ewma|Simulation=garch11_residual_fallback_insufficient_egarch_obs,known_lower_bound
+analysis/artifacts/breadth_solutions/robustness/breadth_simulation_summary.csv,Return basis=Full-cost net|Strategy=larger Stock Markowitz|Requested method=circular_block_bootstrap|Simulation=circular_block_bootstrap,known_lower_bound
+analysis/artifacts/breadth_solutions/robustness/breadth_simulation_summary.csv,Return basis=Full-cost net|Strategy=larger Stock Markowitz|Requested method=egarch_or_ewma|Simulation=garch11_residual_fallback_insufficient_egarch_obs,known_lower_bound
+analysis/artifacts/breadth_solutions/robustness/breadth_simulation_summary.csv,Return basis=Full-cost net|Strategy=larger+VIX E1 capped|Requested method=circular_block_bootstrap|Simulation=circular_block_bootstrap,known_lower_bound
+analysis/artifacts/breadth_solutions/robustness/breadth_simulation_summary.csv,Return basis=Full-cost net|Strategy=larger+VIX E1 capped|Requested method=egarch_or_ewma|Simulation=garch11_residual_fallback_insufficient_egarch_obs,known_lower_bound
+analysis/artifacts/breadth_solutions/robustness/breadth_simulation_summary.csv,Return basis=Full-cost net|Strategy=larger+VIX GM paper|Requested method=circular_block_bootstrap|Simulation=circular_block_bootstrap,known_lower_bound
+analysis/artifacts/breadth_solutions/robustness/breadth_simulation_summary.csv,Return basis=Full-cost net|Strategy=larger+VIX GM paper|Requested method=egarch_or_ewma|Simulation=garch11_residual_fallback_insufficient_egarch_obs,known_lower_bound
+analysis/artifacts/breadth_solutions/robustness/breadth_simulation_summary.csv,Return basis=Full-cost net|Strategy=larger+VIX Equal premium capped|Requested method=circular_block_bootstrap|Simulation=circular_block_bootstrap,known_lower_bound
+analysis/artifacts/breadth_solutions/robustness/breadth_simulation_summary.csv,Return basis=Full-cost net|Strategy=larger+VIX Equal premium capped|Requested method=egarch_or_ewma|Simulation=garch11_residual_fallback_insufficient_egarch_obs,known_lower_bound
+analysis/artifacts/breadth_solutions/robustness/breadth_simulation_summary.csv,Return basis=Full-cost net|Strategy=larger+VIX Equal risk capped|Requested method=circular_block_bootstrap|Simulation=circular_block_bootstrap,known_lower_bound
+analysis/artifacts/breadth_solutions/robustness/breadth_simulation_summary.csv,Return basis=Full-cost net|Strategy=larger+VIX Equal risk capped|Requested method=egarch_or_ewma|Simulation=garch11_residual_fallback_insufficient_egarch_obs,known_lower_bound
+analysis/artifacts/breadth_solutions/robustness/breadth_simulation_summary.csv,Return basis=Full-cost net|Strategy=larger+VIX Stock Markowitz|Requested method=circular_block_bootstrap|Simulation=circular_block_bootstrap,known_lower_bound
+analysis/artifacts/breadth_solutions/robustness/breadth_simulation_summary.csv,Return basis=Full-cost net|Strategy=larger+VIX Stock Markowitz|Requested method=egarch_or_ewma|Simulation=garch11_residual_fallback_insufficient_egarch_obs,known_lower_bound
+analysis/r1_repaired_pipeline.py,R1_fixed_policy,known_lower_bound
+analysis/r11_higher_risk_pipeline.py,R1.1_25pct_no_risk_off,known_lower_bound
+analysis/r11_higher_risk_pipeline.py,R1.1_25pct_VIX40_close_next_open,known_lower_bound
+analysis/r11_higher_risk_pipeline.py,R1.1_25pct_EGARCH11_student_t,known_lower_bound
+analysis/r11_integer_repair.py,R1.1_integer_truncate_toward_cash,known_lower_bound
+analysis/r11_integer_repair.py,R1.1_integer_remove_risk_leg,known_lower_bound
+analysis/r11_integer_repair.py,R1.1_integer_retain_protective_VIX,known_lower_bound
+analysis/r11_integer_repair.py,R1.1_integer_iterative_reduce,known_lower_bound
+analysis/r11_integer_repair.py,R1.1_integer_mixed_integer_conic,known_lower_bound
+analysis/r11_integer_repair.py,R1.1_integer_direct_or_cash_abstention,known_lower_bound

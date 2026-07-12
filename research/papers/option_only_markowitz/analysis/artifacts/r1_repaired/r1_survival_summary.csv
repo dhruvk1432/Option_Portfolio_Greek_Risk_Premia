@@ -1,0 +1,5 @@
+config,strategy,evidence_status,verdict,terminal_wealth,annualized_geometric_return,max_drawdown,worst_month,expected_shortfall_95,ruin_count,margin_breaches,collateral_breaches,integer_failures,absorbed_validation_paths,observations,mean_gross_nav,all_information_sets_valid
+orig+VIX,R1 repaired net utility,retrospective_development_sample,development_survived,2.8140246147397523,0.2298880404035648,-0.0658575339260502,-0.06190343899222348,-0.04598174219390044,0,0,0,0,0,60,0.04887196666666668,True
+larger+VIX,R1 repaired net utility,retrospective_development_sample,development_survived,2.400710166221465,0.19142839500158648,-0.071663911985415,-0.05912942966219922,-0.04763497271431997,0,0,0,0,0,60,0.04999491666666666,True
+orig,R1 repaired net utility,retrospective_development_sample,development_survived,1.220319125444083,0.040626026439506635,-0.2853615035963142,-0.07845550283286193,-0.06692999501397519,0,0,0,0,0,60,0.031752499999999996,True
+larger,R1 repaired net utility,retrospective_development_sample,development_survived,1.1800614417101887,0.03366764846790593,-0.24997877921399392,-0.0699023973664542,-0.06098242771530795,0,0,0,0,0,60,0.03830201666666666,True

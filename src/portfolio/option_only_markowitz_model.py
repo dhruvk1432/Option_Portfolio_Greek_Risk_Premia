@@ -6,16 +6,17 @@ options as the only risky investable instruments.  Cash is a numeraire for
 NAV and collateral accounting, not an optimized asset.
 
 The risk model is the option analogue of Markowitz: contract P&L is mapped
-to a small set of systematic shocks through Greeks, and the option covariance
-matrix is assembled as
+to delta, centered squared-return and implied-volatility shocks through
+Greeks.  The repaired R1 covariance keeps the generally nonzero covariance
+between those factors and the Greek residual,
 
-    Sigma_O = B Omega B' + Sigma_epsilon.
+    Sigma_O = B Omega B' + B Gamma + Gamma' B' + Sigma_epsilon.
 
 Positions are dollar/NAV weights in option contracts.  A value of ``0.10`` in
 one contract means the portfolio has a ten percent NAV exposure to that
-option's mark.  The mean-variance machinery models no transaction costs or
-slippage; the cost-aware maximum-Sortino solver (``solve_max_sortino``)
-charges expected entry frictions ``c'|q|`` against the mean at decision time.
+option's mark.  The legacy maximum-Sharpe machinery remains available for
+diagnostics.  R1 uses ``solve_net_utility``, which prices long/short costs
+before allocation and permits cash instead of forcing full gross deployment.
 """
 
 from __future__ import annotations
@@ -144,6 +145,117 @@ class FactorShockSpec:
 
 
 @dataclass(frozen=True)
+class GreekJointMomentSpec:
+    """Joint covariance blocks of Greek factors and Greek residual returns.
+
+    ``factor_residual_cov`` is ``Cov(f, epsilon)`` with factors on rows and
+    option contracts on columns.  This block is generally nonzero when the
+    exposure matrix is fixed from Greeks rather than estimated by OLS.
+    """
+
+    factor_cov: pd.DataFrame
+    factor_residual_cov: pd.DataFrame
+    residual_cov: pd.DataFrame
+    n_obs: int
+    estimator: str = "sample"
+
+    @property
+    def factor_names(self) -> list[str]:
+        return list(self.factor_cov.index)
+
+    @property
+    def contract_names(self) -> list[str]:
+        return list(self.residual_cov.index)
+
+    def joint_covariance(self) -> pd.DataFrame:
+        names = [f"factor::{name}" for name in self.factor_names] + [
+            f"residual::{name}" for name in self.contract_names
+        ]
+        values = np.block(
+            [
+                [self.factor_cov.to_numpy(float), self.factor_residual_cov.to_numpy(float)],
+                [self.factor_residual_cov.to_numpy(float).T, self.residual_cov.to_numpy(float)],
+            ]
+        )
+        return pd.DataFrame(values, index=names, columns=names)
+
+    def validate(self, factor_names: Sequence[str], contract_names: Sequence[str]) -> None:
+        factors = list(factor_names)
+        contracts = list(contract_names)
+        if self.n_obs < 2:
+            raise ValueError("GreekJointMomentSpec requires at least two observations")
+        if list(self.factor_cov.index) != factors or list(self.factor_cov.columns) != factors:
+            raise ValueError("factor_cov labels must match the model factor order")
+        if list(self.factor_residual_cov.index) != factors or list(self.factor_residual_cov.columns) != contracts:
+            raise ValueError("factor_residual_cov labels must be factor x contract")
+        if list(self.residual_cov.index) != contracts or list(self.residual_cov.columns) != contracts:
+            raise ValueError("residual_cov labels must match the model contract order")
+        joint = self.joint_covariance().to_numpy(float)
+        if not np.isfinite(joint).all():
+            raise ValueError("joint Greek/residual covariance must be finite")
+        if not np.allclose(joint, joint.T, atol=1e-10):
+            raise ValueError("joint Greek/residual covariance must be symmetric")
+        if np.linalg.eigvalsh(joint).min() < -1e-8:
+            raise ValueError("joint Greek/residual covariance must be positive semidefinite")
+
+
+@dataclass(frozen=True)
+class NetUtilityConfig:
+    """Fixed R1 economic-risk policy, expressed per monthly holding period."""
+
+    annual_vol_target: float = 0.15
+    periods_per_year: float = 12.0
+    cvar_alpha: float = 0.95
+    cvar_loss_nav: float = 0.10
+    stress_loss_nav: float = 0.20
+    short_margin_nav: float = 0.75
+    collateral_nav: float = 1.00
+    lambda_floor: float = 1e-6
+    lambda_ceiling: float = 1e6
+    bisection_steps: int = 18
+
+    def validate(self) -> None:
+        if self.annual_vol_target <= 0 or self.periods_per_year <= 0:
+            raise ValueError("volatility target and periods_per_year must be positive")
+        if not 0 < self.cvar_alpha < 1:
+            raise ValueError("cvar_alpha must lie strictly between zero and one")
+        for name in ["cvar_loss_nav", "stress_loss_nav", "short_margin_nav", "collateral_nav"]:
+            if getattr(self, name) < 0:
+                raise ValueError(f"{name} must be nonnegative")
+        if not 0 < self.lambda_floor <= self.lambda_ceiling:
+            raise ValueError("lambda bounds must be positive and ordered")
+        if self.bisection_steps < 1:
+            raise ValueError("bisection_steps must be positive")
+
+
+@dataclass(frozen=True)
+class OptimizationCostSpec:
+    """Decision-time R1 costs and operational coefficients by contract."""
+
+    long_cost: pd.Series
+    short_cost: pd.Series
+    short_margin: pd.Series
+    assignment_short_allowed: pd.Series
+
+    def aligned(self, contracts: Sequence[str]) -> tuple[np.ndarray, np.ndarray, np.ndarray, np.ndarray]:
+        labels = list(contracts)
+        long_cost = self.long_cost.reindex(labels).astype(float)
+        short_cost = self.short_cost.reindex(labels).astype(float)
+        short_margin = self.short_margin.reindex(labels).astype(float)
+        allowed = self.assignment_short_allowed.reindex(labels)
+        if long_cost.isna().any() or short_cost.isna().any() or short_margin.isna().any() or allowed.isna().any():
+            raise ValueError("OptimizationCostSpec must cover every model contract")
+        if (long_cost < 0).any() or (short_cost < 0).any() or (short_margin < 0).any():
+            raise ValueError("cost and margin coefficients must be nonnegative")
+        return (
+            long_cost.to_numpy(float),
+            short_cost.to_numpy(float),
+            short_margin.to_numpy(float),
+            allowed.astype(bool).to_numpy(),
+        )
+
+
+@dataclass(frozen=True)
 class OptionMarkowitzConstraints:
     """Convex constraints for the option-only portfolio."""
 
@@ -253,6 +365,101 @@ def shrink_covariance(sample_cov: np.ndarray, shrinkage: float = 0.10) -> np.nda
     cov = np.asarray(sample_cov, dtype=float)
     target = np.diag(np.diag(cov))
     return nearest_psd((1.0 - shrinkage) * cov + shrinkage * target)
+
+
+def greek_factor_names(underlyings: Sequence[str]) -> list[str]:
+    """Canonical R1 factor order: spot, centered squared spot, then IV."""
+
+    names = list(underlyings)
+    return [f"r_{u}" for u in names] + [f"r2_{u}" for u in names] + [f"dv_{u}" for u in names]
+
+
+def greek_exposure_frame(options: OptionOnlySpec) -> pd.DataFrame:
+    """Return the premium-normalized delta/gamma/vega loading matrix."""
+
+    options.validate()
+    frame = options.frame
+    contracts = list(frame.index)
+    underlyings = sorted(frame["underlying"].astype(str).unique())
+    columns = greek_factor_names(underlyings)
+    values = np.zeros((len(contracts), len(columns)), dtype=float)
+    k = len(underlyings)
+    under_to_col = {underlying: j for j, underlying in enumerate(underlyings)}
+    for row, (_, rec) in enumerate(frame.iterrows()):
+        j = under_to_col[str(rec["underlying"])]
+        mark = float(rec["mark"])
+        spot = float(rec["spot"])
+        values[row, j] = float(rec["delta"]) * spot / mark
+        values[row, k + j] = 0.5 * float(rec["gamma"]) * spot * spot / mark
+        values[row, 2 * k + j] = float(rec["vega"]) / mark
+    return pd.DataFrame(values, index=contracts, columns=columns)
+
+
+def estimate_greek_joint_moments(
+    option_returns: pd.DataFrame,
+    factor_returns: pd.DataFrame,
+    greek_loadings: pd.DataFrame,
+    *,
+    regularize: bool = True,
+    train_end: Optional[pd.Timestamp] = None,
+) -> GreekJointMomentSpec:
+    """Estimate the complete joint covariance of factors and Greek residuals.
+
+    Regularization is Ledoit-Wolf shrinkage on standardized joint observations,
+    followed by rescaling.  With ``regularize=False`` the returned blocks are
+    ordinary sample covariances and reconstruct the aligned sample option-return
+    covariance exactly, including nonzero factor/residual cross terms.
+    """
+
+    contracts = list(greek_loadings.index)
+    factors = list(greek_loadings.columns)
+    if train_end is not None:
+        cutoff = pd.Timestamp(train_end)
+        option_returns = option_returns.loc[pd.to_datetime(option_returns.index) <= cutoff]
+        factor_returns = factor_returns.loc[pd.to_datetime(factor_returns.index) <= cutoff]
+    common = option_returns.index.intersection(factor_returns.index)
+    aligned = pd.concat(
+        [
+            factor_returns.reindex(index=common, columns=factors).add_prefix("factor::"),
+            option_returns.reindex(index=common, columns=contracts).add_prefix("option::"),
+        ],
+        axis=1,
+    ).replace([np.inf, -np.inf], np.nan).dropna()
+    if len(aligned) < 2:
+        raise ValueError("at least two complete aligned observations are required")
+    F = aligned[[f"factor::{name}" for name in factors]].to_numpy(float)
+    R = aligned[[f"option::{name}" for name in contracts]].to_numpy(float)
+    F = F - F.mean(axis=0, keepdims=True)
+    R = R - R.mean(axis=0, keepdims=True)
+    B = greek_loadings.reindex(index=contracts, columns=factors).to_numpy(float)
+    E = R - F @ B.T
+    Z = np.column_stack([F, E])
+    if regularize:
+        from sklearn.covariance import ledoit_wolf
+
+        scales = Z.std(axis=0, ddof=1)
+        safe = np.where(scales > 1e-14, scales, 1.0)
+        standardized = Z / safe
+        corr_cov, _ = ledoit_wolf(standardized, assume_centered=True)
+        joint = corr_cov * scales[:, None] * scales[None, :]
+        estimator = "ledoit_wolf_correlation"
+    else:
+        joint = Z.T @ Z / float(len(Z) - 1)
+        estimator = "sample"
+    joint = 0.5 * (joint + joint.T)
+    k = len(factors)
+    factor_cov = pd.DataFrame(joint[:k, :k], index=factors, columns=factors)
+    cross_cov = pd.DataFrame(joint[:k, k:], index=factors, columns=contracts)
+    residual_cov = pd.DataFrame(joint[k:, k:], index=contracts, columns=contracts)
+    spec = GreekJointMomentSpec(
+        factor_cov=factor_cov,
+        factor_residual_cov=cross_cov,
+        residual_cov=residual_cov,
+        n_obs=len(Z),
+        estimator=estimator,
+    )
+    spec.validate(factors, contracts)
+    return spec
 
 
 def taylor_option_pnl(
@@ -368,6 +575,7 @@ class OptionOnlyMarkowitzModel:
         residual_cov: Optional[pd.DataFrame] = None,
         constraints: Optional[OptionMarkowitzConstraints] = None,
         covariance_shrinkage: float = 0.10,
+        joint_moments: Optional[GreekJointMomentSpec] = None,
     ) -> None:
         """Assemble the Greek-induced option covariance and store inputs.
 
@@ -393,44 +601,52 @@ class OptionOnlyMarkowitzModel:
         self.expected_returns = expected_returns.reindex(self.contracts).astype(float).fillna(0.0)
         self.covariance_shrinkage = covariance_shrinkage
         self.B = self._build_exposure_matrix()
-        self.factor_cov = self._build_factor_covariance()
-        systematic_cov = self.B @ self.factor_cov @ self.B.T
-        if residual_cov is None:
-            resid = np.diag(np.maximum(np.diag(systematic_cov), 1e-8)) * 0.05
+        self.factor_names = greek_factor_names(self.underlyings)
+        self.joint_moments = joint_moments
+        if joint_moments is not None:
+            if residual_cov is not None:
+                raise ValueError("provide joint_moments or residual_cov, not both")
+            joint_moments.validate(self.factor_names, self.contracts)
+            self.factor_cov = joint_moments.factor_cov.to_numpy(float)
+            self.factor_residual_cov = joint_moments.factor_residual_cov.to_numpy(float)
+            self.residual_cov = joint_moments.residual_cov.to_numpy(float)
+            option_cov = (
+                self.B @ self.factor_cov @ self.B.T
+                + self.B @ self.factor_residual_cov
+                + self.factor_residual_cov.T @ self.B.T
+                + self.residual_cov
+            )
+            # The joint estimator is already regularized.  Only a final
+            # numerical eigenvalue floor is permitted on the transformed
+            # option covariance.
+            self.option_cov = nearest_psd(option_cov)
         else:
-            missing_contracts = [
-                c
-                for c in self.contracts
-                if c not in residual_cov.index or c not in residual_cov.columns
-            ]
-            if missing_contracts:
-                warnings.warn(
-                    "residual_cov is missing contracts; their residual variance is "
-                    f"filled with zeros: {missing_contracts}",
-                    UserWarning,
-                    stacklevel=2,
-                )
-            resid_frame = residual_cov.reindex(index=self.contracts, columns=self.contracts).fillna(0.0)
-            resid = resid_frame.to_numpy(dtype=float)
-        self.option_cov = shrink_covariance(systematic_cov + nearest_psd(resid), covariance_shrinkage)
+            self.factor_cov = self._build_factor_covariance()
+            self.factor_residual_cov = np.zeros((len(self.factor_names), len(self.contracts)))
+            systematic_cov = self.B @ self.factor_cov @ self.B.T
+            if residual_cov is None:
+                resid = np.diag(np.maximum(np.diag(systematic_cov), 1e-8)) * 0.05
+            else:
+                missing_contracts = [
+                    c
+                    for c in self.contracts
+                    if c not in residual_cov.index or c not in residual_cov.columns
+                ]
+                if missing_contracts:
+                    warnings.warn(
+                        "residual_cov is missing contracts; their residual variance is "
+                        f"filled with zeros: {missing_contracts}",
+                        UserWarning,
+                        stacklevel=2,
+                    )
+                resid_frame = residual_cov.reindex(index=self.contracts, columns=self.contracts).fillna(0.0)
+                resid = resid_frame.to_numpy(dtype=float)
+            self.residual_cov = resid
+            self.option_cov = shrink_covariance(systematic_cov + nearest_psd(resid), covariance_shrinkage)
         self.greeks = self._portfolio_greek_loadings()
 
     def _build_exposure_matrix(self) -> np.ndarray:
-        n, k = len(self.contracts), len(self.underlyings)
-        col_count = 3 * k
-        B = np.zeros((n, col_count), dtype=float)
-        mark = self.frame["mark"].to_numpy(dtype=float)
-        under_to_col = {u: i for i, u in enumerate(self.underlyings)}
-        for row, (_, rec) in enumerate(self.frame.iterrows()):
-            u = str(rec["underlying"])
-            j = under_to_col[u]
-            S = float(rec["spot"])
-            if not np.isfinite(S) or S <= 0:
-                raise ValueError(f"Contract {self.contracts[row]!r} has invalid spot {S!r}")
-            B[row, j] = float(rec["delta"]) * S / mark[row]
-            B[row, k + j] = 0.5 * float(rec["gamma"]) * S * S / mark[row]
-            B[row, 2 * k + j] = float(rec["vega"]) / mark[row]
-        return B
+        return greek_exposure_frame(self.options).to_numpy(float)
 
     def _build_factor_covariance(self) -> np.ndarray:
         k = len(self.underlyings)
@@ -641,6 +857,205 @@ class OptionOnlyMarkowitzModel:
             cons.append(R @ y >= -c.stress_loss_abs * t)
         return cons
 
+    # ------------------------------------------------------------------
+    # R1 cost-aware mean-variance utility solver
+    # ------------------------------------------------------------------
+
+    def solve_net_utility(
+        self,
+        scenario_returns: pd.DataFrame,
+        costs: OptimizationCostSpec,
+        config: NetUtilityConfig = NetUtilityConfig(),
+        *,
+        per_contract_caps: Optional[pd.Series] = None,
+        risk_aversion: Optional[float] = None,
+    ) -> OptionMarkowitzResult:
+        """Solve the R1 net-utility program with cash and hard tail limits.
+
+        Gross exposure is an inequality.  The optimizer therefore chooses
+        scale rather than manufacturing split-leg gross, and zero risky
+        exposure is always feasible.  When ``risk_aversion`` is omitted a
+        deterministic log-bisection uses training scenarios only to find the
+        smallest positive value whose predicted annualized volatility does
+        not exceed ``config.annual_vol_target``.
+        """
+
+        if not _HAS_CVXPY:
+            raise ImportError("cvxpy is required for solve_net_utility")
+        config.validate()
+        long_cost, short_cost, short_margin, short_allowed = costs.aligned(self.contracts)
+        scenarios = scenario_returns.reindex(columns=self.contracts)
+        entirely_missing = [name for name in self.contracts if scenarios[name].isna().all()]
+        if entirely_missing:
+            raise ValueError(f"scenario_returns has no observations for contracts: {entirely_missing}")
+        scenarios = scenarios.dropna(how="all").fillna(0.0)
+        if len(scenarios) < 2:
+            raise ValueError("solve_net_utility requires at least two training scenarios")
+        R_scenario = scenarios.to_numpy(float)
+        if not np.isfinite(R_scenario).all():
+            raise ValueError("scenario_returns must be finite after alignment")
+
+        n = len(self.contracts)
+        w = cp.Variable(n)
+        eta = cp.Variable()
+        lam = cp.Parameter(nonneg=True)
+        mu = self.expected_returns.to_numpy(float)
+        Sigma = nearest_psd(self.option_cov)
+        long = cp.pos(w)
+        short = cp.pos(-w)
+        predictable_cost = long_cost @ long + short_cost @ short
+        objective = cp.Maximize(
+            mu @ w - predictable_cost - 0.5 * lam * cp.quad_form(w, cp.psd_wrap(Sigma))
+        )
+        cons = self._cvxpy_net_utility_constraints(
+            w,
+            long,
+            short,
+            R_scenario,
+            predictable_cost,
+            eta,
+            config,
+            short_margin,
+            short_allowed,
+            per_contract_caps,
+        )
+        problem = cp.Problem(objective, cons)
+
+        def solve_at(value: float) -> tuple[np.ndarray, str]:
+            lam.value = float(value)
+            used_solver, _ = self._cvxpy_run_solvers(problem, w)
+            if used_solver is None or w.value is None:
+                raise RuntimeError(f"R1 net-utility solve failed (status={problem.status!r})")
+            weights = np.asarray(w.value, dtype=float).ravel()
+            weights[np.abs(weights) < 1e-9] = 0.0
+            return weights, used_solver
+
+        if risk_aversion is not None:
+            if not np.isfinite(risk_aversion) or risk_aversion <= 0:
+                raise ValueError("risk_aversion must be finite and positive")
+            weights, used_solver = solve_at(float(risk_aversion))
+            selected_lambda = float(risk_aversion)
+        else:
+            target_monthly = config.annual_vol_target / np.sqrt(config.periods_per_year)
+            low = float(config.lambda_floor)
+            high = float(config.lambda_ceiling)
+            low_weights, low_solver = solve_at(low)
+            low_vol = float(np.sqrt(max(low_weights @ Sigma @ low_weights, 0.0)))
+            if low_vol <= target_monthly + 1e-8:
+                weights, used_solver, selected_lambda = low_weights, low_solver, low
+            else:
+                high_weights, high_solver = solve_at(high)
+                high_vol = float(np.sqrt(max(high_weights @ Sigma @ high_weights, 0.0)))
+                if high_vol > target_monthly + 1e-7:
+                    raise RuntimeError("risk-aversion ceiling does not achieve the R1 volatility target")
+                weights, used_solver = high_weights, high_solver
+                for _ in range(config.bisection_steps):
+                    mid = float(np.sqrt(low * high))
+                    mid_weights, mid_solver = solve_at(mid)
+                    mid_vol = float(np.sqrt(max(mid_weights @ Sigma @ mid_weights, 0.0)))
+                    if mid_vol > target_monthly:
+                        low = mid
+                    else:
+                        high = mid
+                        weights, used_solver = mid_weights, mid_solver
+                selected_lambda = high
+
+        base = self._make_result(weights, "optimal", f"cvxpy_net_utility_{used_solver.lower()}")
+        w_value = base.weights.to_numpy(float)
+        long_value = np.maximum(w_value, 0.0)
+        short_value = np.maximum(-w_value, 0.0)
+        cost_value = float(long_cost @ long_value + short_cost @ short_value)
+        net_scenarios = R_scenario @ w_value - cost_value
+        losses = -net_scenarios
+        quantile = float(np.quantile(losses, config.cvar_alpha, method="higher"))
+        tail = losses[losses >= quantile - 1e-12]
+        cvar = float(tail.mean()) if len(tail) else quantile
+        stress = self._stress_matrix()
+        worst_stress = float(np.min(stress @ w_value)) if stress is not None else np.nan
+        margin_used = float(short_margin @ short_value)
+        collateral_used = float(long_value.sum() + margin_used)
+        annual_vol = float(base.volatility * np.sqrt(config.periods_per_year))
+        stats: Dict[str, object] = {
+            "objective": "r1_net_mean_variance_utility",
+            "risk_aversion": float(selected_lambda),
+            "gross_mean": float(mu @ w_value),
+            "predictable_cost": cost_value,
+            "net_mean": float(mu @ w_value) - cost_value,
+            "variance_penalty": 0.5 * float(selected_lambda) * float(w_value @ Sigma @ w_value),
+            "predicted_annual_vol": annual_vol,
+            "cvar_alpha": config.cvar_alpha,
+            "scenario_cvar_loss": cvar,
+            "worst_stress_return": worst_stress,
+            "short_margin_used": margin_used,
+            "collateral_used": collateral_used,
+            "cash_weight": max(0.0, 1.0 - collateral_used),
+            "n_scenarios": int(len(R_scenario)),
+        }
+        return replace(base, objective_stats=stats)
+
+    def _cvxpy_net_utility_constraints(
+        self,
+        w,
+        long,
+        short,
+        scenario_returns: np.ndarray,
+        predictable_cost,
+        eta,
+        config: NetUtilityConfig,
+        short_margin: np.ndarray,
+        short_allowed: np.ndarray,
+        per_contract_caps: Optional[pd.Series],
+    ) -> list:
+        c = self.constraints
+        cons = [cp.norm1(w) <= c.gross_nav]
+        if c.long_only:
+            cons.append(w >= 0)
+        scalar_cap = c.gross_nav if c.per_contract_abs is None else c.per_contract_abs
+        cap = np.repeat(float(scalar_cap), len(self.contracts))
+        if per_contract_caps is not None:
+            aligned_caps = per_contract_caps.reindex(self.contracts).astype(float)
+            if aligned_caps.isna().any() or (aligned_caps < 0).any():
+                raise ValueError("per_contract_caps must be finite, nonnegative, and complete")
+            cap = np.minimum(cap, aligned_caps.to_numpy(float))
+        cons.append(cp.abs(w) <= cap)
+        if c.net_nav_abs is not None:
+            cons.append(cp.abs(cp.sum(w)) <= c.net_nav_abs)
+        if c.short_nav_abs is not None:
+            cons.append(cp.sum(short) <= c.short_nav_abs)
+        under_arr = self.frame["underlying"].astype(str).to_numpy()
+        for underlying, limit in c.underlying_gross.items():
+            idx = np.flatnonzero(under_arr == underlying)
+            if len(idx):
+                cons.append(cp.norm1(w[idx]) <= limit)
+        for name, limit in [
+            ("delta_nav", c.delta_abs),
+            ("gamma_nav", c.gamma_abs),
+            ("vega_nav", c.vega_abs),
+            ("vix_vega_nav", c.vix_vega_abs),
+            ("beta_spy_nav", c.beta_spy_abs),
+        ]:
+            if limit is not None:
+                cons.append(cp.abs(self.greeks[name].to_numpy(float) @ w) <= limit)
+        for exposure, limit in c.factor_exposure_abs.items():
+            vector = self._named_exposure_vector(exposure)
+            if vector is not None:
+                cons.append(cp.abs(vector @ w) <= limit)
+        stress = self._stress_matrix()
+        if stress is not None:
+            limit = min(
+                config.stress_loss_nav,
+                c.stress_loss_abs if c.stress_loss_abs is not None else config.stress_loss_nav,
+            )
+            cons.append(stress @ w >= -limit)
+        cons.append(short_margin @ short <= config.short_margin_nav)
+        cons.append(cp.sum(long) + short_margin @ short <= config.collateral_nav)
+        if (~short_allowed).any():
+            cons.append(w[np.flatnonzero(~short_allowed)] >= 0)
+        losses = -(scenario_returns @ w - predictable_cost)
+        tail_scale = (1.0 - config.cvar_alpha) * float(len(scenario_returns))
+        cons.append(eta + cp.sum(cp.pos(losses - eta)) / tail_scale <= config.cvar_loss_nav)
+        return cons
+
     def _cvxpy_run_solvers(self, problem, check_variable) -> tuple:
         """Try installed conic solvers in preference order.
 
@@ -657,7 +1072,7 @@ class OptionOnlyMarkowitzModel:
             if solver not in cp.installed_solvers():
                 continue
             try:
-                problem.solve(solver=solver, verbose=False)
+                problem.solve(solver=solver, verbose=False, warm_start=True)
             except Exception:
                 continue
             if problem.status in ("optimal", "optimal_inaccurate") and check_variable.value is not None:
@@ -1342,11 +1757,17 @@ class OptionOnlyMarkowitzModel:
 
 __all__ = [
     "FactorShockSpec",
+    "GreekJointMomentSpec",
+    "NetUtilityConfig",
     "OptionMarkowitzConstraints",
     "OptionMarkowitzResult",
     "OptionOnlyMarkowitzModel",
     "OptionOnlySpec",
+    "OptimizationCostSpec",
     "bootstrap_sharpe_ci",
+    "estimate_greek_joint_moments",
+    "greek_exposure_frame",
+    "greek_factor_names",
     "nearest_psd",
     "performance_stats",
     "shrink_covariance",

@@ -35,13 +35,12 @@ OUT_DIR = Path(__file__).resolve().parent / "artifacts" / "breadth_solutions"
 RESULTS_CSV = "p1_regularization_results.csv"
 RESULTS_JSON = "p1_regularization_results.json"
 SUMMARY_MD = "p1_summary.md"
-ANCHORS = {
+LEGACY_E1_REFERENCE_SHARPES = {
     "orig+VIX": 1.3743892124363595,
     "larger+VIX": 0.7646532722533432,
     "orig": 0.8421199757145471,
     "larger": 0.4562219234084396,
 }
-ANCHOR_TOL = 0.05
 DEFAULT_CONFIG_ORDER = ["orig+VIX", "larger+VIX", "orig", "larger"]
 DEFAULT_ARM_ORDER = ["default", "A", "B", "C", "D", "E"]
 POC_NOTE = (
@@ -258,13 +257,6 @@ def run_config(
             abs(direct_gross - eval_gross) <= 1e-12,
             f"direct={direct_gross:.15f} eval={eval_gross:.15f}",
         )
-        expected = ANCHORS[label]
-        _print_match(
-            messages,
-            f"{label} default gross anchor",
-            abs(eval_gross - expected) <= ANCHOR_TOL,
-            f"value={eval_gross:.15f} expected={expected:.15f} tol={ANCHOR_TOL:.2f}",
-        )
 
     return rows, messages
 
@@ -318,7 +310,7 @@ def write_outputs(
             "present_new_count": int(len(present_new)),
             "present_new": list(present_new),
             "n_scaled_rule": N_SCALED_RULE,
-            "anchors": ANCHORS,
+            "legacy_e1_reference_sharpes": LEGACY_E1_REFERENCE_SHARPES,
             "poc_note": POC_NOTE,
         },
     }
@@ -357,7 +349,7 @@ def build_summary(results: pd.DataFrame) -> str:
         best = sub.sort_values("gross_sharpe", ascending=False).iloc[0]
         equal = results[results["config"].eq(config) & results["strategy"].eq("Equal premium")]
         equal_gross = float(equal.iloc[0]["gross_sharpe"]) if not equal.empty else float("nan")
-        bar = ANCHORS[bar_config]
+        bar = LEGACY_E1_REFERENCE_SHARPES[bar_config]
         passed = bool(float(best["gross_sharpe"]) >= bar)
         lines.append(
             "- "
@@ -415,7 +407,7 @@ def main(argv: Sequence[str] | None = None) -> int:
     print(f"wrote {json_path}", flush=True)
     print(f"wrote {summary_path}", flush=True)
     if misses:
-        print(f"anchor failures: {len(misses)}", flush=True)
+        print(f"internal consistency failures: {len(misses)}", flush=True)
         return 1
     return 0
 

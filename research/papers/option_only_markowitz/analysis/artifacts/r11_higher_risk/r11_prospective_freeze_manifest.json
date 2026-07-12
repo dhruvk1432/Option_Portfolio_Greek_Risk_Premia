@@ -1,0 +1,67 @@
+{
+  "specification": "R1.1",
+  "evidence_before_freeze": "retrospective_development_sample",
+  "freeze_timestamp_utc": "2026-07-12T19:49:00.236121+00:00",
+  "data_cutoff": "2026-04-30",
+  "first_eligible_decision_date": "2026-07-31",
+  "required_untouched_monthly_observations": 36,
+  "risk_policy": {
+    "annual_vol_target": 0.25,
+    "periods_per_year": 12.0,
+    "cvar_alpha": 0.95,
+    "cvar_loss_nav": 0.1,
+    "stress_loss_nav": 0.2,
+    "short_margin_nav": 0.75,
+    "collateral_nav": 1.0,
+    "lambda_floor": 1e-06,
+    "lambda_ceiling": 1000000.0,
+    "bisection_steps": 18,
+    "deployment_target": 0.5,
+    "deployment_net_edge_floor": 0.0
+  },
+  "risk_off_policy": {
+    "vix_threshold": 40.0,
+    "manual_exit_date": "2020-03-01",
+    "market_timezone": "America/New_York",
+    "regular_open": "09:30:00",
+    "regular_close": "16:00:00",
+    "fee_per_contract": 0.75,
+    "slippage_bps": 5.0
+  },
+  "egarch_policy": {
+    "lookback_days": 756,
+    "min_observations": 500,
+    "horizon_days": 21,
+    "variance_ratio_floor": 0.5,
+    "variance_ratio_ceiling": 2.0,
+    "qlike_improvement_required": 0.02,
+    "required_coverage": 0.95,
+    "bootstrap_draws": 1000,
+    "bootstrap_block_length": 21,
+    "bootstrap_seed": 20260712
+  },
+  "integer_execution_policy": {
+    "target": "continuous_R1.1_solution",
+    "conversion": "truncate_each_contract_count_toward_zero",
+    "infeasible_action": "cash_abstention_for_the_period",
+    "substitute_portfolios_allowed": false,
+    "abstention_is_survival_failure": false,
+    "failed_conversion_diagnostics_preserved": true
+  },
+  "manual_intervention_status": "user_attested_retrospective_development_rule",
+  "march_2020_market_data_deleted": false,
+  "source_sha256": {
+    "research/papers/option_only_markowitz/analysis/r11_higher_risk_pipeline.py": "77cc6f93cf567db4b5b9523308f205c7457c40a51db3c440416ef6a6fa684708",
+    "research/papers/option_only_markowitz/analysis/r11_integer_repair.py": "125468dc0e497c3ebd8ee4d92fa386e006bcc48f3b49535cdce0fddfbb46d9a4",
+    "src/portfolio/r11_risk_controls.py": "448ef8edc6cc93c4546708991612edd6f6dc59666d02195d7852b8cb09f91503"
+  },
+  "environment": {
+    "python": "3.14.5 (main, May 10 2026, 10:21:34) [Clang 17.0.0 (clang-1700.6.4.2)]",
+    "platform": "macOS-15.7.2-arm64-arm-64bit-Mach-O",
+    "numpy": "2.5.0",
+    "pandas": "3.0.3",
+    "cvxpy": "1.9.2",
+    "arch": "8.0.0"
+  },
+  "confirmatory_claim_allowed": false
+}

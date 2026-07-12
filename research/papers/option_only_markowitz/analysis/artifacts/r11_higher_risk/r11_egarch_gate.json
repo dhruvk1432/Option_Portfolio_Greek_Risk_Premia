@@ -1,0 +1,12 @@
+{
+  "promotion_status": "diagnostic_only",
+  "passed": false,
+  "forecast_coverage": 0.9990074441687344,
+  "valid_forecasts": 12078,
+  "expected_forecasts": 12090,
+  "mean_qlike_difference": 16454899.725174913,
+  "relative_qlike_improvement": -5883525.369009263,
+  "qlike_difference_bootstrap_90_ci_hi": 22756989.385327,
+  "added_survival_failures": 0,
+  "worst_es_deterioration": 0.015133940420522796
+}

@@ -1,5 +1,54 @@
 # Release Notes: Option-Only Portfolio Optimization
 
+## R1.1 direct-or-abstain integer execution (2026-07-12)
+
+- Restored the R1-style direct whole-contract conversion as the only executable risky
+  portfolio. If it violates a hard constraint, that month is explicitly held in cash.
+- A cash abstention is a valid decision, not an integer-execution or survival failure.
+- Preserved the rejected conversion's CVaR, stress, volatility, margin, collateral,
+  assignment, liquidity-cap, and base-constraint diagnostics in the artifact ledger.
+- No risk-leg reduction, extra VIX contract, iterative repair, or mixed-integer substitute
+  portfolio contributes to the restored strategy's returns.
+
+## Rejected R1.1 integer-repair development comparison (2026-07-12)
+
+- Tested five registered candidates in a superseded development experiment:
+  direct truncation, whole risk-leg removal, retention of an additional protective VIX
+  contract, binding-constraint-guided one-contract reduction, and a sign-restricted
+  mixed-integer conic net-utility solve using ECOS_BB.
+- Candidate selection required every hard constraint to pass, then maximized net
+  utility with distance from the continuous target as a deterministic tie-break.
+- Preserved failed pre-repair CVaR, stress, volatility, margin, collateral, assignment,
+  liquidity-cap, and base-constraint values instead of overwriting them with cash values.
+- That superseded replay repaired all 417 direct-truncation failures. ECOS_BB certified 439 of
+  744 books under a 1,000-node, 32-active-direction operational gate; every remaining
+  book is resolved by a checked deterministic repair.
+
+## R1.1 higher-risk and VIX risk-off development arm (2026-07-12)
+
+- Added a separately versioned 25% volatility policy with a positive-edge, sign-restricted
+  50% deployment feasibility test; no gross floor or split-leg burn is introduced.
+- Added official-close VIX-40 state transitions, deduplicated March 1 user-attested exit,
+  sequential displayed-size CBBO execution, and a cost-guarded licensed quote pull.
+- Added the 2018--2026 crisis replay, intervention request/ledger, EGARCH(1,1)-Student-t
+  joint-covariance overlay and promotion gate, trial registry, and R1.1 freeze manifest.
+- The checked risk-off arm remains unscored without event-date CBBO and EGARCH is
+  diagnostic. Legacy E1 absorbed-zero CPCV evidence and the original R1 freeze remain
+  unchanged.
+
+## R1 mathematical and research-design repair (2026-07-11)
+
+- Added the complete joint Greek factor/residual covariance, including both cross terms.
+- Added a cost-aware, cash-permitting net-utility solver with fixed volatility, CVaR,
+  stress, margin, collateral, assignment, liquidity, and integer-execution controls.
+- Added a monthly point-in-time R1 development pipeline, hard survival gate, known-trial
+  registry, and prospective 36-month freeze manifest.
+- Reclassified every existing result as retrospective development evidence. E1 remains in
+  the paper only as legacy research history and its absorbed-zero VIX paths fail R1's
+  survival standard.
+- Reframed the mathematical contribution as a self-contained implementation of standard
+  results rather than new theory.
+
 ## Whole-contract integer execution as the headline (2026-07-07)
 
 - Every headline book is now scored in **whole option contracts** at the standard

@@ -120,42 +120,48 @@ Option-Only Portfolio Optimization with\\ Greek-Induced Covariance and\\ Conditi
 \vspace{0.42cm}
 \noindent{\bfseries\color{journalgreen} Abstract}
 
-We develop a mean--variance framework for portfolios composed entirely of listed
-options. Option positions enter as premium-funded, expiring cashflows: premium weights
-replace the unit budget constraint, covariance is induced by a Greek/state factor map
-with regularized residual risk, expected returns load on structural risk-premium
-channels rather than historical contract means, and the allocation solves a conic
-program whose feasible set carries transaction costs, Greek and stress budgets, margin,
-and pre-trade liquidity caps. We estimate the model on four option universes---eight
-equity-option names, the same names plus VIX options, 56 names, and 56 names plus
-VIX---at a one-million-dollar account size with contract-level costs and whole-contract
-positions. The two
-VIX-enabled portfolios earn full-cost net Sharpe ratios of 1.628 and 1.383 (gross 2.010
-and 1.675) and beat capped naive option diversification by 1.3 to 2.3 Sharpe points
-(\(p<0.001\)); the no-VIX universes do not clear the same tests. Channel ablations
-attribute the premium to option carry disciplined by stress and vega budgets. Breadth
-pays only when contract-level historical means are replaced by shrunken structural
-forecasts, and displayed option depth confines the strategy to small accounts.
+We repair an option-only mean--variance implementation and reassess what its historical
+evidence can support. Option positions are premium-funded, expiring cashflows. For the
+fixed Greek loading matrix, the covariance retains factor/residual cross terms rather
+than assuming an OLS projection that the code does not estimate. The repaired R1
+allocation maximizes expected return net of asymmetric costs and a variance penalty,
+permits cash, and imposes CVaR, stress, margin, collateral, assignment, integer, and
+point-in-time liquidity limits before a position is accepted. The covariance factors are
+limited to delta, centered quadratic spot returns, and vega; skew and tail enter premia
+and stress tests. We make no claim that these standard mathematical ingredients are new.
+The original E1 Sharpes are retained as retrospective development evidence, not headline
+proof: E1 was selected after inspection of the post-2020 window, and its VIX-enabled CPCV
+wealth paths are absorbed at zero in March 2020 despite positive return-based Sharpe.
+Under R1's hard survival gate that is a failure. All existing observations are labeled
+development data, and confirmatory claims require 36 future untouched monthly returns.
+The separately versioned R1.1 development arm raises the risk ceiling to 25 percent,
+pursues but does not force 50 percent gross, and specifies a close-to-next-open VIX-40
+exit rule. Its event-date return remains unscored until matched licensed CBBO is available;
+its EGARCH overlay fails a prespecified promotion gate.
 
 \vspace{0.26cm}
 \noindent\colorbox{impactshade}{%
   \begin{minipage}{0.94\textwidth}
-  \textbf{\color{journalgreen} Key results}
+  \textbf{\color{journalgreen} Key findings and claim boundary}
   \begin{itemize}
-    \item \texttt{larger+VIX} (56 names + VIX): net Sharpe 1.628, net Sortino 4.377;
-    beats both baselines; rolling out-of-sample Sharpe 1.273.
-    \item \texttt{orig+VIX} (8 names + VIX): net Sharpe 1.383, net Sortino 3.551; beats
-    both baselines.
-    \item \texttt{larger} (56 names): net Sharpe 0.587, indistinguishable from capped
-    naive diversification (0.596) and below stock Markowitz (0.909).
-    \item \texttt{orig} (8 names): positive point estimate (0.778), but displayed option
-    depth cannot support a full book at \(\$1\) million NAV.
+    \item R1 includes the covariance cross terms omitted by E1 and prices predictable
+    costs inside a uniquely scaled utility objective.
+    \item Gross premium is an upper bound; cash replaces split-leg ``burn'' and infeasible
+    integer books fail closed to cash.
+    \item Any zero-wealth, margin, collateral, or integer-feasibility failure overrides
+    Sharpe. The legacy VIX CPCV paths therefore fail the repaired survival standard.
+    \item Existing results are retrospective development evidence. A prospective freeze
+    manifest requires 36 untouched monthly observations for confirmation.
+    \item R1.1 does not attain its 50 percent deployment target under the retained
+    constraints; its VIX risk-off arm is unscored without executable event quotes.
   \end{itemize}
   \end{minipage}}
 
 \vspace{0.30cm}
 
 \input{sections/short_paper}
+
+\input{sections/short_r11_update}
 
 \clearpage
 \appendix

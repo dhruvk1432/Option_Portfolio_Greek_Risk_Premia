@@ -28,6 +28,12 @@ runner accepts user-supplied market-hours quote exports, margin previews, and re
 notes, but those files are local operational inputs and should not be committed if they
 contain licensed or account-specific data.
 
+R1.1's VIX-40 intervention is subject to the same boundary. Its generated
+`r11_event_quote_request.csv` identifies the held OSI symbols and event dates. Licensed
+`cbbo-1m` responses belong under `data/databento_cache/r11_event_cbbo/` and are never
+committed. Until every requested order has a complete displayed-size execution and re-entry
+constraint check, the risk-off arm remains unscored.
+
 ## Included Public Inputs
 
 The repository includes the normalized public Cboe VRO/SOQ settlement outputs used by the paper:

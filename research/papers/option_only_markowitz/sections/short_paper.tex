@@ -1,47 +1,42 @@
 \section{Research question and scope}\label{sec:short_intro}
+The paper asks whether an option-only allocator can combine premium accounting, Greeks,
+expiry, margin, and displayed liquidity into a portfolio procedure that survives realistic
+frictions. The evidence available for answering that question is entirely retrospective.
+It is therefore development evidence, not a confirmatory holdout or a live track record.
 
-The paper asks a narrow portfolio question. Can an option-only allocator use the
-structure of listed options---premium funding, Greeks, volatility exposure, skew, tail
-insurance, expiry, margin, and displayed liquidity---to build a small-account strategy
-that survives realistic frictions? In the data studied here the answer is yes for the
-VIX-enabled variants; Section~\ref{sec:short_constraints} details the capacity and
-execution-data limits of that answer.
+The repaired specification, R1, makes three changes to the earlier E1 development model.
+First, it retains the generally nonzero covariance between Greek factors and Greek
+residuals. Second, it replaces maximum Sharpe with cost-aware mean--variance utility and
+allows the optimizer to hold cash. Third, survival, collateral, margin, and integer
+feasibility are hard gates: an absorbed-zero path cannot be rescued by a positive
+arithmetic Sharpe ratio. R1 uses only delta, centered squared-return, and implied-volatility
+factors in covariance. Skew and tail information enters expected returns and stress tests,
+not an exposure matrix that the code does not estimate.
 
-The negative parts of the result are as important as the positive ones. First, broad
-option universes do not automatically help. Breadth helps when the mean estimator is made
-structural and the residual covariance is regularized; otherwise the optimizer uses the
-extra contracts to overfit historical option means. Second, gross Sharpe is not a trading
-result. It becomes economically relevant only after spreads, fees, slippage, margin,
-assignment, and capacity are charged. Third, capacity is a binding market constraint.
-The tested month-end contracts support a small account at roughly \(\$1\) million NAV,
-but the same design does not scale mechanically to \(\$5\) million or more.
+The mathematical ingredients are standard or direct adaptations: Taylor Greek maps,
+covariance propagation, mean--variance utility, CVaR, and convex constraints. We do not
+claim a new portfolio theorem. The potential contribution is operational and empirical:
+putting those ingredients into one auditable, point-in-time option workflow and reporting
+where that workflow fails. The earlier E1 results are retained below as legacy development
+evidence because they document the research path; they are not the repaired headline model.
 
-The contribution is therefore twofold. The theoretical contribution is a compact
-option-only Markowitz framework: option contracts become premium-normalized cashflows,
-their covariance is induced by a Greek/state map plus residual risk, and the allocation is
-a robust conic problem with costs and operational budgets. The empirical contribution is
-a fully reproducible application to four universes and two baselines, with a
-specification fixed in advance rather than re-tuned inside validation folds.
-
-The empirical design favors transparency over promotion. Exact panel CBBO is separated
-from imputed spread rows, capacity-infeasible books are reported as diagnostics rather
-than headline results, and the stress tests that fail are reported alongside those that
-pass. The result is stronger because it is narrower: within its stated scope, the locked
-VIX-enabled specification survives every test we impose. The evidence is a historical
-backtest rather than a live track record. The paper treats that as a reason to test the
-specification harder---fixing it in advance and subjecting it to cross-validation,
-Monte Carlo refitting, and multiple-testing controls---not as a reason to state the
-supported conclusions more weakly than the data warrant.
+Capacity remains a binding finding in the local data. The tested contracts do not support
+mechanical scaling from roughly \(\$1\) million to \(\$5\) million NAV. Multi-exchange
+routing could change that conclusion, but the present data contain neither routed orders
+nor fills, so this paper does not claim that routing solves the constraint.
 
 \subsection{Relation to the literature}
 
-The paper sits at the intersection of three literatures. The allocation frame is
-mean-variance portfolio choice \citep{markowitz1952portfolio,sharpe1966}, but applied to
-premium-funded option cashflows rather than budget-constrained asset weights; the breadth
-and estimation-error mechanics that drive the locked E1 design echo the classical tension
-between the size of the choice set and the quality of the inputs
-\citep{grinold_kahn2000,demiguel_garlappi_uppal2009}. The expected-return channels come
-from the empirical option-return literature: expected option returns and their signs
+We adapt mean--variance portfolio choice \citep{markowitz1952portfolio,sharpe1966} to
+premium-funded option cashflows. Prior option-portfolio work already studies optimized
+option allocations, Greek-based risk maps, transaction costs, and mean--variance structure
+\citep{faias_santaclara2017,zhao_palomar2018,malamud2014,liang_zhang_li2008}.
+Gross-exposure regularization and robust conic portfolio choice also have established
+foundations \citep{fan_zhang_yu2012,goldfarb_iyengar2003}. The breadth and estimation-error
+mechanics follow the familiar tradeoff between choice-set size and input quality
+\citep{grinold_kahn2000,demiguel_garlappi_uppal2009}.
+The expected-return channels come from the empirical option-return literature:
+expected option returns and their signs
 \citep{coval_shumway2001}, delta-hedged gains and the volatility risk premium
 \citep{bakshi_kapadia2003}, variance risk premia \citep{carr_wu2009,
 bollerslev_tauchen_zhou2009}, index option portfolio evidence
@@ -50,24 +45,24 @@ optimization \citep{faias_santaclara2017}, and the embedded-leverage demand that
 cheap convexity systematically expensive \citep{frazzini_pedersen2022}. The validation
 protocol draws on the backtest-overfitting and multiple-testing literature
 \citep{white2000reality,hansen2005spa,bailey2017pbo,bailey_lopezdeprado2014,
-lopezdeprado2018}.
+lopezdeprado2018}. The warning that option-like payoffs can manufacture attractive
+Sharpe ratios while retaining rare crash losses is central here
+\citep{goetzmann_ingersoll_spiegel_welch2007}.
 
-Relative to option-portfolio papers that optimize a small set of index option strategies,
-the marginal contribution here is operational: contract-level premium accounting, a
-Greek-induced covariance that prices cross-contract dependence through a state map,
-pre-trade net liquidity caps inside the feasible set, exact-versus-proxied spread
-accounting, and VIX futures-option settlement handling, all wrapped in a locked
-specification that the robustness layer cannot re-tune. None of these pieces is
-exotic in isolation; the contribution is that the combination is written down,
-independently verified, and stress-tested as one object.
+Relative to this literature, the marginal contribution sought here is the integrated
+implementation: contract-level premium accounting, a complete Greek/residual joint
+covariance, pre-trade costs and liquidity caps, explicit collateral and margin, exact
+versus proxied spread accounting, and VIX settlement handling. None is novel in isolation.
+The paper supplies self-contained derivations to document the implementation, not to claim
+priority for standard mathematics.
 
 \subsection{Outline}
 
 Section~\ref{sec:short_theory} develops the theory: premium accounting, the
 Greek-induced covariance decomposition, the structural expected-return channels with the
 breadth results that motivate them, and the constrained conic allocation. Section~%
-\ref{sec:short_application} describes the four implementation universes, the locked E1
-specification, the transaction-cost stack, and the validation protocol.
+\ref{sec:short_application} describes the four implementation universes, repaired R1
+procedure, legacy E1 development experiment, transaction-cost stack, and validation protocol.
 Section~\ref{sec:short_results} reports gross and net results against both baselines and
 the mechanism evidence. Section~\ref{sec:short_robustness} presents the distributional
 and multiple-testing evidence, including the cross-validation stress analysis.
@@ -100,9 +95,9 @@ liquidity budgets.
 \centering
 \includegraphics[width=0.92\textwidth]{figures/short_theory_flow.pdf}
 \caption{Research pipeline. The theory starts from listed option contracts, turns them
-into NAV-normalized cashflows, builds Greek-induced covariance and structural expected
-returns, solves a robust constrained allocation, and then passes the result through
-execution-cost accounting and validation tests.}
+into NAV-normalized cashflows, estimates the complete Greek/residual joint covariance,
+prices predictable costs inside R1 utility, and subjects the integer book to operational
+and survival tests.}
 \label{fig:short_theory_flow}
 \end{figure}
 
@@ -184,7 +179,7 @@ because the same convention is applied throughout.
 Two details matter for implementation. First, a long option cannot lose more than its
 premium, but a short option can lose far more than the premium it collected. The premium
 weight \(w_i\) is therefore an accounting weight, not a complete risk measure. Second,
-every result in this paper is reported for a whole-contract book. The maximum-Sharpe
+every R1 result in this paper is reported for a whole-contract book. The net-utility
 solver returns continuous premium weights, but each weight is converted to a signed
 integer number of contracts before the book is scored, so the Sharpe ratios, Sortino
 ratios, cost figures, and ledgers below all describe integer positions at the standard
@@ -192,16 +187,13 @@ ratios, cost figures, and ledgers below all describe integer positions at the st
 
 \begin{remark}[Whole-contract rounding]\label{rem:short_rounding}
 A premium weight \(w_i\) implies a continuous contract count \(N_i=w_iW_t/(m_iC_{i,t})\).
-The traded book rounds \(N_i\) to the nearest integer and, wherever a per-contract
-liquidity cap binds, steps the magnitude down by one contract so that the realized weight
+The R1 book truncates \(N_i\) toward zero so that integerization cannot deliberately add
+risk. It then checks every CVaR, stress, margin, collateral, Greek, and liquidity constraint.
+If the integer book is infeasible, the decision fails closed to cash. The legacy E1 book
+rounded to the nearest integer and, wherever a per-contract
+liquidity cap bound, stepped the magnitude down by one contract so that the realized weight
 \(\widehat w_i=N_im_iC_{i,t}/W_t\) never exceeds the cap. All four option books and both
-capped naive baselines are scored on these realized integer weights. At \(\$1\) million
-NAV the adjustment is immaterial for liquid large-cap legs but is not negligible for
-high-priced or thin contracts, where the continuous solution sits exactly at its cap.
-Because a cap-binding leg can only round down, whole-contract execution slightly lowers
-deployed gross premium and net cost drag relative to the continuous book rather than
-adding rounding noise; a floor-toward-zero rule leaves the ranking unchanged with somewhat
-larger de-leveraging.
+capped naive baselines in the legacy tables are scored on those realized integer weights.
 \end{remark}
 
 \subsection{Greek-induced covariance}
@@ -265,57 +257,56 @@ evidence.
 
 Stacking all contracts gives the conditional factor model
 \[
-  r_{O,t+1}=\mu_{O,t}+B_t f_{t+1}+\varepsilon_{t+1},
-  \qquad
-  \Sigma_{O,t}=B_t\Omega_tB_t^\top+\Sigma_{\varepsilon,t}.
+  r_{O,t+1}=\mu_{O,t}+B^G_t f_{t+1}+\varepsilon_{t+1}.
 \]
-The factor vector \(f_{t+1}\) collects underlying returns, centered squared returns,
-at-the-money implied-volatility shocks, skew and tail-slope shocks, and VX-forward return
-and curvature shocks. The matrix \(B_t\) maps contract-level Greeks into those factors.
-The residual covariance is not optional. It carries basis risk, smile risk, marking error,
-and all option return variation not spanned by the Greek map.
-
-\begin{assumption}[Projection residual]\label{assump:short_projection}
-Let \(\Omega_t=\Var_t(f_{t+1})\succ0\), and define
+The implemented factor vector contains only underlying returns, centered squared returns,
+and implied-volatility changes. The fixed matrix \(B^G_t\) contains the corresponding
+premium-normalized delta, gamma, and vega loadings. Define
 \[
-  B_t=\Cov_t(r_{O,t+1},f_{t+1})\Omega_t^{-1},
-  \qquad
-  \varepsilon_{t+1}=r_{O,t+1}-\mu_{O,t}-B_tf_{t+1}.
+ \Omega_t=\Var_t(f_{t+1}),\qquad
+ \Gamma_t=\Cov_t(f_{t+1},\varepsilon_{t+1}),\qquad
+ \Sigma_{\varepsilon,t}=\Var_t(\varepsilon_{t+1}).
 \]
-Then \(\Cov_t(f_{t+1},\varepsilon_{t+1})=0\) by construction.
-\end{assumption}
+Because \(B^G_t\) is fixed from Greeks rather than estimated as a regression coefficient,
+there is no reason for \(\Gamma_t\) to vanish.
 
 \begin{proposition}[Covariance identity]\label{prop:short_covariance}
-Under Assumption~\ref{assump:short_projection},
+For any fixed Greek loading matrix \(B^G_t\),
 \[
-  \Var_t(r_{O,t+1})=B_t\Omega_tB_t^\top+\Sigma_{\varepsilon,t},
-  \qquad
-  \Sigma_{\varepsilon,t}:=\Var_t(\varepsilon_{t+1}),
+  \Var_t(r_{O,t+1})
+  =B^G_t\Omega_t(B^G_t)^\top
+   +B^G_t\Gamma_t+\Gamma_t^\top(B^G_t)^\top
+   +\Sigma_{\varepsilon,t}.
 \]
-and both terms are positive semidefinite.
+Equivalently, with \(A_t=[B^G_t\ I]\) and
+\(
+S_t=\Var_t([f_{t+1}^\top,\varepsilon_{t+1}^\top]^\top),
+\)
+the option covariance is \(A_tS_tA_t^\top\succeq0\).
 \end{proposition}
 
 \begin{proof}
-Substitute the projection decomposition into the variance and use
-\(\Cov_t(f_{t+1},\varepsilon_{t+1})=0\). Positive semidefiniteness follows because each
-term is a covariance matrix or a linear image of one.
+Expand the variance of \(B^G_tf_{t+1}+\varepsilon_{t+1}\). The two cross-covariance
+terms remain. The block form follows by multiplication, and positive semidefiniteness
+follows because a linear image of a covariance matrix is positive semidefinite.
 \end{proof}
 
-The empirical estimator follows this identity but keeps the implementation conservative.
-The factor covariance is estimated from training-window state variables and shrunk. The
-residual covariance is estimated from option residuals on an unbalanced panel, projected
-onto the PSD cone when pairwise moments create small negative eigenvalues, and then
-regularized. The locked E1 model uses diagonal residual covariance because the dense
-residual matrix was an overfitting channel in the broad universe.
+If instead \(B_t=\Cov_t(r_{O,t+1},f_{t+1})\Omega_t^{-1}\), the residual is an OLS
+projection residual and \(\Gamma_t=0\). That familiar projection formula is a corollary,
+not the definition used by R1. Empirically, R1 centers aligned training returns and factors,
+forms \(\varepsilon=r-B^Gf\), estimates the regularized joint covariance of
+\([f,\varepsilon]\) on the correlation scale, and transforms it by \([B^G\ I]\). With
+regularization disabled, the construction reproduces the aligned sample option covariance
+to numerical precision. Only a final numerical eigenvalue floor is applied after the joint
+transformation.
 
 \subsection{State factors and residual risk}
 
-The factor map has an economic interpretation. Delta exposure routes option returns into
-underlying equity returns. Gamma exposure routes them into realized quadratic movement.
-Vega exposure routes them into implied-volatility shocks. Skew and tail variables proxy
-where crash insurance and wing convexity are being repriced. VX-forward exposure lets VIX
-options behave as options on the traded volatility futures curve rather than as options on
-an untraded spot index.
+The factor map has a deliberately narrow interpretation. Delta exposure routes option
+returns into underlying or VX-forward returns. Gamma routes them into centered quadratic
+movement. Vega routes them into implied-volatility changes. Skew and tail variables proxy
+where crash insurance is being repriced in the mean and stress models; they are not claimed
+as covariance loadings.
 
 The residual term is where the model acknowledges its limits. If option marks were perfectly spanned
 by spot, variance, volatility, skew, and VIX-forward factors, \(\Sigma_{\varepsilon,t}\)
@@ -324,12 +315,13 @@ surface deformations, quote noise, strike/maturity mismatch, and the fact that a
 rebalance is not an infinitesimal Ito step. The model can use Greeks without pretending
 that the Greek map is complete.
 
-The diagonal residual choice in E1 should be read in this spirit. It is not a claim that
+The diagonal residual choice in legacy E1 should be read in this spirit. It is not a claim that
 residual risks are truly independent. It is a regularization decision. In a broad option
 universe, a dense residual covariance matrix estimated from a short and unbalanced panel
 can create false diversification and unstable inverse-covariance directions. Diagonal
 residual covariance keeps contract-specific unexplained risk while refusing to let noisy
-off-diagonal residual estimates dominate the optimizer.
+off-diagonal residual estimates dominate the optimizer. R1 supersedes that approximation
+with the regularized joint covariance and keeps the observed factor/residual dependence.
 
 \subsection{Expected option compensation}
 
@@ -354,7 +346,7 @@ The implemented signal is simpler than the general display. It combines
 carry, a damped delta channel, a vega-routed implied-minus-realized volatility wedge, and
 skew/tail characteristics. Cheap convexity is treated as systematically expensive rather
 than anomalous, consistent with the embedded-leverage evidence of
-\citet{frazzini_pedersen2022}. The locked E1 version then removes the raw
+\citet{frazzini_pedersen2022}. The legacy E1 version then removes the raw
 historical option mean entirely and shrinks the structural forecast toward zero by
 \(0.75\). This is not an aesthetic choice. It is the central empirical lesson of the
 breadth experiments, and it is the option-panel version of the classical breadth-versus-
@@ -425,12 +417,10 @@ skew/tail channel gives insurance-like wings a negative expected return for long
 positions and a positive expected return for short positions, subject to stress and
 liquidity caps.
 
-This construction favors stable economic signs over flexible statistical
-fit. It does not estimate a separate mean for every contract from that contract's past
-returns. It asks whether a contract is expensive or cheap relative to its structural
-exposures, then shrinks the result heavily toward zero. That is why the locked E1 result
-is interpretable: the broad-universe improvement comes from removing an identified
-high-variance estimator, not from adding an opaque machine-learning layer.
+This construction favors stable economic signs over flexible statistical fit. It does not
+estimate a separate mean for every contract from that contract's past returns. R1 retains
+the structural-only, 0.75 shrinkage rule identified during E1 development, but does not
+describe that choice as prospectively selected.
 
 The no-free-lunch constraint is that structural premia must be paid for in risk budgets.
 Shorting skew or volatility can earn compensation precisely because those positions lose
@@ -446,21 +436,28 @@ is
   \max_{w\in\mathcal C_t}
   \widehat\mu_t^\top w
   -\frac{\gamma}{2}w^\top\widehat\Sigma_{O,t}w
-  -c_t^\top |w|.
+  -(c_t^+)^\top w^+-(c_t^-)^\top w^-,
   \tag{P}
 \]
-The cost vector \(c_t\) includes bid-ask spread, explicit fees, slippage, borrow proxy,
-margin drag, assignment penalty, and capacity/impact costs; charging linear costs inside
+where \(w^+=\max(w,0)\) and \(w^-=\max(-w,0)\). The asymmetric cost vectors include
+spread, explicit fees, slippage, borrow, and margin funding; charging these costs inside
 the objective rather than after it follows the cost-aware trading literature
 \citep{garleanu_pedersen2013}. The feasible set \(\mathcal C_t\) imposes premium, Greek,
 beta/VIX, stress-loss, margin/collateral, concentration, and liquidity constraints. The
-formulation is robust in the conservative-inputs sense of conic robust portfolio
-selection \citep{bental_nemirovski1998,goldfarb_iyengar2003}: shrunk means, regularized
-covariance, and hard budgets replace point estimates rather than an explicit uncertainty
-ellipsoid. In implementation the maximum-Sharpe solver is the ratio-form proxy for this
-robust conic allocation, with regularized inputs and hard pre-trade caps.
+R1 implementation solves (P) directly. Gross premium is an upper bound, not an equality,
+so unattractive opportunities produce cash. Capacity enters through hard point-in-time
+caps rather than a reward for consuming volume.
 
-The unconstrained option-only geometry is a useful warning. If
+The policy fixes annualized predicted volatility at no more than 15 percent by choosing
+\(\gamma>0\) through deterministic training-only bisection. Monthly 95 percent CVaR is at
+most 10 percent NAV, named stress loss is at most 20 percent, short margin is at most
+75 percent, and long premium plus short margin is at most 100 percent NAV. Equity-option
+shorts flagged for assignment risk are prohibited rather than assigned an ex-post penalty.
+Because \(\gamma>0\) and the numerical covariance floor makes
+\(\widehat\Sigma_{O,t}\succ0\), the utility objective is strictly concave and selects a
+unique scale.
+
+The legacy unconstrained maximum-Sharpe geometry remains a useful warning. If
 \(\widehat\Sigma_{O,t}\succ0\) and \(\widehat\mu_t\neq0\), the maximum-Sharpe direction is
 proportional to \(\widehat\Sigma_{O,t}^{-1}\widehat\mu_t\). Unlike a stock-only problem,
 there is no required \(\one^\top w=1\) budget that bends the efficient frontier into the
@@ -475,7 +472,8 @@ minimum-variance premium-weight vector in the unconstrained problem is
   \sigma(m)=\frac{m}{\sqrt{\mu^\top\Sigma^{-1}\mu}}.
 \]
 Thus the unconstrained efficient frontier in \((\sigma,m)\) space is a ray through the
-origin, and the operational constraints choose the implementable segment.
+origin. This describes why maximum Sharpe cannot choose book size; it is not the R1
+allocation rule.
 \end{proposition}
 
 \begin{proof}
@@ -511,23 +509,22 @@ offsetting long/short pairs without taking the intended exposure.
 
 \begin{proposition}[Costs and tighter feasible sets]\label{prop:short_costs}
 If costs rise componentwise or \(\mathcal C_t\) is tightened, the optimal value of
-\((P)\) weakly decreases. Moreover, in the scale-invariant maximum-Sharpe (ratio) form
-used in implementation, premium, collateral, liquidity, and stress constraints are what
-pin down the book's size: without them the ratio objective determines only a direction,
-so the problem is not an implementable allocation rule.
+\((P)\) weakly decreases. With \(\gamma>0\) and
+\(\widehat\Sigma_{O,t}\succ0\), (P) has at most one optimizer. Zero is feasible, so the
+program may select an all-cash risky book.
 \end{proposition}
 
 \begin{proof}
-For any fixed feasible \(w\), increasing \(c_t\) weakly lowers the objective. Maximizing
-over a subset cannot improve the supremum. The Sharpe ratio is invariant to positive
-scaling of \(w\), so without the listed budgets a positive-Sharpe direction remains
-optimal at every scale and the book's size is undetermined until an omitted real-world
-budget binds.
+For any fixed feasible \(w\), increasing either cost vector weakly lowers the objective,
+and maximizing over a subset cannot improve the supremum. The negative quadratic is
+strictly concave under positive definiteness and \(\gamma>0\), while the remaining terms
+are concave, giving uniqueness. Feasibility of zero follows from the upper-bound form of
+every budget.
 \end{proof}
 
 These propositions delimit what the empirical sections can and cannot show. The paper is
 not trying to show that any option signal can be made to work with enough leverage. It
-asks whether a locked, regularized, cap-constrained option allocation survives when the
+asks whether a regularized, cap-constrained option allocation survives when the
 market frictions that matter for small-account trading are imposed before performance is
 reported.
 
@@ -543,74 +540,75 @@ A useful way to read the feasible set is
 &\sum_{i:u(i)=u}|w_i|\le g_u\ \forall u,\qquad
 |a_{k,t}^\top w|\le b_k\ \forall k,\\
 &\ell_{j,t}^\top w\ge -m_j\ \forall j,\qquad
-\mathrm{Margin}_t(w)\le M_t\}.
+\operatorname{CVaR}_{0.95}(-R^{train}_tw+c_t(w))\le0.10,\\
+&\mathrm{ShortMargin}_t(w^-)\le0.75,\qquad
+\one^\top w^++\mathrm{ShortMargin}_t(w^-)\le1,\\
+&w_i\ge0\quad\text{for assignment-flagged equity options}\}.
 \end{aligned}
 \]
 The first line controls gross premium, short premium, and contract-level liquidity. The
 second controls underlying concentration and Greek/beta/VIX budgets. The third controls
-scenario stress loss and collateral/margin. The vectors \(a_{k,t}\) include
+scenario stress loss, CVaR, collateral, margin, and assignment eligibility. The vectors \(a_{k,t}\) include
 NAV-normalized delta, beta, gamma, equity vega, VIX vega, and other exposure rows. The
 stress rows \(\ell_{j,t}\) reprice the book under adverse spot, volatility, and VIX
 shocks.
 
-The quadratic risk term can be handled as a second-order cone when the problem is written
-in risk-budget or utility form. The absolute-cost term \(c_t^\top|w|\) is linearized by
-standard positive and negative parts. The liquidity cap must bind the net variable, as
-Proposition~\ref{prop:short_net_caps} states. This is why the implementation detail that
-fixed the split-leg pseudo-cash artifact belongs in the paper's theory section rather
-than only in a code note: the algebraic representation of a conic solver must preserve
-the economic position. Appendix~\ref{app:technical} records the corresponding
-maximum-Sharpe, second-order-cone, and estimator-repair details without interrupting the
-empirical narrative.
+The quadratic risk term is convex in minimization form, and positive/negative parts price
+asymmetric costs and margin without imposing a gross equality. Liquidity binds the net
+economic variable. R1 therefore has no split-leg pseudo-cash mechanism: it represents one
+position vector \(w\), constrains \(\|w\|_1\) from above, and leaves unused capital in cash.
+Appendix~\ref{app:technical} records the legacy maximum-Sharpe geometry only to explain why
+it was replaced.
 
 \subsection{Algorithmic summary}
 
-The locked E1 procedure can be written as a short algorithm.
+The repaired R1 procedure can be written as a short algorithm.
 \begin{enumerate}
-  \item Build the eligible option universe at the decision date and compute premium-
-  normalized Greeks, marks, volumes, and settlement labels.
-  \item Estimate state-factor covariance from the training window; estimate residual risk
-  from option residuals; project to PSD where needed and use diagonal residual covariance.
+  \item At each monthly decision date, build the eligible option universe and compute
+  premium-normalized Greeks, current costs, marks, volume caps, margin coefficients,
+  assignment flags, and settlement labels.
+  \item Estimate the regularized joint covariance of delta/gamma/vega factors and Greek
+  residual returns, including both factor/residual cross terms.
   \item Form the structural expected-return vector from carry, delta, volatility,
   skew/tail, and VIX channels; set historical option mean weight to zero; shrink the mean
   \(75\%\) toward zero.
-  \item Apply \(N\)-scaled covariance shrinkage and train-window net liquidity caps with
-  \(X=0.05\).
-  \item Solve the constrained option allocation and evaluate gross, full-cost net,
-  capacity, and deployability metrics.
+  \item Solve net utility with the fixed 15 percent volatility policy and hard CVaR,
+  stress, margin, collateral, assignment, and liquidity limits.
+  \item Truncate contract counts toward zero, recheck every constraint, fail closed to
+  cash when necessary, and evaluate only the next holding period.
 \end{enumerate}
 
-The important methodological point is that all fold-specific and rolling refits rebuild
+All rolling refits rebuild
 the representative contracts, mean/covariance estimates, and liquidity caps from the
-fold's training window. Liquidity caps use training-window volume only. The strategy is
-locked before validation, so robustness checks do not get to choose a different estimator
-after seeing test performance.
+training window. Liquidity caps use training-window volume only. All observations currently
+available were seen during research development; these checks are internal validation, not
+an untouched holdout.
 
 \section{Empirical application}\label{sec:short_application}
 
 The empirical application turns the clean conic allocation of
 Section~\ref{sec:short_theory} into an exchange-realistic book by layering three
 data-driven frictions onto the idealized problem. First, every position is priced through
-a full transaction-cost stack---spread crossing, fees, slippage, borrow, margin drag, and
-assignment penalty---built from historical market-hours CBBO quotes rather than a flat
+a full transaction-cost stack---spread crossing, fees, slippage, borrow, and margin funding---
+built from historical market-hours CBBO quotes rather than a flat
 default spread. Second, each contract carries a volume-aware pre-trade liquidity cap that
 sizes it to a fixed fraction \(X=0.05\) of its displayed training-window volume, so the
 optimizer can only take exposure the market actually showed (the cap \(\bar w_{i,t}\) of
-Section~\ref{sec:short_theory}). Third, the continuous premium weights are rounded to whole
+Section~\ref{sec:short_theory}). Third, the continuous premium weights are truncated to whole
 option contracts at the standard \(m_i\) multiplier before any performance number is
-computed (Remark~\ref{rem:short_rounding}). The theory says which exposures to hold; these
+computed and all constraints are checked again (Remark~\ref{rem:short_rounding}). The theory says which exposures to hold; these
 three layers constrain the book to the spreads, depth, and contract granularity that the
-historical data actually recorded, and every headline result is reported only after all
+historical data actually recorded, and every R1 development result is reported only after all
 three are imposed. The subsections below give the four universes, the cost stack and its
 spread sourcing, and the validation protocol in turn.
 
-\subsection{Four universes and locked model}
+\subsection{Four universes, repaired R1, and legacy E1}
 
 The empirical design uses four implementation universes. \texttt{orig} is the
 original eight equity-option names: AAPL, AMZN, GOOGL, JPM, META, MSFT, NVDA, and TSLA.
 \texttt{orig+VIX} adds VIX options. \texttt{larger} expands the equity-option universe to
 56 names. \texttt{larger+VIX} adds VIX to that broader set. The four variants are not
-four different optimizers. They are four applications of the same locked E1 model.
+four different optimizers. R1 applies the same fixed risk policy to each universe.
 
 \begin{table}[!htbp]
 \centering
@@ -622,17 +620,16 @@ option books under the same cost and cap stack.}
 \label{tab:short_scenarios}
 \end{table}
 
-The locked E1 specification uses structural-only means, diagonal residual covariance,
-\(N\)-scaled covariance shrinkage, shrinkage-to-zero \(0.75\), net liquidity caps with
-\(X=0.05\), and \(\$1\) million NAV. It was chosen because the earlier breadth diagnostic
-found two failure modes: the broad-universe historical mean overfit the contract ranking,
-and the old post-hoc capacity penalty let the optimizer choose positions that could not
-be pre-trade deployed. Neither fix alone was sufficient. The combined specification is
-therefore the locked research design, not an in-test knob search.
+Legacy E1 used structural-only means, diagonal residual covariance, \(N\)-scaled covariance
+shrinkage, shrinkage-to-zero \(0.75\), and net liquidity caps. That specification was chosen
+after the post-2020 performance window had been inspected. Locking it for later CV and
+Monte Carlo runs prevented fold-by-fold retuning but did not make the earlier window an
+untouched holdout. R1 keeps the structural mean rule as a development choice, repairs the
+covariance and objective, and labels every existing observation retrospective.
 
 The contract construction is representative rather than high-frequency. Each rebalance
-date maps the eligible option panel into month-end representative contracts and then
-holds the resulting static book over the next period in the headline split. This choice
+date maps the eligible option panel into month-end representative contracts and R1 refits
+using only information available by that decision date before holding the book for one period. This choice
 makes the backtest auditable: the research question is whether a monthly,
 capacity-aware option allocation works after costs, not whether intraday execution timing
 can rescue a fragile signal. It also makes the capacity result sharper. If month-end
@@ -650,14 +647,15 @@ budget.
 The two baselines serve different failure modes. Stock Markowitz is a simplicity
 benchmark: if the option book cannot beat a portfolio of underlying shares, the option
 engineering may be unnecessary. The capped naive option book is a structure benchmark:
-if equal-premium or equal-risk option diversification performs as well as E1, then the
+if equal-premium or equal-risk option diversification performs as well as R1, then the
 Greek covariance and structural mean are not adding much. The broad no-VIX result fails
-this second test because its E1 Sharpe is essentially tied with capped naive options.
+this second test in the legacy evidence because its E1 Sharpe is essentially tied with capped naive options.
 
 \subsection{Cost stack and spread sourcing}
 
-Every headline E1 result uses the corrected cost stack: spread crossing, fees, slippage,
-borrow proxy, margin drag, assignment penalty, and capacity/impact costs. The most
+R1 prices the predictable portion of spread crossing, fees, slippage, borrow, and margin
+funding inside optimization and uses capacity as a hard cap. Legacy E1 deducted the full
+cost stack only after allocation. The most
 consequential design decision in that stack is spread sourcing. A flat \(10\%\) default
 spread is not a realistic representation of liquid large-cap options and materially
 deflates large parts of the option universe. The corrected stack uses exact historical
@@ -713,14 +711,14 @@ historical broad NBBO/CBBO, this still needs to be confirmed.
 
 \subsection{Validation protocol}
 
-The application is static-weight at the headline split and refit-based in the robustness
-layer. The four variants are evaluated at \(\$1\) million NAV and \(X=0.05\) participation
-because larger NAVs hit the option market's depth constraint rather than an optimizer
-constraint. Primary deployable status requires the hard cap budget to support the static
-book. Capacity-infeasible rows are reported only as diagnostics even when their point
-estimate is positive.
+R1 is a monthly walk-forward development exercise. For each return month, the information
+set, representative contracts, costs, conditional means, joint covariance, margin inputs,
+and volume caps are reconstructed from observations available no later than the decision
+date. The resulting integer book is evaluated only in the next period. The four variants
+use \(\$1\) million NAV and \(X=0.05\) participation. Cash is permitted, so capacity
+limits reduce deployment instead of inducing pseudo-cash or algebraic infeasibility.
 
-The robustness layer uses 12 chronological groups, 66 CPCV splits run in both a
+The legacy robustness layer uses 12 chronological groups, 66 CPCV splits run in both a
 liquid-era (post-2018) design and a claim-window design restricted to the post-2020
 evaluation months (Section~\ref{sec:short_robustness}), 78 total CV splits in
 the PBO summary \citep{bailey2017pbo,lopezdeprado2018}, one-month purge/embargo, Monte
@@ -730,7 +728,8 @@ universes with a historical-cost overlay, circular-block bootstrap path simulati
 GARCH/EGARCH-style volatility-path diagnostics \citep{nelson1991} with fallback when the
 EGARCH sample is too short, drawdown breach simulations, multiple-testing/reality-check
 inference, and rolling 36-month OOS refits. These checks are designed to attack the
-result from multiple angles rather than to create new degrees of freedom.
+result from multiple angles. Because E1 had already been selected using the post-2020
+window, these diagnostics do not create a confirmatory holdout.
 
 The purge and embargo rule is simple: one month is dropped around fold
 boundaries so option labels whose payoff windows overlap the test block do not leak into
@@ -748,8 +747,10 @@ different source of false confidence.
 
 \subsection{Performance metrics and deployability}
 
-Performance is reported in full-cost net Sharpe and Sortino units unless the text
-explicitly says gross. With monthly returns \(R_1,\dots,R_T\), the annualized Sharpe ratio
+The primary R1 outcomes are terminal wealth, annualized geometric growth, maximum drawdown,
+worst month, 95 percent expected shortfall, ruin, margin and collateral breaches, integer
+feasibility, and capacity. Sharpe and Sortino are secondary descriptors. With monthly
+returns \(R_1,\dots,R_T\), the annualized Sharpe ratio
 uses
 \[
   \widehat{\SR}
@@ -762,18 +763,21 @@ complements \citep{magdon_ismail_atiya2004,keating_shadwick2002} appear in the a
 ledgers. Sharpe point estimates on 60 monthly observations carry wide sampling bands
 \citep{lo2002sharpe}, which is why Section~\ref{sec:short_robustness} reports interval
 and difference-test evidence rather than point estimates alone. These ratios are
-convenient summaries, but they are not sufficient for a positive verdict. A strategy can have a
-positive Sharpe and still be rejected if the cap budget cannot deploy the book, if the
-result is tied with a simpler baseline, or if the spread source is too weak for the claim
-being made.
+convenient summaries, but they are not sufficient for a positive verdict. Any realized or
+reported validation path that reaches zero wealth, breaches margin or collateral, or
+requires an infeasible integer execution fails the survival gate regardless of Sharpe.
+This rule directly addresses option-like return smoothing and rare crash losses
+\citep{goetzmann_ingersoll_spiegel_welch2007}.
 
-Deployability is a separate requirement. A row is deployable only when the hard net-cap problem
-can allocate the intended NAV without relying on relaxed capacity. If the sum of
-contract-level caps is below one NAV, the optimizer cannot build a full book at the
-specified account size. Such rows stay in the paper because they diagnose the
-mathematics, but they do not become headline trading candidates. This is why the
-\texttt{orig} no-VIX row is marked capacity diagnostic even though its full-cost net
-Sharpe is positive.
+R1 baseline comparisons use paired circular-block bootstrap draws of the same calendar
+months. The reported differences are monthly log growth and 95 percent expected shortfall
+against the matched capped-naive option book and stock Markowitz. This keeps compounding
+and tail loss central rather than testing only differences in arithmetic Sharpe.
+
+Deployability is a separate requirement. R1 does not require one NAV of gross premium;
+it reports the exposure that survives the cap, cost, and risk policy and holds the balance
+in cash. A small deployed book can be a valid defensive decision but cannot be described
+as evidence for a scalable high-return strategy.
 
 The same logic applies to baseline dominance. A row that is positive but tied with capped
 naive options does not validate the full theory. It may show that option exposure has a
@@ -794,8 +798,9 @@ This discipline matters because three design errors identified during the resear
 process would otherwise be invisible in a summary table: charging default spreads to
 names with observable quotes, penalizing capacity after optimization instead of
 constraining it before, and a split-leg liquidity formulation that wastes displayed
-capacity as pseudo-cash. The final empirical object corrects all three; it is the locked
-E1 candidate with corrected spreads, full costs, and net caps.
+capacity as pseudo-cash. Legacy E1 corrected the first two but retained a gross-equality
+split representation and omitted costs from its headline objective. R1 corrects all three
+and versions its artifacts separately so the development history is not erased.
 
 The artifact ledger also protects against a common failure in option research:
 inadvertently mixing data vintages. Liquidity caps use training-window volume only.
@@ -804,12 +809,47 @@ window. Broad spread proxy rows are point-in-time calibrated rather than filled 
 future quote observations. These controls do not make the backtest live trading evidence,
 but they keep the simulation internally auditable.
 
-\section{Results: four variants and two baselines}\label{sec:short_results}
+\section{Results: repaired protocol and legacy development evidence}\label{sec:short_results}
 
-\subsection{Headline comparison}
+\subsection{R1 retrospective development summary}
 
-The results concentrate in the VIX-enabled universes: those books clear every practical
-screen, while the no-VIX books do not.
+Table~\ref{tab:r1_survival} is generated by the repaired monthly walk-forward pipeline.
+The table leads with deployment and survival quantities rather than Sharpe. Its verdicts
+are development-sample outcomes only; they cannot be promoted to confirmatory evidence
+before the prospective 36-month protocol is complete.
+
+\begin{table}[tbp]
+\centering
+\scriptsize
+\resizebox{\textwidth}{!}{\input{tables/short_r1_survival_summary}}
+\caption{R1 monthly walk-forward development summary. Gross is realized premium gross;
+ES$_{95}$ is monthly expected shortfall. Any ruin, margin/collateral breach, failed integer
+repair, or absorbed validation path forces a failed survival verdict.}
+\label{tab:r1_survival}
+\end{table}
+
+All four realized R1 development paths avoid ruin, margin/collateral breach, and failed
+integer repair. The result comes with materially smaller scale than E1: mean deployed gross
+is only 3.2--5.0 percent NAV. The two VIX variants have terminal wealth 2.81 and 2.40 and
+annualized geometric growth 23.0 and 19.1 percent; the no-VIX variants reach 4.1 and
+3.4 percent. These are net development returns under the fixed cost model, not proof that
+the population strategy survives unobserved crashes.
+
+Paired circular-block comparisons sharpen the claim. Against matched capped-naive options,
+\texttt{orig+VIX} has a positive monthly log-growth difference with a 90 percent interval
+of 0.063 to 0.256, while \texttt{larger+VIX}'s interval is $-0.001$ to 0.115 and therefore
+does not exclude zero. Against stock Markowitz, \texttt{larger+VIX} has a positive interval
+of 0.005 to 0.023; \texttt{orig+VIX}'s interval includes zero. The no-VIX comparisons are
+mixed. Thus R1 supplies a safer, smaller development book, not a universal dominance result.
+
+\subsection{Legacy E1 comparison}
+
+The following E1 numbers are retained to document why the repair was undertaken. They were
+computed after the post-2020 window had informed specification choice, costs were deducted
+after allocation, and the maximum-Sharpe split formulation could leave gross undeployed
+through offsetting algebraic legs. They are retrospective development statistics, not R1
+headline results and not confirmatory evidence.
+Within that legacy exercise the point estimates concentrate in the VIX-enabled universes.
 \texttt{larger+VIX} is the strongest candidate, with net Sharpe \(1.628\) and net Sortino
 \(4.377\). \texttt{orig+VIX} also beats both baselines, with net Sharpe \(1.383\) and net
 Sortino \(3.551\). \texttt{larger} without VIX is positive but essentially tied with the
@@ -820,9 +860,8 @@ below one NAV.
 \begin{figure}[tbp]
 \centering
 \includegraphics[width=0.85\textwidth]{figures/short_four_variant_scoreboard.pdf}
-\caption{Final four-variant comparison at \(\$1\) million NAV. The VIX-enabled locked E1
-books beat both baselines. The no-VIX books are weaker: broad no-VIX is mixed, and
-original no-VIX is a capacity diagnostic.}
+\caption{Legacy E1 development comparison at \(\$1\) million NAV. These statistics
+motivated R1 but do not pass the repaired research-design standard.}
 \label{fig:short_scoreboard}
 \end{figure}
 
@@ -830,8 +869,8 @@ original no-VIX is a capacity diagnostic.}
 \centering
 \scriptsize
 \resizebox{0.98\textwidth}{!}{\input{tables/short_final_scoreboard}}
-\caption{Compact numeric scoreboard behind Figure~\ref{fig:short_scoreboard}. Metrics are
-full-cost net unless a column is explicitly labeled gross.}
+\caption{Legacy E1 numeric scoreboard behind Figure~\ref{fig:short_scoreboard}. Returns
+are net of ex-post costs unless a column is explicitly labeled gross.}
 \label{tab:short_scoreboard}
 \end{table}
 
@@ -839,8 +878,8 @@ Gross and net results are reported side by side so the reader can see exactly wh
 cost stack removes. The gross-to-net Sharpe pairs are \(0.975\to0.778\) for \texttt{orig},
 \(1.675\to1.383\) for \texttt{orig+VIX}, \(0.847\to0.587\) for \texttt{larger}, and
 \(2.010\to1.628\) for \texttt{larger+VIX}. The corrected cost stack therefore removes
-between \(0.20\) and \(0.38\) Sharpe points across the four books, and every headline
-claim in the paper is stated on the net side of that gap.
+between \(0.20\) and \(0.38\) Sharpe points across the four books. This verifies net
+return accounting, not cost-aware selection.
 
 Two comparisons matter. Against underlying stock Markowitz, the VIX-enabled option books
 earn a higher net Sharpe in this simulation while still being subject to explicit option
@@ -870,7 +909,7 @@ after the estimator and liquidity formulation are fixed together. The dominant e
 mistake was the historical mean. In the larger+VIX universe, dropping it and using
 structural-only forecasts recovers much of the gross Sharpe that the broad paper
 configuration lost. Diagonal residual covariance and \(N\)-scaled shrinkage then remove a
-second overfitting channel. The pre-registered combination reaches a gross Sharpe of
+second overfitting channel. The development-selected combination reaches a gross Sharpe of
 \(2.010\) for the broad VIX-enabled book and produces the net Sharpe \(1.628\) after the
 corrected cost stack.
 
@@ -878,7 +917,7 @@ corrected cost stack.
 \centering
 \small
 \input{tables/short_e1_channel_ablation}
-\caption{Structural-mean channel ablation. Each row re-solves and re-scores the locked E1
+\caption{Legacy structural-mean channel ablation. Each row re-solves and re-scores E1
 book with one expected-return channel set to zero, holding the covariance, caps, and cost
 stack fixed; cells are full-cost net Sharpe. The Full E1 row reproduces the headline
 scoreboard by construction and is enforced by the verifier.}
@@ -1007,7 +1046,7 @@ are present.
 The point estimates are economically meaningful because they are full-cost net numbers,
 but they remain sample estimates. A net Sharpe of \(1.628\) for \texttt{larger+VIX} does
 not mean the population Sharpe is known to three decimals. It means that, in the realized
-test path and under the corrected cost stack, the locked E1 book earned a substantially
+development path and under the corrected ex-post cost stack, the legacy E1 book earned a substantially
 better risk-adjusted return than both baselines. The validation section then asks whether
 that ordering survives alternate histories and refits, and
 Table~\ref{tab:short_inference_panel} attaches confidence intervals, deflated Sharpe
@@ -1040,7 +1079,7 @@ in the current sample.
 The validation layer first asks whether the result depends too much on one chronological
 split. Combinatorially purged cross-validation is run in two designs. The
 \emph{liquid-era} design divides the post-2018 monthly panel into 12 contiguous groups;
-each fold refits the locked E1 procedure on the remaining groups after a one-month purge
+each fold refits the legacy E1 procedure on the remaining groups after a one-month purge
 and embargo, scores the held-out pair, and the \(\binom{12}{2}=66\) splits recombine into
 11 complete backtest paths. The \emph{claim-window} design applies the identical machinery
 but partitions only the post-2020 evaluation months on which every claim in this paper is
@@ -1056,7 +1095,7 @@ Some CPCV training sets include months after the test months, by construction. I
 is to stress the selection and path distribution, estimate probability of backtest
 overfitting, and reveal whether a result comes from one lucky chronological window. The
 paper therefore reports CPCV and PBO as validation evidence, while the trading claim
-remains tied to the locked E1 model and the static/rolling out-of-sample protocols.
+remains tied to legacy E1 and the static/rolling internal-validation protocols.
 
 \begin{figure}[tbp]
 \centering
@@ -1066,7 +1105,8 @@ full-cost net Sharpe ratios across validation paths (CPCV panels overlay the 11
 individual path values as points); black bars mark medians and diamonds mark the realized
 static-book Sharpe. MC refit and resampled evidence supports the VIX-enabled candidates;
 liquid-era and claim-window CPCV net paths are positive for all four variants, and the
-broad universes add a zero-cost 56-equity stock Markowitz overlay that is weak throughout.}
+broad universes add a zero-cost 56-equity stock Markowitz overlay. Under the repaired
+survival rule, any absorbed-zero path fails regardless of these Sharpe distributions.}
 \label{fig:short_distributions}
 \end{figure}
 
@@ -1104,7 +1144,9 @@ restriction. The VIX-enabled books still carry a single March-2020 volatility-sp
 whose modeled loss exceeds a month of premium, and because CPCV recombination places that
 month in every path, the compounded VIX wealth paths are absorbed at zero (Default share
 \(1.0\)) even though the return-based path Sharpe stays positive; that is a disclosed
-short-volatility tail, not a data artifact. The claim-window design, on the pure post-2020
+short-volatility tail, not a data artifact. Under R1's hard survival gate, this evidence
+forces a failed verdict for the legacy VIX candidates; positive Sharpe cannot override
+economic insolvency. The claim-window design, on the pure post-2020
 period, confirms the reading, with fifth-percentile and median path Sharpes of
 \(0.44/0.49\) for \texttt{orig}, \(1.00/1.06\) for \texttt{orig+VIX}, \(0.66/0.71\) for
 \texttt{larger}, and \(1.45/1.47\) for \texttt{larger+VIX}.
@@ -1229,7 +1271,7 @@ The multiple-testing layer prevents the paper from treating the best observed ro
 free discovery. The reality-check and deflated-Sharpe style diagnostics
 \citep{white2000reality,hansen2005spa,bailey_lopezdeprado2014} account for strategy
 search and finite-sample selection; HAC-based family inference \citep{neweywest1987}
-stays in the artifact ledgers. The locked E1 robustness run is designed to reduce this
+stays in the artifact ledgers. The legacy E1 robustness run reduces fold-level retuning but not this
 caveat: the final validation does not re-tune the specification inside test folds. Nevertheless, the
 model was developed through earlier diagnostics, so the paper reports the remaining
 selection risk rather than claiming a pristine randomized experiment.
@@ -1239,8 +1281,9 @@ selection risk rather than claiming a pristine randomized experiment.
 {\resizebox{\textwidth}{!}{\input{tables/short_inference_panel}}}
 \caption{Formal inference on the static full-cost net books over the 60 test months.
 CI lo/hi are 90 percent circular-block bootstrap bands for the net Sharpe. PSR is the
-probabilistic Sharpe ratio against a zero benchmark and DSR is the deflated Sharpe ratio
-charged for the 22 optimizer candidates in the locked estimation grid. dSR columns are
+probabilistic Sharpe ratio against a zero benchmark and DSR is the legacy deflated Sharpe
+ratio charged for 22 recorded grid candidates. The repaired research-trial registry shows
+that this is only a lower subset of the broader development path. dSR columns are
 annualized Sharpe differences of E1 minus the stock Markowitz baseline and minus the
 matched capped-naive baseline, with two-sided Jobson--Korkie--Memmel p-values.}
 \label{tab:short_inference_panel}
@@ -1250,9 +1293,9 @@ Table~\ref{tab:short_inference_panel} states what the sample can and cannot supp
 two VIX-enabled books are individually solid: their 90 percent Sharpe bands exclude zero
 (\(0.895\)--\(1.971\) for \texttt{orig+VIX}, \(1.111\)--\(2.245\) for
 \texttt{larger+VIX}), their probabilistic Sharpe ratios both round to \(1.000\),
-and their deflated Sharpe ratios remain \(0.997\) and \(0.996\) after charging for the 22
-candidate specifications examined in the estimation phase
-\citep{bailey_lopezdeprado2014}. The no-VIX rows are weaker on the same evidence: the
+and their legacy deflated Sharpe ratios are \(0.997\) and \(0.996\) after charging for 22
+recorded candidates \citep{bailey_lopezdeprado2014}. Earlier iterations cannot all be
+reconstructed, so these values are not presented as a complete selection correction. The no-VIX rows are weaker on the same evidence: the
 \texttt{larger} band touches zero at its lower edge and its DSR falls to \(0.745\).
 
 The Sharpe-difference tests \citep{jobson_korkie1981,memmel2003}, computed on paired
@@ -1326,7 +1369,7 @@ have been fixed.
 \centering
 \includegraphics[width=0.94\textwidth]{figures/short_walk_forward_return_paths.pdf}
 \caption{Rolling OOS full-cost cumulative wealth paths. The top panel compares the four
-locked E1 variants with underlying stock Markowitz. The bottom panel compares the matched
+legacy E1 variants with underlying stock Markowitz. The bottom panel compares the matched
 capped-naive option baselines with the same stock baseline. The VIX-enabled E1 variants
 are the only option books that both compound strongly and beat the stock baseline in this
 walk-forward ledger.}
@@ -1337,8 +1380,9 @@ walk-forward ledger.}
 
 \subsection{Capacity and scale}
 
-The main practical brake is market depth. At \(\$1\) million NAV, the two VIX-enabled
-books pass the small-account research test. Above roughly \(\$2\) million, the
+The main practical brake is market depth. At \(\$1\) million NAV, the legacy VIX-enabled
+books passed E1's capacity screen but fail R1's survival interpretation because of the
+absorbed-zero paths. Above roughly \(\$2\) million, the
 representative month-end option contracts no longer support full deployment under the
 tested participation caps. At \(\$5\) million and above, the sum of train-window liquidity
 caps falls below one NAV for every tested configuration and participation level. Positive
@@ -1357,8 +1401,8 @@ inferred CBBO proxy rows.}
 Breadth increases the cap budget, but not in proportion to the number of underlyings.
 Moving from eight equity names to 56 names increases the number of candidate contracts by
 far more than it increases executable month-end premium capacity. Many added-name options
-are thin. That is why the paper's positive claim is a small-account claim. The option
-market, not the conic optimizer, becomes the wall.
+are thin. The option market, not the optimizer, becomes the wall; this is a capacity
+diagnostic rather than a positive trading claim.
 
 This finding also determines how the capacity result should be read for implementation.
 Sizing should not begin by asking how much capital can be allocated to the best Sharpe
@@ -1374,7 +1418,7 @@ The spread proxy is the largest remaining empirical caveat. It is a major improv
 the old default spread assumptions and stale quote snapshots, but it still cannot replace
 matched market-hours historical NBBO/CBBO for every broad and VIX row. The correct use of
 the broad results is therefore calibrated execution sensitivity: if broad large-cap and
-VIX spreads behave like the liquid CBBO surface used for imputation, locked E1 survives
+VIX spreads behave like the liquid CBBO surface used for imputation, legacy E1 has positive arithmetic results
 with VIX at \(\$1\) million NAV. The result should not be read as a proof that every
 historical target contract could have been filled at the imputed quote.
 
@@ -1394,40 +1438,23 @@ requires exact settlement data before VIX rows enter the results.
 
 \section{Conclusion}\label{sec:short_conclusion}
 
-This paper develops a portfolio theory for books composed entirely of listed options and
-subjects it to an unusually strict empirical protocol. The theoretical contribution
-treats option positions as premium-funded, expiring cashflows rather than transformed
-asset returns: premium weights replace the unit budget, covariance is induced by a
-Greek/state map plus regularized residual risk, expected returns are built from
-structural risk-premium channels rather than historical contract means, and the
-allocation is a conic program whose feasible set carries the market frictions---gross and
-short premium, Greek and stress budgets, margin, and pre-trade net liquidity
-caps---inside the optimization rather than as after-the-fact accounting. The supporting
-results formalize why this discipline is necessary: the unconstrained option frontier is
-a ray with no natural scale, estimation error in contract-level means grows like
-\(\sqrt{\log n/T}\) and reverses the value of historical means at breadth, and
-representation-dependent constraints can silently destroy capacity.
+The paper does not establish a new mathematical theory of option portfolios. Premium
+accounting, Greek Taylor maps, covariance transformation, mean--variance utility, CVaR,
+and convex constraints are established tools. The repair makes their relationship
+internally correct: a Greek loading matrix requires factor/residual cross covariance;
+predictable costs belong in the allocation objective; a utility objective chooses scale;
+and gross premium is an upper bound that permits cash.
 
-The empirical findings are stated with their statistical limits. Net of a corrected,
-contract-level transaction-cost stack, the two VIX-enabled books earn full-cost net
-Sharpe ratios of \(1.628\) and \(1.383\) (gross \(2.010\) and \(1.675\)) and beat capped
-naive option diversification by \(1.3\) to \(2.3\) Sharpe points with \(p<0.001\); the
-same books exceed the stock Markowitz baseline in point estimate, but sixty monthly
-observations cannot resolve that gap at conventional significance levels, and the paper
-says so rather than claiming otherwise. Channel ablations locate the priced source in
-option carry disciplined by stress and vega budgets, not in directional volatility
-forecasts. Liquid-era and claim-window cross-validation, Monte Carlo resampling, refit
-stability, and rolling out-of-sample refits support the ordering, while the repriced
-no-premium worlds mark its limits. Capacity
-is a first-class result rather than a footnote: displayed option depth supports the
-strategy at roughly one million dollars of NAV and refuses it at five, so the finding is
-a statement about small-account option allocation, not about a scalable fund.
+The empirical contribution is correspondingly narrower. R1 is an auditable monthly
+procedure with point-in-time costs, capacity, margin, collateral, assignment screening,
+integer execution, and a hard survival gate. The previously reported E1 Sharpes remain
+useful development history, but E1 was selected after inspection of the post-2020 window
+and its VIX books have absorbed-zero CPCV wealth paths. Those facts prevent a confirmatory
+or survival claim regardless of the positive arithmetic Sharpe estimates.
 
-Three limitations define the research frontier. Exact market-hours quote history for the
-broad and VIX contracts would replace the calibrated spread proxy with execution
-evidence. Longer samples would sharpen the baseline comparisons that sixty months leave
-open. And richer volatility instruments---VIX futures spreads, variance swaps, or
-options on other volatility indices---would test whether the carry-channel result
-generalizes beyond the single traded volatility surface used here. Within its stated
-scope, the paper's answer to its opening question is affirmative: option structure,
-priced and constrained correctly, earns its complexity.
+All currently available observations are therefore labeled retrospective development
+data. A machine-readable freeze manifest records the R1 source hashes, risk policy, data
+cutoff, and first eligible future decision date. No confirmatory claim is permitted until
+36 untouched monthly observations have accumulated. Exact broad and VIX executable quote
+history, broker margin and assignment records, routed fills, and longer prospective data
+remain necessary before the procedure can be described as a tradable strategy.

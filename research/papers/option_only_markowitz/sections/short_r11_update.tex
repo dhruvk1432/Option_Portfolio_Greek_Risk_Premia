@@ -1,0 +1,117 @@
+\clearpage
+\section{R1.1 higher-risk development extension}
+\label{sec:r11_update}
+
+R1.1 is a separately versioned development arm. It does not replace the frozen R1
+artifacts or convert any observation into confirmatory evidence. The policy raises the
+annualized predicted-volatility ceiling from 15 to 25 percent and uses the smallest
+positive risk-aversion coefficient consistent with that ceiling. It also records a 50
+percent premium-gross target, but does not impose an unconditional gross floor.
+
+The deployment step first solves the ordinary R1 net-utility problem. Only directions
+selected by that solution and having positive forecast return after their direction-specific
+cost are eligible for expansion. Holding those signs fixed makes gross linear and prevents
+offsetting long/short legs in the same contract. The implementation tests whether a
+50 percent book satisfies volatility, CVaR, stress, margin, collateral, liquidity,
+assignment, and concentration limits. If not, it keeps the first-stage book. Thus
+``target'' is not a euphemism for compulsory investment.
+
+Whole-contract execution follows a direct-or-abstain policy. Contract counts in the
+continuous target are truncated toward zero and the resulting book is rechecked against
+every hard constraint. If it is feasible, that is the only risky portfolio eligible for
+execution. If it is infeasible, the strategy holds cash for that period. It does not
+remove a risk-producing leg, add a VIX hedge, iteratively shrink the book, or substitute a
+mixed-integer optimum, because those would be different portfolios from the target the
+continuous model selected. A cash abstention is therefore a valid trading decision rather
+than an integer-execution failure.
+
+The artifact ledger records both the attempted direct conversion and the selected cash
+book. Headline exposure and risk diagnostics correctly equal zero during an abstention,
+while separate fields retain the rejected conversion's CVaR, stress, volatility, margin,
+collateral, assignment, liquidity-cap, and base-constraint values. Thus cash reporting no
+longer erases the reason the target was not traded.
+
+\subsection{VIX-40 close-to-next-open rule}
+
+The risk-off state changes only after an official VIX close. A close at or above 40 sends
+an exit order at the first executable option quote after the next regular-session open;
+the first later close below 40 sends a re-entry attempt on the same timing convention.
+The market observations remain in all later covariance, premia, and EGARCH training
+windows while the strategy is in cash.
+
+March 1, 2020 was a Sunday. The user reports having decided on that date to exit, but this
+statement is retrospective and is not generalized to all traders. The VIX had closed at
+40.11 on February 28, so the threshold rule and the user-attested instruction both map to
+Monday, March 2. The event ledger merges them into one order. The March 2 VIX close of
+33.42 maps to a March 3 re-entry attempt. Later threshold crossings are handled by the same
+rule rather than being selectively omitted.
+
+The repository does not presently contain matched March 2/3 and later event-date CBBO for
+every held equity option. R1.1 therefore generates a licensed-data request manifest and
+does not score the risk-off return. Long liquidations require executable bids, short covers
+require executable asks, and displayed size is consumed sequentially. Missing or incomplete
+fills cannot be replaced by a model price or by the no-rule return. Consequently the
+risk-off arm is an implemented but currently unscored execution experiment.
+
+\subsection{EGARCH diagnostic}
+
+The optional diagnostic fits an EGARCH(1,1) model with Student innovations to daily
+underlying and VX-forward returns using only observations available by each decision date.
+Its 21-day variance ratio is clipped to $[0.5,2]$. Delta-factor standard deviations are
+scaled by the forecast volatility ratio and centered-quadratic factors by the corresponding
+variance ratio; vega and residual scales remain one. Applying one diagonal transformation
+to the complete joint factor/residual covariance preserves positive semidefiniteness and
+the factor/residual cross terms.
+
+Promotion required at least 95 percent forecast coverage, at least a 2 percent pooled QLIKE
+improvement with a favorable 90 percent block-bootstrap interval, no added survival
+failure, and no universe-level expected-shortfall deterioration above one NAV percentage
+point. The checked run achieved 99.9 percent forecast coverage but materially worsened
+QLIKE and worsened the worst universe's expected shortfall by 1.51 percentage points.
+EGARCH therefore remains a diagnostic and is not part of the R1.1 candidate.
+
+\subsection{Regenerated development evidence}
+
+Table~\ref{tab:r11_development} reports the chronological January 2018 decision--April
+2026 return replay.
+The longer window is required to expose the March 2020 intervention logic; the separate
+January 2021--April 2026 comparison remains available in the machine-readable artifacts.
+
+\begin{table}[H]
+\centering
+\caption{R1.1 chronological development replay. Target hit is the fraction of integer books
+at or above 50 percent premium gross. An infeasible direct conversion produces a cash
+abstention, not a substitute portfolio or an execution failure. EGARCH is diagnostic only.}
+\label{tab:r11_development}
+\resizebox{\textwidth}{!}{\input{tables/short_r11_development_summary}}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Whole-contract execution outcomes across the R1.1 base and EGARCH diagnostic
+books. Direct truncation is selected when feasible; otherwise cash abstention is selected.}
+\label{tab:r11_integer_repairs}
+\resizebox{0.88\textwidth}{!}{\input{tables/short_r11_integer_repair_summary}}
+\end{table}
+
+The 25 percent ceiling increased risk but did not make 50 percent premium gross feasible:
+the target-hit rate is zero in every universe. Direct conversion is feasible and selected
+in 621 of the 744 base/EGARCH decisions. The other 123 decisions are explicit cash
+abstentions: 57 in the two original+VIX arms and 66 in the two larger+VIX arms; neither
+non-VIX arm abstains. The attempted book's original breach values remain reported for all
+123 decisions. No substitute risky portfolio contributes to returns, and abstention is not
+counted as an integer-execution or survival failure.
+
+For the non-EGARCH R1.1 arm, annualized geometric return is 11.77 percent in the original
+universe, 12.28 percent in the larger universe, 16.01 percent with original+VIX, and 14.23
+percent with larger+VIX. The corresponding maximum drawdowns are 38.11, 39.40, 17.05, and
+12.13 percent. The two non-VIX books never abstain; original+VIX holds cash in 32 of 93
+months and larger+VIX in 34 of 93 months. These remain retrospective development results,
+not confirmatory evidence, and the no-trade convention is part of the newly versioned
+R1.1 policy rather than a reinterpretation of E1.
+
+These results do not alter the original E1 diagnosis. The legacy VIX-enabled CPCV paths
+remain absorbed at zero in March 2020 and continue to fail the survival gate. The unscored
+VIX-40 arm cannot be used to overwrite those paths. A separate R1.1 freeze manifest records
+the new policy, source hashes, data cutoff, and a fresh requirement of 36 untouched monthly
+observations before confirmation.

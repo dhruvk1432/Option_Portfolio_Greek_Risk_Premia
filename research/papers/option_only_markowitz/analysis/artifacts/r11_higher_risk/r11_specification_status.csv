@@ -1,0 +1,18 @@
+specification,config,status,evidence,terminal_wealth,mean_gross_nav,risk_off_execution_inputs_complete,egarch_promotion_status
+R1 15pct,orig+VIX,development_survived,retrospective_development_sample,2.8140246147397523,0.0488719666666666,False,diagnostic_only
+R1 15pct,larger+VIX,development_survived,retrospective_development_sample,2.400710166221465,0.0499949166666666,False,diagnostic_only
+R1 15pct,orig,development_survived,retrospective_development_sample,1.220319125444083,0.0317524999999999,False,diagnostic_only
+R1 15pct,larger,development_survived,retrospective_development_sample,1.180061441710189,0.0383020166666666,False,diagnostic_only
+R1.1 25pct EGARCH diagnostic,larger,development_survived,retrospective_development_sample,2.735829668406805,0.07452611827956987,False,diagnostic_only
+R1.1 25pct positive-edge deployment,larger,development_survived,retrospective_development_sample,2.4543672136173877,0.06686283870967741,False,diagnostic_only
+R1.1 25pct EGARCH diagnostic,larger+VIX,development_survived,retrospective_development_sample,2.7579363168954685,0.05340120430107526,False,diagnostic_only
+R1.1 25pct positive-edge deployment,larger+VIX,development_survived,retrospective_development_sample,2.80431160402556,0.047061387096774175,False,diagnostic_only
+R1.1 25pct EGARCH diagnostic,orig,development_survived,retrospective_development_sample,2.4184982030274824,0.062095204301075256,False,diagnostic_only
+R1.1 25pct positive-edge deployment,orig,development_survived,retrospective_development_sample,2.3680550092750567,0.05545633333333334,False,diagnostic_only
+R1.1 25pct EGARCH diagnostic,orig+VIX,development_survived,retrospective_development_sample,3.018461016416199,0.05825484946236558,False,diagnostic_only
+R1.1 25pct positive-edge deployment,orig+VIX,development_survived,retrospective_development_sample,3.1600529658249568,0.047610064516129015,False,diagnostic_only
+R1.1 25pct VIX40 risk-off,larger,unscored_missing_or_incomplete_executable_quotes,unscored_missing_or_incomplete_executable_quotes,,,False,diagnostic_only
+R1.1 25pct VIX40 risk-off,larger+VIX,unscored_missing_or_incomplete_executable_quotes,unscored_missing_or_incomplete_executable_quotes,,,False,diagnostic_only
+R1.1 25pct VIX40 risk-off,orig,unscored_missing_or_incomplete_executable_quotes,unscored_missing_or_incomplete_executable_quotes,,,False,diagnostic_only
+R1.1 25pct VIX40 risk-off,orig+VIX,unscored_missing_or_incomplete_executable_quotes,unscored_missing_or_incomplete_executable_quotes,,,False,diagnostic_only
+Legacy E1 VIX CPCV,VIX-enabled books,fail_survival_gate_absorbed_zero,legacy_development_CPCV_unchanged,0.0,,False,diagnostic_only

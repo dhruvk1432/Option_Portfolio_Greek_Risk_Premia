@@ -2,7 +2,7 @@
   "status": "pass",
   "critical_failures": 0,
   "total_failures": 0,
-  "total_checks": 386,
+  "total_checks": 415,
   "command": "python -m research.papers.option_only_markowitz.verification.verify",
   "paper": "/Users/dhruvkohli/Desktop/Github Repos/Option_Portfolio_Greek_Risk_Premia/research/papers/option_only_markowitz",
   "outputs": {
@@ -50,6 +50,14 @@
     },
     "inference": {
       "pass": 83,
+      "fail": 0
+    },
+    "r1": {
+      "pass": 11,
+      "fail": 0
+    },
+    "r11": {
+      "pass": 18,
       "fail": 0
     },
     "claims": {

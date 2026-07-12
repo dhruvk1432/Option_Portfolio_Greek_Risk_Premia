@@ -1,0 +1,55 @@
+{
+  "specification": "R1",
+  "evidence_before_freeze": "retrospective_development_sample",
+  "freeze_timestamp_utc": "2026-07-11T02:17:00.685190+00:00",
+  "data_cutoff": "2026-04-30",
+  "first_eligible_decision_date": "2026-07-31",
+  "required_untouched_monthly_observations": 36,
+  "training_window_months": 36,
+  "nav": 1000000.0,
+  "volume_participation": 0.05,
+  "covariance_estimator": "Greek B with Ledoit-Wolf joint factor/residual correlation covariance",
+  "optimizer": "net mean-variance utility with cash",
+  "risk_policy": {
+    "annual_vol_target": 0.15,
+    "periods_per_year": 12.0,
+    "cvar_alpha": 0.95,
+    "cvar_loss_nav": 0.1,
+    "stress_loss_nav": 0.2,
+    "short_margin_nav": 0.75,
+    "collateral_nav": 1.0,
+    "lambda_floor": 1e-06,
+    "lambda_ceiling": 1000000.0,
+    "bisection_steps": 18
+  },
+  "primary_endpoints": [
+    "terminal_wealth",
+    "annualized_geometric_return",
+    "max_drawdown",
+    "worst_month",
+    "expected_shortfall_95",
+    "ruin_count",
+    "margin_breaches",
+    "collateral_breaches",
+    "integer_failures"
+  ],
+  "secondary_endpoints": [
+    "sharpe",
+    "sortino"
+  ],
+  "environment": {
+    "python": "3.14.5 (main, May 10 2026, 10:21:34) [Clang 17.0.0 (clang-1700.6.4.2)]",
+    "platform": "macOS-15.7.2-arm64-arm-64bit-Mach-O",
+    "numpy": "2.5.0",
+    "pandas": "3.0.3",
+    "cvxpy": "1.9.2",
+    "scikit_learn": "1.9.0"
+  },
+  "source_sha256": {
+    "src/portfolio/option_only_markowitz_model.py": "2defaa45a5dc2bb9cf1b98fbf14d1049a989ff9376998405e0a35f67d48fa94d",
+    "research/papers/option_only_markowitz/analysis/r1_repaired_pipeline.py": "c9a495181facc532990fec0f42adbcaa8633d2404b78a78598649658f7e5b05f",
+    "research/papers/option_only_markowitz/sections/short_paper.tex": "8a47e4f11e2a9d39ae708915f26eb4d310e150ae173195a5f2d3f85d4b2bcbdf",
+    "research/papers/option_only_markowitz/sections/short_appendix.tex": "a3c94155507c4897b569be337a0e6a43462f72cf831581a398c242d619e3cc41"
+  },
+  "confirmatory_claim_allowed": false
+}

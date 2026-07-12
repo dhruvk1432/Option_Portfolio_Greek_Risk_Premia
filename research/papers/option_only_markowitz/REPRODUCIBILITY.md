@@ -49,7 +49,44 @@ multi-hour breadth or distributional-robustness stages (those are opt-in and the
 artifacts are checked as shipped). The report is written to
 `verification/verification_report.md` and `verification/verification_summary.json`.
 
-## 3. Full regeneration of the headline results
+## 3. Full regeneration of repaired R1 and legacy E1
+
+R1 is the repaired monthly walk-forward specification. It versions its artifacts separately
+and does not overwrite the E1 development ledgers:
+
+```bash
+make r1-repaired
+```
+
+The command writes monthly returns and weights, survival-gate summaries, a known-trial
+registry, and the prospective 36-month freeze manifest under
+`analysis/artifacts/r1_repaired/`. All current R1 rows are labeled retrospective
+development evidence.
+
+R1.1 is a separate development specification; it does not overwrite R1's source hashes or
+freeze manifest:
+
+```bash
+make r11-higher-risk
+make r11-event-cbbo-plan  # estimates the targeted OPRA CBBO pull, downloads nothing
+# Explicit licensed download only after reviewing the estimate:
+.venv/bin/python -m data_ingestion.market_data.fetch_r11_event_cbbo --execute --max-cost 10
+```
+
+The first command writes the 25% net-utility replay, the direct integer-conversion and
+cash-abstention audit rows, EGARCH forecasts and promotion gate, VIX
+signal/exposure calendar, held-symbol quote request, unscored intervention ledger, trial
+registry, and separate 36-month freeze under
+`analysis/artifacts/r11_higher_risk/`. The executable risk-off return is deliberately not
+estimated from model prices: until all requested CBBO and re-entry constraint inputs are
+complete, affected returns remain missing and the arm is labeled unscored.
+
+Contract counts are truncated toward zero and independently checked against every hard
+constraint. If that direct conversion is infeasible, the period is explicitly recorded
+as a cash abstention. No alternative portfolio is substituted, and the rejected book's
+original constraint diagnostics remain in the audit artifacts.
+
+The commands below regenerate the legacy E1 research path.
 
 The four E1 books are produced by the breadth robustness pipeline, which `make paper` does
 **not** run. Regenerate them explicitly, in order (the scoreboard must exist before the

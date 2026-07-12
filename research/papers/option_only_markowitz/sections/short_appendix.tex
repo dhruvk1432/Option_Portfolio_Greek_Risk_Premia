@@ -1,10 +1,9 @@
 \section{Technical appendix}\label{app:technical}
 
 The main text keeps the proof sketches close to the economic argument. This appendix
-records the two mathematical details from the longer draft that are still useful for a
-research-grade version of the paper: why the option-only optimizer has a well-defined
-scale only after operational budgets are imposed, and how the maximum-Sharpe solver is
-connected to a convex conic program.
+records standard mathematical details used by the implementation. They are included for
+auditability, not as claims of new theory. The maximum-Sharpe discussion describes the
+legacy E1 geometry and why R1 replaces it with strictly concave net utility.
 
 \subsection{Scale, costs, and no-free-exposure logic}
 
@@ -28,7 +27,7 @@ Therefore every economically meaningful option direction must consume a real bud
 before scale can diverge.
 \end{proof}
 
-This proposition is the formal reason the paper does not treat gross option Sharpe as a
+This proposition is one reason the paper does not treat gross option Sharpe as a
 trading claim. A cheap option can carry large return exposure per dollar of premium, and
 a short option can receive premium while creating a future liability. The optimizer is
 only an allocation rule after premium, short-premium, stress, margin, concentration, and
@@ -134,7 +133,7 @@ on the pre-test side. The one-month purge plus one-month embargo is therefore su
 with two weeks of slack, and the sufficiency claim is re-audited on every verification
 run rather than hand-typed.
 
-\subsection{Maximum Sharpe and conic reduction}
+\subsection{Legacy maximum Sharpe and conic reduction}
 
 Let \(\mu=\widehat\mu_t\) and \(\Sigma=\widehat\Sigma_{O,t}\). When
 \(\Sigma\succ0\), the unconstrained maximum-Sharpe direction is the usual tangency
@@ -174,42 +173,34 @@ so the left side is at least the right. Positive definiteness makes the risk bal
 bounded, and the objective is linear on a closed convex feasible set.
 \end{proof}
 
-The production-candidate problem in the paper has bounded budgets rather than a pure
-cone, so implementation uses the same geometry with a gross-risk or gross-premium
-normalization and then imposes the operational caps directly. Absolute costs are handled
-by positive and negative parts, \(w=w^+-w^-\), but the liquidity cap is imposed on the
-net economic variable:
+This geometry determines only a direction. Legacy E1 imposed gross equality on positive
+and negative split variables, which allowed overlapping legs to satisfy the algebra while
+the net economic book remained smaller. R1 does not use that representation. It solves
+strictly concave net utility over one position vector, imposes \(\|w\|_1\le g\), and
+allows the unallocated balance to remain cash.
+
+\subsection{Joint risk-model estimator}
+
+Let \(Z_t=[f_t^\top,\varepsilon_t^\top]^\top\), where
+\(\varepsilon_t=r_t-B^Gf_t\). R1 standardizes the aligned training columns, applies
+Ledoit--Wolf shrinkage to their joint correlation-scale covariance, rescales to the
+original units, and partitions the result as
 \[
-  -\bar w_{i,t}\le w_i^+-w_i^-\le \bar w_{i,t}.
+ \widehat S_Z=
+ \begin{bmatrix}
+  \widehat\Omega&\widehat\Gamma\\
+  \widehat\Gamma^\top&\widehat\Sigma_\varepsilon
+ \end{bmatrix}.
 \]
-Imposing the cap separately on \(w_i^+\) and \(w_i^-\) is not equivalent. It allows
-offsetting positive legs to satisfy an algebraic representation while consuming displayed
-liquidity without taking the intended net contract exposure.
-
-\subsection{Risk-model estimator repair}
-
-The population covariance identity in Proposition~\ref{prop:short_covariance} is
-positive semidefinite by construction. The finite-sample estimate can still fail PSD in
-one practical place: residual covariance estimated from pairwise-complete option
-residuals on an unbalanced contract panel. The implementation therefore applies the
-following repair before the matrix can enter an optimizer:
+The option covariance is
 \[
-  \widehat\Sigma_{\varepsilon,t}=Q\Lambda Q^\top
-  \quad\Longrightarrow\quad
-  \widehat\Sigma_{\varepsilon,t}^{+}
-  =Q\max(\Lambda,\lambda_{\min}I)Q^\top ,
+ \widehat\Sigma_O=[B^G\ I]\widehat S_Z[B^G\ I]^\top.
 \]
-with a small nonnegative eigenvalue floor. The factor term
-\(\widehat B_t\widehat\Omega_t\widehat B_t^\top\) is PSD whenever
-\(\widehat\Omega_t\succeq0\), so the repair is targeted to the residual block rather than
-used as a blanket way to hide a bad risk model.
-
-E1 then makes one additional research choice: it keeps the residual covariance diagonal.
-That is not a statement that residual option risks are literally independent. It is a
-regularization choice motivated by the breadth experiment. In the broad universe, dense
-residual covariance estimated from short, changing contract panels became a false
-diversification channel. Diagonal residual risk preserves contract-specific unexplained
-variance while refusing to invert noisy off-diagonal residual moments.
+This transformation is PSD whenever \(\widehat S_Z\) is PSD and retains the cross terms.
+With shrinkage disabled it reproduces the aligned sample covariance of option returns.
+Only after this joint transformation does the implementation apply a small numerical
+eigenvalue floor. Legacy E1's diagonal residual covariance remains in the archived
+development path, not in R1.
 
 \subsection{Appendix use and audit trail}
 

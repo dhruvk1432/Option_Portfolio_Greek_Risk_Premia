@@ -5,10 +5,12 @@ machine-readable research outputs.
 
 | Claim family | Evidence |
 |---|---|
-| Markowitz mean-variance and maximum-Sharpe framing | Markowitz (1952) |
+| Markowitz mean-variance, option portfolios, and gross-exposure constraints | Markowitz (1952); Faias and Santa-Clara (2017); Zhao and Palomar (2018); Malamud (2014); Liang, Zhang, and Li (2008); Fan, Zhang, and Yu (2012) |
 | Local option pricing, replication, and Greeks | Black and Scholes (1973); Merton (1973); Black (1976); Shreve (2004) |
 | Factor risk models, covariance shrinkage, and optimizer sensitivity | Ledoit and Wolf (2004); Grinold and Kahn (2000) |
-| Performance ratios and backtest overfitting caution | Sharpe (1966); Sortino and Price (1994); Keating and Shadwick (2002); Magdon-Ismail and Atiya (2004); Grinold and Kahn (2000); Bailey et al. (2017); Lopez de Prado (2018) |
+| Performance ratios, option-like Sharpe manipulation, and backtest overfitting caution | Sharpe (1966); Goetzmann et al. (2002); Sortino and Price (1994); Keating and Shadwick (2002); Magdon-Ismail and Atiya (2004); Bailey et al. (2017); Lopez de Prado (2018) |
+| Repaired R1 joint covariance, net utility, walk-forward returns, survival gate, trial registry, and prospective freeze | `src/portfolio/option_only_markowitz_model.py`; `analysis/r1_repaired_pipeline.py`; `analysis/artifacts/r1_repaired/*`; `tests/test_r1_repair.py` |
+| R1.1 25% policy, direct-or-cash-abstention whole-contract execution, preserved rejected-book diagnostics, VIX-40 event execution, EGARCH gate, licensed quote request, and separate freeze | `src/portfolio/r11_risk_controls.py`; `analysis/r11_integer_repair.py`; `analysis/r11_higher_risk_pipeline.py`; `analysis/artifacts/r11_higher_risk/*`; `tests/test_r11_higher_risk.py` |
 | OPRA/Databento data venue and public market-data provenance | OPRA overview; Cboe DataShop option EOD/NBBO summary; `REPRODUCIBILITY.md`; `data/README.md` |
 | Greek panel provenance and quality | `data/feature_store/option_greek_assumptions.md`; `data/feature_store/option_greek_quality.csv` |
 | Empirical tables and figures | `research/papers/option_only_markowitz/analysis/run_empirics.py`; `tables/empirical_summary.json`; `artifacts/*.csv` |

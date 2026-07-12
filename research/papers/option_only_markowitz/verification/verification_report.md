@@ -2,8 +2,8 @@
 
 Status: **PASS**
 Critical failures: `0`
-Total checks: `386`
-Hash manifest rows: `201`
+Total checks: `415`
+Hash manifest rows: `231`
 
 ## Category Summary
 
@@ -19,6 +19,8 @@ Hash manifest rows: `201`
 | paper | 15 | 0 |
 | pit | 11 | 0 |
 | producer | 2 | 0 |
+| r1 | 11 | 0 |
+| r11 | 18 | 0 |
 | robustness | 27 | 0 |
 
 ## Failed Checks
@@ -27,20 +29,23 @@ No failed checks.
 
 ## Passed Critical Evidence
 
-- `producer` / `empirical runner exits cleanly`: exit=0
-- `paper` / `latex bibtex compile pipeline`: pe1/public/amsfonts/cm/cmsy10.
-pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pf
-b></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm1
-0.pfb>
-Output written on option_only_portfolio_optimization_dhruv_kohli.pdf (35 pages,
- 555683 bytes).
+- `producer` / `empirical runner exits cleanly`: /Users/runner/work/crossbow/crossbow/arrow/cpp/src/arrow/util/cpu_info.cc:242: IOError: sysctlbyname failed for 'hw.l1dcachesize'. Detail: [errno 1] Operation not permitted
+/Users/runner/work/crossbow/crossbow/arrow/cpp/src/arrow/util/cpu_info.cc:242: IOError: sysctlbyname failed for 'hw.l2cachesize'. Detail: [errno 1] Operation not permitted
+/Users/runner/work/crossbow/crossbow/arrow/cpp/src/arrow/util/cpu_info.cc:242: IOError: sysctlbyname failed for 'hw.l3cachesize'. Detail: [errno 1] Operation not permitted
+/Users/runner/work/crossbow/crossbow/arrow/cpp/src/arrow/util/cpu_info.cc:242: IOError: sysctlbyname failed for 'hw.optional.neon'. Detail: [errno 1] Operation not permitted
+
+- `paper` / `latex bibtex compile pipeline`: pe1/public/amsfonts/cm/cmsy10.pfb
+></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb><
+/usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.p
+fb>
+Output written on option_only_portfolio_optimization_dhruv_kohli.pdf (38 pages,
+ 584889 bytes).
 Transcript written on option_only_portfolio_optimization_dhruv_kohli.log.
 
 
 $ /Library/TeX/texbin/lualatex -interaction=nonstopmode option_only_portfolio_optimization_dhruv_kohli.tex
 exit=0
-opentype/public/lm/lmmono10-regular.otf></System/Library/Fonts
-/Supplemental/Times New Roman.ttf></System/Library/Fonts/Supplemental/Times New
+Times New Roman.ttf></System/Library/Fonts/Supplemental/Times New
  Roman Bold.ttf></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts
 /cm/cmex10.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/
 cmextra/cmex8.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfon
@@ -48,20 +53,20 @@ ts/cm/cmmi10.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfont
 s/cm/cmmi6.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/
 cm/cmmi8.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm
 /cmr10.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/c
-mr6.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8
-.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.
-pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pf
-b></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm1
-0.pfb>
-Output written on option_only_portfolio_optimization_dhruv_kohli.pdf (35 pages,
- 561843 bytes).
+mr6.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7
+.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pf
+b></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb
+></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb><
+/usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.p
+fb>
+Output written on option_only_portfolio_optimization_dhruv_kohli.pdf (38 pages,
+ 584889 bytes).
 Transcript written on option_only_portfolio_optimization_dhruv_kohli.log.
 
 
 $ /Library/TeX/texbin/lualatex -interaction=nonstopmode option_only_portfolio_optimization_dhruv_kohli.tex
 exit=0
-opentype/public/lm/lmmono10-regular.otf></System/Library/Fonts
-/Supplemental/Times New Roman.ttf></System/Library/Fonts/Supplemental/Times New
+Times New Roman.ttf></System/Library/Fonts/Supplemental/Times New
  Roman Bold.ttf></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts
 /cm/cmex10.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/
 cmextra/cmex8.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfon
@@ -69,13 +74,14 @@ ts/cm/cmmi10.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfont
 s/cm/cmmi6.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/
 cm/cmmi8.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm
 /cmr10.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/c
-mr6.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8
-.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.
-pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pf
-b></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm1
-0.pfb>
-Output written on option_only_portfolio_optimization_dhruv_kohli.pdf (35 pages,
- 561843 bytes).
+mr6.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7
+.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pf
+b></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb
+></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb><
+/usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.p
+fb>
+Output written on option_only_portfolio_optimization_dhruv_kohli.pdf (38 pages,
+ 584889 bytes).
 Transcript written on option_only_portfolio_optimization_dhruv_kohli.log.
 
 - `artifacts` / `required generated outputs exist`: []
@@ -433,6 +439,35 @@ Transcript written on option_only_portfolio_optimization_dhruv_kohli.log.
 - `inference` / `CI lo <= CI hi in short_inference_panel.tex`: []
 - `inference` / `CI lo <= CI hi in vix_regime_performance.tex`: []
 - `inference` / `CI ordering audit covers tables`: 8
+- `r1` / `R1 repaired artifacts exist`: []
+- `r1` / `R1 return schema`: []
+- `r1` / `R1 information sets are point-in-time`: 240
+- `r1` / `R1 gross is an upper bound`: 0.095178
+- `r1` / `R1 hard operational limits hold`: {"max_collateral": 0.528051500024414, "max_cvar": 0.0922272134429266, "max_margin": 0.521262500024414}
+- `r1` / `R1 labels all existing evidence development`: ["retrospective_development_sample", "retrospective_development_sample", "retrospective_development_sample", "retrospective_development_sample"]
+- `r1` / `R1 hard survival gate controls verdict`: [{"config": "orig+VIX", "verdict": "development_survived"}, {"config": "larger+VIX", "verdict": "development_survived"}, {"config": "orig", "verdict": "development_survived"}, {"config": "larger", "verdict": "development_survived"}]
+- `r1` / `R1 trial registry reports a lower bound`: {"is_complete": false, "known_trial_count_lower_bound": 598, "reason": "Earlier undocumented researcher iterations cannot be reconstructed from artifacts."}
+- `r1` / `R1 prospective protocol requires 36 untouched months`: {"confirmatory_claim_allowed": false, "covariance_estimator": "Greek B with Ledoit-Wolf joint factor/residual correlation covariance", "data_cutoff": "2026-04-30", "environment": {"cvxpy": "1.9.2", "numpy": "2.5.0", "pandas": "3.0.3", "platform": "macOS-15.7.2-arm64-arm-64bit-Mach-O", "python": "3.14.5 (main, May 10 2026, 10:21:34) [Clang 17.0.0 (clang-1700.6.4.2)]", "scikit_learn": "1.9.0"}, "evidence_before_freeze": "retrospective_development_sample", "first_eligible_decision_date": "2026-07-31", "freeze_timestamp_utc": "2026-07-11T02:17:00.685190+00:00", "nav": 1000000.0, "optimizer": "net mean-variance utility with cash", "primary_endpoints": ["terminal_wealth", "annualized_geometric_return", "max_drawdown", "worst_month", "expected_shortfall_95", "ruin_count", "margin_breaches", "collateral_breaches", "integer_failures"], "required_untouched_monthly_observations": 36, "risk_policy": {"annual_vol_target": 0.15, "bisection_steps": 18, "collateral_nav": 1.0, "cvar_alpha": 0.95, "cvar_loss_nav": 0.1, "lambda_ceiling": 1000000.0, "lambda_floor": 1e-06, "periods_per_year": 12.0, "short_margin_nav": 0.75, "stress_loss_nav": 0.2}, "secondary_endpoints": ["sharpe", "sortino"], "source_sha256": {"research/papers/option_only_markowitz/analysis/r1_repaired_pipeline.py": "c9a495181facc532990fec0f42adbcaa8633d2404b78a78598649658f7e5b05f", "research/papers/option_only_markowitz/sections/short_appendix.tex": "a3c94155507c4897b569be337a0e6a43462f72cf831581a398c242d619e3cc41", "research/papers/option_only_markowitz/sections/short_paper.tex": "8a47e4f11e2a9d39ae708915f26eb4d310e150ae173195a5f2d3f85d4b2bcbdf", "src/portfolio/option_only_markowitz_model.py": "2defaa45a5dc2bb9cf1b98fbf14d1049a989ff9376998405e0a35f67d48fa94d"}, "specification": "R1", "training_window_months": 36, "volume_participation": 0.05}
+- `r1` / `R1 frozen source hashes remain unchanged`: {"research/papers/option_only_markowitz/analysis/r1_repaired_pipeline.py": true, "research/papers/option_only_markowitz/sections/short_appendix.tex": true, "research/papers/option_only_markowitz/sections/short_paper.tex": true, "src/portfolio/option_only_markowitz_model.py": true}
+- `r1` / `R1 paired growth/tail comparisons cover both baselines`: [["larger", "matched_capped_naive"], ["larger", "stock_markowitz"], ["larger+VIX", "matched_capped_naive"], ["larger+VIX", "stock_markowitz"], ["orig", "matched_capped_naive"], ["orig", "stock_markowitz"], ["orig+VIX", "matched_capped_naive"], ["orig+VIX", "stock_markowitz"]]
+- `r11` / `R1.1 artifacts exist`: []
+- `r11` / `R1.1 return schema`: []
+- `r11` / `R1.1 information sets are point-in-time`: 744
+- `r11` / `R1.1 uses the 25 percent risk cap`: {"max_gross": 0.1740799999999999, "max_vol": 0.2499832048262932, "target_hits": 0}
+- `r11` / `R1.1 keeps March 2020 observations`: ["retained_if_in_window"]
+- `r11` / `R1.1 hard limits hold for returned books`: {"max_collateral": 0.7651734016113281, "max_cvar": 0.0998587959326198, "max_margin": 0.738477401611328}
+- `r11` / `R1.1 records direct conversion and cash abstention`: {"bad_selected_counts": 0, "core_rows": 744, "methods": ["cash_abstention", "truncate_toward_cash"], "repair_groups": 744}
+- `r11` / `R1.1 integer method summary reconciles`: {"candidate_periods": 1488, "candidate_rows": 1488, "core_rows": 744, "selected_periods": 744}
+- `r11` / `R1.1 abstains exactly when direct conversion is infeasible`: {"cash_abstentions": 123, "direct_feasible": 621}
+- `r11` / `R1.1 preserves pre-repair failure diagnostics`: {"failed_direct_truncations": 123, "recorded_cvar_breaches": 83}
+- `r11` / `R1.1 March instruction is deduplicated and next-session`: [{"action": "exit", "deduplicated_signal_count": 2, "execution_date": "2020-03-02T00:00:00", "signal_date": "2020-02-28T00:00:00", "source": "official_vix_close|user_attested_manual_2020", "state_after": "risk_off", "threshold": 40.0, "vix_close": 40.11000061035156}, {"action": "reenter", "deduplicated_signal_count": 1, "execution_date": "2020-03-03T00:00:00", "signal_date": "2020-03-02T00:00:00", "source": "official_vix_close", "state_after": "risk_on", "threshold": 40.0, "vix_close": 33.41999816894531}]
+- `r11` / `R1.1 risk-off exposure is cash then re-enters`: {"2020-03-02 00:00:00": {"exposure_multiplier": 0.0, "risk_state": "risk_off"}, "2020-03-03 00:00:00": {"exposure_multiplier": 1.0, "risk_state": "risk_on"}}
+- `r11` / `R1.1 missing licensed event quotes remain unscored`: {"execution_rows": 20, "requests": 156, "unscored_returns": 16}
+- `r11` / `R1.1 cash abstentions are not integer failures`: [{"config": "larger", "integer_abstentions": 0.0, "integer_failures": 0.0, "strategy": "R1.1 25pct EGARCH diagnostic", "verdict": "development_survived"}, {"config": "larger", "integer_abstentions": 0.0, "integer_failures": 0.0, "strategy": "R1.1 25pct positive-edge deployment", "verdict": "development_survived"}, {"config": "larger+VIX", "integer_abstentions": 32.0, "integer_failures": 0.0, "strategy": "R1.1 25pct EGARCH diagnostic", "verdict": "development_survived"}, {"config": "larger+VIX", "integer_abstentions": 34.0, "integer_failures": 0.0, "strategy": "R1.1 25pct positive-edge deployment", "verdict": "development_survived"}, {"config": "orig", "integer_abstentions": 0.0, "integer_failures": 0.0, "strategy": "R1.1 25pct EGARCH diagnostic", "verdict": "development_survived"}, {"config": "orig", "integer_abstentions": 0.0, "integer_failures": 0.0, "strategy": "R1.1 25pct positive-edge deployment", "verdict": "development_survived"}, {"config": "orig+VIX", "integer_abstentions": 25.0, "integer_failures": 0.0, "strategy": "R1.1 25pct EGARCH diagnostic", "verdict": "development_survived"}, {"config": "orig+VIX", "integer_abstentions": 32.0, "integer_failures": 0.0, "strategy": "R1.1 25pct positive-edge deployment", "verdict": "development_survived"}]
+- `r11` / `R1.1 EGARCH obeys its promotion gate`: {"added_survival_failures": 0, "expected_forecasts": 12090, "forecast_coverage": 0.9990074441687344, "mean_qlike_difference": 16454899.725174913, "passed": false, "promotion_status": "diagnostic_only", "qlike_difference_bootstrap_90_ci_hi": 22756989.385327, "relative_qlike_improvement": -5883525.369009263, "valid_forecasts": 12078, "worst_es_deterioration": 0.015133940420522796}
+- `r11` / `R1.1 trial registry includes all new arms`: {"is_complete": false, "known_trial_count_lower_bound": 607, "reason": "R1.1 arms are development trials and earlier undocumented iterations remain unreconstructable."}
+- `r11` / `R1.1 has a separate 36-month prospective freeze`: {"confirmatory_claim_allowed": false, "data_cutoff": "2026-04-30", "egarch_policy": {"bootstrap_block_length": 21, "bootstrap_draws": 1000, "bootstrap_seed": 20260712, "horizon_days": 21, "lookback_days": 756, "min_observations": 500, "qlike_improvement_required": 0.02, "required_coverage": 0.95, "variance_ratio_ceiling": 2.0, "variance_ratio_floor": 0.5}, "environment": {"arch": "8.0.0", "cvxpy": "1.9.2", "numpy": "2.5.0", "pandas": "3.0.3", "platform": "macOS-15.7.2-arm64-arm-64bit-Mach-O", "python": "3.14.5 (main, May 10 2026, 10:21:34) [Clang 17.0.0 (clang-1700.6.4.2)]"}, "evidence_before_freeze": "retrospective_development_sample", "first_eligible_decision_date": "2026-07-31", "freeze_timestamp_utc": "2026-07-12T19:49:00.236121+00:00", "integer_execution_policy": {"abstention_is_survival_failure": false, "conversion": "truncate_each_contract_count_toward_zero", "failed_conversion_diagnostics_preserved": true, "infeasible_action": "cash_abstention_for_the_period", "substitute_portfolios_allowed": false, "target": "continuous_R1.1_solution"}, "manual_intervention_status": "user_attested_retrospective_development_rule", "march_2020_market_data_deleted": false, "required_untouched_monthly_observations": 36, "risk_off_policy": {"fee_per_contract": 0.75, "manual_exit_date": "2020-03-01", "market_timezone": "America/New_York", "regular_close": "16:00:00", "regular_open": "09:30:00", "slippage_bps": 5.0, "vix_threshold": 40.0}, "risk_policy": {"annual_vol_target": 0.25, "bisection_steps": 18, "collateral_nav": 1.0, "cvar_alpha": 0.95, "cvar_loss_nav": 0.1, "deployment_net_edge_floor": 0.0, "deployment_target": 0.5, "lambda_ceiling": 1000000.0, "lambda_floor": 1e-06, "periods_per_year": 12.0, "short_margin_nav": 0.75, "stress_loss_nav": 0.2}, "source_sha256": {"research/papers/option_only_markowitz/analysis/r11_higher_risk_pipeline.py": "77cc6f93cf567db4b5b9523308f205c7457c40a51db3c440416ef6a6fa684708", "research/papers/option_only_markowitz/analysis/r11_integer_repair.py": "125468dc0e497c3ebd8ee4d92fa386e006bcc48f3b49535cdce0fddfbb46d9a4", "src/portfolio/r11_risk_controls.py": "448ef8edc6cc93c4546708991612edd6f6dc59666d02195d7852b8cb09f91503"}, "specification": "R1.1"}
+- `r11` / `R1.1 status preserves legacy E1 absorbed-zero failure`: [{"config": "VIX-enabled books", "egarch_promotion_status": "diagnostic_only", "evidence": "legacy_development_CPCV_unchanged", "mean_gross_nav": null, "risk_off_execution_inputs_complete": false, "specification": "Legacy E1 VIX CPCV", "status": "fail_survival_gate_absorbed_zero", "terminal_wealth": 0.0}]
 - `claims` / `VIX exact settlement claim gated by source coverage`: {"Claim": "VIX option expiry P\\&L is exact listed settlement P\\&L", "Evidence": "All VIX expiry rows use exact Cboe VRO/SOQ settlement", "Status": "Supported", "Type": "Generated empirical"}
 - `claims` / `post-cost research claim is generated`: {"Claim": "Post-cost research returns include implementation frictions", "Evidence": "Generated mid, half-spread, full-spread, fee, capacity, required-capital, and assignment-risk ledgers", "Status": "Implemented as conservative research simulation", "Type": "Generated empirical"}
 - `claims` / `broker-executed evidence overclaim rejected`: {"Claim": "Pre-production results are broker-executed live evidence", "Evidence": "No live fills, order routing, broker margin preview, or broker reconciliation", "Status": "Not claimed", "Type": "Rejected overclaim"}
@@ -446,8 +481,8 @@ Transcript written on option_only_portfolio_optimization_dhruv_kohli.log.
 - `claims` / `source ledger records vix option`: vix option
 - `claims` / `source ledger records artifact`: artifact
 - `paper` / `LaTeX log clean`: []
-- `paper` / `compiled PDF exists`: 561843
-- `paper` / `PDF page count plausible`: 35
+- `paper` / `compiled PDF exists`: 584889
+- `paper` / `PDF page count plausible`: 38
 - `paper` / `PDF caveat text includes not claimed`: not claimed
 - `paper` / `PDF caveat text includes premium weights`: premium weights
 - `paper` / `PDF text includes exact VRO/SOQ`: VRO/SOQ
@@ -455,8 +490,8 @@ Transcript written on option_only_portfolio_optimization_dhruv_kohli.log.
 - `paper` / `PDF caveat text includes slippage`: slippage
 - `paper` / `PDF text includes tail-path simulation caveat`: tail-path simulation diagnostics
 - `paper` / `references include option-risk-premium papers`: reference text
-- `paper` / `PDF pages render to PNG`: exit=0, pages=35
-- `paper` / `rendered PDF sample pages nonempty`: [154864, 164891]
+- `paper` / `PDF pages render to PNG`: exit=0, pages=36
+- `paper` / `rendered PDF sample pages nonempty`: [168492, 158586]
 - `paper` / `Appendix all-strategy growth figure has all strategy series`: ["Beta/delta-neutral + VIX", "Cost-aware Sortino + VIX", "Delta-matched equities", "Equal premium", "Equal risk", "Equity-option Greek Markowitz", "Greek Markowitz + VIX", "Underlying Markowitz", "VIX hedge sleeve"]
 - `paper` / `Appendix all-strategy growth figure series visible`: [{"Figure": "portfolio_growth_all_strategies.pdf", "Max": 18.35005283540228, "Min": 0.183011836336598, "Pass": "yes", "Series": "Equity-option Greek Markowitz", "Visible points": 60}, {"Figure": "portfolio_growth_all_strategies.pdf", "Max": 144.51861716831928, "Min": 0.6403949030925237, "Pass": "yes", "Series": "Greek Markowitz + VIX", "Visible points": 60}, {"Figure": "portfolio_growth_all_strategies.pdf", "Max": 98.96884463070484, "Min": 0.5735594003706624, "Pass": "yes", "Series": "Beta/delta-neutral + VIX", "Visible points": 60}, {"Figure": "portfolio_growth_all_strategies.pdf", "Max": 2.996100619612762, "Min": 0.0001, "Pass": "yes", "Series": "Cost-aware Sortino + VIX", "Visible points": 60}, {"Figure": "portfolio_growth_all_strategies.pdf", "Max": 0.8905477325031234, "Min": 0.0001782014429151, "Pass": "yes", "Series": "Equal premium", "Visible points": 60}, {"Figure": "portfolio_growth_all_strategies.pdf", "Max": 0.944996867354269, "Min": 0.0228823784998115, "Pass": "yes", "Series": "Equal risk", "Visible points": 60}, {"Figure": "portfolio_growth_all_strategies.pdf", "Max": 0.0001, "Min": 0.0001, "Pass": "yes", "Series": "VIX hedge sleeve", "Visible points": 60}, {"Figure": "portfolio_growth_all_strategies.pdf", "Max": 33.429827509128316, "Min": 0.4455022015082628, "Pass": "yes", "Series": "Delta-matched equities", "Visible points": 60}, {"Figure": "portfolio_growth_all_strategies.pdf", "Max": 2.459772612888149, "Min": 0.945644336357695, "Pass": "yes", "Series": "Underlying Markowitz", "Visible points": 60}]
-- `artifacts` / `hash manifest covers outputs`: 201
+- `artifacts` / `hash manifest covers outputs`: 231

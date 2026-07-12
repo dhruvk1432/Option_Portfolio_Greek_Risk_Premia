@@ -1,0 +1,17 @@
+config,strategy,method,candidate_periods,available_periods,feasible_periods,selected_periods,mean_net_utility,mean_continuous_l1_distance,maximum_recorded_breach
+larger,R1.1 25pct EGARCH diagnostic,cash_abstention,93,93,93,0,0.0,0.08993507673557431,0.0
+larger,R1.1 25pct EGARCH diagnostic,truncate_toward_cash,93,93,93,93,0.0012611234067107847,0.015408958456004398,8.673617379884035e-19
+larger,R1.1 25pct positive-edge deployment,cash_abstention,93,93,93,0,0.0,0.08204139549531893,0.0
+larger,R1.1 25pct positive-edge deployment,truncate_toward_cash,93,93,93,93,0.0010851015090735342,0.015178556785641496,0.0
+larger+VIX,R1.1 25pct EGARCH diagnostic,cash_abstention,93,93,93,32,0.0,0.10316730017395624,0.0
+larger+VIX,R1.1 25pct EGARCH diagnostic,truncate_toward_cash,93,93,61,61,0.006182235299303008,0.014061837808364818,0.0359240806442414
+larger+VIX,R1.1 25pct positive-edge deployment,cash_abstention,93,93,93,34,0.0,0.09840909800380568,0.0
+larger+VIX,R1.1 25pct positive-edge deployment,truncate_toward_cash,93,93,59,59,0.00619766617117953,0.013672829186601355,0.0379655532439489
+orig,R1.1 25pct EGARCH diagnostic,cash_abstention,93,93,93,0,0.0,0.07269780374475457,0.0
+orig,R1.1 25pct EGARCH diagnostic,truncate_toward_cash,93,93,93,93,0.001078773402810007,0.010602599443679295,0.0
+orig,R1.1 25pct positive-edge deployment,cash_abstention,93,93,93,0,0.0,0.06511108051969518,0.0
+orig,R1.1 25pct positive-edge deployment,truncate_toward_cash,93,93,93,93,0.000897631321024058,0.00965474718636184,4.33680868994202e-19
+orig+VIX,R1.1 25pct EGARCH diagnostic,cash_abstention,93,93,93,25,0.0,0.09403557516043759,0.0
+orig+VIX,R1.1 25pct EGARCH diagnostic,truncate_toward_cash,93,93,68,68,0.006621900932362168,0.009760413870115019,0.0350747340859233
+orig+VIX,R1.1 25pct positive-edge deployment,cash_abstention,93,93,93,32,0.0,0.09027848300508425,0.0
+orig+VIX,R1.1 25pct positive-edge deployment,truncate_toward_cash,93,93,61,61,0.006745565344898723,0.009404579779277776,0.0361387505284491

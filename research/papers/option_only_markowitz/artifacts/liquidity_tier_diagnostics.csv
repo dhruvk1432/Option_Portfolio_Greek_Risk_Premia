@@ -8,8 +8,8 @@ tight_spread_quartile,Greek Markowitz,rerun_optimizer_on_tier,14,14,0.5577919605
 tight_spread_quartile,Equal premium,rerun_optimizer_on_tier,14,14,0.9999999999999998,ok
 tight_spread_quartile,Equal risk,rerun_optimizer_on_tier,14,14,0.9999999999999998,ok
 tight_spread_quartile,Delta neutral,rerun_optimizer_on_tier,14,11,0.8653907209749799,ok
-top_volume_quartile,Greek Markowitz,rerun_optimizer_on_tier,14,11,0.9396358245135128,ok
+top_volume_quartile,Greek Markowitz,rerun_optimizer_on_tier,14,11,0.9396361569814008,ok
 top_volume_quartile,Equal premium,rerun_optimizer_on_tier,14,14,0.9999999999999998,ok
-top_volume_quartile,Equal risk,rerun_optimizer_on_tier,14,14,0.9999999999999999,ok
-top_volume_quartile,Delta neutral,rerun_optimizer_on_tier,14,13,0.9335082043994865,ok
+top_volume_quartile,Equal risk,rerun_optimizer_on_tier,14,14,1.0,ok
+top_volume_quartile,Delta neutral,rerun_optimizer_on_tier,14,13,0.9335082039872618,ok
 top_volume_quartile,VIX hedge sleeve,rerun_optimizer_on_tier,14,3,1.0,ok

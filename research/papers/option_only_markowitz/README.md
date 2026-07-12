@@ -5,13 +5,11 @@ Self-contained publication bundle for the paper
 
 ## What this is
 
-A premium-weighted Markowitz framework for books composed **entirely of listed options**.
-Options are treated as funded, expiring, state-contingent cashflows rather than
-asset-return columns: premium weights replace the unit budget, covariance is induced by a
-Greek/state map plus regularized residual risk, expected returns are built from structural
-risk-premium channels rather than historical contract means, and the allocation is a
-robust conic program that carries costs, Greek/stress budgets, margin, and pre-trade
-liquidity caps inside the feasible set.
+A premium-weighted framework for books composed **entirely of listed options**. The repaired
+R1 model uses a complete joint covariance of Greek factors and Greek residuals, including
+their cross terms. It allocates with cost-aware mean-variance utility, permits cash, and
+enforces CVaR, stress, margin, collateral, assignment, whole-contract, and point-in-time
+liquidity constraints before a position is accepted.
 
 The empirical layer takes that clean theory to an **exchange-realistic book** through three
 data-driven layers: a full transaction-cost stack sourced from historical market-hours
@@ -19,10 +17,18 @@ CBBO quotes, **volume-aware pre-trade liquidity caps** (each contract sized to 5
 displayed training-window volume), and **whole-contract integer execution** at the standard
 100 multiplier. Every headline number is reported after all three are imposed.
 
-The evidence is a historical backtest, not a live track record; that is treated as a reason
-to test the specification harder, not to state the supported conclusions more weakly.
+All existing evidence is a retrospective development backtest, not an untouched holdout or
+live track record. Confirmatory claims require 36 future untouched monthly observations.
 
-## Headline results (four universes, \$1M NAV, full-cost net)
+The separately versioned R1.1 development arm raises the predicted-volatility ceiling to
+25%, tests a sign-restricted 50% deployment target, and adds a close-to-next-open VIX-40
+risk-off rule plus a gated EGARCH diagnostic. In the checked replay the deployment target
+is never feasible. Whole-contract execution uses the direct conversion when feasible and
+otherwise records a cash/no-trade month; no alternative portfolio is substituted. The
+rejected conversion's diagnostics remain visible, EGARCH is not promoted, and the risk-off return
+remains unscored because the required event-date licensed CBBO files are absent.
+
+## Legacy E1 development results (not R1 headline evidence)
 
 | Universe | Net Sharpe | Gross Sharpe | Rolling OOS | vs. capped naive | Verdict |
 |---|---|---|---|---|---|
@@ -31,11 +37,10 @@ to test the specification harder, not to state the supported conclusions more we
 | `larger` (56 names) | 0.587 | 0.847 | 0.480 | −0.01 | mixed |
 | `larger+VIX` (56 + VIX) | 1.628 | 2.010 | 1.273 | +1.34 (p<0.001) | pass |
 
-The two VIX-enabled books beat capped-naive option diversification with statistical
-significance and exceed a stock-Markowitz baseline in point estimate (the stock gap is not
-statistically resolvable on 60 months, and the paper says so). Capacity is a binding
-result: displayed option depth supports these books at roughly \$1M NAV and refuses them at
-\$5M.
+These values document the specification-search path. E1 was selected after inspection of
+the post-2020 window, omitted costs from allocation, and has VIX CPCV wealth paths absorbed
+at zero in March 2020. Under R1's hard survival gate that is a failed verdict regardless of
+positive arithmetic Sharpe.
 
 ## Repository layout
 
@@ -65,6 +70,9 @@ Run from the repository root after copying `.env.example` to `.env` and installi
 ```bash
 make verify   # regenerate core artifacts, recompile the PDF, run the 386 audit checks
 make test     # focused publication unit tests
+make r1-repaired  # multi-hour monthly R1 development regeneration
+make r11-higher-risk  # full 2018--2026 R1.1 replay and diagnostic artifacts
+make r11-event-cbbo-plan  # cost estimate only; no licensed download
 ```
 
 `make verify` is the authoritative end-to-end check. It passes only when data lineage,
