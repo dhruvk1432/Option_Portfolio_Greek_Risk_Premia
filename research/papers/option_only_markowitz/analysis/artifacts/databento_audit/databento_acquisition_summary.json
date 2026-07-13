@@ -1,0 +1,30 @@
+{
+  "assignment_validation": "not_attempted_user_excluded",
+  "candidate_date_contract_slots": 24831,
+  "complete_requests": 26,
+  "completed_estimated_cost_by_phase_usd": {
+    "1": 0.977993756532
+  },
+  "completed_estimated_cost_usd": 0.977993756532,
+  "completed_requests_by_phase": {
+    "1": 26
+  },
+  "corporate_actions_acquired": false,
+  "coverage_gap_count": 12,
+  "failed_requests": 1,
+  "failure_codes": [
+    "account_insufficient_funds"
+  ],
+  "generated_at_utc": "2026-07-13T14:53:05.860546+00:00",
+  "initial_stale_slots": 2412,
+  "invalid_cache_files": [],
+  "max_authorized_cost_usd": 40.0,
+  "pipeline_status": "blocked_primary_account_insufficient_funds",
+  "pre_2023_option_execution_precision": "minute_observable_not_tick_exact",
+  "private_request_ledger_sha256": "715d162d16a3f057ef408ea62969ed1a258ede436554fd5d633653694bc8f27b",
+  "raw_licensed_data_committed": false,
+  "resolved_stale_slots": 0,
+  "unresolved_stale_slots": 2412,
+  "verification_passed": true,
+  "verified_rows": 583396
+}

@@ -82,3 +82,18 @@ clean:
 	find . -type d -name __pycache__ -prune -exec rm -rf {} +
 	find . -type f \( -name '*.pyc' -o -name '*.pyo' -o -name '.DS_Store' \) -delete
 	find research/papers -type f \( -name '*.aux' -o -name '*.log' -o -name '*.out' -o -name '*.toc' -o -name '*.fls' -o -name '*.fdb_latexmk' -o -name '*.synctex.gz' -o -name '*.bbl' -o -name '*.blg' \) -delete
+
+databento-audit-plan:
+	$(PYTHON) -m data_ingestion.market_data.fetch_r1_r11_databento_audit plan --max-cost 40
+
+databento-audit-execute:
+	$(PYTHON) -m data_ingestion.market_data.fetch_r1_r11_databento_audit execute --max-cost 40
+
+databento-audit-resume:
+	$(PYTHON) -m data_ingestion.market_data.fetch_r1_r11_databento_audit resume --max-cost 40
+
+databento-audit-verify:
+	$(PYTHON) -m data_ingestion.market_data.fetch_r1_r11_databento_audit verify --max-cost 40
+
+databento-audit-test:
+	$(PYTHON) -m pytest tests/test_r1_r11_databento_audit.py -q -p no:cacheprovider

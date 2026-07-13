@@ -4,6 +4,7 @@ arch==8.0.0
 cvxpy==1.9.1
 databento-dbn==0.59.0
 databento==0.79.0
+exchange-calendars==4.13.2
 hmmlearn==0.3.3
 lightgbm==4.6.0
 lxml==6.1.1
