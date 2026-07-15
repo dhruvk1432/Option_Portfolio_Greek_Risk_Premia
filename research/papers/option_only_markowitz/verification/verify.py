@@ -36,6 +36,8 @@ BREADTH_DIR = PAPER / "analysis/artifacts/breadth_solutions"
 BREADTH_ROBUSTNESS_DIR = BREADTH_DIR / "robustness"
 R1_DIR = PAPER / "analysis/artifacts/r1_repaired"
 R11_DIR = PAPER / "analysis/artifacts/r11_higher_risk"
+R2_DIR = PAPER / "analysis/artifacts/r2_robust_sortino"
+EXECUTION_AUDIT_DIR = PAPER / "analysis/artifacts/execution_audit"
 PUBLISHED_STEM = "option_only_portfolio_optimization_dhruv_kohli"
 PUBLISHED_TEX_NAME = f"{PUBLISHED_STEM}.tex"
 PUBLISHED_PDF_NAME = f"{PUBLISHED_STEM}.pdf"
@@ -2748,6 +2750,379 @@ def check_r11_higher_risk_artifacts(v: Verifier) -> None:
     ), observed=status[status["specification"].astype(str).str.contains("E1", regex=False)].to_dict(orient="records"))
 
 
+def check_execution_audit_artifacts(v: Verifier) -> None:
+    required = {
+        "fill_ledger": EXECUTION_AUDIT_DIR / "execution_fill_ledger.csv",
+        "monthly_returns": EXECUTION_AUDIT_DIR / "execution_audit_monthly_returns.csv",
+        "summary": EXECUTION_AUDIT_DIR / "execution_audit_summary.json",
+        "liquidity": EXECUTION_AUDIT_DIR / "liquidity_gate_validation.csv",
+        "intervention": EXECUTION_AUDIT_DIR / "intervention_day_fill_evidence.csv",
+        "mark_accuracy": EXECUTION_AUDIT_DIR / "mark_accuracy.csv",
+        "readme": EXECUTION_AUDIT_DIR / "README.md",
+        "summary_table": TABLE_DIR / "short_execution_audit_summary.tex",
+        "spread_table": TABLE_DIR / "short_execution_spread_comparison.tex",
+        "liquidity_table": TABLE_DIR / "short_liquidity_validation.tex",
+    }
+    missing = [name for name, path in required.items() if not path.exists()]
+    v.check("execution audit artifacts exist", "execution_audit", not missing, observed=missing)
+    if missing:
+        return
+
+    monthly = pd.read_csv(required["monthly_returns"], dtype={"gross_return": "string"})
+    fills = pd.read_csv(required["fill_ledger"])
+    liquidity = pd.read_csv(required["liquidity"])
+    summary = json.loads(required["summary"].read_text(encoding="utf-8"))
+    intervention = pd.read_csv(required["intervention"])
+    monthly_columns = {
+        "arm", "config", "return_date", "gross_return", "predicted_cost",
+        "observed_cost_mid", "observed_cost_touch", "observed_cost_worst",
+        "net_return_mid", "net_return_touch", "net_return_worst",
+        "coverage_weight_fraction", "uncovered_cost_source",
+    }
+    source_schema_ok = bool(
+        monthly_columns.issubset(monthly.columns)
+        and "contracts_source" in fills.columns
+        and "contracts_source" in liquidity.columns
+    )
+    v.check(
+        "execution audit monthly and source schema",
+        "execution_audit",
+        source_schema_ok,
+        observed={
+            "missing_monthly": sorted(monthly_columns - set(monthly.columns)),
+            "fill_contracts_source": "contracts_source" in fills.columns,
+            "liquidity_contracts_source": "contracts_source" in liquidity.columns,
+        },
+    )
+
+    ordered = (
+        pd.to_numeric(monthly["net_return_worst"], errors="coerce")
+        <= pd.to_numeric(monthly["net_return_touch"], errors="coerce") + 1e-12
+    ) & (
+        pd.to_numeric(monthly["net_return_touch"], errors="coerce")
+        <= pd.to_numeric(monthly["net_return_mid"], errors="coerce") + 1e-12
+    )
+    v.check(
+        "execution audit scenario returns are ordered",
+        "execution_audit",
+        bool(len(monthly) and ordered.all()),
+        observed={"ordered_rows": int(ordered.sum()), "rows": len(monthly)},
+        expected="net_return_worst <= net_return_touch <= net_return_mid",
+    )
+
+    from research.papers.option_only_markowitz.analysis import (  # noqa: E402
+        r1_r11_execution_audit as execution_audit,
+    )
+
+    identity: dict[str, dict[str, Any]] = {}
+    identity_ok = True
+    for arm, source_path, strategy, expected_rows in [
+        ("R1.1", R11_DIR / "r11_monthly_development_returns.csv", execution_audit.R11_NAME, 372),
+        ("R1", R1_DIR / "r1_monthly_development_returns.csv", execution_audit.R1_NAME, 240),
+    ]:
+        source = pd.read_csv(source_path, dtype={"gross_return": "string"})
+        source = source[source["strategy"].eq(strategy)][["config", "return_date", "gross_return"]]
+        observed = monthly[monthly["arm"].eq(arm)][["config", "return_date", "gross_return"]]
+        joined = observed.merge(
+            source,
+            on=["config", "return_date"],
+            how="outer",
+            suffixes=("_audit", "_frozen"),
+            indicator=True,
+            validate="one_to_one",
+        )
+        exact = joined["gross_return_audit"].astype("string").eq(
+            joined["gross_return_frozen"].astype("string")
+        )
+        arm_ok = bool(
+            len(observed) == expected_rows
+            and len(source) == expected_rows
+            and joined["_merge"].eq("both").all()
+            and exact.all()
+        )
+        identity_ok = identity_ok and arm_ok
+        identity[arm] = {
+            "audit_rows": len(observed),
+            "frozen_rows": len(source),
+            "exact_rows": int(exact.sum()),
+        }
+    v.check(
+        "execution audit gross-return text matches frozen arms",
+        "execution_audit",
+        identity_ok,
+        observed=identity,
+        expected={"R1.1": 372, "R1": 240},
+    )
+
+    reconstruction = summary.get("cost_reconstruction", {})
+    reconstruction_ok = bool(
+        reconstruction.get("status") == "exact"
+        and float(reconstruction.get("max_absolute_gap", np.inf)) < 1e-6
+    )
+    v.check(
+        "execution audit cost reconstruction is exact",
+        "execution_audit",
+        reconstruction_ok,
+        observed=reconstruction,
+        expected="status exact and max_absolute_gap < 1e-6",
+    )
+
+    coverage = pd.DataFrame(summary.get("coverage", []))
+    r11_coverage = coverage[coverage.get("arm", pd.Series(dtype=str)).eq("R1.1")]
+    entry = pd.to_numeric(r11_coverage.get("entry_coverage"), errors="coerce")
+    roundtrip = pd.to_numeric(r11_coverage.get("roundtrip_coverage"), errors="coerce")
+    coverage_ok = bool(
+        len(r11_coverage) == 4
+        and entry.ge(0.90).all()
+        and roundtrip.gt(0.0).all()
+        and roundtrip.le(1.0).all()
+        and summary.get("raw_licensed_data_committed") is False
+    )
+    v.check(
+        "execution audit coverage and licensing flags are sane",
+        "execution_audit",
+        coverage_ok,
+        observed=r11_coverage.to_dict(orient="records"),
+        expected="R1.1 entry >= 0.90, round-trip in (0,1], raw licensed data absent",
+    )
+
+    header, rows = _parse_tex_table(required["summary_table"])
+    header_index = {_tex_cell_text(value): index for index, value in enumerate(header)}
+    table_records = {
+        _tex_cell_text(row[header_index["Config"]]): row
+        for row in rows
+        if "Config" in header_index and len(row) > header_index["Config"]
+    }
+    headline = {
+        (str(record.get("config")), str(record.get("strategy"))): record
+        for record in summary.get("headline_r11", [])
+    }
+    comparisons = [
+        ("modeled", "modeled ann.", "annualized_return"),
+        ("modeled", "modeled Sortino", "sortino"),
+        ("modeled", "modeled maxDD", "max_drawdown"),
+        ("mid", "mid ann.", "annualized_return"),
+        ("mid", "mid Sortino", "sortino"),
+        ("mid", "mid maxDD", "max_drawdown"),
+        ("touch", "touch ann.", "annualized_return"),
+        ("touch", "touch Sortino", "sortino"),
+        ("touch", "touch maxDD", "max_drawdown"),
+        ("worst", "worst ann.", "annualized_return"),
+        ("worst", "worst Sortino", "sortino"),
+        ("worst", "worst maxDD", "max_drawdown"),
+    ]
+    table_violations = []
+    expected_configs = {"orig", "orig+VIX", "larger", "larger+VIX"}
+    if set(table_records) != expected_configs or len(rows) != len(expected_configs):
+        table_violations.append(
+            {"table_configs": sorted(table_records), "expected_configs": sorted(expected_configs), "rows": len(rows)}
+        )
+    coverage_by_config = {
+        str(record.get("config")): record
+        for record in summary.get("coverage", [])
+        if record.get("arm") == "R1.1"
+    }
+    for config in sorted(expected_configs):
+        row = table_records.get(config)
+        for strategy, column, field in comparisons:
+            published = _tex_cell_float(row[header_index[column]]) if row is not None and column in header_index else np.nan
+            record = headline.get((config, strategy), {})
+            source_value = float(record.get(field, np.nan))
+            if not np.isfinite(published) or not np.isfinite(source_value) or abs(published - source_value) > 5e-4:
+                table_violations.append(
+                    {"config": config, "column": column, "table": published, "summary": source_value}
+                )
+        for column, field in [("Entry cov. %", "entry_coverage"), ("Round-trip cov. %", "roundtrip_coverage")]:
+            published = _tex_cell_float(row[header_index[column]]) if row is not None and column in header_index else np.nan
+            source_value = 100.0 * float(coverage_by_config.get(config, {}).get(field, np.nan))
+            if not np.isfinite(published) or not np.isfinite(source_value) or abs(published - source_value) > 5e-4:
+                table_violations.append(
+                    {"config": config, "column": column, "table": published, "summary": source_value}
+                )
+    v.check(
+        "execution audit summary table matches JSON",
+        "execution_audit",
+        not table_violations,
+        observed=table_violations,
+        expected="all headline and coverage table values match JSON within display precision",
+    )
+
+    cache_root = ROOT / "data/databento_cache/r1_r11_audit"
+    ledger_path = cache_root / "request_ledger.json"
+    if ledger_path.exists():
+        sample = (
+            fills[fills["obs_coverage"].eq("covered")]
+            .drop_duplicates(["symbol", "decision_date"])
+            .head(3)
+            .copy()
+        )
+        trade_columns = fills.columns[: fills.columns.get_loc("obs_bid")].tolist()
+        trade_sample = sample[trade_columns].copy()
+        trade_sample["_verification_row"] = np.arange(len(trade_sample))
+        quotes = execution_audit._load_audit_frames(
+            cache_root,
+            {"candidate_close_quotes", "gap_candidate_close_quotes"},
+            set(trade_sample["symbol"].astype(str)),
+        )
+        recomputed = execution_audit.match_quotes(trade_sample, quotes).sort_values(
+            "_verification_row"
+        )
+        sample = sample.reset_index(drop=True)
+        bid_match = np.allclose(
+            pd.to_numeric(sample["obs_bid"], errors="coerce"),
+            pd.to_numeric(recomputed["obs_bid"], errors="coerce"),
+            rtol=0.0,
+            atol=1e-12,
+            equal_nan=True,
+        )
+        ask_match = np.allclose(
+            pd.to_numeric(sample["obs_ask"], errors="coerce"),
+            pd.to_numeric(recomputed["obs_ask"], errors="coerce"),
+            rtol=0.0,
+            atol=1e-12,
+            equal_nan=True,
+        )
+        v.check(
+            "execution audit sampled quotes recompute from licensed cache",
+            "execution_audit",
+            bool(len(sample) >= 3 and len(recomputed) == len(sample) and bid_match and ask_match),
+            observed={"sample_rows": len(sample), "bid_match": bid_match, "ask_match": ask_match},
+            expected=">=3 covered rows match the last valid in-window quote",
+        )
+    else:
+        v.check(
+            "execution audit sampled quotes recompute from licensed cache",
+            "execution_audit",
+            True,
+            observed="licensed cache absent",
+            details="Committed aggregate execution artifacts remain the source of record.",
+            severity=WARNING,
+        )
+
+    frozen_intervention = R11_DIR / "r11_intervention_fill_ledger.csv"
+    frozen_text = frozen_intervention.read_text(encoding="utf-8") if frozen_intervention.exists() else "missing"
+    frozen_header_only = frozen_intervention.exists() and not frozen_text.strip()
+    if frozen_intervention.exists() and frozen_text.strip():
+        try:
+            frozen_header_only = pd.read_csv(frozen_intervention).empty
+        except pd.errors.EmptyDataError:
+            frozen_header_only = True
+    evidence_only = intervention.get("evidence_only", pd.Series(dtype=bool)).astype(str).str.lower().eq("true")
+    v.check(
+        "execution audit preserves unscored intervention arm",
+        "execution_audit",
+        bool(frozen_header_only and len(intervention) and evidence_only.all()),
+        observed={
+            "frozen_intervention_header_only": frozen_header_only,
+            "evidence_rows": len(intervention),
+            "evidence_only_rows": int(evidence_only.sum()),
+        },
+        expected="frozen fill ledger header-only and all new intervention rows evidence-only",
+    )
+
+
+def check_r2_robust_sortino_artifacts(v: Verifier) -> None:
+    required = {
+        "returns": R2_DIR / "r2_monthly_development_returns.csv",
+        "weights": R2_DIR / "r2_monthly_weights.csv",
+        "moments": R2_DIR / "r2_moment_ledger.csv",
+        "scenarios": R2_DIR / "r2_scenario_diagnostics.csv",
+        "abstentions": R2_DIR / "r2_abstention_ledger.csv",
+        "summary": R2_DIR / "r2_survival_summary.csv",
+        "aligned": R2_DIR / "r2_r11_aligned_returns.csv",
+        "comparison": R2_DIR / "r2_r11_comparison_summary.csv",
+        "block": R2_DIR / "r2_block_bootstrap_paths.csv",
+        "paired": R2_DIR / "r2_paired_stationary_bootstrap.csv",
+        "repriced": R2_DIR / "r2_repriced_state_paths.csv",
+        "refit": R2_DIR / "r2_refit_monte_carlo.csv",
+        "gate": R2_DIR / "r2_promotion_gate.json",
+        "registry": R2_DIR / "r2_research_trial_registry.csv",
+        "freeze": R2_DIR / "r2_prospective_freeze_manifest.json",
+        "table": TABLE_DIR / "short_r2_development_summary.tex",
+    }
+    missing = [name for name, path in required.items() if not path.exists()]
+    v.check("R2 artifacts exist", "r2", not missing, observed=missing)
+    if missing:
+        return
+    returns = pd.read_csv(required["returns"], parse_dates=["return_date", "decision_date", "train_end"])
+    required_columns = {
+        "config", "strategy", "evidence_status", "return_date", "decision_date", "train_end",
+        "train_observations", "recent_observations", "recent_covariance_weight", "net_return",
+        "predicted_cost", "gross_nav", "predicted_annual_vol", "worst_annual_downside",
+        "scenario_cvar_loss", "worst_three_month_loss", "worst_six_month_loss",
+        "short_margin_used", "collateral_used", "integer_execution_abstained",
+        "integer_conversion_feasible", "selected_feasible", "selected_max_breach",
+        "rejected_max_breach", "information_set_valid",
+    }
+    v.check("R2 return schema", "r2", required_columns.issubset(returns.columns), observed=sorted(required_columns - set(returns.columns)))
+    v.check("R2 replay is cutoff-safe and spans four universes", "r2", bool(
+        len(returns)
+        and returns["config"].nunique() == 4
+        and returns["evidence_status"].eq("retrospective_development_sample").all()
+        and (returns["train_end"] < returns["return_date"]).all()
+        and (returns["decision_date"] < returns["return_date"]).all()
+        and returns["information_set_valid"].astype(bool).all()
+        and pd.Timestamp(returns["return_date"].min()) >= pd.Timestamp("2018-02-01")
+    ), observed={"rows": len(returns), "universes": sorted(returns["config"].unique()), "start": str(returns["return_date"].min()), "end": str(returns["return_date"].max())})
+    v.check("R2 selected books satisfy every scalar-stage hard limit", "r2", bool(
+        (returns["predicted_annual_vol"] <= 0.25 + 1e-6).all()
+        and (returns["worst_annual_downside"] <= 0.10 + 1e-6).all()
+        and (returns["scenario_cvar_loss"] <= 0.10 + 1e-6).all()
+        and (returns["worst_three_month_loss"] <= 0.15 + 1e-6).all()
+        and (returns["worst_six_month_loss"] <= 0.20 + 1e-6).all()
+        and (returns["short_margin_used"] <= 0.75 + 1e-6).all()
+        and (returns["collateral_used"] <= 1.0 + 1e-6).all()
+        and (returns["gross_nav"] <= 1.0 + 1e-7).all()
+    ), observed={column: float(returns[column].max()) for column in ["predicted_annual_vol", "worst_annual_downside", "scenario_cvar_loss", "worst_three_month_loss", "worst_six_month_loss", "short_margin_used", "collateral_used", "gross_nav"]})
+    allowed_weights = {0.25, 0.50, 0.75}
+    v.check("R2 covariance weights obey the registered QLIKE grid", "r2", bool(
+        set(np.round(returns["recent_covariance_weight"].astype(float), 2)).issubset(allowed_weights)
+        and returns.loc[returns["train_observations"] < 48, "recent_covariance_weight"].eq(0.50).all()
+    ), observed=returns["recent_covariance_weight"].value_counts().to_dict())
+    scenarios = pd.read_csv(required["scenarios"])
+    expected_families = {"recent", "expanding_bootstrap", "imputation_1", "imputation_2", "imputation_3", "imputation_4", "imputation_5"}
+    family_sets = scenarios.groupby(["config", "return_date"], observed=True)["family"].agg(set)
+    v.check("R2 evaluates all seven robust downside families", "r2", bool(
+        len(family_sets) == len(returns) and family_sets.map(lambda value: value == expected_families).all()
+    ), observed={"decision_families": len(family_sets), "return_rows": len(returns)})
+    abstentions = pd.read_csv(required["abstentions"])
+    abstained = returns[returns["integer_execution_abstained"].astype(bool)]
+    v.check("R2 direct-or-abstain preserves rejected diagnostics", "r2", bool(
+        len(abstentions) == len(abstained)
+        and returns["integer_execution_abstained"].astype(bool).eq(~returns["integer_conversion_feasible"].astype(bool)).all()
+        and (abstained["gross_nav"] <= 1e-12).all()
+        and (abstained["rejected_max_breach"] > 0).all()
+    ), observed={"abstentions": len(abstentions), "return_abstentions": len(abstained)})
+    aligned = pd.read_csv(required["aligned"])
+    v.check("R2/R1.1 comparison is date aligned", "r2", bool(
+        len(aligned) and aligned[["r2_net_return", "r11_net_return"]].notna().all().all()
+        and aligned.groupby("config", observed=True)["return_date"].nunique().min() > 0
+    ), observed=aligned.groupby("config", observed=True).size().to_dict())
+    block = pd.read_csv(required["block"])
+    repriced = pd.read_csv(required["repriced"])
+    refit = pd.read_csv(required["refit"])
+    v.check("R2 locked Monte Carlo path counts are complete", "r2", bool(
+        block.groupby(["config", "strategy"], observed=True)["path_id"].nunique().eq(5000).all()
+        and repriced.groupby(["config", "strategy", "method"], observed=True)["path_id"].nunique().eq(2000).all()
+        and refit.groupby("config", observed=True)["path_id"].nunique().eq(200).all()
+    ), observed={"block_rows": len(block), "repriced_rows": len(repriced), "refit_rows": len(refit)})
+    gate = json.loads(required["gate"].read_text(encoding="utf-8"))
+    v.check("R2 promotion status follows every registered gate", "r2", bool(
+        gate.get("promoted") == all(gate.get("gates", {}).values())
+        and gate.get("active_development_extension") == ("R2" if gate.get("promoted") else "R1.1")
+    ), observed=gate)
+    freeze = json.loads(required["freeze"].read_text(encoding="utf-8"))
+    hash_matches = {
+        rel: (ROOT / rel).exists() and hashlib.sha256((ROOT / rel).read_bytes()).hexdigest() == expected
+        for rel, expected in freeze.get("source_sha256", {}).items()
+    }
+    v.check("R2 has a separate 36-month freeze with matching source hashes", "r2", bool(
+        freeze.get("confirmatory_observations_required") == 36
+        and freeze.get("evidence_status") == "retrospective_development_sample"
+        and bool(hash_matches) and all(hash_matches.values())
+    ), observed={"freeze": freeze, "hash_matches": hash_matches})
+
+
 def check_paper_quality(v: Verifier, skip_render: bool, skip_compile: bool = False) -> None:
     log = PAPER / f"{PUBLISHED_STEM}.log"
     if log.exists():
@@ -2772,7 +3147,7 @@ def check_paper_quality(v: Verifier, skip_render: bool, skip_compile: bool = Fal
         if info is not None:
             page_match = re.search(r"Pages:\s+(\d+)", info.stdout)
             pages = int(page_match.group(1)) if page_match else 0
-            v.check("PDF page count plausible", "paper", 25 <= pages <= 40, observed=pages, expected="25-40 research-paper pages")
+            v.check("PDF page count plausible", "paper", 25 <= pages <= 45, observed=pages, expected="25-45 research-paper pages")
 
     pdf_text = extract_pdf_text(pdf)
     if pdf_text:
@@ -2890,6 +3265,8 @@ def run_verification(
     check_ci_pairs_ordered(v)
     check_r1_repaired_artifacts(v)
     check_r11_higher_risk_artifacts(v)
+    check_execution_audit_artifacts(v)
+    check_r2_robust_sortino_artifacts(v)
     check_claims_and_bibliography(v)
     check_paper_quality(v, skip_render, skip_compile=skip_compile)
     manifest = build_hash_manifest(v)

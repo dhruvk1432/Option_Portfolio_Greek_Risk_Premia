@@ -106,6 +106,7 @@ make test
 After licensed local data are available, rebuild the empirical outputs and paper:
 
 ```bash
+make execution-audit
 make paper
 make verify
 make test
@@ -168,6 +169,7 @@ make data-plan       # dry-run the full option-paper data plan
 make data-validate   # check expected local input paths; no network calls
 make data-public     # run public/free data pulls
 make data-paid       # run paid Databento jobs with explicit credentials
+make execution-audit # regenerate aggregate licensed-quote execution evidence
 make paper           # regenerate artifacts and compile the paper
 make verify          # run the independent paper verifier
 make test            # run focused reproducibility and publication tests
@@ -176,7 +178,7 @@ make clean           # remove local Python/LaTeX intermediates
 
 ## Verification Standard
 
-The full verifier (`make verify`) regenerates the fast empirical core, recompiles the PDF, and runs 386 independent checks covering generated outputs, point-in-time timing (including the two-sided CPCV purge/embargo gap), optimizer constraints, settlement coverage, cost ledgers, figure visibility, inference outputs, bibliography scope, PDF availability, and claim boundaries; `make test` runs 155 focused unit tests. In the public standalone package, raw licensed data checks are documented and replaced by artifact-level verification unless the licensed inputs are present locally.
+The full verifier (`make verify`) regenerates the fast empirical core, recompiles the PDF, and runs 435 independent checks covering generated outputs, point-in-time timing (including the two-sided CPCV purge/embargo gap), optimizer constraints, settlement coverage, cost ledgers, figure visibility, inference outputs, bibliography scope, PDF availability, and claim boundaries; `make test` runs 155 focused unit tests. In the public standalone package, raw licensed data checks are documented and replaced by artifact-level verification unless the licensed inputs are present locally.
 
 The latest included verifier outputs are under:
 

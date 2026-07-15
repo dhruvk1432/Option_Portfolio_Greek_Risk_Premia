@@ -2,7 +2,7 @@ PYTHON ?= .venv/bin/python
 PAPER_DIR := research/papers/option_only_markowitz
 PAPER_STEM := option_only_portfolio_optimization_dhruv_kohli
 
-.PHONY: help install data-plan data-validate data-public data-paid cbbo-surface robustness final-results e1-ablation r1-repaired r11-higher-risk r11-event-cbbo-plan option-paper paper verify test clean
+.PHONY: help install data-plan data-validate data-public data-paid cbbo-surface robustness final-results e1-ablation r1-repaired r11-higher-risk r2-robust-sortino r11-event-cbbo-plan execution-audit option-paper paper verify test clean
 
 help:
 	@echo "Targets:"
@@ -17,7 +17,9 @@ help:
 	@echo "  e1-ablation    Run the locked E1 structural-channel ablation"
 	@echo "  r1-repaired    Run the repaired monthly R1 development pipeline"
 	@echo "  r11-higher-risk Run the R1.1 25%/VIX40/EGARCH development pipeline"
+	@echo "  r2-robust-sortino Run the R2 robust-Sortino development and stability pipeline"
 	@echo "  r11-event-cbbo-plan Estimate licensed event-date CBBO cost; download nothing"
+	@echo "  execution-audit Run the quote-grounded R1/R1.1 execution audit"
 	@echo "  option-paper   Regenerate option-only paper artifacts"
 	@echo "  paper          Regenerate artifacts and compile the option-only paper PDF"
 	@echo "  verify         Run the independent option-only paper verifier"
@@ -59,8 +61,14 @@ r1-repaired:
 r11-higher-risk:
 	$(PYTHON) -m research.papers.option_only_markowitz.analysis.r11_higher_risk_pipeline --configs all
 
+r2-robust-sortino:
+	$(PYTHON) -m research.papers.option_only_markowitz.analysis.r2_robust_sortino_pipeline --configs all
+
 r11-event-cbbo-plan:
 	$(PYTHON) -m data_ingestion.market_data.fetch_r11_event_cbbo
+
+execution-audit:
+	$(PYTHON) -m research.papers.option_only_markowitz.analysis.r1_r11_execution_audit
 
 option-paper:
 	$(PYTHON) -m research.papers.option_only_markowitz.analysis.run_empirics --stage all
@@ -76,7 +84,7 @@ verify:
 	$(PYTHON) -m research.papers.option_only_markowitz.verification.verify
 
 test:
-	$(PYTHON) -m pytest tests/test_data_pull_cli.py tests/test_option_only_markowitz_model.py tests/test_r1_repair.py tests/test_r11_higher_risk.py tests/test_option_only_markowitz_verification.py tests/test_option_only_publication_upgrade.py tests/test_option_portfolio_production.py tests/test_option_portfolio_shadow.py tests/test_cbbo_cost_surface.py tests/test_vix_chain_features.py tests/test_option_only_cross_validation.py tests/test_option_only_resampled_universes.py tests/test_option_only_mc_repricing.py tests/test_option_only_robustness_wiring.py -q -p no:cacheprovider
+	$(PYTHON) -m pytest tests/test_data_pull_cli.py tests/test_option_only_markowitz_model.py tests/test_r1_repair.py tests/test_r11_higher_risk.py tests/test_r2_robust_sortino.py tests/test_r1_r11_execution_audit.py tests/test_option_only_markowitz_verification.py tests/test_option_only_publication_upgrade.py tests/test_option_portfolio_production.py tests/test_option_portfolio_shadow.py tests/test_cbbo_cost_surface.py tests/test_vix_chain_features.py tests/test_option_only_cross_validation.py tests/test_option_only_resampled_universes.py tests/test_option_only_mc_repricing.py tests/test_option_only_robustness_wiring.py -q -p no:cacheprovider
 
 clean:
 	find . -type d -name __pycache__ -prune -exec rm -rf {} +

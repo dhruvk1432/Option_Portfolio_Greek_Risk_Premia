@@ -1112,7 +1112,7 @@
       "basis": "gross",
       "sharpe": -0.4541586339821839,
       "sortino": -0.6012256883150454,
-      "max_drawdown": -0.19612173698489155,
+      "max_drawdown": -0.23553335231409955,
       "ann_return": -0.1761758048221751,
       "ann_vol": 0.3196883997485457,
       "defaulted": false,
@@ -1126,7 +1126,7 @@
       "basis": "gross",
       "sharpe": -0.7799809289749505,
       "sortino": -1.001761258543348,
-      "max_drawdown": -0.5558337867395614,
+      "max_drawdown": -0.5788457187573313,
       "ann_return": -0.5103012908747733,
       "ann_vol": 0.6408974211809003,
       "defaulted": false,
@@ -1140,7 +1140,7 @@
       "basis": "gross",
       "sharpe": -0.4718857113931543,
       "sortino": -0.7159316482654163,
-      "max_drawdown": -0.4812771448301897,
+      "max_drawdown": -0.5569855616787487,
       "ann_return": -0.5007177956952542,
       "ann_vol": 0.8214434017492832,
       "defaulted": false,
@@ -1196,7 +1196,7 @@
       "basis": "full_spread_post_cost",
       "sharpe": -1.6879441089443843,
       "sortino": -1.624390175278317,
-      "max_drawdown": -0.15861401470756098,
+      "max_drawdown": -0.2954822284474331,
       "ann_return": -0.3175608263543038,
       "ann_vol": 0.20998430728245612,
       "defaulted": false,
@@ -1210,7 +1210,7 @@
       "basis": "full_spread_post_cost",
       "sharpe": -2.209833671050622,
       "sortino": -1.9425029481130134,
-      "max_drawdown": -0.6004286394341236,
+      "max_drawdown": -0.6928952923924059,
       "ann_return": -0.7241479897265738,
       "ann_vol": 0.4919229405957645,
       "defaulted": false,
@@ -1224,7 +1224,7 @@
       "basis": "full_spread_post_cost",
       "sharpe": -2.2922000638235174,
       "sortino": -2.0187434288533996,
-      "max_drawdown": -0.5320883738699215,
+      "max_drawdown": -0.6588237412743891,
       "ann_return": -0.6905964563345757,
       "ann_vol": 0.4427392793500226,
       "defaulted": false,
@@ -1266,7 +1266,7 @@
       "basis": "full_spread_post_cost",
       "sharpe": -2.383221282688009,
       "sortino": -2.026968750106952,
-      "max_drawdown": -0.9700910174287493,
+      "max_drawdown": -0.9933026072928561,
       "ann_return": -0.9957512533571418,
       "ann_vol": 1.2455819880724757,
       "defaulted": false,
@@ -1280,7 +1280,7 @@
       "basis": "gross",
       "sharpe": 0.11248752273519853,
       "sortino": 0.1752170778576401,
-      "max_drawdown": -0.3241024880858375,
+      "max_drawdown": -0.44732903195828955,
       "ann_return": -0.22160471700037299,
       "ann_vol": 0.87369255141779,
       "defaulted": false,
@@ -1294,7 +1294,7 @@
       "basis": "gross",
       "sharpe": -2.533084013481896,
       "sortino": -2.1766919419916424,
-      "max_drawdown": -0.819649018273091,
+      "max_drawdown": -0.860419648808013,
       "ann_return": -0.8790803732915204,
       "ann_vol": 0.6652264083273582,
       "defaulted": false,
@@ -1308,7 +1308,7 @@
       "basis": "gross",
       "sharpe": -2.493080994351978,
       "sortino": -2.108673132784113,
-      "max_drawdown": -0.7381644538239558,
+      "max_drawdown": -0.7423084196150493,
       "ann_return": -0.7654865331827534,
       "ann_vol": 0.49314550417554526,
       "defaulted": false,
@@ -1644,7 +1644,7 @@
       "basis": "gross",
       "sharpe": -1.1032308897796688,
       "sortino": -1.170127621480844,
-      "max_drawdown": -0.41833033770792905,
+      "max_drawdown": -0.44403393685040005,
       "ann_return": -0.4729268978405563,
       "ann_vol": 0.46294726260660535,
       "defaulted": false,
@@ -1658,7 +1658,7 @@
       "basis": "gross",
       "sharpe": 0.3516531098870905,
       "sortino": 0.846761405129284,
-      "max_drawdown": -0.8158678465028072,
+      "max_drawdown": -0.830422358484461,
       "ann_return": -0.680033279328716,
       "ann_vol": 2.4796306778007824,
       "defaulted": false,
@@ -1784,7 +1784,7 @@
       "basis": "gross",
       "sharpe": 0.9037192790489025,
       "sortino": 2.045994325199905,
-      "max_drawdown": -0.17484252743254391,
+      "max_drawdown": -0.21742140456484438,
       "ann_return": 0.45368346118803893,
       "ann_vol": 0.5701891049483092,
       "defaulted": false,
@@ -1798,7 +1798,7 @@
       "basis": "gross",
       "sharpe": -0.17094946371377745,
       "sortino": -0.32410299366240186,
-      "max_drawdown": -0.16530757800988205,
+      "max_drawdown": -0.17223536952042928,
       "ann_return": -0.09969371005933103,
       "ann_vol": 0.33412149561613236,
       "defaulted": false,
@@ -2162,7 +2162,7 @@
       "basis": "gross",
       "sharpe": -1.273580777346528,
       "sortino": -1.7666162350944565,
-      "max_drawdown": -0.9317982940442089,
+      "max_drawdown": -0.9686151111942256,
       "ann_return": -0.9770882200193434,
       "ann_vol": 1.7022742089256264,
       "defaulted": false,
@@ -2176,7 +2176,7 @@
       "basis": "gross",
       "sharpe": -1.4930965253593609,
       "sortino": -1.9459927674599444,
-      "max_drawdown": -0.8452920951266746,
+      "max_drawdown": -0.8966932764265783,
       "ann_return": -0.91595654185559,
       "ann_vol": 1.1613400081784884,
       "defaulted": false,
@@ -2246,7 +2246,7 @@
       "basis": "full_spread_post_cost",
       "sharpe": -3.0115880593864213,
       "sortino": -2.47188609516972,
-      "max_drawdown": -0.8496333883541611,
+      "max_drawdown": -0.9128089486316102,
       "ann_return": -0.9301524496409508,
       "ann_vol": 0.7102362932335557,
       "defaulted": false,
@@ -2260,7 +2260,7 @@
       "basis": "full_spread_post_cost",
       "sharpe": -2.583323749413926,
       "sortino": -2.4150757154884848,
-      "max_drawdown": -0.753524710031721,
+      "max_drawdown": -0.8180957837708571,
       "ann_return": -0.8442042005629486,
       "ann_vol": 0.6047786420679171,
       "defaulted": false,
@@ -2386,7 +2386,7 @@
       "basis": "full_spread_post_cost",
       "sharpe": -0.39622190702395255,
       "sortino": -0.5107544793443064,
-      "max_drawdown": -0.24423405392165087,
+      "max_drawdown": -0.3781675001726046,
       "ann_return": -0.15719484674120598,
       "ann_vol": 0.31233211585731036,
       "defaulted": false,
@@ -2400,7 +2400,7 @@
       "basis": "full_spread_post_cost",
       "sharpe": 0.7515115945113159,
       "sortino": 1.3383710231070916,
-      "max_drawdown": -0.12772734623344428,
+      "max_drawdown": -0.18722791378481685,
       "ann_return": 0.21558422049427062,
       "ann_vol": 0.32509722100931165,
       "defaulted": false,
@@ -2610,7 +2610,7 @@
       "basis": "full_spread_post_cost",
       "sharpe": -2.4967033453465013,
       "sortino": -2.0889064266462274,
-      "max_drawdown": -0.7739786391402764,
+      "max_drawdown": -0.8614385255527129,
       "ann_return": -0.8842262779731846,
       "ann_vol": 0.6814224643191382,
       "defaulted": false,
@@ -2638,7 +2638,7 @@
       "basis": "gross",
       "sharpe": 3.7777711557791047,
       "sortino": 30.729410500771543,
-      "max_drawdown": 0.0,
+      "max_drawdown": -0.07258312867282801,
       "ann_return": 7.11166249682554,
       "ann_vol": 0.6467625878871727,
       "defaulted": false,
@@ -2652,7 +2652,7 @@
       "basis": "gross",
       "sharpe": 2.8589687490748705,
       "sortino": 16.316643918850367,
-      "max_drawdown": -0.056926645136586296,
+      "max_drawdown": -0.08807044093795502,
       "ann_return": 3.735985365734015,
       "ann_vol": 0.6351688564296215,
       "defaulted": false,
@@ -2666,7 +2666,7 @@
       "basis": "gross",
       "sharpe": 0.6481801473599087,
       "sortino": 1.537779651356009,
-      "max_drawdown": -0.47721024425786596,
+      "max_drawdown": -0.5743933517688427,
       "ann_return": 0.03859257677304062,
       "ann_vol": 1.8414151188962966,
       "defaulted": false,
@@ -2680,7 +2680,7 @@
       "basis": "gross",
       "sharpe": 1.2966468592391691,
       "sortino": 3.49656119243919,
-      "max_drawdown": -0.33253096748472233,
+      "max_drawdown": -0.38671499230273854,
       "ann_return": 1.7667216410164723,
       "ann_vol": 1.302988533957376,
       "defaulted": false,
@@ -2750,7 +2750,7 @@
       "basis": "full_spread_post_cost",
       "sharpe": 1.210554297443133,
       "sortino": 3.2010846659946837,
-      "max_drawdown": -0.25837368016023976,
+      "max_drawdown": -0.30956489531924436,
       "ann_return": 1.1621056936456267,
       "ann_vol": 0.9338165019393799,
       "defaulted": false,
@@ -2792,7 +2792,7 @@
       "basis": "gross",
       "sharpe": 1.5290283288049724,
       "sortino": 6.902247647206884,
-      "max_drawdown": -0.08108559111857816,
+      "max_drawdown": -0.1767893629846543,
       "ann_return": 2.01187480318246,
       "ann_vol": 0.9635793252394335,
       "defaulted": false,
@@ -2834,7 +2834,7 @@
       "basis": "gross",
       "sharpe": -0.120661380387779,
       "sortino": -0.2243842615926059,
-      "max_drawdown": -0.47981746028551775,
+      "max_drawdown": -0.6611043021591195,
       "ann_return": -0.7037286672795742,
       "ann_vol": 1.599691798699094,
       "defaulted": false,
@@ -2848,7 +2848,7 @@
       "basis": "gross",
       "sharpe": 0.02557462172945866,
       "sortino": 0.04863775617576771,
-      "max_drawdown": -0.32083589581284244,
+      "max_drawdown": -0.5076254938227658,
       "ann_return": -0.42009786048816466,
       "ann_vol": 1.2019803864603673,
       "defaulted": false,
@@ -2876,7 +2876,7 @@
       "basis": "full_spread_post_cost",
       "sharpe": 1.2918828387970929,
       "sortino": 5.294917241101283,
-      "max_drawdown": -0.09958142341559129,
+      "max_drawdown": -0.1381791931016565,
       "ann_return": 0.9433083588348177,
       "ann_vol": 0.6473478031803176,
       "defaulted": false,
@@ -2890,7 +2890,7 @@
       "basis": "full_spread_post_cost",
       "sharpe": 1.0676574793009623,
       "sortino": 1.9473976336050325,
-      "max_drawdown": -0.12139976397648389,
+      "max_drawdown": -0.16499586741831185,
       "ann_return": 0.3739288149948974,
       "ann_vol": 0.35420281445143154,
       "defaulted": false,
@@ -2918,7 +2918,7 @@
       "basis": "full_spread_post_cost",
       "sharpe": -0.03624334570192267,
       "sortino": -0.07588052384007193,
-      "max_drawdown": -0.4049252341328481,
+      "max_drawdown": -0.5562961611940114,
       "ann_return": -0.4660520932542038,
       "ann_vol": 1.2752579719029782,
       "defaulted": false,
@@ -2932,7 +2932,7 @@
       "basis": "full_spread_post_cost",
       "sharpe": -0.6449418840485505,
       "sortino": -0.9683845429553103,
-      "max_drawdown": -0.29602449373560447,
+      "max_drawdown": -0.5158373973189498,
       "ann_return": -0.530835943557928,
       "ann_vol": 0.7611386421359521,
       "defaulted": false,
@@ -3002,7 +3002,7 @@
       "basis": "gross",
       "sharpe": -0.5613398224208995,
       "sortino": -1.0149086424887912,
-      "max_drawdown": -0.9758127730762322,
+      "max_drawdown": -0.9859098482711828,
       "ann_return": -0.9796273145303778,
       "ann_vol": 2.4863117865839577,
       "defaulted": false,
@@ -3016,7 +3016,7 @@
       "basis": "gross",
       "sharpe": -0.6246907086223044,
       "sortino": -1.043674415197076,
-      "max_drawdown": -0.907842742527122,
+      "max_drawdown": -0.9311914774901894,
       "ann_return": -0.9003143058511404,
       "ann_vol": 1.7057154067946267,
       "defaulted": false,
@@ -3086,7 +3086,7 @@
       "basis": "full_spread_post_cost",
       "sharpe": -0.020879753534085527,
       "sortino": -0.04942626694616607,
-      "max_drawdown": -0.8623022188597893,
+      "max_drawdown": -0.8787803882199032,
       "ann_return": -0.7538047244829471,
       "ann_vol": 2.09794689632658,
       "defaulted": false,
@@ -3128,7 +3128,7 @@
       "basis": "gross",
       "sharpe": 0.17778573086771174,
       "sortino": 0.2793417765668808,
-      "max_drawdown": -0.5255663484825555,
+      "max_drawdown": -0.5564425200997719,
       "ann_return": -0.10902431342697272,
       "ann_vol": 0.717258918229919,
       "defaulted": false,
@@ -3142,7 +3142,7 @@
       "basis": "gross",
       "sharpe": -1.6431724035040038,
       "sortino": -1.662858152895693,
-      "max_drawdown": -0.9262669289360504,
+      "max_drawdown": -0.9348127398159175,
       "ann_return": -0.769546297395983,
       "ann_vol": 0.6820176399126198,
       "defaulted": false,
@@ -3156,7 +3156,7 @@
       "basis": "gross",
       "sharpe": -1.1856232907358604,
       "sortino": -1.4362883299166174,
-      "max_drawdown": -0.826543416293707,
+      "max_drawdown": -0.8598778743725238,
       "ann_return": -0.6572791623060222,
       "ann_vol": 0.6790939738342624,
       "defaulted": false,
@@ -3212,7 +3212,7 @@
       "basis": "full_spread_post_cost",
       "sharpe": -0.9320776456701424,
       "sortino": -1.0913656610635003,
-      "max_drawdown": -0.34130294108500037,
+      "max_drawdown": -0.3801037044241977,
       "ann_return": -0.2295943184416589,
       "ann_vol": 0.24504525969806357,
       "defaulted": false,
@@ -3226,7 +3226,7 @@
       "basis": "full_spread_post_cost",
       "sharpe": -1.6808880181149373,
       "sortino": -1.5629832668340276,
-      "max_drawdown": -0.8481351299691186,
+      "max_drawdown": -0.8900818601456424,
       "ann_return": -0.7001203956347459,
       "ann_vol": 0.5603082099083355,
       "defaulted": false,
@@ -3240,7 +3240,7 @@
       "basis": "full_spread_post_cost",
       "sharpe": -1.6505072133311829,
       "sortino": -1.610826590860561,
-      "max_drawdown": -0.7580077032153176,
+      "max_drawdown": -0.8289497981668716,
       "ann_return": -0.6183161564645794,
       "ann_vol": 0.48189674101605195,
       "defaulted": false,
@@ -3282,7 +3282,7 @@
       "basis": "full_spread_post_cost",
       "sharpe": -1.93058139147801,
       "sortino": -1.7164006872159447,
-      "max_drawdown": -0.9888966573138304,
+      "max_drawdown": -0.997513675159156,
       "ann_return": -0.9620339687137769,
       "ann_vol": 0.9895808091523257,
       "defaulted": false,
@@ -3296,7 +3296,7 @@
       "basis": "gross",
       "sharpe": 1.6763425116373984,
       "sortino": 5.044627279779637,
-      "max_drawdown": -0.246908145338548,
+      "max_drawdown": -0.2703613730678538,
       "ann_return": 1.5376832092322452,
       "ann_vol": 0.6963377525901971,
       "defaulted": false,
@@ -3310,7 +3310,7 @@
       "basis": "gross",
       "sharpe": 0.7819900382395526,
       "sortino": 1.5564566461878115,
-      "max_drawdown": -0.4173405269427033,
+      "max_drawdown": -0.4673028085370091,
       "ann_return": 0.3579803115141771,
       "ann_vol": 0.6120060053933953,
       "defaulted": false,
@@ -3324,7 +3324,7 @@
       "basis": "gross",
       "sharpe": 0.504094037025384,
       "sortino": 1.0016833770653564,
-      "max_drawdown": -0.3524379578031762,
+      "max_drawdown": -0.45943319213978706,
       "ann_return": 0.15590057920874,
       "ann_vol": 0.6522273211205456,
       "defaulted": false,
@@ -3380,7 +3380,7 @@
       "basis": "full_spread_post_cost",
       "sharpe": 0.5082336962622446,
       "sortino": 0.7602645505998054,
-      "max_drawdown": -0.09220616581198549,
+      "max_drawdown": -0.17296515167361903,
       "ann_return": 0.08338888493011565,
       "ann_vol": 0.1942269701479195,
       "defaulted": false,
@@ -3394,7 +3394,7 @@
       "basis": "full_spread_post_cost",
       "sharpe": -0.61456180735833,
       "sortino": -0.6620038538300947,
-      "max_drawdown": -0.6230813722629162,
+      "max_drawdown": -0.7033848599179926,
       "ann_return": -0.3503050293254907,
       "ann_vol": 0.47425578579307254,
       "defaulted": false,
@@ -3408,7 +3408,7 @@
       "basis": "full_spread_post_cost",
       "sharpe": -0.5369034751443443,
       "sortino": -0.6207473622673694,
-      "max_drawdown": -0.48323275202952354,
+      "max_drawdown": -0.6190981978192965,
       "ann_return": -0.2617192856327203,
       "ann_vol": 0.3999809478431945,
       "defaulted": false,
@@ -3450,7 +3450,7 @@
       "basis": "full_spread_post_cost",
       "sharpe": -1.538166445105002,
       "sortino": -1.4332833484538468,
-      "max_drawdown": -0.9700910174287493,
+      "max_drawdown": -0.9933026072928561,
       "ann_return": -0.9348175894672632,
       "ann_vol": 0.9649467756737222,
       "defaulted": false,
@@ -3464,7 +3464,7 @@
       "basis": "gross",
       "sharpe": -0.8279513616294916,
       "sortino": -0.9095532615115367,
-      "max_drawdown": -0.9132353303238863,
+      "max_drawdown": -0.9213218003083185,
       "ann_return": -0.7501158147656324,
       "ann_vol": 0.8261964568202228,
       "defaulted": false,
@@ -3478,7 +3478,7 @@
       "basis": "gross",
       "sharpe": -0.6724852234280425,
       "sortino": -0.8455502650686112,
-      "max_drawdown": -0.7380983310544893,
+      "max_drawdown": -0.749980604804483,
       "ann_return": -0.5018368553344641,
       "ann_vol": 0.6669658600185069,
       "defaulted": false,
@@ -3492,7 +3492,7 @@
       "basis": "gross",
       "sharpe": -0.8050752999589589,
       "sortino": -0.9979394242361292,
-      "max_drawdown": -0.8131352458031215,
+      "max_drawdown": -0.8369911226353741,
       "ann_return": -0.6112331416745778,
       "ann_vol": 0.7598210946552367,
       "defaulted": false,
@@ -3548,7 +3548,7 @@
       "basis": "full_spread_post_cost",
       "sharpe": -1.5034296797014886,
       "sortino": -1.5363135281450466,
-      "max_drawdown": -0.5360484945760651,
+      "max_drawdown": -0.5999415137930469,
       "ann_return": -0.39329657367405857,
       "ann_vol": 0.29608280935769216,
       "defaulted": false,
@@ -3562,7 +3562,7 @@
       "basis": "full_spread_post_cost",
       "sharpe": -2.205283416387992,
       "sortino": -1.9476293248789274,
-      "max_drawdown": -0.8479214954537617,
+      "max_drawdown": -0.884036466960088,
       "ann_return": -0.6912337128517827,
       "ann_vol": 0.4546373413445639,
       "defaulted": false,
@@ -3576,7 +3576,7 @@
       "basis": "full_spread_post_cost",
       "sharpe": -2.4135118158799824,
       "sortino": -2.0687363613709855,
-      "max_drawdown": -0.8408042453924792,
+      "max_drawdown": -0.8851630202444388,
       "ann_return": -0.6928734758860895,
       "ann_vol": 0.42388295175305385,
       "defaulted": false,
@@ -3618,7 +3618,7 @@
       "basis": "full_spread_post_cost",
       "sharpe": -0.5661292616638093,
       "sortino": -0.878365137654011,
-      "max_drawdown": -0.9879780131968641,
+      "max_drawdown": -0.99730796704472,
       "ann_return": -0.9603516007900933,
       "ann_vol": 1.8890988954817378,
       "defaulted": false,
@@ -3646,7 +3646,7 @@
       "basis": "gross",
       "sharpe": -0.3839332909539934,
       "sortino": -0.5159039160188297,
-      "max_drawdown": -0.45032900793174735,
+      "max_drawdown": -0.5144847303793283,
       "ann_return": -0.2923890638067349,
       "ann_vol": 0.5264235863323521,
       "defaulted": false,
@@ -3660,7 +3660,7 @@
       "basis": "gross",
       "sharpe": -0.1449049893491619,
       "sortino": -0.21496263118086695,
-      "max_drawdown": -0.44887856245521507,
+      "max_drawdown": -0.5503095291518086,
       "ann_return": -0.2507513648662657,
       "ann_vol": 0.637877962146583,
       "defaulted": false,
@@ -3716,7 +3716,7 @@
       "basis": "full_spread_post_cost",
       "sharpe": 0.07460290913179972,
       "sortino": 0.11297408297838904,
-      "max_drawdown": -0.1936754519385212,
+      "max_drawdown": -0.3584291369082756,
       "ann_return": -0.020190650147633105,
       "ann_vol": 0.30023829475938774,
       "defaulted": false,
@@ -3730,7 +3730,7 @@
       "basis": "full_spread_post_cost",
       "sharpe": -1.4901702896513978,
       "sortino": -1.4316344690901401,
-      "max_drawdown": -0.7561622566514439,
+      "max_drawdown": -0.8260003313593832,
       "ann_return": -0.5775333353071977,
       "ann_vol": 0.47020430611998737,
       "defaulted": false,
@@ -3744,7 +3744,7 @@
       "basis": "full_spread_post_cost",
       "sharpe": -1.3499334448585882,
       "sortino": -1.3582547166752506,
-      "max_drawdown": -0.615568047647797,
+      "max_drawdown": -0.7394905833456626,
       "ann_return": -0.4727707624780124,
       "ann_vol": 0.39756497204961966,
       "defaulted": false,
@@ -3786,7 +3786,7 @@
       "basis": "full_spread_post_cost",
       "sharpe": -0.7417806238174326,
       "sortino": -1.0886585163717288,
-      "max_drawdown": -0.9833424330442514,
+      "max_drawdown": -0.9962699410726386,
       "ann_return": -0.952632410214175,
       "ann_vol": 1.6896886161861409,
       "defaulted": false,
@@ -3884,7 +3884,7 @@
       "basis": "full_spread_post_cost",
       "sharpe": 1.0056717021647021,
       "sortino": 3.002093114133447,
-      "max_drawdown": -0.2781666200807842,
+      "max_drawdown": -0.4232354966477738,
       "ann_return": 0.6098740631775019,
       "ann_vol": 0.6504075545773341,
       "defaulted": false,
@@ -3954,7 +3954,7 @@
       "basis": "full_spread_post_cost",
       "sharpe": 0.551107977809903,
       "sortino": 5.444448444153091,
-      "max_drawdown": -0.9933955533739951,
+      "max_drawdown": -0.9985210940371391,
       "ann_return": -0.8972079633229046,
       "ann_vol": 12.041212348762938,
       "defaulted": false,
@@ -3982,7 +3982,7 @@
       "basis": "gross",
       "sharpe": 0.4187176590177481,
       "sortino": 0.7458791997342209,
-      "max_drawdown": -0.5440742203109017,
+      "max_drawdown": -0.5578928274812593,
       "ann_return": 0.06741194282629115,
       "ann_vol": 0.7304385895500537,
       "defaulted": false,
@@ -3996,7 +3996,7 @@
       "basis": "gross",
       "sharpe": 0.31800762163491986,
       "sortino": 0.5537391822278582,
-      "max_drawdown": -0.4823029552654168,
+      "max_drawdown": -0.5349646230544096,
       "ann_return": -0.008588524891311788,
       "ann_vol": 0.7344095897087368,
       "defaulted": false,
@@ -4052,7 +4052,7 @@
       "basis": "full_spread_post_cost",
       "sharpe": 0.3088599536469677,
       "sortino": 0.6009311794284593,
-      "max_drawdown": -0.2154411152718485,
+      "max_drawdown": -0.2435611070324354,
       "ann_return": 0.05529928288650554,
       "ann_vol": 0.37292139374487987,
       "defaulted": false,
@@ -4066,7 +4066,7 @@
       "basis": "full_spread_post_cost",
       "sharpe": -0.5475512728457859,
       "sortino": -0.669433132513806,
-      "max_drawdown": -0.6354221279595058,
+      "max_drawdown": -0.7136963737179072,
       "ann_return": -0.3432881354526768,
       "ann_vol": 0.506229287852924,
       "defaulted": false,
@@ -4080,7 +4080,7 @@
       "basis": "full_spread_post_cost",
       "sharpe": -0.5541992605366126,
       "sortino": -0.6671331760491921,
-      "max_drawdown": -0.50065553044586,
+      "max_drawdown": -0.6252462991027252,
       "ann_return": -0.30685498499679387,
       "ann_vol": 0.45666207977416057,
       "defaulted": false,
@@ -4164,7 +4164,7 @@
       "basis": "gross",
       "sharpe": 0.5217601128765733,
       "sortino": 1.0033807212926988,
-      "max_drawdown": -0.4253372635299333,
+      "max_drawdown": -0.4872676035707104,
       "ann_return": 0.15494423965357407,
       "ann_vol": 0.7555459656174739,
       "defaulted": false,
@@ -4220,7 +4220,7 @@
       "basis": "full_spread_post_cost",
       "sharpe": -1.4376596426570627,
       "sortino": -1.4735244209108935,
-      "max_drawdown": -0.564912952848158,
+      "max_drawdown": -0.6219182538617196,
       "ann_return": -0.41170899848670217,
       "ann_vol": 0.3232812584288524,
       "defaulted": false,
@@ -4234,7 +4234,7 @@
       "basis": "full_spread_post_cost",
       "sharpe": -1.2255164347708052,
       "sortino": -1.2587100025233324,
-      "max_drawdown": -0.774399843593125,
+      "max_drawdown": -0.82417554055136,
       "ann_return": -0.5112879008214939,
       "ann_vol": 0.46616448880427863,
       "defaulted": false,
@@ -4248,7 +4248,7 @@
       "basis": "full_spread_post_cost",
       "sharpe": -0.7111204682415111,
       "sortino": -0.8372390654046937,
-      "max_drawdown": -0.6308747038492506,
+      "max_drawdown": -0.7288567549266892,
       "ann_return": -0.3548835291969208,
       "ann_vol": 0.45491161812378955,
       "defaulted": false,
@@ -4290,7 +4290,7 @@
       "basis": "full_spread_post_cost",
       "sharpe": -2.0411556827956296,
       "sortino": -1.7890161287780886,
-      "max_drawdown": -0.9963819959579879,
+      "max_drawdown": -0.999189835567704,
       "ann_return": -0.9794047444450915,
       "ann_vol": 1.0699794596279675,
       "defaulted": false,
@@ -4304,7 +4304,7 @@
       "basis": "gross",
       "sharpe": 0.24002540292003852,
       "sortino": 0.4272588669823621,
-      "max_drawdown": -0.5170671357581724,
+      "max_drawdown": -0.5227853185484781,
       "ann_return": -0.0024556468780444485,
       "ann_vol": 0.5440717215187139,
       "defaulted": false,
@@ -4318,7 +4318,7 @@
       "basis": "gross",
       "sharpe": 0.17773371312928746,
       "sortino": 0.2920396587221202,
-      "max_drawdown": -0.5844501525019832,
+      "max_drawdown": -0.5982134471786851,
       "ann_return": -0.12734965972506795,
       "ann_vol": 0.7701979345149393,
       "defaulted": false,
@@ -4332,7 +4332,7 @@
       "basis": "gross",
       "sharpe": 0.34428960335443115,
       "sortino": 0.6270335726278404,
-      "max_drawdown": -0.502958375087972,
+      "max_drawdown": -0.5621175492461601,
       "ann_return": -0.006598319980608114,
       "ann_vol": 0.7997967355108957,
       "defaulted": false,
@@ -4388,7 +4388,7 @@
       "basis": "full_spread_post_cost",
       "sharpe": 0.28404043341493634,
       "sortino": 0.5612448543900863,
-      "max_drawdown": -0.22889252816758798,
+      "max_drawdown": -0.3468321848557815,
       "ann_return": 0.045872728430196075,
       "ann_vol": 0.332309426280193,
       "defaulted": false,
@@ -4402,7 +4402,7 @@
       "basis": "full_spread_post_cost",
       "sharpe": -0.021904965328680415,
       "sortino": -0.028367313875430903,
-      "max_drawdown": -0.5951250753630231,
+      "max_drawdown": -0.6960963625945403,
       "ann_return": -0.17940718506002584,
       "ann_vol": 0.5876492068754398,
       "defaulted": false,
@@ -4416,7 +4416,7 @@
       "basis": "full_spread_post_cost",
       "sharpe": 0.31749548375714365,
       "sortino": 0.4640735191298594,
-      "max_drawdown": -0.44622139379367665,
+      "max_drawdown": -0.5993992708745144,
       "ann_return": 0.03198769225250664,
       "ann_vol": 0.5148172805851725,
       "defaulted": false,
@@ -4458,7 +4458,7 @@
       "basis": "full_spread_post_cost",
       "sharpe": -2.340814052344721,
       "sortino": -1.9705085653116297,
-      "max_drawdown": -0.9958557672757093,
+      "max_drawdown": -0.9990719993915457,
       "ann_return": -0.9778213342873695,
       "ann_vol": 0.9974750546480645,
       "defaulted": false,
@@ -4472,7 +4472,7 @@
       "basis": "gross",
       "sharpe": 1.189708676895625,
       "sortino": 3.1928579230787806,
-      "max_drawdown": -0.36347043633055276,
+      "max_drawdown": -0.4391846453858552,
       "ann_return": 0.9795824095926702,
       "ann_vol": 0.8143507324147944,
       "defaulted": false,
@@ -4486,7 +4486,7 @@
       "basis": "gross",
       "sharpe": 1.059585327044492,
       "sortino": 2.0619708987805034,
-      "max_drawdown": -0.5370365966674786,
+      "max_drawdown": -0.5841424862774788,
       "ann_return": 0.6634821472898391,
       "ann_vol": 0.7109974112550038,
       "defaulted": false,
@@ -4500,7 +4500,7 @@
       "basis": "gross",
       "sharpe": 0.8051273046143046,
       "sortino": 1.5628158564735635,
-      "max_drawdown": -0.45634881455341425,
+      "max_drawdown": -0.5577648408187913,
       "ann_return": 0.4124685855979575,
       "ann_vol": 0.7411376702328987,
       "defaulted": false,
@@ -4556,7 +4556,7 @@
       "basis": "full_spread_post_cost",
       "sharpe": 1.1886032940839164,
       "sortino": 4.671326980548691,
-      "max_drawdown": -0.2805828315154535,
+      "max_drawdown": -0.3471926164123992,
       "ann_return": 0.8398727626669353,
       "ann_vol": 0.673275501414035,
       "defaulted": false,
@@ -4570,7 +4570,7 @@
       "basis": "full_spread_post_cost",
       "sharpe": -0.24925722583794768,
       "sortino": -0.32901125943413256,
-      "max_drawdown": -0.5520292580226552,
+      "max_drawdown": -0.676739378625397,
       "ann_return": -0.2831144288829145,
       "ann_vol": 0.5950275546488675,
       "defaulted": false,
@@ -4584,7 +4584,7 @@
       "basis": "full_spread_post_cost",
       "sharpe": -0.17638127766478134,
       "sortino": -0.23379848581027143,
-      "max_drawdown": -0.433920766378051,
+      "max_drawdown": -0.6074041285788171,
       "ann_return": -0.23284568496880942,
       "ann_vol": 0.5649564136231926,
       "defaulted": false,
@@ -4626,7 +4626,7 @@
       "basis": "full_spread_post_cost",
       "sharpe": -1.8682322427027584,
       "sortino": -1.6755354510289964,
-      "max_drawdown": -0.9841226629034504,
+      "max_drawdown": -0.9964446546643312,
       "ann_return": -0.9601430666481106,
       "ann_vol": 0.99088432453981,
       "defaulted": false,
@@ -4640,7 +4640,7 @@
       "basis": "gross",
       "sharpe": 0.5408452251032819,
       "sortino": 1.4839423210221845,
-      "max_drawdown": -0.36572180867369086,
+      "max_drawdown": -0.3978340113580492,
       "ann_return": 0.20836009842020453,
       "ann_vol": 0.6901005976682955,
       "defaulted": false,
@@ -4654,7 +4654,7 @@
       "basis": "gross",
       "sharpe": 0.4264869591485167,
       "sortino": 0.8080109680974991,
-      "max_drawdown": -0.5442038649457304,
+      "max_drawdown": -0.580827296002208,
       "ann_return": 0.09466646182550265,
       "ann_vol": 0.6753215007482685,
       "defaulted": false,
@@ -4668,7 +4668,7 @@
       "basis": "gross",
       "sharpe": 0.3323611589800496,
       "sortino": 0.6081257914310337,
-      "max_drawdown": -0.5006961287295535,
+      "max_drawdown": -0.5848280427267867,
       "ann_return": 0.009181198271741797,
       "ann_vol": 0.7350321343759632,
       "defaulted": false,
@@ -4724,7 +4724,7 @@
       "basis": "full_spread_post_cost",
       "sharpe": 0.5833893783978826,
       "sortino": 1.5357256221509479,
-      "max_drawdown": -0.3774487378477054,
+      "max_drawdown": -0.4655592731960184,
       "ann_return": 0.20230800865675502,
       "ann_vol": 0.477207804399201,
       "defaulted": false,
@@ -4738,7 +4738,7 @@
       "basis": "full_spread_post_cost",
       "sharpe": -0.4071276305635598,
       "sortino": -0.49089019288057634,
-      "max_drawdown": -0.6128876571094417,
+      "max_drawdown": -0.701812975778255,
       "ann_return": -0.2827150736019458,
       "ann_vol": 0.4914129683019367,
       "defaulted": false,
@@ -4752,7 +4752,7 @@
       "basis": "full_spread_post_cost",
       "sharpe": -0.5661318155545314,
       "sortino": -0.6622351661080145,
-      "max_drawdown": -0.5748901163596747,
+      "max_drawdown": -0.6853947882576099,
       "ann_return": -0.30120972535472235,
       "ann_vol": 0.44301346584550433,
       "defaulted": false,
@@ -4794,7 +4794,7 @@
       "basis": "full_spread_post_cost",
       "sharpe": -2.5412680438344952,
       "sortino": -2.0815029101034717,
-      "max_drawdown": -0.9986130857646014,
+      "max_drawdown": -0.999689434126906,
       "ann_return": -0.9901027072186682,
       "ann_vol": 1.072911234795866,
       "defaulted": false,
@@ -4836,7 +4836,7 @@
       "basis": "gross",
       "sharpe": 0.41802743949413024,
       "sortino": 0.8157402357849446,
-      "max_drawdown": -0.3973267581084927,
+      "max_drawdown": -0.4422597848105905,
       "ann_return": 0.06778974816626016,
       "ann_vol": 0.8011195141929788,
       "defaulted": false,
@@ -4906,7 +4906,7 @@
       "basis": "full_spread_post_cost",
       "sharpe": -1.1788415800295182,
       "sortino": -1.3157596559686615,
-      "max_drawdown": -0.7101366412842686,
+      "max_drawdown": -0.7783265603161027,
       "ann_return": -0.5772125458048463,
       "ann_vol": 0.5654298632017004,
       "defaulted": false,
@@ -4920,7 +4920,7 @@
       "basis": "full_spread_post_cost",
       "sharpe": -0.8996401601909069,
       "sortino": -1.0685169991648753,
-      "max_drawdown": -0.5330366665935402,
+      "max_drawdown": -0.6521755193650995,
       "ann_return": -0.4530846873147829,
       "ann_vol": 0.5101887867251489,
       "defaulted": false,
@@ -4962,7 +4962,7 @@
       "basis": "full_spread_post_cost",
       "sharpe": -2.1717703842352427,
       "sortino": -1.8723342396069607,
-      "max_drawdown": -0.9978153115834042,
+      "max_drawdown": -0.999510791908958,
       "ann_return": -0.9871683627093398,
       "ann_vol": 1.107538387127582,
       "defaulted": false,
@@ -4976,7 +4976,7 @@
       "basis": "gross",
       "sharpe": 1.3296873104785147,
       "sortino": 2.7674002899212664,
-      "max_drawdown": -0.3472693892104193,
+      "max_drawdown": -0.3808452697210555,
       "ann_return": 1.1376462089920873,
       "ann_vol": 0.8175732548549305,
       "defaulted": false,
@@ -4990,7 +4990,7 @@
       "basis": "gross",
       "sharpe": -0.352580728034069,
       "sortino": -0.4643410804232503,
-      "max_drawdown": -0.8306487879915223,
+      "max_drawdown": -0.8635374414440973,
       "ann_return": -0.42387085040837635,
       "ann_vol": 0.7312276613136152,
       "defaulted": false,
@@ -5158,7 +5158,7 @@
       "basis": "gross",
       "sharpe": -1.0763774035787057,
       "sortino": -1.18976178954571,
-      "max_drawdown": -0.8326848160865818,
+      "max_drawdown": -0.8633232453733446,
       "ann_return": -0.6506582060252419,
       "ann_vol": 0.6858278796708294,
       "defaulted": false,
@@ -5326,7 +5326,7 @@
       "basis": "gross",
       "sharpe": -1.8257995213812348,
       "sortino": -1.7296137331378658,
-      "max_drawdown": -0.8539908061712781,
+      "max_drawdown": -0.8863434929228979,
       "ann_return": -0.6945995863580452,
       "ann_vol": 0.5269883386195348,
       "defaulted": false,
@@ -5340,7 +5340,7 @@
       "basis": "gross",
       "sharpe": -1.4116202587934004,
       "sortino": -1.4136468944311122,
-      "max_drawdown": -0.7533787509555475,
+      "max_drawdown": -0.7546906278279455,
       "ann_return": -0.5307059124346669,
       "ann_vol": 0.4402483483466348,
       "defaulted": false,
@@ -5480,7 +5480,7 @@
       "basis": "gross",
       "sharpe": 1.681271117245044,
       "sortino": 4.654571738411256,
-      "max_drawdown": -0.3256860912797942,
+      "max_drawdown": -0.4402723029391048,
       "ann_return": 3.2931725354262165,
       "ann_vol": 1.3119310833813826,
       "defaulted": false,
@@ -5494,7 +5494,7 @@
       "basis": "gross",
       "sharpe": 0.44747384740570934,
       "sortino": 0.7043427074939165,
-      "max_drawdown": -0.8106230164264686,
+      "max_drawdown": -0.8551851196485271,
       "ann_return": -0.2976871758958879,
       "ann_vol": 1.1951198154253697,
       "defaulted": false,
@@ -5578,7 +5578,7 @@
       "basis": "full_spread_post_cost",
       "sharpe": -0.23153228994236336,
       "sortino": -0.2801409687414038,
-      "max_drawdown": -0.8770428453664391,
+      "max_drawdown": -0.8790925229661187,
       "ann_return": -0.5559906205970953,
       "ann_vol": 0.8411917464065146,
       "defaulted": false,
@@ -5648,7 +5648,7 @@
       "basis": "gross",
       "sharpe": 0.41289458277739494,
       "sortino": 0.8574724283588393,
-      "max_drawdown": -0.3350386682775557,
+      "max_drawdown": -0.41806653802590177,
       "ann_return": 0.022866709520169337,
       "ann_vol": 0.9782689264764783,
       "defaulted": false,
@@ -5662,7 +5662,7 @@
       "basis": "gross",
       "sharpe": -0.5042392564554915,
       "sortino": -0.6872909419698434,
-      "max_drawdown": -0.8580678411591889,
+      "max_drawdown": -0.8871120108050876,
       "ann_return": -0.5373533657072692,
       "ann_vol": 0.8176205286382368,
       "defaulted": false,
@@ -5830,7 +5830,7 @@
       "basis": "gross",
       "sharpe": -1.0215855382246486,
       "sortino": -1.2777476935470817,
-      "max_drawdown": -0.8432807057967273,
+      "max_drawdown": -0.8782593313044484,
       "ann_return": -0.6743240710273926,
       "ann_vol": 0.7615766901734256,
       "defaulted": false,
@@ -5928,7 +5928,7 @@
       "basis": "full_spread_post_cost",
       "sharpe": -0.31857967636502094,
       "sortino": -0.4223188650345608,
-      "max_drawdown": -0.6157947235398581,
+      "max_drawdown": -0.6379994912049386,
       "ann_return": -0.24387165159609014,
       "ann_vol": 0.4880944990938391,
       "defaulted": false,
@@ -5984,7 +5984,7 @@
       "basis": "gross",
       "sharpe": 0.828673676778314,
       "sortino": 1.6127123209301826,
-      "max_drawdown": -0.332579835695177,
+      "max_drawdown": -0.4497643002230358,
       "ann_return": 0.44294605111390983,
       "ann_vol": 0.7896254641655501,
       "defaulted": false,
@@ -5998,7 +5998,7 @@
       "basis": "gross",
       "sharpe": -0.38503137332486004,
       "sortino": -0.5445523837999782,
-      "max_drawdown": -0.8154578764479514,
+      "max_drawdown": -0.8689967763651661,
       "ann_return": -0.5307871948443861,
       "ann_vol": 0.895477992175438,
       "defaulted": false,
@@ -6012,7 +6012,7 @@
       "basis": "gross",
       "sharpe": 0.044144707970571115,
       "sortino": 0.07169330324407992,
-      "max_drawdown": -0.6755510537379964,
+      "max_drawdown": -0.7081840417052133,
       "ann_return": -0.16452167010584873,
       "ann_vol": 0.6745179657834147,
       "defaulted": false,
@@ -6096,7 +6096,7 @@
       "basis": "full_spread_post_cost",
       "sharpe": 0.47763294344259694,
       "sortino": 0.7546725829439169,
-      "max_drawdown": -0.5110038901346958,
+      "max_drawdown": -0.5274535250027299,
       "ann_return": 0.1200985734422082,
       "ann_vol": 0.5606617729540466,
       "defaulted": false,
@@ -6152,7 +6152,7 @@
       "basis": "gross",
       "sharpe": 1.0933406308556362,
       "sortino": 2.131838271460391,
-      "max_drawdown": -0.3052871464618734,
+      "max_drawdown": -0.4816715047204151,
       "ann_return": 0.805308524539391,
       "ann_vol": 0.865677850005046,
       "defaulted": false,
@@ -6166,7 +6166,7 @@
       "basis": "gross",
       "sharpe": 0.2621763345510295,
       "sortino": 0.40484168390735203,
-      "max_drawdown": -0.8107112303141436,
+      "max_drawdown": -0.8573015942903761,
       "ann_return": -0.11917893480448039,
       "ann_vol": 0.8317366860616794,
       "defaulted": false,
@@ -6180,7 +6180,7 @@
       "basis": "gross",
       "sharpe": 0.11660983721294617,
       "sortino": 0.18213604371816472,
-      "max_drawdown": -0.7625128204549274,
+      "max_drawdown": -0.7716756462439419,
       "ann_return": -0.1346632565137914,
       "ann_vol": 0.6841763693359726,
       "defaulted": false,
@@ -6250,7 +6250,7 @@
       "basis": "full_spread_post_cost",
       "sharpe": -0.07984724330657404,
       "sortino": -0.10578043989473955,
-      "max_drawdown": -0.5615036965002407,
+      "max_drawdown": -0.5687563727339865,
       "ann_return": -0.23084021863966353,
       "ann_vol": 0.61818353759143,
       "defaulted": false,
@@ -6264,7 +6264,7 @@
       "basis": "full_spread_post_cost",
       "sharpe": 0.056962910890153144,
       "sortino": 0.08148520845245287,
-      "max_drawdown": -0.5529585155689944,
+      "max_drawdown": -0.5583546508834945,
       "ann_return": -0.16745114876838663,
       "ann_vol": 0.657039522721874,
       "defaulted": false,
@@ -6320,7 +6320,7 @@
       "basis": "gross",
       "sharpe": 0.5645646950763193,
       "sortino": 1.1628533674389048,
-      "max_drawdown": -0.35473695594809684,
+      "max_drawdown": -0.4089989842078787,
       "ann_return": 0.19103306105220086,
       "ann_vol": 0.845598885732298,
       "defaulted": false,
@@ -6334,7 +6334,7 @@
       "basis": "gross",
       "sharpe": -0.44861006397248926,
       "sortino": -0.623803386085272,
-      "max_drawdown": -0.8096425985505608,
+      "max_drawdown": -0.8509906860131344,
       "ann_return": -0.4769170093241213,
       "ann_vol": 0.7673100804990578,
       "defaulted": false,
@@ -6432,7 +6432,7 @@
       "basis": "full_spread_post_cost",
       "sharpe": -0.3520654188674648,
       "sortino": -0.44679871837589424,
-      "max_drawdown": -0.5325488866431999,
+      "max_drawdown": -0.5473826175981145,
       "ann_return": -0.23231073196534435,
       "ann_vol": 0.4465853019882451,
       "defaulted": false,
@@ -6600,7 +6600,7 @@
       "basis": "full_spread_post_cost",
       "sharpe": -0.5663233944057001,
       "sortino": -0.7423684942671255,
-      "max_drawdown": -0.4980444600867836,
+      "max_drawdown": -0.5586264500468568,
       "ann_return": -0.32352833257918834,
       "ann_vol": 0.4800968492442009,
       "defaulted": false,
@@ -8210,7 +8210,7 @@
       "basis": "gross",
       "sharpe": 0.28610048567466106,
       "sortino": 0.6559750982491168,
-      "max_drawdown": -0.8658691702596809,
+      "max_drawdown": -0.8764713857418043,
       "ann_return": -0.6804046201078775,
       "ann_vol": 2.2902417253945813,
       "defaulted": false,
@@ -8378,7 +8378,7 @@
       "basis": "gross",
       "sharpe": 1.2627043230198054,
       "sortino": 4.294769368765409,
-      "max_drawdown": -0.8158678465028072,
+      "max_drawdown": -0.830422358484461,
       "ann_return": 2.2483042845014936,
       "ann_vol": 2.609144006705626,
       "defaulted": false,
@@ -8532,7 +8532,7 @@
       "basis": "gross",
       "sharpe": 0.26956118439597726,
       "sortino": 0.44810887989814685,
-      "max_drawdown": -0.4495025903692833,
+      "max_drawdown": -0.48880120273393113,
       "ann_return": -0.008702182744547926,
       "ann_vol": 0.6262910329615896,
       "defaulted": false,
@@ -8546,7 +8546,7 @@
       "basis": "gross",
       "sharpe": -0.30515281504838243,
       "sortino": -0.5720439756685367,
-      "max_drawdown": -0.9880097645315205,
+      "max_drawdown": -0.9889575187530095,
       "ann_return": -0.9143786994658885,
       "ann_vol": 2.1235489353668275,
       "defaulted": false,
@@ -8588,7 +8588,7 @@
       "basis": "full_spread_post_cost",
       "sharpe": -0.5710107691100487,
       "sortino": -0.7036927420796931,
-      "max_drawdown": -0.5108259476830044,
+      "max_drawdown": -0.5117576211638817,
       "ann_return": -0.24750893217043035,
       "ann_vol": 0.3715619451035937,
       "defaulted": false,
@@ -8714,7 +8714,7 @@
       "basis": "gross",
       "sharpe": 0.11400510225292795,
       "sortino": 0.24080391677841986,
-      "max_drawdown": -0.9513497497788526,
+      "max_drawdown": -0.9551952522416527,
       "ann_return": -0.8161944734001169,
       "ann_vol": 2.302885504745317,
       "defaulted": false,
@@ -8784,7 +8784,7 @@
       "basis": "full_spread_post_cost",
       "sharpe": -1.1928910040926612,
       "sortino": -1.2889456317603123,
-      "max_drawdown": -0.772262638749112,
+      "max_drawdown": -0.7736751065597192,
       "ann_return": -0.4678284211175029,
       "ann_vol": 0.4326091517234431,
       "defaulted": false,
@@ -8868,7 +8868,7 @@
       "basis": "gross",
       "sharpe": 0.89224667853843,
       "sortino": 1.8307935161321545,
-      "max_drawdown": -0.32920670996991896,
+      "max_drawdown": -0.3379284276314718,
       "ann_return": 0.5044853275018075,
       "ann_vol": 0.7111070566758665,
       "defaulted": false,
@@ -8882,7 +8882,7 @@
       "basis": "gross",
       "sharpe": 0.5643772464021832,
       "sortino": 1.2898457692820446,
-      "max_drawdown": -0.8158678465028072,
+      "max_drawdown": -0.830422358484461,
       "ann_return": -0.26166135757453446,
       "ann_vol": 1.9642804284454307,
       "defaulted": false,
@@ -8924,7 +8924,7 @@
       "basis": "full_spread_post_cost",
       "sharpe": 0.4968086140260136,
       "sortino": 0.9204333541882601,
-      "max_drawdown": -0.31969664123914265,
+      "max_drawdown": -0.3360533562753225,
       "ann_return": 0.11647656599822787,
       "ann_vol": 0.3152493547647356,
       "defaulted": false,
@@ -9050,7 +9050,7 @@
       "basis": "gross",
       "sharpe": 0.4778360737142645,
       "sortino": 1.1169388807398377,
-      "max_drawdown": -0.8374018795853428,
+      "max_drawdown": -0.8502542589597339,
       "ann_return": -0.43946821968293825,
       "ann_vol": 2.1453218400129788,
       "defaulted": false,
@@ -9204,7 +9204,7 @@
       "basis": "gross",
       "sharpe": 0.5153151153392055,
       "sortino": 0.8694882422118819,
-      "max_drawdown": -0.49710429365282427,
+      "max_drawdown": -0.5133643016875931,
       "ann_return": 0.1485339809418733,
       "ann_vol": 0.6165665923535212,
       "defaulted": false,
@@ -9218,7 +9218,7 @@
       "basis": "gross",
       "sharpe": 0.17695680771532024,
       "sortino": 0.3829025229083068,
-      "max_drawdown": -0.8705287999739785,
+      "max_drawdown": -0.8807627004431139,
       "ann_return": -0.6915442857059895,
       "ann_vol": 2.061697084400243,
       "defaulted": false,
@@ -9260,7 +9260,7 @@
       "basis": "full_spread_post_cost",
       "sharpe": -0.14046713396506977,
       "sortino": -0.2642488534761875,
-      "max_drawdown": -0.53246746232927,
+      "max_drawdown": -0.5514677164177832,
       "ann_return": -0.16661164035263254,
       "ann_vol": 0.5155129165176752,
       "defaulted": false,
@@ -9372,7 +9372,7 @@
       "basis": "gross",
       "sharpe": -0.05692397244650404,
       "sortino": -0.09247788814823212,
-      "max_drawdown": -0.5183364100569428,
+      "max_drawdown": -0.5200675794272012,
       "ann_return": -0.2350645486832066,
       "ann_vol": 0.7033758295761569,
       "defaulted": false,
@@ -9386,7 +9386,7 @@
       "basis": "gross",
       "sharpe": -0.08508218460477814,
       "sortino": -0.17226105934180172,
-      "max_drawdown": -0.9946170197364523,
+      "max_drawdown": -0.9950425111525618,
       "ann_return": -0.913790707356008,
       "ann_vol": 2.4430104209832786,
       "defaulted": false,
@@ -9456,7 +9456,7 @@
       "basis": "full_spread_post_cost",
       "sharpe": -1.311956659003922,
       "sortino": -1.5454650682080453,
-      "max_drawdown": -0.7764536098910599,
+      "max_drawdown": -0.7789468289198581,
       "ann_return": -0.5778889571022018,
       "ann_vol": 0.532353534126253,
       "defaulted": false,
@@ -10016,7 +10016,7 @@
       "basis": "gross",
       "sharpe": 1.2157241230932307,
       "sortino": 3.3315348306171484,
-      "max_drawdown": -0.1913594848950524,
+      "max_drawdown": -0.2524504957535745,
       "ann_return": 0.8494943373350137,
       "ann_vol": 0.6765788617191212,
       "defaulted": false,
@@ -10184,7 +10184,7 @@
       "basis": "gross",
       "sharpe": 1.6515680893301783,
       "sortino": 5.476015832066442,
-      "max_drawdown": -0.18617412759494678,
+      "max_drawdown": -0.23419583319951975,
       "ann_return": 1.632223554538402,
       "ann_vol": 0.746708796781196,
       "defaulted": false,
@@ -10352,7 +10352,7 @@
       "basis": "gross",
       "sharpe": 1.1458984439595994,
       "sortino": 3.753911834846336,
-      "max_drawdown": -0.17254322529720867,
+      "max_drawdown": -0.2161659058890837,
       "ann_return": 0.8291025782303449,
       "ann_vol": 0.7141010527993261,
       "defaulted": false,
@@ -10366,7 +10366,7 @@
       "basis": "gross",
       "sharpe": 1.015912482482782,
       "sortino": 4.095083383175994,
-      "max_drawdown": -0.16853375113420332,
+      "max_drawdown": -0.21360588220635068,
       "ann_return": 0.5991530820667839,
       "ann_vol": 0.6106065107911781,
       "defaulted": false,
@@ -11738,7 +11738,7 @@
       "basis": "gross",
       "sharpe": -0.645456817141762,
       "sortino": -1.058399005312794,
-      "max_drawdown": -0.9913149324907603,
+      "max_drawdown": -0.9960033275674245,
       "ann_return": -0.9508146716014031,
       "ann_vol": 1.9481335449569128,
       "defaulted": false,
@@ -11752,7 +11752,7 @@
       "basis": "gross",
       "sharpe": -0.87667046781675,
       "sortino": -1.2720671797520564,
-      "max_drawdown": -0.9313352777419586,
+      "max_drawdown": -0.9553043151858593,
       "ann_return": -0.8164386537944472,
       "ann_vol": 1.1632083244082387,
       "defaulted": false,
@@ -11822,7 +11822,7 @@
       "basis": "full_spread_post_cost",
       "sharpe": -1.7425800118540213,
       "sortino": -1.8303809563133357,
-      "max_drawdown": -0.9546116330165082,
+      "max_drawdown": -0.9736812621241607,
       "ann_return": -0.8624924970414497,
       "ann_vol": 0.8461393119597758,
       "defaulted": false,
@@ -11836,7 +11836,7 @@
       "basis": "full_spread_post_cost",
       "sharpe": -1.5158776006751693,
       "sortino": -1.71575654225538,
-      "max_drawdown": -0.8517575290063352,
+      "max_drawdown": -0.8896743710686095,
       "ann_return": -0.6995145155393159,
       "ann_vol": 0.6308466866955504,
       "defaulted": false,
@@ -11906,7 +11906,7 @@
       "basis": "gross",
       "sharpe": -0.25636965187606264,
       "sortino": -0.41953805540809846,
-      "max_drawdown": -0.9475530044158555,
+      "max_drawdown": -0.9758650740250941,
       "ann_return": -0.8024247188381666,
       "ann_vol": 1.6046423293947611,
       "defaulted": false,
@@ -11920,7 +11920,7 @@
       "basis": "gross",
       "sharpe": -0.1195934075219571,
       "sortino": -0.2028229674302621,
-      "max_drawdown": -0.887796590585313,
+      "max_drawdown": -0.9284017843668062,
       "ann_return": -0.5729181849633611,
       "ann_vol": 1.257603978457312,
       "defaulted": false,
@@ -11990,7 +11990,7 @@
       "basis": "full_spread_post_cost",
       "sharpe": -1.5231031749001704,
       "sortino": -1.5774434414536178,
-      "max_drawdown": -0.8655978637368392,
+      "max_drawdown": -0.9220660528379548,
       "ann_return": -0.7348306597824319,
       "ann_vol": 0.6690262353472126,
       "defaulted": false,
@@ -12004,7 +12004,7 @@
       "basis": "full_spread_post_cost",
       "sharpe": -1.3166629265568595,
       "sortino": -1.5024992270041246,
-      "max_drawdown": -0.8022238609666292,
+      "max_drawdown": -0.8567797512717277,
       "ann_return": -0.6474044109184112,
       "ann_vol": 0.6180139663025958,
       "defaulted": false,
@@ -12074,7 +12074,7 @@
       "basis": "gross",
       "sharpe": -0.31604620071952777,
       "sortino": -0.546912613973491,
-      "max_drawdown": -0.9709729005245088,
+      "max_drawdown": -0.9866423826702668,
       "ann_return": -0.8591313829140553,
       "ann_vol": 1.794814982682224,
       "defaulted": false,
@@ -12088,7 +12088,7 @@
       "basis": "gross",
       "sharpe": -0.10306275360391375,
       "sortino": -0.18308905962803285,
-      "max_drawdown": -0.9126439573569022,
+      "max_drawdown": -0.944553234760103,
       "ann_return": -0.5735186175564716,
       "ann_vol": 1.3067239426811246,
       "defaulted": false,
@@ -12158,7 +12158,7 @@
       "basis": "full_spread_post_cost",
       "sharpe": -0.6212520407149122,
       "sortino": -0.866205260452245,
-      "max_drawdown": -0.8961816127478146,
+      "max_drawdown": -0.9398002373212406,
       "ann_return": -0.6418865933638243,
       "ann_vol": 0.9369692127781779,
       "defaulted": false,
@@ -12172,7 +12172,7 @@
       "basis": "full_spread_post_cost",
       "sharpe": -0.4145902419130852,
       "sortino": -0.6449998476652865,
-      "max_drawdown": -0.7995422977621475,
+      "max_drawdown": -0.8498977667832225,
       "ann_return": -0.45556626662497657,
       "ann_vol": 0.7840318045785586,
       "defaulted": false,
@@ -12242,7 +12242,7 @@
       "basis": "gross",
       "sharpe": -0.7490545845565736,
       "sortino": -1.1490595478477001,
-      "max_drawdown": -0.9768867352661736,
+      "max_drawdown": -0.9893637962065086,
       "ann_return": -0.9224812375842875,
       "ann_vol": 1.6387661352499263,
       "defaulted": false,
@@ -12256,7 +12256,7 @@
       "basis": "gross",
       "sharpe": -0.6921124247868702,
       "sortino": -1.0567064092288612,
-      "max_drawdown": -0.9153241210671478,
+      "max_drawdown": -0.9428013339141968,
       "ann_return": -0.7680822915938778,
       "ann_vol": 1.1721853561518742,
       "defaulted": false,
@@ -12326,7 +12326,7 @@
       "basis": "full_spread_post_cost",
       "sharpe": -1.0994696399586368,
       "sortino": -1.5146435920986465,
-      "max_drawdown": -0.933281757184492,
+      "max_drawdown": -0.9613129957983153,
       "ann_return": -0.8160105396661951,
       "ann_vol": 1.0390519134101701,
       "defaulted": false,
@@ -12340,7 +12340,7 @@
       "basis": "full_spread_post_cost",
       "sharpe": -1.3410286159182863,
       "sortino": -1.665611708469092,
-      "max_drawdown": -0.8713953075878214,
+      "max_drawdown": -0.9051828343892904,
       "ann_return": -0.7216579790362359,
       "ann_vol": 0.7293780954642941,
       "defaulted": false,
@@ -12410,7 +12410,7 @@
       "basis": "gross",
       "sharpe": -0.8738824402123719,
       "sortino": -1.3850358748561815,
-      "max_drawdown": -0.9990390276149187,
+      "max_drawdown": -0.9995577821547346,
       "ann_return": -0.9783345311342612,
       "ann_vol": 2.0600176888191863,
       "defaulted": false,
@@ -12424,7 +12424,7 @@
       "basis": "gross",
       "sharpe": -0.9938453758224262,
       "sortino": -1.400877668885675,
-      "max_drawdown": -0.9881280221087875,
+      "max_drawdown": -0.9912032037295693,
       "ann_return": -0.8978076284817753,
       "ann_vol": 1.34913354560563,
       "defaulted": false,
@@ -12494,7 +12494,7 @@
       "basis": "full_spread_post_cost",
       "sharpe": -0.74787936611542,
       "sortino": -1.3037743672780766,
-      "max_drawdown": -0.9817726177116028,
+      "max_drawdown": -0.9894307346024254,
       "ann_return": -0.87274097922336,
       "ann_vol": 1.525989463235095,
       "defaulted": false,
@@ -12508,7 +12508,7 @@
       "basis": "full_spread_post_cost",
       "sharpe": -1.0319131827819468,
       "sortino": -1.4636772811139345,
-      "max_drawdown": -0.9222864172561747,
+      "max_drawdown": -0.9473284367910584,
       "ann_return": -0.7443136850506535,
       "ann_vol": 0.9167600109025428,
       "defaulted": false,
@@ -12634,7 +12634,7 @@
       "basis": "full_spread_post_cost",
       "sharpe": 0.7301021213501805,
       "sortino": 1.1799997009652226,
-      "max_drawdown": -0.3386982859410397,
+      "max_drawdown": -0.34954158162744053,
       "ann_return": 0.2691650985437062,
       "ann_vol": 0.49709989619259015,
       "defaulted": false,
@@ -12970,7 +12970,7 @@
       "basis": "full_spread_post_cost",
       "sharpe": 0.9739080543620617,
       "sortino": 1.807811250521164,
-      "max_drawdown": -0.20392104176399306,
+      "max_drawdown": -0.33907111186315186,
       "ann_return": 0.322540420523316,
       "ann_vol": 0.34906094164958584,
       "defaulted": false,
@@ -13362,7 +13362,7 @@
       "basis": "full_spread_post_cost",
       "sharpe": -2.0259022362619956,
       "sortino": -1.7806702976233886,
-      "max_drawdown": -0.8800153990915027,
+      "max_drawdown": -0.9264439292391976,
       "ann_return": -0.7749114305107361,
       "ann_vol": 0.586127507558682,
       "defaulted": false,
@@ -13530,7 +13530,7 @@
       "basis": "full_spread_post_cost",
       "sharpe": -2.6314174436019284,
       "sortino": -2.12778468072495,
-      "max_drawdown": -0.9895191271674406,
+      "max_drawdown": -0.9935747436098518,
       "ann_return": -0.9441058986074568,
       "ann_vol": 0.7839083168947715,
       "defaulted": false,
@@ -13698,7 +13698,7 @@
       "basis": "full_spread_post_cost",
       "sharpe": -2.1556584554359413,
       "sortino": -1.8624696771298528,
-      "max_drawdown": -0.9834903695638216,
+      "max_drawdown": -0.9898788383225582,
       "ann_return": -0.9275344428418552,
       "ann_vol": 0.8078988805390044,
       "defaulted": false,
@@ -13712,7 +13712,7 @@
       "basis": "gross",
       "sharpe": 1.8796866695703731,
       "sortino": 8.007387130987734,
-      "max_drawdown": -0.1604715639026344,
+      "max_drawdown": -0.20719716042160763,
       "ann_return": 2.772979717159245,
       "ann_vol": 0.9164562368157086,
       "defaulted": false,
@@ -13740,7 +13740,7 @@
       "basis": "gross",
       "sharpe": 2.4392644152410266,
       "sortino": 10.55296700828563,
-      "max_drawdown": -0.10212526296103064,
+      "max_drawdown": -0.14088613880464707,
       "ann_return": 2.5109729743140305,
       "ann_vol": 0.6031222007708797,
       "defaulted": false,
@@ -14090,7 +14090,7 @@
       "basis": "gross",
       "sharpe": -0.3888947431652,
       "sortino": -0.6925603568712005,
-      "max_drawdown": -0.9926705490887414,
+      "max_drawdown": -0.9948872209023129,
       "ann_return": -0.9223093141027894,
       "ann_vol": 2.0425666138603553,
       "defaulted": false,
@@ -14174,7 +14174,7 @@
       "basis": "full_spread_post_cost",
       "sharpe": -0.026638540938909456,
       "sortino": -0.059193796549995965,
-      "max_drawdown": -0.9164717500436504,
+      "max_drawdown": -0.9281397656772786,
       "ann_return": -0.6374321415058486,
       "ann_vol": 1.6897364961572907,
       "defaulted": false,
@@ -14222,6 +14222,7 @@
       "terminal_wealth": 0.0,
       "defaulted": true,
       "n_months": 129,
+      "n_months_le_neg100": 1,
       "status": "complete"
     },
     {
@@ -14235,6 +14236,7 @@
       "terminal_wealth": 0.0,
       "defaulted": true,
       "n_months": 129,
+      "n_months_le_neg100": 1,
       "status": "complete"
     },
     {
@@ -14248,6 +14250,7 @@
       "terminal_wealth": 0.0463207071347335,
       "defaulted": false,
       "n_months": 129,
+      "n_months_le_neg100": 0,
       "status": "complete"
     },
     {
@@ -14261,6 +14264,7 @@
       "terminal_wealth": 1.2791880778334803e-05,
       "defaulted": false,
       "n_months": 129,
+      "n_months_le_neg100": 0,
       "status": "complete"
     },
     {
@@ -14274,6 +14278,7 @@
       "terminal_wealth": 0.15734240292845908,
       "defaulted": false,
       "n_months": 129,
+      "n_months_le_neg100": 0,
       "status": "complete"
     },
     {
@@ -14287,6 +14292,7 @@
       "terminal_wealth": 0.11857569000916031,
       "defaulted": false,
       "n_months": 129,
+      "n_months_le_neg100": 0,
       "status": "complete"
     },
     {
@@ -14300,6 +14306,7 @@
       "terminal_wealth": 22.9863474764556,
       "defaulted": false,
       "n_months": 129,
+      "n_months_le_neg100": 0,
       "status": "complete"
     },
     {
@@ -14313,6 +14320,7 @@
       "terminal_wealth": 93.73324450649065,
       "defaulted": false,
       "n_months": 129,
+      "n_months_le_neg100": 0,
       "status": "complete"
     },
     {
@@ -14326,6 +14334,7 @@
       "terminal_wealth": 0.0,
       "defaulted": true,
       "n_months": 129,
+      "n_months_le_neg100": 1,
       "status": "complete"
     },
     {
@@ -14339,6 +14348,7 @@
       "terminal_wealth": 0.0,
       "defaulted": true,
       "n_months": 129,
+      "n_months_le_neg100": 1,
       "status": "complete"
     },
     {
@@ -14352,6 +14362,7 @@
       "terminal_wealth": 0.0,
       "defaulted": true,
       "n_months": 129,
+      "n_months_le_neg100": 1,
       "status": "complete"
     },
     {
@@ -14365,6 +14376,7 @@
       "terminal_wealth": 0.0,
       "defaulted": true,
       "n_months": 129,
+      "n_months_le_neg100": 72,
       "status": "complete"
     },
     {
@@ -14378,6 +14390,7 @@
       "terminal_wealth": 0.0,
       "defaulted": true,
       "n_months": 129,
+      "n_months_le_neg100": 1,
       "status": "complete"
     },
     {
@@ -14391,6 +14404,7 @@
       "terminal_wealth": 0.0,
       "defaulted": true,
       "n_months": 129,
+      "n_months_le_neg100": 1,
       "status": "complete"
     },
     {
@@ -14404,6 +14418,7 @@
       "terminal_wealth": 0.0463207071347335,
       "defaulted": false,
       "n_months": 129,
+      "n_months_le_neg100": 0,
       "status": "complete"
     },
     {
@@ -14417,6 +14432,7 @@
       "terminal_wealth": 1.2791880778334803e-05,
       "defaulted": false,
       "n_months": 129,
+      "n_months_le_neg100": 0,
       "status": "complete"
     },
     {
@@ -14430,6 +14446,7 @@
       "terminal_wealth": 0.26209917118993614,
       "defaulted": false,
       "n_months": 129,
+      "n_months_le_neg100": 0,
       "status": "complete"
     },
     {
@@ -14443,6 +14460,7 @@
       "terminal_wealth": 0.2019322146206608,
       "defaulted": false,
       "n_months": 129,
+      "n_months_le_neg100": 0,
       "status": "complete"
     },
     {
@@ -14456,6 +14474,7 @@
       "terminal_wealth": 14.614227041851857,
       "defaulted": false,
       "n_months": 129,
+      "n_months_le_neg100": 0,
       "status": "complete"
     },
     {
@@ -14469,6 +14488,7 @@
       "terminal_wealth": 133.63900855122682,
       "defaulted": false,
       "n_months": 129,
+      "n_months_le_neg100": 0,
       "status": "complete"
     },
     {
@@ -14477,11 +14497,12 @@
       "basis": "full_spread_post_cost",
       "sharpe": 0.01229451207299375,
       "sortino": 0.015975297224554562,
-      "max_drawdown": -0.9739040767231464,
+      "max_drawdown": -0.9794638806131585,
       "ann_return": -0.18235534744091364,
       "terminal_wealth": 0.11483372648844384,
       "defaulted": false,
       "n_months": 129,
+      "n_months_le_neg100": 0,
       "status": "complete"
     },
     {
@@ -14490,11 +14511,12 @@
       "basis": "gross",
       "sharpe": 0.7427423853638796,
       "sortino": 1.3779282333802703,
-      "max_drawdown": -0.8972198801354005,
+      "max_drawdown": -0.9060331399010522,
       "ann_return": 0.29181292201361275,
       "terminal_wealth": 15.681801893338857,
       "defaulted": false,
       "n_months": 129,
+      "n_months_le_neg100": 0,
       "status": "complete"
     },
     {
@@ -14508,6 +14530,7 @@
       "terminal_wealth": 0.0,
       "defaulted": true,
       "n_months": 129,
+      "n_months_le_neg100": 1,
       "status": "complete"
     },
     {
@@ -14521,6 +14544,7 @@
       "terminal_wealth": 0.0,
       "defaulted": true,
       "n_months": 129,
+      "n_months_le_neg100": 72,
       "status": "complete"
     },
     {
@@ -14534,6 +14558,7 @@
       "terminal_wealth": 0.0,
       "defaulted": true,
       "n_months": 129,
+      "n_months_le_neg100": 1,
       "status": "complete"
     },
     {
@@ -14547,6 +14572,7 @@
       "terminal_wealth": 0.0,
       "defaulted": true,
       "n_months": 129,
+      "n_months_le_neg100": 1,
       "status": "complete"
     },
     {
@@ -14560,6 +14586,7 @@
       "terminal_wealth": 0.0463207071347335,
       "defaulted": false,
       "n_months": 129,
+      "n_months_le_neg100": 0,
       "status": "complete"
     },
     {
@@ -14573,6 +14600,7 @@
       "terminal_wealth": 1.2791880778334803e-05,
       "defaulted": false,
       "n_months": 129,
+      "n_months_le_neg100": 0,
       "status": "complete"
     },
     {
@@ -14586,6 +14614,7 @@
       "terminal_wealth": 0.4576473337496471,
       "defaulted": false,
       "n_months": 129,
+      "n_months_le_neg100": 0,
       "status": "complete"
     },
     {
@@ -14599,6 +14628,7 @@
       "terminal_wealth": 0.19283539897934726,
       "defaulted": false,
       "n_months": 129,
+      "n_months_le_neg100": 0,
       "status": "complete"
     },
     {
@@ -14612,6 +14642,7 @@
       "terminal_wealth": 4.147370835279833,
       "defaulted": false,
       "n_months": 129,
+      "n_months_le_neg100": 0,
       "status": "complete"
     },
     {
@@ -14625,6 +14656,7 @@
       "terminal_wealth": 0.0,
       "defaulted": true,
       "n_months": 129,
+      "n_months_le_neg100": 1,
       "status": "complete"
     },
     {
@@ -14638,6 +14670,7 @@
       "terminal_wealth": 0.0,
       "defaulted": true,
       "n_months": 129,
+      "n_months_le_neg100": 1,
       "status": "complete"
     },
     {
@@ -14646,11 +14679,12 @@
       "basis": "gross",
       "sharpe": 0.6966435814233817,
       "sortino": 1.2381908227089458,
-      "max_drawdown": -0.9558558286855993,
+      "max_drawdown": -0.9578586151899245,
       "ann_return": 0.14269470866484335,
       "terminal_wealth": 4.195172525367976,
       "defaulted": false,
       "n_months": 129,
+      "n_months_le_neg100": 0,
       "status": "complete"
     },
     {
@@ -14664,6 +14698,7 @@
       "terminal_wealth": 0.0,
       "defaulted": true,
       "n_months": 129,
+      "n_months_le_neg100": 1,
       "status": "complete"
     },
     {
@@ -14677,6 +14712,7 @@
       "terminal_wealth": 0.0,
       "defaulted": true,
       "n_months": 129,
+      "n_months_le_neg100": 72,
       "status": "complete"
     },
     {
@@ -14690,6 +14726,7 @@
       "terminal_wealth": 0.0,
       "defaulted": true,
       "n_months": 129,
+      "n_months_le_neg100": 1,
       "status": "complete"
     },
     {
@@ -14703,6 +14740,7 @@
       "terminal_wealth": 0.0,
       "defaulted": true,
       "n_months": 129,
+      "n_months_le_neg100": 1,
       "status": "complete"
     },
     {
@@ -14716,6 +14754,7 @@
       "terminal_wealth": 0.0463207071347335,
       "defaulted": false,
       "n_months": 129,
+      "n_months_le_neg100": 0,
       "status": "complete"
     },
     {
@@ -14729,6 +14768,7 @@
       "terminal_wealth": 1.2791880778334803e-05,
       "defaulted": false,
       "n_months": 129,
+      "n_months_le_neg100": 0,
       "status": "complete"
     },
     {
@@ -14742,6 +14782,7 @@
       "terminal_wealth": 0.23234448495917892,
       "defaulted": false,
       "n_months": 129,
+      "n_months_le_neg100": 0,
       "status": "complete"
     },
     {
@@ -14755,6 +14796,7 @@
       "terminal_wealth": 0.26497710073580316,
       "defaulted": false,
       "n_months": 129,
+      "n_months_le_neg100": 0,
       "status": "complete"
     },
     {
@@ -14763,11 +14805,12 @@
       "basis": "full_spread_post_cost",
       "sharpe": 0.5969631258555796,
       "sortino": 1.135645725732609,
-      "max_drawdown": -0.6314292397044308,
+      "max_drawdown": -0.6882523373226592,
       "ann_return": 0.19865094923758386,
       "terminal_wealth": 7.013695172130437,
       "defaulted": false,
       "n_months": 129,
+      "n_months_le_neg100": 0,
       "status": "complete"
     },
     {
@@ -14781,6 +14824,7 @@
       "terminal_wealth": 0.0,
       "defaulted": true,
       "n_months": 129,
+      "n_months_le_neg100": 1,
       "status": "complete"
     },
     {
@@ -14789,11 +14833,12 @@
       "basis": "full_spread_post_cost",
       "sharpe": 0.09524391215391369,
       "sortino": 0.1300684699483552,
-      "max_drawdown": -0.9911709730252899,
+      "max_drawdown": -0.9936997129856856,
       "ann_return": -0.20651599879685256,
       "terminal_wealth": 0.08318315284617349,
       "defaulted": false,
       "n_months": 129,
+      "n_months_le_neg100": 0,
       "status": "complete"
     },
     {
@@ -14802,11 +14847,12 @@
       "basis": "gross",
       "sharpe": 0.8144175915234458,
       "sortino": 1.4987454735120043,
-      "max_drawdown": -0.9597310550735956,
+      "max_drawdown": -0.9614613823203828,
       "ann_return": 0.21610859752413636,
       "terminal_wealth": 8.193186812330406,
       "defaulted": false,
       "n_months": 129,
+      "n_months_le_neg100": 0,
       "status": "complete"
     },
     {
@@ -14820,6 +14866,7 @@
       "terminal_wealth": 0.0,
       "defaulted": true,
       "n_months": 129,
+      "n_months_le_neg100": 1,
       "status": "complete"
     },
     {
@@ -14833,6 +14880,7 @@
       "terminal_wealth": 0.0,
       "defaulted": true,
       "n_months": 129,
+      "n_months_le_neg100": 72,
       "status": "complete"
     },
     {
@@ -14846,6 +14894,7 @@
       "terminal_wealth": 0.0,
       "defaulted": true,
       "n_months": 129,
+      "n_months_le_neg100": 1,
       "status": "complete"
     },
     {
@@ -14859,6 +14908,7 @@
       "terminal_wealth": 0.0,
       "defaulted": true,
       "n_months": 129,
+      "n_months_le_neg100": 1,
       "status": "complete"
     },
     {
@@ -14872,6 +14922,7 @@
       "terminal_wealth": 0.0463207071347335,
       "defaulted": false,
       "n_months": 129,
+      "n_months_le_neg100": 0,
       "status": "complete"
     },
     {
@@ -14885,6 +14936,7 @@
       "terminal_wealth": 1.2791880778334803e-05,
       "defaulted": false,
       "n_months": 129,
+      "n_months_le_neg100": 0,
       "status": "complete"
     },
     {
@@ -14898,6 +14950,7 @@
       "terminal_wealth": 0.18978327932828318,
       "defaulted": false,
       "n_months": 129,
+      "n_months_le_neg100": 0,
       "status": "complete"
     },
     {
@@ -14911,6 +14964,7 @@
       "terminal_wealth": 0.24221716998509352,
       "defaulted": false,
       "n_months": 129,
+      "n_months_le_neg100": 0,
       "status": "complete"
     },
     {
@@ -14919,11 +14973,12 @@
       "basis": "full_spread_post_cost",
       "sharpe": 0.7031459418783844,
       "sortino": 1.458055636891583,
-      "max_drawdown": -0.7244092316903099,
+      "max_drawdown": -0.7797954804606211,
       "ann_return": 0.2650161414644365,
       "terminal_wealth": 12.517935840399433,
       "defaulted": false,
       "n_months": 129,
+      "n_months_le_neg100": 0,
       "status": "complete"
     },
     {
@@ -14937,6 +14992,7 @@
       "terminal_wealth": 0.0,
       "defaulted": true,
       "n_months": 129,
+      "n_months_le_neg100": 1,
       "status": "complete"
     },
     {
@@ -14950,6 +15006,7 @@
       "terminal_wealth": 0.0,
       "defaulted": true,
       "n_months": 129,
+      "n_months_le_neg100": 1,
       "status": "complete"
     },
     {
@@ -14963,6 +15020,7 @@
       "terminal_wealth": 0.0,
       "defaulted": true,
       "n_months": 129,
+      "n_months_le_neg100": 1,
       "status": "complete"
     },
     {
@@ -14976,6 +15034,7 @@
       "terminal_wealth": 0.0,
       "defaulted": true,
       "n_months": 129,
+      "n_months_le_neg100": 1,
       "status": "complete"
     },
     {
@@ -14989,6 +15048,7 @@
       "terminal_wealth": 0.0,
       "defaulted": true,
       "n_months": 129,
+      "n_months_le_neg100": 72,
       "status": "complete"
     },
     {
@@ -15002,6 +15062,7 @@
       "terminal_wealth": 0.0,
       "defaulted": true,
       "n_months": 129,
+      "n_months_le_neg100": 1,
       "status": "complete"
     },
     {
@@ -15015,6 +15076,7 @@
       "terminal_wealth": 0.0,
       "defaulted": true,
       "n_months": 129,
+      "n_months_le_neg100": 1,
       "status": "complete"
     },
     {
@@ -15028,6 +15090,7 @@
       "terminal_wealth": 0.0463207071347335,
       "defaulted": false,
       "n_months": 129,
+      "n_months_le_neg100": 0,
       "status": "complete"
     },
     {
@@ -15041,6 +15104,7 @@
       "terminal_wealth": 1.2791880778334803e-05,
       "defaulted": false,
       "n_months": 129,
+      "n_months_le_neg100": 0,
       "status": "complete"
     },
     {
@@ -15054,6 +15118,7 @@
       "terminal_wealth": 0.2257537812551894,
       "defaulted": false,
       "n_months": 129,
+      "n_months_le_neg100": 0,
       "status": "complete"
     },
     {
@@ -15067,6 +15132,7 @@
       "terminal_wealth": 0.33807448184476796,
       "defaulted": false,
       "n_months": 129,
+      "n_months_le_neg100": 0,
       "status": "complete"
     },
     {
@@ -15075,11 +15141,12 @@
       "basis": "full_spread_post_cost",
       "sharpe": 0.7052556828142619,
       "sortino": 1.5385382018355698,
-      "max_drawdown": -0.6204291683245575,
+      "max_drawdown": -0.6302823303159812,
       "ann_return": 0.27265103068661545,
       "terminal_wealth": 13.35442937948206,
       "defaulted": false,
       "n_months": 129,
+      "n_months_le_neg100": 0,
       "status": "complete"
     },
     {
@@ -15093,6 +15160,7 @@
       "terminal_wealth": 200.8404820657387,
       "defaulted": false,
       "n_months": 129,
+      "n_months_le_neg100": 0,
       "status": "complete"
     },
     {
@@ -15106,6 +15174,7 @@
       "terminal_wealth": 0.0,
       "defaulted": true,
       "n_months": 129,
+      "n_months_le_neg100": 1,
       "status": "complete"
     },
     {
@@ -15119,6 +15188,7 @@
       "terminal_wealth": 0.0,
       "defaulted": true,
       "n_months": 129,
+      "n_months_le_neg100": 1,
       "status": "complete"
     },
     {
@@ -15132,6 +15202,7 @@
       "terminal_wealth": 0.0,
       "defaulted": true,
       "n_months": 129,
+      "n_months_le_neg100": 1,
       "status": "complete"
     },
     {
@@ -15145,6 +15216,7 @@
       "terminal_wealth": 0.0,
       "defaulted": true,
       "n_months": 129,
+      "n_months_le_neg100": 72,
       "status": "complete"
     },
     {
@@ -15158,6 +15230,7 @@
       "terminal_wealth": 0.0,
       "defaulted": true,
       "n_months": 129,
+      "n_months_le_neg100": 1,
       "status": "complete"
     },
     {
@@ -15171,6 +15244,7 @@
       "terminal_wealth": 0.0,
       "defaulted": true,
       "n_months": 129,
+      "n_months_le_neg100": 1,
       "status": "complete"
     },
     {
@@ -15184,6 +15258,7 @@
       "terminal_wealth": 0.0463207071347335,
       "defaulted": false,
       "n_months": 129,
+      "n_months_le_neg100": 0,
       "status": "complete"
     },
     {
@@ -15197,6 +15272,7 @@
       "terminal_wealth": 1.2791880778334803e-05,
       "defaulted": false,
       "n_months": 129,
+      "n_months_le_neg100": 0,
       "status": "complete"
     },
     {
@@ -15210,6 +15286,7 @@
       "terminal_wealth": 0.4449104568488851,
       "defaulted": false,
       "n_months": 129,
+      "n_months_le_neg100": 0,
       "status": "complete"
     },
     {
@@ -15223,6 +15300,7 @@
       "terminal_wealth": 0.5352368237628,
       "defaulted": false,
       "n_months": 129,
+      "n_months_le_neg100": 0,
       "status": "complete"
     },
     {
@@ -15236,6 +15314,7 @@
       "terminal_wealth": 8.022460850468368,
       "defaulted": false,
       "n_months": 129,
+      "n_months_le_neg100": 0,
       "status": "complete"
     },
     {
@@ -15249,6 +15328,7 @@
       "terminal_wealth": 0.0,
       "defaulted": true,
       "n_months": 129,
+      "n_months_le_neg100": 1,
       "status": "complete"
     },
     {
@@ -15262,6 +15342,7 @@
       "terminal_wealth": 0.0,
       "defaulted": true,
       "n_months": 129,
+      "n_months_le_neg100": 1,
       "status": "complete"
     },
     {
@@ -15275,6 +15356,7 @@
       "terminal_wealth": 0.0,
       "defaulted": true,
       "n_months": 129,
+      "n_months_le_neg100": 1,
       "status": "complete"
     },
     {
@@ -15288,6 +15370,7 @@
       "terminal_wealth": 0.0,
       "defaulted": true,
       "n_months": 129,
+      "n_months_le_neg100": 1,
       "status": "complete"
     },
     {
@@ -15301,6 +15384,7 @@
       "terminal_wealth": 0.0,
       "defaulted": true,
       "n_months": 129,
+      "n_months_le_neg100": 72,
       "status": "complete"
     },
     {
@@ -15314,6 +15398,7 @@
       "terminal_wealth": 0.0,
       "defaulted": true,
       "n_months": 129,
+      "n_months_le_neg100": 1,
       "status": "complete"
     },
     {
@@ -15327,6 +15412,7 @@
       "terminal_wealth": 0.0,
       "defaulted": true,
       "n_months": 129,
+      "n_months_le_neg100": 1,
       "status": "complete"
     },
     {
@@ -15340,6 +15426,7 @@
       "terminal_wealth": 0.0463207071347335,
       "defaulted": false,
       "n_months": 129,
+      "n_months_le_neg100": 0,
       "status": "complete"
     },
     {
@@ -15353,6 +15440,7 @@
       "terminal_wealth": 1.2791880778334803e-05,
       "defaulted": false,
       "n_months": 129,
+      "n_months_le_neg100": 0,
       "status": "complete"
     },
     {
@@ -15366,6 +15454,7 @@
       "terminal_wealth": 0.4274400249104812,
       "defaulted": false,
       "n_months": 129,
+      "n_months_le_neg100": 0,
       "status": "complete"
     },
     {
@@ -15379,6 +15468,7 @@
       "terminal_wealth": 0.32769454773736795,
       "defaulted": false,
       "n_months": 129,
+      "n_months_le_neg100": 0,
       "status": "complete"
     },
     {
@@ -15392,6 +15482,7 @@
       "terminal_wealth": 20.21756429355877,
       "defaulted": false,
       "n_months": 129,
+      "n_months_le_neg100": 0,
       "status": "complete"
     },
     {
@@ -15405,6 +15496,7 @@
       "terminal_wealth": 148.55393631926776,
       "defaulted": false,
       "n_months": 129,
+      "n_months_le_neg100": 0,
       "status": "complete"
     },
     {
@@ -15418,6 +15510,7 @@
       "terminal_wealth": 0.0,
       "defaulted": true,
       "n_months": 129,
+      "n_months_le_neg100": 1,
       "status": "complete"
     },
     {
@@ -15431,6 +15524,7 @@
       "terminal_wealth": 0.0,
       "defaulted": true,
       "n_months": 129,
+      "n_months_le_neg100": 1,
       "status": "complete"
     },
     {
@@ -15444,6 +15538,7 @@
       "terminal_wealth": 0.0,
       "defaulted": true,
       "n_months": 129,
+      "n_months_le_neg100": 1,
       "status": "complete"
     },
     {
@@ -15457,6 +15552,7 @@
       "terminal_wealth": 0.0,
       "defaulted": true,
       "n_months": 129,
+      "n_months_le_neg100": 72,
       "status": "complete"
     },
     {
@@ -15470,6 +15566,7 @@
       "terminal_wealth": 0.0,
       "defaulted": true,
       "n_months": 129,
+      "n_months_le_neg100": 1,
       "status": "complete"
     },
     {
@@ -15483,6 +15580,7 @@
       "terminal_wealth": 0.0,
       "defaulted": true,
       "n_months": 129,
+      "n_months_le_neg100": 1,
       "status": "complete"
     },
     {
@@ -15496,6 +15594,7 @@
       "terminal_wealth": 0.0463207071347335,
       "defaulted": false,
       "n_months": 129,
+      "n_months_le_neg100": 0,
       "status": "complete"
     },
     {
@@ -15509,6 +15608,7 @@
       "terminal_wealth": 1.2791880778334803e-05,
       "defaulted": false,
       "n_months": 129,
+      "n_months_le_neg100": 0,
       "status": "complete"
     },
     {
@@ -15522,6 +15622,7 @@
       "terminal_wealth": 0.28649906232938843,
       "defaulted": false,
       "n_months": 129,
+      "n_months_le_neg100": 0,
       "status": "complete"
     },
     {
@@ -15535,6 +15636,7 @@
       "terminal_wealth": 0.24281771260410287,
       "defaulted": false,
       "n_months": 129,
+      "n_months_le_neg100": 0,
       "status": "complete"
     },
     {
@@ -15543,11 +15645,12 @@
       "basis": "full_spread_post_cost",
       "sharpe": 0.6932416929258081,
       "sortino": 1.4658134451834117,
-      "max_drawdown": -0.6093144995888009,
+      "max_drawdown": -0.6454874994625237,
       "ann_return": 0.26338313263984814,
       "terminal_wealth": 12.345311405644674,
       "defaulted": false,
       "n_months": 129,
+      "n_months_le_neg100": 0,
       "status": "complete"
     },
     {
@@ -15561,6 +15664,7 @@
       "terminal_wealth": 12.521282816897552,
       "defaulted": false,
       "n_months": 129,
+      "n_months_le_neg100": 0,
       "status": "complete"
     },
     {
@@ -15574,6 +15678,7 @@
       "terminal_wealth": 0.0,
       "defaulted": true,
       "n_months": 129,
+      "n_months_le_neg100": 1,
       "status": "complete"
     },
     {
@@ -15587,6 +15692,7 @@
       "terminal_wealth": 0.0,
       "defaulted": true,
       "n_months": 129,
+      "n_months_le_neg100": 1,
       "status": "complete"
     },
     {
@@ -15600,6 +15706,7 @@
       "terminal_wealth": 0.0,
       "defaulted": true,
       "n_months": 129,
+      "n_months_le_neg100": 1,
       "status": "complete"
     },
     {
@@ -15613,6 +15720,7 @@
       "terminal_wealth": 0.0,
       "defaulted": true,
       "n_months": 129,
+      "n_months_le_neg100": 72,
       "status": "complete"
     },
     {
@@ -15626,6 +15734,7 @@
       "terminal_wealth": 0.0,
       "defaulted": true,
       "n_months": 129,
+      "n_months_le_neg100": 1,
       "status": "complete"
     },
     {
@@ -15639,6 +15748,7 @@
       "terminal_wealth": 0.0,
       "defaulted": true,
       "n_months": 129,
+      "n_months_le_neg100": 1,
       "status": "complete"
     },
     {
@@ -15652,6 +15762,7 @@
       "terminal_wealth": 0.0463207071347335,
       "defaulted": false,
       "n_months": 129,
+      "n_months_le_neg100": 0,
       "status": "complete"
     },
     {
@@ -15665,6 +15776,7 @@
       "terminal_wealth": 1.2791880778334803e-05,
       "defaulted": false,
       "n_months": 129,
+      "n_months_le_neg100": 0,
       "status": "complete"
     },
     {
@@ -15678,6 +15790,7 @@
       "terminal_wealth": 0.31073430458283563,
       "defaulted": false,
       "n_months": 129,
+      "n_months_le_neg100": 0,
       "status": "complete"
     },
     {
@@ -15691,6 +15804,7 @@
       "terminal_wealth": 0.244092141219008,
       "defaulted": false,
       "n_months": 129,
+      "n_months_le_neg100": 0,
       "status": "complete"
     },
     {
@@ -15699,11 +15813,12 @@
       "basis": "full_spread_post_cost",
       "sharpe": 0.6062549832774888,
       "sortino": 1.2522581305863916,
-      "max_drawdown": -0.6738702924063049,
+      "max_drawdown": -0.7200278779354461,
       "ann_return": 0.20704510439543644,
       "terminal_wealth": 7.560101281273568,
       "defaulted": false,
       "n_months": 129,
+      "n_months_le_neg100": 0,
       "status": "complete"
     },
     {
@@ -15717,6 +15832,7 @@
       "terminal_wealth": 20.917057532066348,
       "defaulted": false,
       "n_months": 129,
+      "n_months_le_neg100": 0,
       "status": "complete"
     },
     {
@@ -15730,6 +15846,7 @@
       "terminal_wealth": 0.0,
       "defaulted": true,
       "n_months": 129,
+      "n_months_le_neg100": 1,
       "status": "complete"
     },
     {
@@ -15743,6 +15860,7 @@
       "terminal_wealth": 0.0,
       "defaulted": true,
       "n_months": 129,
+      "n_months_le_neg100": 1,
       "status": "complete"
     },
     {
@@ -15756,6 +15874,7 @@
       "terminal_wealth": 0.0,
       "defaulted": true,
       "n_months": 129,
+      "n_months_le_neg100": 1,
       "status": "complete"
     },
     {
@@ -15769,6 +15888,7 @@
       "terminal_wealth": 0.0,
       "defaulted": true,
       "n_months": 129,
+      "n_months_le_neg100": 72,
       "status": "complete"
     },
     {
@@ -15782,6 +15902,7 @@
       "terminal_wealth": 0.0,
       "defaulted": true,
       "n_months": 129,
+      "n_months_le_neg100": 1,
       "status": "complete"
     },
     {
@@ -15795,6 +15916,7 @@
       "terminal_wealth": 0.0,
       "defaulted": true,
       "n_months": 129,
+      "n_months_le_neg100": 1,
       "status": "complete"
     },
     {
@@ -15808,6 +15930,7 @@
       "terminal_wealth": 0.0463207071347335,
       "defaulted": false,
       "n_months": 129,
+      "n_months_le_neg100": 0,
       "status": "complete"
     },
     {
@@ -15821,6 +15944,7 @@
       "terminal_wealth": 1.2791880778334803e-05,
       "defaulted": false,
       "n_months": 129,
+      "n_months_le_neg100": 0,
       "status": "complete"
     },
     {
@@ -15834,6 +15958,7 @@
       "terminal_wealth": 0.6613193766283141,
       "defaulted": false,
       "n_months": 129,
+      "n_months_le_neg100": 0,
       "status": "complete"
     },
     {
@@ -15847,6 +15972,7 @@
       "terminal_wealth": 0.06124044133538977,
       "defaulted": false,
       "n_months": 129,
+      "n_months_le_neg100": 0,
       "status": "complete"
     },
     {
@@ -15855,11 +15981,12 @@
       "basis": "full_spread_post_cost",
       "sharpe": 0.7666812763652795,
       "sortino": 1.8643058136064614,
-      "max_drawdown": -0.6719385222266128,
+      "max_drawdown": -0.6810693339693423,
       "ann_return": 0.3521099884046641,
       "terminal_wealth": 25.60821022117742,
       "defaulted": false,
       "n_months": 129,
+      "n_months_le_neg100": 0,
       "status": "complete"
     },
     {
@@ -15873,6 +16000,7 @@
       "terminal_wealth": 518.6119198078652,
       "defaulted": false,
       "n_months": 129,
+      "n_months_le_neg100": 0,
       "status": "complete"
     },
     {
@@ -15881,11 +16009,12 @@
       "basis": "full_spread_post_cost",
       "sharpe": 0.07593711932367214,
       "sortino": 0.112895062433105,
-      "max_drawdown": -0.964914216596459,
+      "max_drawdown": -0.9731680943547798,
       "ann_return": -0.1842323399433241,
       "terminal_wealth": 0.11203138541718391,
       "defaulted": false,
       "n_months": 129,
+      "n_months_le_neg100": 0,
       "status": "complete"
     },
     {
@@ -15899,6 +16028,7 @@
       "terminal_wealth": 373.61097690797766,
       "defaulted": false,
       "n_months": 129,
+      "n_months_le_neg100": 0,
       "status": "complete"
     },
     {
@@ -15912,6 +16042,7 @@
       "terminal_wealth": 0.0,
       "defaulted": true,
       "n_months": 129,
+      "n_months_le_neg100": 1,
       "status": "complete"
     },
     {
@@ -15925,6 +16056,7 @@
       "terminal_wealth": 0.0,
       "defaulted": true,
       "n_months": 129,
+      "n_months_le_neg100": 72,
       "status": "complete"
     }
   ],
@@ -16406,9 +16538,9 @@
       "Path P50 Sharpe": 0.6578553588739608,
       "Path P75 Sharpe": 0.9185354524990574,
       "Path P95 Sharpe": 1.3054613219409745,
-      "Path P50 Max Drawdown": -0.5125172833701995,
+      "Path P50 Max Drawdown": -0.514306459010744,
       "P Sharpe Less Than 0": 0.051,
-      "P Max Drawdown Less Than -0.5": 0.535,
+      "P Max Drawdown Less Than -0.5": 0.541,
       "P Default": 0.0
     },
     {
@@ -16436,9 +16568,9 @@
       "Path P50 Sharpe": 1.2154813789399777,
       "Path P75 Sharpe": 1.6134232512243192,
       "Path P95 Sharpe": 2.1831270105999803,
-      "Path P50 Max Drawdown": -0.7740643095215142,
+      "Path P50 Max Drawdown": -0.7874726831434019,
       "P Sharpe Less Than 0": 0.007,
-      "P Max Drawdown Less Than -0.5": 0.902,
+      "P Max Drawdown Less Than -0.5": 0.903,
       "P Default": 0.0
     },
     {
@@ -16451,7 +16583,7 @@
       "Path P50 Sharpe": -0.15776179661148815,
       "Path P75 Sharpe": 0.03817068956344886,
       "Path P95 Sharpe": 0.2905400497919013,
-      "Path P50 Max Drawdown": -0.9844648714495925,
+      "Path P50 Max Drawdown": -0.985434443737074,
       "P Sharpe Less Than 0": 0.703,
       "P Max Drawdown Less Than -0.5": 1.0,
       "P Default": 0.0
@@ -16466,9 +16598,9 @@
       "Path P50 Sharpe": -0.1066694954023051,
       "Path P75 Sharpe": 0.12563640608980362,
       "Path P95 Sharpe": 0.41218899986610863,
-      "Path P50 Max Drawdown": -0.9138363853719706,
+      "Path P50 Max Drawdown": -0.9163287175324142,
       "P Sharpe Less Than 0": 0.621,
-      "P Max Drawdown Less Than -0.5": 0.996,
+      "P Max Drawdown Less Than -0.5": 0.998,
       "P Default": 0.0
     },
     {
@@ -16481,9 +16613,9 @@
       "Path P50 Sharpe": 0.8938604680905995,
       "Path P75 Sharpe": 1.1753620385576935,
       "Path P95 Sharpe": 1.5619405089520277,
-      "Path P50 Max Drawdown": -0.42381018974740453,
+      "Path P50 Max Drawdown": -0.42488324221269036,
       "P Sharpe Less Than 0": 0.024,
-      "P Max Drawdown Less Than -0.5": 0.269,
+      "P Max Drawdown Less Than -0.5": 0.275,
       "P Default": 0.0
     },
     {
@@ -16496,9 +16628,9 @@
       "Path P50 Sharpe": 0.2690217745408148,
       "Path P75 Sharpe": 0.52224711017047,
       "Path P95 Sharpe": 0.865647524157862,
-      "Path P50 Max Drawdown": -0.6551949394359302,
+      "Path P50 Max Drawdown": -0.6565558046144264,
       "P Sharpe Less Than 0": 0.236,
-      "P Max Drawdown Less Than -0.5": 0.858,
+      "P Max Drawdown Less Than -0.5": 0.863,
       "P Default": 0.0
     },
     {
@@ -16511,7 +16643,7 @@
       "Path P50 Sharpe": 0.9393455811826765,
       "Path P75 Sharpe": 1.2758856823808598,
       "Path P95 Sharpe": 1.7631496289230757,
-      "Path P50 Max Drawdown": -0.23214370822321007,
+      "Path P50 Max Drawdown": -0.23494902581656302,
       "P Sharpe Less Than 0": 0.026,
       "P Max Drawdown Less Than -0.5": 0.013,
       "P Default": 0.0
@@ -16543,7 +16675,7 @@
       "Path P95 Sharpe": 2.158905548116827,
       "Path P50 Max Drawdown": -0.5472865369307156,
       "P Sharpe Less Than 0": 0.0,
-      "P Max Drawdown Less Than -0.5": 0.585,
+      "P Max Drawdown Less Than -0.5": 0.595,
       "P Default": 0.0
     },
     {
@@ -16571,9 +16703,9 @@
       "Path P50 Sharpe": 1.2154813789399777,
       "Path P75 Sharpe": 1.6134232512243192,
       "Path P95 Sharpe": 2.1831270105999803,
-      "Path P50 Max Drawdown": -0.7740643095215142,
+      "Path P50 Max Drawdown": -0.7874726831434019,
       "P Sharpe Less Than 0": 0.007,
-      "P Max Drawdown Less Than -0.5": 0.902,
+      "P Max Drawdown Less Than -0.5": 0.903,
       "P Default": 0.0
     },
     {
@@ -16586,7 +16718,7 @@
       "Path P50 Sharpe": -0.0328044457098828,
       "Path P75 Sharpe": 0.19708583132443253,
       "Path P95 Sharpe": 0.4713589991392305,
-      "Path P50 Max Drawdown": -0.9997663422970482,
+      "Path P50 Max Drawdown": -0.9997924210716822,
       "P Sharpe Less Than 0": 0.546,
       "P Max Drawdown Less Than -0.5": 1.0,
       "P Default": 0.0
@@ -16601,7 +16733,7 @@
       "Path P50 Sharpe": 0.08532139220105843,
       "Path P75 Sharpe": 0.3340472044658274,
       "Path P95 Sharpe": 0.6687447251099143,
-      "Path P50 Max Drawdown": -0.9822343600124788,
+      "Path P50 Max Drawdown": -0.9827214062348945,
       "P Sharpe Less Than 0": 0.409,
       "P Max Drawdown Less Than -0.5": 1.0,
       "P Default": 0.0
@@ -16616,9 +16748,9 @@
       "Path P50 Sharpe": 0.8640545417285963,
       "Path P75 Sharpe": 1.2040121152893215,
       "Path P95 Sharpe": 1.6565146957511154,
-      "Path P50 Max Drawdown": -0.8402635397076443,
+      "Path P50 Max Drawdown": -0.8418149920562052,
       "P Sharpe Less Than 0": 0.038,
-      "P Max Drawdown Less Than -0.5": 0.983,
+      "P Max Drawdown Less Than -0.5": 0.984,
       "P Default": 0.0
     },
     {
@@ -16631,9 +16763,9 @@
       "Path P50 Sharpe": 1.3906989562981105,
       "Path P75 Sharpe": 1.72131860531852,
       "Path P95 Sharpe": 2.2363046067103953,
-      "Path P50 Max Drawdown": -0.6024415261445465,
+      "Path P50 Max Drawdown": -0.6038371377318226,
       "P Sharpe Less Than 0": 0.002,
-      "P Max Drawdown Less Than -0.5": 0.795,
+      "P Max Drawdown Less Than -0.5": 0.803,
       "P Default": 0.0
     },
     {
@@ -16646,7 +16778,7 @@
       "Path P50 Sharpe": 0.9393455811826765,
       "Path P75 Sharpe": 1.2758856823808598,
       "Path P95 Sharpe": 1.7631496289230757,
-      "Path P50 Max Drawdown": -0.23214370822321007,
+      "Path P50 Max Drawdown": -0.23494902581656302,
       "P Sharpe Less Than 0": 0.026,
       "P Max Drawdown Less Than -0.5": 0.013,
       "P Default": 0.0
@@ -16676,7 +16808,7 @@
       "Path P50 Sharpe": 0.6559543133646142,
       "Path P75 Sharpe": 0.938331353063852,
       "Path P95 Sharpe": 1.3171241039728152,
-      "Path P50 Max Drawdown": -0.5835359153669908,
+      "Path P50 Max Drawdown": -0.5836072544496895,
       "P Sharpe Less Than 0": 0.049,
       "P Max Drawdown Less Than -0.5": 0.703,
       "P Default": 0.0
@@ -16706,9 +16838,9 @@
       "Path P50 Sharpe": 1.1959654553330523,
       "Path P75 Sharpe": 1.3763037221162124,
       "Path P95 Sharpe": 1.6174540852944461,
-      "Path P50 Max Drawdown": -0.8322951297579084,
+      "Path P50 Max Drawdown": -0.8335074105495233,
       "P Sharpe Less Than 0": 0.0,
-      "P Max Drawdown Less Than -0.5": 0.991,
+      "P Max Drawdown Less Than -0.5": 0.993,
       "P Default": 0.0
     },
     {
@@ -16721,7 +16853,7 @@
       "Path P50 Sharpe": -0.16256058792696715,
       "Path P75 Sharpe": 0.03157325565214883,
       "Path P95 Sharpe": 0.297457010533967,
-      "Path P50 Max Drawdown": -0.9855298980323806,
+      "Path P50 Max Drawdown": -0.9867126106958828,
       "P Sharpe Less Than 0": 0.7,
       "P Max Drawdown Less Than -0.5": 1.0,
       "P Default": 0.0
@@ -16736,7 +16868,7 @@
       "Path P50 Sharpe": -0.12378668856716782,
       "Path P75 Sharpe": 0.12272988544431962,
       "Path P95 Sharpe": 0.4261497095983234,
-      "Path P50 Max Drawdown": -0.9234965560603188,
+      "Path P50 Max Drawdown": -0.9287999361376065,
       "P Sharpe Less Than 0": 0.639,
       "P Max Drawdown Less Than -0.5": 0.998,
       "P Default": 0.0
@@ -16751,9 +16883,9 @@
       "Path P50 Sharpe": 0.9145916666998336,
       "Path P75 Sharpe": 1.1356010005101909,
       "Path P95 Sharpe": 1.440464181819664,
-      "Path P50 Max Drawdown": -0.3800282654120345,
+      "Path P50 Max Drawdown": -0.3813141927206041,
       "P Sharpe Less Than 0": 0.005,
-      "P Max Drawdown Less Than -0.5": 0.134,
+      "P Max Drawdown Less Than -0.5": 0.138,
       "P Default": 0.0
     },
     {
@@ -16766,9 +16898,9 @@
       "Path P50 Sharpe": 0.27286294602370864,
       "Path P75 Sharpe": 0.5236979688464867,
       "Path P95 Sharpe": 0.8799406414026613,
-      "Path P50 Max Drawdown": -0.6728500192438344,
+      "Path P50 Max Drawdown": -0.6728909197018248,
       "P Sharpe Less Than 0": 0.222,
-      "P Max Drawdown Less Than -0.5": 0.881,
+      "P Max Drawdown Less Than -0.5": 0.882,
       "P Default": 0.0
     },
     {
@@ -16781,7 +16913,7 @@
       "Path P50 Sharpe": 0.9291386256332741,
       "Path P75 Sharpe": 1.088663397859945,
       "Path P95 Sharpe": 1.3247251426655695,
-      "Path P50 Max Drawdown": -0.2596768961020235,
+      "Path P50 Max Drawdown": -0.25977719596211324,
       "P Sharpe Less Than 0": 0.001,
       "P Max Drawdown Less Than -0.5": 0.0,
       "P Default": 0.0
@@ -16811,9 +16943,9 @@
       "Path P50 Sharpe": 1.4068356300146245,
       "Path P75 Sharpe": 1.7089796848165226,
       "Path P95 Sharpe": 2.1594038464588956,
-      "Path P50 Max Drawdown": -0.5460898241637145,
+      "Path P50 Max Drawdown": -0.548247978725483,
       "P Sharpe Less Than 0": 0.001,
-      "P Max Drawdown Less Than -0.5": 0.644,
+      "P Max Drawdown Less Than -0.5": 0.645,
       "P Default": 0.0
     },
     {
@@ -16841,9 +16973,9 @@
       "Path P50 Sharpe": 1.1959654553330523,
       "Path P75 Sharpe": 1.3763037221162124,
       "Path P95 Sharpe": 1.6174540852944461,
-      "Path P50 Max Drawdown": -0.8322951297579084,
+      "Path P50 Max Drawdown": -0.8335074105495233,
       "P Sharpe Less Than 0": 0.0,
-      "P Max Drawdown Less Than -0.5": 0.991,
+      "P Max Drawdown Less Than -0.5": 0.993,
       "P Default": 0.0
     },
     {
@@ -16856,7 +16988,7 @@
       "Path P50 Sharpe": -0.041281104406854265,
       "Path P75 Sharpe": 0.19043601330722754,
       "Path P95 Sharpe": 0.4765715481593938,
-      "Path P50 Max Drawdown": -0.999792680533798,
+      "Path P50 Max Drawdown": -0.9998309094731317,
       "P Sharpe Less Than 0": 0.544,
       "P Max Drawdown Less Than -0.5": 1.0,
       "P Default": 0.0
@@ -16871,7 +17003,7 @@
       "Path P50 Sharpe": 0.07199303762973536,
       "Path P75 Sharpe": 0.31122913110391726,
       "Path P95 Sharpe": 0.6236179891658093,
-      "Path P50 Max Drawdown": -0.9849139738468835,
+      "Path P50 Max Drawdown": -0.9856545601138345,
       "P Sharpe Less Than 0": 0.432,
       "P Max Drawdown Less Than -0.5": 1.0,
       "P Default": 0.0
@@ -16886,9 +17018,9 @@
       "Path P50 Sharpe": 0.852810675399243,
       "Path P75 Sharpe": 1.051342075125336,
       "Path P95 Sharpe": 1.358308371278791,
-      "Path P50 Max Drawdown": -0.7887838686321145,
+      "Path P50 Max Drawdown": -0.7921414996861409,
       "P Sharpe Less Than 0": 0.006,
-      "P Max Drawdown Less Than -0.5": 0.983,
+      "P Max Drawdown Less Than -0.5": 0.985,
       "P Default": 0.0
     },
     {
@@ -16901,9 +17033,9 @@
       "Path P50 Sharpe": 1.3733751973869386,
       "Path P75 Sharpe": 1.65715016760052,
       "Path P95 Sharpe": 2.1032407646422047,
-      "Path P50 Max Drawdown": -0.5714884885185068,
+      "Path P50 Max Drawdown": -0.572586988481006,
       "P Sharpe Less Than 0": 0.0,
-      "P Max Drawdown Less Than -0.5": 0.701,
+      "P Max Drawdown Less Than -0.5": 0.708,
       "P Default": 0.0
     },
     {
@@ -16916,7 +17048,7 @@
       "Path P50 Sharpe": 0.9291386256332741,
       "Path P75 Sharpe": 1.088663397859945,
       "Path P95 Sharpe": 1.3247251426655695,
-      "Path P50 Max Drawdown": -0.2596768961020235,
+      "Path P50 Max Drawdown": -0.25977719596211324,
       "P Sharpe Less Than 0": 0.001,
       "P Max Drawdown Less Than -0.5": 0.0,
       "P Default": 0.0
@@ -16981,7 +17113,7 @@
       "P05 Sharpe": -4.025624001155359,
       "P50 Sharpe": 0.6885885687862243,
       "P95 Sharpe": 1.7944141691755031,
-      "P50 Max Drawdown": -0.9999943495245992,
+      "P50 Max Drawdown": -0.9999954333923369,
       "P Sharpe Less Than 0": 0.357,
       "P Default": 0.0
     },
@@ -16992,7 +17124,7 @@
       "P05 Sharpe": -5.142237617664811,
       "P50 Sharpe": 0.4807222211547578,
       "P95 Sharpe": 1.7602973803163906,
-      "P50 Max Drawdown": -0.9999657033074996,
+      "P50 Max Drawdown": -0.9999737762695651,
       "P Sharpe Less Than 0": 0.428,
       "P Default": 0.0
     },
@@ -17335,9 +17467,9 @@
     }
   ],
   "runtime_seconds": {
-    "context": 87.66970620898064,
-    "cv": 1538.0151056250324,
-    "mc": 701.2839515000815
+    "context": 92.37284095794894,
+    "cv": 1495.1747170828748,
+    "mc": 668.8806082499214
   },
   "seeds": {
     "cv": 20260625,

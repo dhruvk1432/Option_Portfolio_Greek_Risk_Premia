@@ -2,8 +2,8 @@
 
 Status: **PASS**
 Critical failures: `0`
-Total checks: `415`
-Hash manifest rows: `231`
+Total checks: `435`
+Hash manifest rows: `235`
 
 ## Category Summary
 
@@ -13,6 +13,7 @@ Hash manifest rows: `231`
 | claims | 13 | 0 |
 | data | 27 | 0 |
 | empirical | 187 | 0 |
+| execution_audit | 9 | 0 |
 | inference | 83 | 0 |
 | math | 9 | 0 |
 | optimizer | 8 | 0 |
@@ -21,6 +22,7 @@ Hash manifest rows: `231`
 | producer | 2 | 0 |
 | r1 | 11 | 0 |
 | r11 | 18 | 0 |
+| r2 | 11 | 0 |
 | robustness | 27 | 0 |
 
 ## Failed Checks
@@ -29,17 +31,13 @@ No failed checks.
 
 ## Passed Critical Evidence
 
-- `producer` / `empirical runner exits cleanly`: /Users/runner/work/crossbow/crossbow/arrow/cpp/src/arrow/util/cpu_info.cc:242: IOError: sysctlbyname failed for 'hw.l1dcachesize'. Detail: [errno 1] Operation not permitted
-/Users/runner/work/crossbow/crossbow/arrow/cpp/src/arrow/util/cpu_info.cc:242: IOError: sysctlbyname failed for 'hw.l2cachesize'. Detail: [errno 1] Operation not permitted
-/Users/runner/work/crossbow/crossbow/arrow/cpp/src/arrow/util/cpu_info.cc:242: IOError: sysctlbyname failed for 'hw.l3cachesize'. Detail: [errno 1] Operation not permitted
-/Users/runner/work/crossbow/crossbow/arrow/cpp/src/arrow/util/cpu_info.cc:242: IOError: sysctlbyname failed for 'hw.optional.neon'. Detail: [errno 1] Operation not permitted
-
+- `producer` / `empirical runner exits cleanly`: exit=0
 - `paper` / `latex bibtex compile pipeline`: pe1/public/amsfonts/cm/cmsy10.pfb
 ></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb><
 /usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.p
 fb>
-Output written on option_only_portfolio_optimization_dhruv_kohli.pdf (38 pages,
- 584889 bytes).
+Output written on option_only_portfolio_optimization_dhruv_kohli.pdf (44 pages,
+ 602466 bytes).
 Transcript written on option_only_portfolio_optimization_dhruv_kohli.log.
 
 
@@ -59,8 +57,8 @@ b></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb
 ></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb><
 /usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.p
 fb>
-Output written on option_only_portfolio_optimization_dhruv_kohli.pdf (38 pages,
- 584889 bytes).
+Output written on option_only_portfolio_optimization_dhruv_kohli.pdf (44 pages,
+ 602466 bytes).
 Transcript written on option_only_portfolio_optimization_dhruv_kohli.log.
 
 
@@ -80,8 +78,8 @@ b></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb
 ></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb><
 /usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.p
 fb>
-Output written on option_only_portfolio_optimization_dhruv_kohli.pdf (38 pages,
- 584889 bytes).
+Output written on option_only_portfolio_optimization_dhruv_kohli.pdf (44 pages,
+ 602466 bytes).
 Transcript written on option_only_portfolio_optimization_dhruv_kohli.log.
 
 - `artifacts` / `required generated outputs exist`: []
@@ -468,6 +466,26 @@ Transcript written on option_only_portfolio_optimization_dhruv_kohli.log.
 - `r11` / `R1.1 trial registry includes all new arms`: {"is_complete": false, "known_trial_count_lower_bound": 607, "reason": "R1.1 arms are development trials and earlier undocumented iterations remain unreconstructable."}
 - `r11` / `R1.1 has a separate 36-month prospective freeze`: {"confirmatory_claim_allowed": false, "data_cutoff": "2026-04-30", "egarch_policy": {"bootstrap_block_length": 21, "bootstrap_draws": 1000, "bootstrap_seed": 20260712, "horizon_days": 21, "lookback_days": 756, "min_observations": 500, "qlike_improvement_required": 0.02, "required_coverage": 0.95, "variance_ratio_ceiling": 2.0, "variance_ratio_floor": 0.5}, "environment": {"arch": "8.0.0", "cvxpy": "1.9.2", "numpy": "2.5.0", "pandas": "3.0.3", "platform": "macOS-15.7.2-arm64-arm-64bit-Mach-O", "python": "3.14.5 (main, May 10 2026, 10:21:34) [Clang 17.0.0 (clang-1700.6.4.2)]"}, "evidence_before_freeze": "retrospective_development_sample", "first_eligible_decision_date": "2026-07-31", "freeze_timestamp_utc": "2026-07-12T19:49:00.236121+00:00", "integer_execution_policy": {"abstention_is_survival_failure": false, "conversion": "truncate_each_contract_count_toward_zero", "failed_conversion_diagnostics_preserved": true, "infeasible_action": "cash_abstention_for_the_period", "substitute_portfolios_allowed": false, "target": "continuous_R1.1_solution"}, "manual_intervention_status": "user_attested_retrospective_development_rule", "march_2020_market_data_deleted": false, "required_untouched_monthly_observations": 36, "risk_off_policy": {"fee_per_contract": 0.75, "manual_exit_date": "2020-03-01", "market_timezone": "America/New_York", "regular_close": "16:00:00", "regular_open": "09:30:00", "slippage_bps": 5.0, "vix_threshold": 40.0}, "risk_policy": {"annual_vol_target": 0.25, "bisection_steps": 18, "collateral_nav": 1.0, "cvar_alpha": 0.95, "cvar_loss_nav": 0.1, "deployment_net_edge_floor": 0.0, "deployment_target": 0.5, "lambda_ceiling": 1000000.0, "lambda_floor": 1e-06, "periods_per_year": 12.0, "short_margin_nav": 0.75, "stress_loss_nav": 0.2}, "source_sha256": {"research/papers/option_only_markowitz/analysis/r11_higher_risk_pipeline.py": "77cc6f93cf567db4b5b9523308f205c7457c40a51db3c440416ef6a6fa684708", "research/papers/option_only_markowitz/analysis/r11_integer_repair.py": "125468dc0e497c3ebd8ee4d92fa386e006bcc48f3b49535cdce0fddfbb46d9a4", "src/portfolio/r11_risk_controls.py": "448ef8edc6cc93c4546708991612edd6f6dc59666d02195d7852b8cb09f91503"}, "specification": "R1.1"}
 - `r11` / `R1.1 status preserves legacy E1 absorbed-zero failure`: [{"config": "VIX-enabled books", "egarch_promotion_status": "diagnostic_only", "evidence": "legacy_development_CPCV_unchanged", "mean_gross_nav": null, "risk_off_execution_inputs_complete": false, "specification": "Legacy E1 VIX CPCV", "status": "fail_survival_gate_absorbed_zero", "terminal_wealth": 0.0}]
+- `execution_audit` / `execution audit artifacts exist`: []
+- `execution_audit` / `execution audit monthly and source schema`: {"fill_contracts_source": true, "liquidity_contracts_source": true, "missing_monthly": []}
+- `execution_audit` / `execution audit scenario returns are ordered`: {"ordered_rows": 612, "rows": 612}
+- `execution_audit` / `execution audit gross-return text matches frozen arms`: {"R1": {"audit_rows": 240, "exact_rows": 240, "frozen_rows": 240}, "R1.1": {"audit_rows": 372, "exact_rows": 372, "frozen_rows": 372}}
+- `execution_audit` / `execution audit cost reconstruction is exact`: {"max_absolute_gap": 9.974659986866641e-17, "mean_absolute_gap": 4.122855918093857e-17, "reconstructed_term_totals": {"fees": 0.26198901885457226, "funding": 0.10590621711235644, "short_call_borrow": 7.786341242134077e-06, "slippage": 0.030315411999999927, "spread": 0.5689816837796962}, "status": "exact"}
+- `execution_audit` / `execution audit coverage and licensing flags are sane`: [{"absolute_weight": 6.2182439999999755, "arm": "R1.1", "config": "larger", "entry_coverage": 0.9847244656208408, "entry_covered_weight": 6.123256999999976, "roundtrip_coverage": 0.6290230811142185, "roundtrip_covered_weight": 3.9114189999999867}, {"absolute_weight": 4.376708999999985, "arm": "R1.1", "config": "larger+VIX", "entry_coverage": 0.9615738674881058, "entry_covered_weight": 4.208528999999985, "roundtrip_coverage": 0.29133945162906577, "roundtrip_covered_weight": 1.2751079999999924}, {"absolute_weight": 5.157438999999989, "arm": "R1.1", "config": "orig", "entry_coverage": 0.9869648482512348, "entry_covered_weight": 5.0902109999999885, "roundtrip_coverage": 0.6506130271245092, "roundtrip_covered_weight": 3.3554969999999944}, {"absolute_weight": 4.4277359999999915, "arm": "R1.1", "config": "orig+VIX", "entry_coverage": 0.9409605721750347, "entry_covered_weight": 4.166324999999992, "roundtrip_coverage": 0.25504456453591634, "roundtrip_covered_weight": 1.129269999999998}]
+- `execution_audit` / `execution audit summary table matches JSON`: []
+- `execution_audit` / `execution audit sampled quotes recompute from licensed cache`: {"ask_match": true, "bid_match": true, "sample_rows": 3}
+- `execution_audit` / `execution audit preserves unscored intervention arm`: {"evidence_only_rows": 156, "evidence_rows": 156, "frozen_intervention_header_only": true}
+- `r2` / `R2 artifacts exist`: []
+- `r2` / `R2 return schema`: []
+- `r2` / `R2 replay is cutoff-safe and spans four universes`: {"end": "2026-04-30 00:00:00", "rows": 372, "start": "2018-02-28 00:00:00", "universes": ["larger", "larger+VIX", "orig", "orig+VIX"]}
+- `r2` / `R2 selected books satisfy every scalar-stage hard limit`: {"collateral_used": 0.1848770040283203, "gross_nav": 0.085753, "predicted_annual_vol": 0.2418655609077309, "scenario_cvar_loss": 0.0740480606055736, "short_margin_used": 0.1750400040283203, "worst_annual_downside": 0.0848496866078142, "worst_six_month_loss": 0.1918082230181881, "worst_three_month_loss": 0.1275686411388007}
+- `r2` / `R2 covariance weights obey the registered QLIKE grid`: {"0.25": 34, "0.5": 338}
+- `r2` / `R2 evaluates all seven robust downside families`: {"decision_families": 372, "return_rows": 372}
+- `r2` / `R2 direct-or-abstain preserves rejected diagnostics`: {"abstentions": 2, "return_abstentions": 2}
+- `r2` / `R2/R1.1 comparison is date aligned`: {"larger": 93, "larger+VIX": 93, "orig": 93, "orig+VIX": 93}
+- `r2` / `R2 locked Monte Carlo path counts are complete`: {"block_rows": 40000, "refit_rows": 800, "repriced_rows": 32000}
+- `r2` / `R2 promotion status follows every registered gate`: {"active_development_extension": "R1.1", "bootstrap_bounds": {"net_log_growth_improvement_90pct_lower": -0.01284497133067506, "sortino_improvement_90pct_lower": -1.6534444082751814}, "evidence_status": "retrospective_development_sample", "gates": {"historical_three_of_four": false, "no_material_historical_harm": false, "refit_coverage_at_least_95pct": false, "refit_no_defaults": true, "repriced_p05_better_three_of_four": false, "repriced_p05_no_worse_everywhere": false, "severe_drawdown_within_two_points": true, "stationary_log_growth_lower_nonnegative": false, "stationary_sortino_lower_positive": false, "zero_hard_failures": true}, "hard_failures": 0, "historical_universe_wins": 0, "promoted": false, "repriced_universe_wins": 1, "specification": "R2 robust Sortino", "valid_refit_coverage": 0.0975}
+- `r2` / `R2 has a separate 36-month freeze with matching source hashes`: {"freeze": {"confirmatory_claim_allowed": false, "confirmatory_observations_required": 36, "data_cutoff": "2026-04-30", "endpoints": {"primary": ["net_log_growth", "zero_target_sortino", "maximum_drawdown", "survival"], "promotion": "all gates in r2_promotion_gate.json", "simulation": ["p05_terminal_wealth", "p05_sortino", "severe_drawdown_quantile", "refit_coverage"]}, "evidence_status": "retrospective_development_sample", "first_eligible_decision_date": "2026-05-31", "packages": {"cvxpy": "1.9.2", "numpy": "2.5.0", "pandas": "3.0.3", "scikit-learn": "1.9.0", "scipy": "1.18.0"}, "parameters": {"annual_downside_target": 0.1, "annual_vol_target": 0.25, "bisection_steps": 18, "bootstrap_block_months": 6, "bootstrap_scenarios": 500, "collateral_nav": 1.0, "cvar_alpha": 0.95, "cvar_loss_nav": 0.1, "daily_window": 756, "default_recent_weight": 0.5, "imputation_sets": 5, "lambda_ceiling": 1000000.0, "lambda_floor": 1e-06, "max_six_month_loss": 0.2, "max_three_month_loss": 0.15, "min_daily_observations": 500, "min_inner_forecasts": 12, "min_recent_observations": 24, "periods_per_year": 12.0, "premia_half_life_months": 36.0, "random_seed": 20260713, "recent_months": 36, "recent_weights": [0.25, 0.5, 0.75], "scalar_grid_points": 401, "short_margin_nav": 0.75, "solver_tolerance": 1e-06, "stress_loss_nav": 0.2, "variance_ratio_ceiling": 1.5, "variance_ratio_floor": 0.67, "volatility_blend_weights": [0.0, 0.25, 0.5, 0.75, 1.0], "volatility_horizon_days": 21}, "platform": "macOS-15.7.2-arm64-arm-64bit-Mach-O", "promotion_policy": "diagnostic unless every historical, bootstrap, repricing, and refit gate passes", "python": "3.14.5 (main, May 10 2026, 10:21:34) [Clang 17.0.0 (clang-1700.6.4.2)]", "source_sha256": {"research/papers/option_only_markowitz/analysis/r2_robust_sortino_pipeline.py": "30447029d5145189546d1c88d262443d7133f810b3c63dae1be18f28d2f6041d", "research/papers/option_only_markowitz/analysis/r2_stability.py": "8190007d187d2aeb6248e756e436a6d7c84d25d8571ead40de2785bf50c4f8f9", "research/papers/option_only_markowitz/analysis/simulation.py": "1acd18e4da75f5a3c098a3f775ad88de79d78d880935df07a70a9df07876c576", "src/portfolio/r2_robust_sortino.py": "693f424105009b3e20f850ee535527dfe1f851fbcbab7729ae84a96749299a07"}, "specification": "R2 robust Sortino diagnostic", "vix40_overlay": "unscored_until_complete_executable_OPRA_quotes; excluded_from_R2_returns"}, "hash_matches": {"research/papers/option_only_markowitz/analysis/r2_robust_sortino_pipeline.py": true, "research/papers/option_only_markowitz/analysis/r2_stability.py": true, "research/papers/option_only_markowitz/analysis/simulation.py": true, "src/portfolio/r2_robust_sortino.py": true}}
 - `claims` / `VIX exact settlement claim gated by source coverage`: {"Claim": "VIX option expiry P\\&L is exact listed settlement P\\&L", "Evidence": "All VIX expiry rows use exact Cboe VRO/SOQ settlement", "Status": "Supported", "Type": "Generated empirical"}
 - `claims` / `post-cost research claim is generated`: {"Claim": "Post-cost research returns include implementation frictions", "Evidence": "Generated mid, half-spread, full-spread, fee, capacity, required-capital, and assignment-risk ledgers", "Status": "Implemented as conservative research simulation", "Type": "Generated empirical"}
 - `claims` / `broker-executed evidence overclaim rejected`: {"Claim": "Pre-production results are broker-executed live evidence", "Evidence": "No live fills, order routing, broker margin preview, or broker reconciliation", "Status": "Not claimed", "Type": "Rejected overclaim"}
@@ -481,8 +499,8 @@ Transcript written on option_only_portfolio_optimization_dhruv_kohli.log.
 - `claims` / `source ledger records vix option`: vix option
 - `claims` / `source ledger records artifact`: artifact
 - `paper` / `LaTeX log clean`: []
-- `paper` / `compiled PDF exists`: 584889
-- `paper` / `PDF page count plausible`: 38
+- `paper` / `compiled PDF exists`: 602466
+- `paper` / `PDF page count plausible`: 44
 - `paper` / `PDF caveat text includes not claimed`: not claimed
 - `paper` / `PDF caveat text includes premium weights`: premium weights
 - `paper` / `PDF text includes exact VRO/SOQ`: VRO/SOQ
@@ -491,7 +509,7 @@ Transcript written on option_only_portfolio_optimization_dhruv_kohli.log.
 - `paper` / `PDF text includes tail-path simulation caveat`: tail-path simulation diagnostics
 - `paper` / `references include option-risk-premium papers`: reference text
 - `paper` / `PDF pages render to PNG`: exit=0, pages=36
-- `paper` / `rendered PDF sample pages nonempty`: [168492, 158586]
+- `paper` / `rendered PDF sample pages nonempty`: [80213, 159682]
 - `paper` / `Appendix all-strategy growth figure has all strategy series`: ["Beta/delta-neutral + VIX", "Cost-aware Sortino + VIX", "Delta-matched equities", "Equal premium", "Equal risk", "Equity-option Greek Markowitz", "Greek Markowitz + VIX", "Underlying Markowitz", "VIX hedge sleeve"]
 - `paper` / `Appendix all-strategy growth figure series visible`: [{"Figure": "portfolio_growth_all_strategies.pdf", "Max": 18.35005283540228, "Min": 0.183011836336598, "Pass": "yes", "Series": "Equity-option Greek Markowitz", "Visible points": 60}, {"Figure": "portfolio_growth_all_strategies.pdf", "Max": 144.51861716831928, "Min": 0.6403949030925237, "Pass": "yes", "Series": "Greek Markowitz + VIX", "Visible points": 60}, {"Figure": "portfolio_growth_all_strategies.pdf", "Max": 98.96884463070484, "Min": 0.5735594003706624, "Pass": "yes", "Series": "Beta/delta-neutral + VIX", "Visible points": 60}, {"Figure": "portfolio_growth_all_strategies.pdf", "Max": 2.996100619612762, "Min": 0.0001, "Pass": "yes", "Series": "Cost-aware Sortino + VIX", "Visible points": 60}, {"Figure": "portfolio_growth_all_strategies.pdf", "Max": 0.8905477325031234, "Min": 0.0001782014429151, "Pass": "yes", "Series": "Equal premium", "Visible points": 60}, {"Figure": "portfolio_growth_all_strategies.pdf", "Max": 0.944996867354269, "Min": 0.0228823784998115, "Pass": "yes", "Series": "Equal risk", "Visible points": 60}, {"Figure": "portfolio_growth_all_strategies.pdf", "Max": 0.0001, "Min": 0.0001, "Pass": "yes", "Series": "VIX hedge sleeve", "Visible points": 60}, {"Figure": "portfolio_growth_all_strategies.pdf", "Max": 33.429827509128316, "Min": 0.4455022015082628, "Pass": "yes", "Series": "Delta-matched equities", "Visible points": 60}, {"Figure": "portfolio_growth_all_strategies.pdf", "Max": 2.459772612888149, "Min": 0.945644336357695, "Pass": "yes", "Series": "Underlying Markowitz", "Visible points": 60}]
-- `artifacts` / `hash manifest covers outputs`: 231
+- `artifacts` / `hash manifest covers outputs`: 235

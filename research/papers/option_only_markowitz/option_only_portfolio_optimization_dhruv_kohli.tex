@@ -154,6 +154,9 @@ its EGARCH overlay fails a prespecified promotion gate.
     manifest requires 36 untouched monthly observations for confirmation.
     \item R1.1 does not attain its 50 percent deployment target under the retained
     constraints; its VIX risk-off arm is unscored without executable event quotes.
+    \item The licensed-quote audit leaves headline R1.1 orig+VIX Sortino at 2.275 under
+    modeled costs and 2.052 under observed touch fills, with 94.1 percent entry coverage.
+    \item R1.1 is the paper's final development model; R2 remains a gate-failed diagnostic.
   \end{itemize}
   \end{minipage}}
 
@@ -163,6 +166,10 @@ its EGARCH overlay fails a prespecified promotion gate.
 
 \input{sections/short_r11_update}
 
+\input{sections/short_execution_audit}
+
+\input{sections/short_r2_update}
+
 \clearpage
 \appendix
 \input{sections/short_appendix}
@@ -171,7 +178,11 @@ its EGARCH overlay fails a prespecified promotion gate.
 \section*{Data availability statement}
 The reproduction package contains code, generated tables, figures, verification outputs,
 schemas, and artifact hashes. Raw licensed OPRA/Databento data are not redistributed. The
-baseline eight equity-option spread rows use local historical panel CBBO. Broad-name and
+repository instead ships the audit's aggregate artifacts under
+\path{analysis/artifacts/execution_audit/} and the acquisition summary with request hashes.
+Entry-window costs and decision marks for held positions are audited against licensed
+consolidated quotes. The baseline eight equity-option spread rows use local historical
+panel CBBO. Broad-name and
 VIX spread rows that lack matched historical CBBO use the documented inferred CBBO proxy
 and are labeled as execution-sensitivity evidence. Exact VRO/SOQ settlement files are
 versioned by source hash before VIX option rows enter the reported tables.

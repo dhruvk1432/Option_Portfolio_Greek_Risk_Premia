@@ -28,6 +28,12 @@ otherwise records a cash/no-trade month; no alternative portfolio is substituted
 rejected conversion's diagnostics remain visible, EGARCH is not promoted, and the risk-off return
 remains unscored because the required event-date licensed CBBO files are absent.
 
+R2 is a separate diagnostic extension that combines 36-month and expanding complete joint
+covariances, residual multiple imputation, a training-only HAR/EWMA volatility overlay,
+robust zero-target Sortino direction, and net-log-growth scaling. It retains direct-or-cash
+integer execution and all R1.1 survival limits. R2 becomes active only if every registered
+historical, paired-bootstrap, repriced-state, and refit Monte Carlo gate passes.
+
 ## Legacy E1 development results (not R1 headline evidence)
 
 | Universe | Net Sharpe | Gross Sharpe | Rolling OOS | vs. capped naive | Verdict |
@@ -68,11 +74,13 @@ Run from the repository root after copying `.env.example` to `.env` and installi
 `requirements.txt` into `.venv`.
 
 ```bash
-make verify   # regenerate core artifacts, recompile the PDF, run the 386 audit checks
+make verify   # regenerate core artifacts, recompile the PDF, run the 435 audit checks
 make test     # focused publication unit tests
 make r1-repaired  # multi-hour monthly R1 development regeneration
 make r11-higher-risk  # full 2018--2026 R1.1 replay and diagnostic artifacts
+make r2-robust-sortino  # full R2 replay, locked simulation suites, and promotion gate
 make r11-event-cbbo-plan  # cost estimate only; no licensed download
+make execution-audit  # regenerate aggregate licensed-quote execution evidence
 ```
 
 `make verify` is the authoritative end-to-end check. It passes only when data lineage,

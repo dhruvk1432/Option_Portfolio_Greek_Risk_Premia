@@ -40,7 +40,7 @@ If the checked-in artifacts are present, this reproduces the tables and independ
 audits every reported number in a few minutes:
 
 ```bash
-make verify   # regenerates the fast core (run_empirics), recompiles the PDF, runs 386 checks
+make verify   # regenerates the fast core (run_empirics), recompiles the PDF, runs 435 checks
 make test     # 155 focused unit tests
 ```
 
@@ -85,6 +85,31 @@ Contract counts are truncated toward zero and independently checked against ever
 constraint. If that direct conversion is infeasible, the period is explicitly recorded
 as a cash abstention. No alternative portfolio is substituted, and the rejected book's
 original constraint diagnostics remain in the audit artifacts.
+
+R2 is regenerated separately and leaves both earlier freeze manifests unchanged:
+
+```bash
+make r2-robust-sortino
+```
+
+This runs the four February 2018--April 2026 walk-forward universes, 5,000 six-month
+circular-block paths, 2,000 60-month joint-GARCH repriced paths, 2,000 Gaussian-copula
+repriced paths, and 200 full R2 refits per universe. It writes the return, weight, moment,
+premia, scenario, abstention, simulation, comparison, trial-registry, promotion-gate, and
+prospective-freeze artifacts under `analysis/artifacts/r2_robust_sortino/`. The VIX-40
+overlay is not scored in R2 without the complete executable OPRA event quote set.
+
+The licensed-quote execution audit requires the local cache under
+`data/databento_cache/r1_r11_audit/`, which is not redistributed:
+
+```bash
+make execution-audit
+```
+
+With that cache present, the command deterministically regenerates the aggregate execution
+ledger, monthly scenarios, summary, mark, liquidity, intervention, and LaTeX-table
+artifacts. Without the cache, the committed aggregates remain the source of record and the
+verifier degrades its sampled quote-recomputation check to a warning.
 
 The commands below regenerate the legacy E1 research path.
 

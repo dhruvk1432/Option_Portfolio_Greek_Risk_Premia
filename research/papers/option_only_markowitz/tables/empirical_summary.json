@@ -2151,9 +2151,9 @@
       "Sortino p05": 0.1387182316551319,
       "Sortino p50": 1.8256520451446132,
       "Sortino p95": 4.490623976038402,
-      "Max DD p05": -0.9764543195271667,
-      "Max DD p50": -0.8402635397076443,
-      "Max DD p95": -0.5819436730732479,
+      "Max DD p05": -0.9765414615003138,
+      "Max DD p50": -0.8418149920562052,
+      "Max DD p95": -0.5863002940414408,
       "Terminal wealth p05": 0.12783418111815217,
       "Terminal wealth p50": 8.248914058382706,
       "Terminal wealth p95": 409.96479816363376
@@ -2173,9 +2173,9 @@
       "Sortino p05": -0.09583794680174682,
       "Sortino p50": 1.2384820229525397,
       "Sortino p95": 3.186146027722616,
-      "Max DD p05": -0.9959659308185442,
-      "Max DD p50": -0.8708866422332733,
-      "Max DD p95": -0.5713851587343093,
+      "Max DD p05": -0.9960989887536538,
+      "Max DD p50": -0.8729133022966057,
+      "Max DD p95": -0.5728471652752467,
       "Terminal wealth p05": 0.02308676320535919,
       "Terminal wealth p50": 2.300291379914386,
       "Terminal wealth p95": 98.87335454653196
@@ -2195,8 +2195,8 @@
       "Sortino p05": 1.2602555631012782,
       "Sortino p50": 3.450647653217883,
       "Sortino p95": 7.019017514319527,
-      "Max DD p05": -0.8162655765083102,
-      "Max DD p50": -0.6024415261445465,
+      "Max DD p05": -0.8173041914508803,
+      "Max DD p50": -0.6038371377318226,
       "Max DD p95": -0.39803189286474494,
       "Terminal wealth p05": 3.03336990920633,
       "Terminal wealth p50": 76.62828982397667,
@@ -2218,8 +2218,8 @@
       "Sortino p50": 2.712936114154525,
       "Sortino p95": 6.026064813694069,
       "Max DD p05": -0.982988770405379,
-      "Max DD p50": -0.6842974986144,
-      "Max DD p95": -0.39597358285678314,
+      "Max DD p50": -0.6848627767422183,
+      "Max DD p95": -0.39712921290459724,
       "Terminal wealth p05": 0.32684568361145827,
       "Terminal wealth p50": 39.51843781163525,
       "Terminal wealth p95": 1073.8211932196896
@@ -2239,7 +2239,7 @@
       "Sortino p05": 1.4941393302942398,
       "Sortino p50": 3.5049928426250627,
       "Sortino p95": 6.385008080380037,
-      "Max DD p05": -0.7765469294663373,
+      "Max DD p05": -0.7781119891792658,
       "Max DD p50": -0.5472865369307156,
       "Max DD p95": -0.33370445426550277,
       "Terminal wealth p05": 4.582722493053889,
@@ -2262,8 +2262,8 @@
       "Sortino p50": 3.1296329197765287,
       "Sortino p95": 6.990281519431044,
       "Max DD p05": -0.9095712340747902,
-      "Max DD p50": -0.5525107989337776,
-      "Max DD p95": -0.27901140818910364,
+      "Max DD p50": -0.553662943683741,
+      "Max DD p95": -0.28036891509093936,
       "Terminal wealth p05": 1.6336142055154008,
       "Terminal wealth p50": 43.89299997617255,
       "Terminal wealth p95": 649.8632849386275
@@ -2283,8 +2283,8 @@
       "Sortino p05": 0.6856752659040626,
       "Sortino p50": 2.409652161759163,
       "Sortino p95": 5.7626777264796125,
-      "Max DD p05": -0.9636498931574473,
-      "Max DD p50": -0.7740643095215142,
+      "Max DD p05": -0.9640549957413502,
+      "Max DD p50": -0.7874726831434019,
       "Max DD p95": -0.4590804373477694,
       "Terminal wealth p05": 0.7168310788705509,
       "Terminal wealth p50": 32.52181507047612,
@@ -2306,7 +2306,7 @@
       "Sortino p50": 2.629191562545988,
       "Sortino p95": 5.37153839790546,
       "Max DD p05": -0.9208588502980191,
-      "Max DD p50": -0.6381646841697428,
+      "Max DD p50": -0.6423642631517648,
       "Max DD p95": -0.36973433474076983,
       "Terminal wealth p05": 0.8671273066121357,
       "Terminal wealth p50": 34.40170561180385,
@@ -2327,8 +2327,8 @@
       "Sortino p05": 0.22911690663762288,
       "Sortino p50": 1.9426807240250064,
       "Sortino p95": 4.841625441198903,
-      "Max DD p05": -0.42172452620193135,
-      "Max DD p50": -0.23214370822321007,
+      "Max DD p05": -0.42177026424000913,
+      "Max DD p50": -0.23494902581656302,
       "Max DD p95": -0.11180487843962836,
       "Terminal wealth p05": 1.0352291255284516,
       "Terminal wealth p50": 2.251749644622514,
@@ -2349,9 +2349,9 @@
       "Sortino p05": 0.09865624764902838,
       "Sortino p50": 1.6555262192145501,
       "Sortino p95": 3.660552019174778,
-      "Max DD p05": -0.3951298530768803,
-      "Max DD p50": -0.1991764307040742,
-      "Max DD p95": -0.10390419495586083,
+      "Max DD p05": -0.39809414436779483,
+      "Max DD p50": -0.20060712976387812,
+      "Max DD p95": -0.10646419249301368,
       "Terminal wealth p05": 0.9739116499807444,
       "Terminal wealth p50": 1.9544454924540253,
       "Terminal wealth p95": 3.806511269598448
@@ -2371,9 +2371,9 @@
       "Sortino p05": -1.0355624266016064,
       "Sortino p50": -0.06356646318273024,
       "Sortino p95": 1.0481519555258698,
-      "Max DD p05": -0.9999980564819309,
-      "Max DD p50": -0.9997663422970482,
-      "Max DD p95": -0.9732554091037857,
+      "Max DD p05": -0.999998382971261,
+      "Max DD p50": -0.9997924210716822,
+      "Max DD p95": -0.9782310021343118,
       "Terminal wealth p05": 2.4704903391707327e-06,
       "Terminal wealth p50": 0.0004683896129109489,
       "Terminal wealth p95": 0.08565813989349713
@@ -2394,8 +2394,8 @@
       "Sortino p50": -0.612522761317808,
       "Sortino p95": 0.5656075461156039,
       "Max DD p05": -1.0,
-      "Max DD p50": -0.9999599350873449,
-      "Max DD p95": -0.9910372362506269,
+      "Max DD p50": -0.9999652274142063,
+      "Max DD p95": -0.9920964152107326,
       "Terminal wealth p05": 0.0,
       "Terminal wealth p50": 6.522275976026664e-05,
       "Terminal wealth p95": 0.03372480854136126
@@ -2415,9 +2415,9 @@
       "Sortino p05": -0.8644793825281797,
       "Sortino p50": 0.1526925349909575,
       "Sortino p95": 1.3778676934220284,
-      "Max DD p05": -0.9994807322822817,
-      "Max DD p50": -0.9822343600124788,
-      "Max DD p95": -0.81573310939009,
+      "Max DD p05": -0.9995019167167051,
+      "Max DD p50": -0.9827214062348945,
+      "Max DD p95": -0.8168497212395952,
       "Terminal wealth p05": 0.000942714060565694,
       "Terminal wealth p50": 0.050327235778055035,
       "Terminal wealth p95": 2.3282215857106054
@@ -2437,9 +2437,9 @@
       "Sortino p05": -1.269788442606059,
       "Sortino p50": -0.34861563610216617,
       "Sortino p95": 0.8468748302981977,
-      "Max DD p05": -0.9999751346540479,
-      "Max DD p50": -0.9952002378589655,
-      "Max DD p95": -0.8860951624415172,
+      "Max DD p05": -0.9999828015150861,
+      "Max DD p50": -0.9957518141754373,
+      "Max DD p95": -0.889493925326442,
       "Terminal wealth p05": 3.050651024367396e-05,
       "Terminal wealth p50": 0.010142041022909241,
       "Terminal wealth p95": 0.6508713154009754
@@ -2503,9 +2503,9 @@
       "Sortino p05": 0.29023687810307763,
       "Sortino p50": 2.1394118938401077,
       "Sortino p95": 5.260572889263991,
-      "Max DD p05": -0.6365178237009068,
-      "Max DD p50": -0.42381018974740453,
-      "Max DD p95": -0.2006704814949406,
+      "Max DD p05": -0.6376417309111841,
+      "Max DD p50": -0.42488324221269036,
+      "Max DD p95": -0.20248626208304185,
       "Terminal wealth p05": 0.9216878641473394,
       "Terminal wealth p50": 4.776730046118267,
       "Terminal wealth p95": 31.592949127384507
@@ -2525,9 +2525,9 @@
       "Sortino p05": -0.37451385738933546,
       "Sortino p50": 0.9219512472865732,
       "Sortino p95": 2.7435003147826045,
-      "Max DD p05": -0.7902835803129513,
-      "Max DD p50": -0.5114453746754974,
-      "Max DD p95": -0.27677673472941916,
+      "Max DD p05": -0.7922997280181837,
+      "Max DD p50": -0.5161551161959841,
+      "Max DD p95": -0.2789293310002827,
       "Terminal wealth p05": 0.42442546373200074,
       "Terminal wealth p50": 1.9212745929779982,
       "Terminal wealth p95": 9.205820864851262
@@ -2547,9 +2547,9 @@
       "Sortino p05": -0.5332161078849973,
       "Sortino p50": 0.43479776395666647,
       "Sortino p95": 1.570008331542678,
-      "Max DD p05": -0.8585449562131784,
-      "Max DD p50": -0.6551949394359302,
-      "Max DD p95": -0.44354303649171123,
+      "Max DD p05": -0.8613106375136691,
+      "Max DD p50": -0.6565558046144264,
+      "Max DD p95": -0.44698525456319266,
       "Terminal wealth p05": 0.23390524027573048,
       "Terminal wealth p50": 1.007118474967342,
       "Terminal wealth p95": 5.477459730584998
@@ -2569,9 +2569,9 @@
       "Sortino p05": -1.011948264042646,
       "Sortino p50": -0.09277709994129672,
       "Sortino p95": 1.0881515951721061,
-      "Max DD p05": -0.9879506407596743,
-      "Max DD p50": -0.8354603536770422,
-      "Max DD p95": -0.47355795678988,
+      "Max DD p05": -0.9880797651960159,
+      "Max DD p50": -0.8400108105743946,
+      "Max DD p95": -0.4805968554405975,
       "Terminal wealth p05": 0.01968244244630156,
       "Terminal wealth p50": 0.3666922055502954,
       "Terminal wealth p95": 2.674632805452728
@@ -2591,8 +2591,8 @@
       "Sortino p05": -0.004815905390425319,
       "Sortino p50": 1.1239190203713503,
       "Sortino p95": 2.6214705459837733,
-      "Max DD p05": -0.7309547339781032,
-      "Max DD p50": -0.5125172833701995,
+      "Max DD p05": -0.730954755884252,
+      "Max DD p50": -0.514306459010744,
       "Max DD p95": -0.338636878041887,
       "Terminal wealth p05": 0.556234201178486,
       "Terminal wealth p50": 2.838797014908858,
@@ -2613,9 +2613,9 @@
       "Sortino p05": -0.40716105154934656,
       "Sortino p50": 0.6319679120298387,
       "Sortino p95": 2.2260615773187777,
-      "Max DD p05": -0.9292595173171515,
-      "Max DD p50": -0.6424281363740709,
-      "Max DD p95": -0.355142456376136,
+      "Max DD p05": -0.9304822298416684,
+      "Max DD p50": -0.6450031182730049,
+      "Max DD p95": -0.3596909404902409,
       "Terminal wealth p05": 0.17129442965386968,
       "Terminal wealth p50": 1.4690899377546698,
       "Terminal wealth p95": 9.66228310024291
@@ -2635,8 +2635,8 @@
       "Sortino p05": 0.6856752659040626,
       "Sortino p50": 2.409652161759163,
       "Sortino p95": 5.7626777264796125,
-      "Max DD p05": -0.9636498931574473,
-      "Max DD p50": -0.7740643095215142,
+      "Max DD p05": -0.9640549957413502,
+      "Max DD p50": -0.7874726831434019,
       "Max DD p95": -0.4590804373477694,
       "Terminal wealth p05": 0.7168310788705509,
       "Terminal wealth p50": 32.52181507047612,
@@ -2658,7 +2658,7 @@
       "Sortino p50": 2.629191562545988,
       "Sortino p95": 5.37153839790546,
       "Max DD p05": -0.9208588502980191,
-      "Max DD p50": -0.6381646841697428,
+      "Max DD p50": -0.6423642631517648,
       "Max DD p95": -0.36973433474076983,
       "Terminal wealth p05": 0.8671273066121357,
       "Terminal wealth p50": 34.40170561180385,
@@ -2679,8 +2679,8 @@
       "Sortino p05": 0.22911690663762288,
       "Sortino p50": 1.9426807240250064,
       "Sortino p95": 4.841625441198903,
-      "Max DD p05": -0.42172452620193135,
-      "Max DD p50": -0.23214370822321007,
+      "Max DD p05": -0.42177026424000913,
+      "Max DD p50": -0.23494902581656302,
       "Max DD p95": -0.11180487843962836,
       "Terminal wealth p05": 1.0352291255284516,
       "Terminal wealth p50": 2.251749644622514,
@@ -2701,9 +2701,9 @@
       "Sortino p05": 0.09865624764902838,
       "Sortino p50": 1.6555262192145501,
       "Sortino p95": 3.660552019174778,
-      "Max DD p05": -0.3951298530768803,
-      "Max DD p50": -0.1991764307040742,
-      "Max DD p95": -0.10390419495586083,
+      "Max DD p05": -0.39809414436779483,
+      "Max DD p50": -0.20060712976387812,
+      "Max DD p95": -0.10646419249301368,
       "Terminal wealth p05": 0.9739116499807444,
       "Terminal wealth p50": 1.9544454924540253,
       "Terminal wealth p95": 3.806511269598448
@@ -2723,9 +2723,9 @@
       "Sortino p05": -1.034774069080381,
       "Sortino p50": -0.2898718402341135,
       "Sortino p95": 0.5762951179534375,
-      "Max DD p05": -0.9987033185108993,
-      "Max DD p50": -0.9844648714495925,
-      "Max DD p95": -0.8562663501097552,
+      "Max DD p05": -0.9988146990427396,
+      "Max DD p50": -0.985434443737074,
+      "Max DD p95": -0.8623158270139263,
       "Terminal wealth p05": 0.0016013261367903327,
       "Terminal wealth p50": 0.025472031898228952,
       "Terminal wealth p95": 0.40804913602942544
@@ -2745,9 +2745,9 @@
       "Sortino p05": -1.5721568884386588,
       "Sortino p50": -0.7934761822528537,
       "Sortino p95": 0.26393171994283693,
-      "Max DD p05": -0.999964983052556,
-      "Max DD p50": -0.9977913508790839,
-      "Max DD p95": -0.9500992930551467,
+      "Max DD p05": -0.9999692853570205,
+      "Max DD p50": -0.997983226484221,
+      "Max DD p95": -0.9515097827758462,
       "Terminal wealth p05": 4.071435111444154e-05,
       "Terminal wealth p50": 0.0032732688837805463,
       "Terminal wealth p95": 0.15402247756128104
@@ -2767,9 +2767,9 @@
       "Sortino p05": -0.9344844612079013,
       "Sortino p50": -0.17241399545758393,
       "Sortino p95": 0.7829453688455872,
-      "Max DD p05": -0.9877641631806345,
-      "Max DD p50": -0.9138363853719706,
-      "Max DD p95": -0.6666962159846566,
+      "Max DD p05": -0.9884809142459292,
+      "Max DD p50": -0.9163287175324142,
+      "Max DD p95": -0.6700270940013128,
       "Terminal wealth p05": 0.01640005841920019,
       "Terminal wealth p50": 0.1541121482440576,
       "Terminal wealth p95": 1.3199225346512127
@@ -2789,9 +2789,9 @@
       "Sortino p05": -1.3151700924640632,
       "Sortino p50": -0.4069280290376589,
       "Sortino p95": 0.8185203825030837,
-      "Max DD p05": -0.9843262526418705,
-      "Max DD p50": -0.901985922233969,
-      "Max DD p95": -0.6553116932042957,
+      "Max DD p05": -0.9854543257853626,
+      "Max DD p50": -0.9070433691968303,
+      "Max DD p95": -0.6675970569832423,
       "Terminal wealth p05": 0.01909317899924419,
       "Terminal wealth p50": 0.17087570422772128,
       "Terminal wealth p95": 1.5712216298348554
@@ -2813,7 +2813,7 @@
       "Sortino p95": -1.2546077093709345,
       "Max DD p05": -1.0,
       "Max DD p50": -1.0,
-      "Max DD p95": -0.9990754773993109,
+      "Max DD p95": -0.9992523467990363,
       "Terminal wealth p05": 0.0,
       "Terminal wealth p50": 0.0,
       "Terminal wealth p95": 0.0007476532009637615
@@ -2833,9 +2833,9 @@
       "Sortino p05": -1.5261706001339366,
       "Sortino p50": -0.8703536566068574,
       "Sortino p95": -0.02287002638780557,
-      "Max DD p05": -0.9999992583020764,
-      "Max DD p50": -0.9996398008920684,
-      "Max DD p95": -0.9811926883431727,
+      "Max DD p05": -0.9999993653705482,
+      "Max DD p50": -0.9996683316677353,
+      "Max DD p95": -0.9826471661654183,
       "Terminal wealth p05": 1.2322709959646212e-06,
       "Terminal wealth p50": 0.0005589681486792866,
       "Terminal wealth p95": 0.04351598444371773
@@ -3459,9 +3459,9 @@
       "Simulation": "circular_block_bootstrap",
       "Breach 10%": 1.0,
       "Breach 25%": 1.0,
-      "Breach 50%": 0.983,
-      "Breach 75%": 0.77,
-      "Breach 90%": 0.298
+      "Breach 50%": 0.984,
+      "Breach 75%": 0.778,
+      "Breach 90%": 0.304
     },
     {
       "Return basis": "Gross before costs",
@@ -3470,9 +3470,9 @@
       "Simulation": "garch11_residual_fallback_insufficient_egarch_obs",
       "Breach 10%": 1.0,
       "Breach 25%": 1.0,
-      "Breach 50%": 0.976,
-      "Breach 75%": 0.742,
-      "Breach 90%": 0.424
+      "Breach 50%": 0.978,
+      "Breach 75%": 0.749,
+      "Breach 90%": 0.431
     },
     {
       "Return basis": "Gross before costs",
@@ -3480,9 +3480,9 @@
       "Requested method": "circular_block_bootstrap",
       "Simulation": "circular_block_bootstrap",
       "Breach 10%": 1.0,
-      "Breach 25%": 0.996,
-      "Breach 50%": 0.795,
-      "Breach 75%": 0.135,
+      "Breach 25%": 0.997,
+      "Breach 50%": 0.803,
+      "Breach 75%": 0.136,
       "Breach 90%": 0.005
     },
     {
@@ -3492,9 +3492,9 @@
       "Simulation": "garch11_residual_fallback_insufficient_egarch_obs",
       "Breach 10%": 1.0,
       "Breach 25%": 0.996,
-      "Breach 50%": 0.814,
-      "Breach 75%": 0.373,
-      "Breach 90%": 0.146
+      "Breach 50%": 0.819,
+      "Breach 75%": 0.38,
+      "Breach 90%": 0.147
     },
     {
       "Return basis": "Gross before costs",
@@ -3503,8 +3503,8 @@
       "Simulation": "circular_block_bootstrap",
       "Breach 10%": 1.0,
       "Breach 25%": 0.996,
-      "Breach 50%": 0.585,
-      "Breach 75%": 0.063,
+      "Breach 50%": 0.595,
+      "Breach 75%": 0.065,
       "Breach 90%": 0.001
     },
     {
@@ -3513,9 +3513,9 @@
       "Requested method": "egarch_or_ewma",
       "Simulation": "garch11_residual_fallback_insufficient_egarch_obs",
       "Breach 10%": 1.0,
-      "Breach 25%": 0.969,
-      "Breach 50%": 0.592,
-      "Breach 75%": 0.176,
+      "Breach 25%": 0.97,
+      "Breach 50%": 0.604,
+      "Breach 75%": 0.181,
       "Breach 90%": 0.053
     },
     {
@@ -3525,9 +3525,9 @@
       "Simulation": "circular_block_bootstrap",
       "Breach 10%": 1.0,
       "Breach 25%": 1.0,
-      "Breach 50%": 0.902,
-      "Breach 75%": 0.548,
-      "Breach 90%": 0.175
+      "Breach 50%": 0.903,
+      "Breach 75%": 0.564,
+      "Breach 90%": 0.177
     },
     {
       "Return basis": "Gross before costs",
@@ -3536,8 +3536,8 @@
       "Simulation": "garch11_residual_fallback_insufficient_egarch_obs",
       "Breach 10%": 1.0,
       "Breach 25%": 0.998,
-      "Breach 50%": 0.778,
-      "Breach 75%": 0.282,
+      "Breach 50%": 0.785,
+      "Breach 75%": 0.287,
       "Breach 90%": 0.068
     },
     {
@@ -3545,8 +3545,8 @@
       "Strategy": "Underlying Markowitz",
       "Requested method": "circular_block_bootstrap",
       "Simulation": "circular_block_bootstrap",
-      "Breach 10%": 0.981,
-      "Breach 25%": 0.432,
+      "Breach 10%": 0.982,
+      "Breach 25%": 0.442,
       "Breach 50%": 0.013,
       "Breach 75%": 0.0,
       "Breach 90%": 0.0
@@ -3556,8 +3556,8 @@
       "Strategy": "Underlying Markowitz",
       "Requested method": "egarch_or_ewma",
       "Simulation": "garch11_residual_fallback_insufficient_egarch_obs",
-      "Breach 10%": 0.962,
-      "Breach 25%": 0.3,
+      "Breach 10%": 0.963,
+      "Breach 25%": 0.305,
       "Breach 50%": 0.011,
       "Breach 75%": 0.0,
       "Breach 90%": 0.0
@@ -3571,7 +3571,7 @@
       "Breach 25%": 1.0,
       "Breach 50%": 1.0,
       "Breach 75%": 0.999,
-      "Breach 90%": 0.995
+      "Breach 90%": 0.996
     },
     {
       "Return basis": "Gross before costs",
@@ -3592,8 +3592,8 @@
       "Breach 10%": 1.0,
       "Breach 25%": 1.0,
       "Breach 50%": 1.0,
-      "Breach 75%": 0.973,
-      "Breach 90%": 0.841
+      "Breach 75%": 0.974,
+      "Breach 90%": 0.845
     },
     {
       "Return basis": "Gross before costs",
@@ -3603,8 +3603,8 @@
       "Breach 10%": 1.0,
       "Breach 25%": 1.0,
       "Breach 50%": 1.0,
-      "Breach 75%": 0.993,
-      "Breach 90%": 0.938
+      "Breach 75%": 0.994,
+      "Breach 90%": 0.94
     },
     {
       "Return basis": "Gross before costs",
@@ -3634,9 +3634,9 @@
       "Requested method": "circular_block_bootstrap",
       "Simulation": "circular_block_bootstrap",
       "Breach 10%": 1.0,
-      "Breach 25%": 0.857,
-      "Breach 50%": 0.269,
-      "Breach 75%": 0.006,
+      "Breach 25%": 0.863,
+      "Breach 50%": 0.275,
+      "Breach 75%": 0.008,
       "Breach 90%": 0.001
     },
     {
@@ -3645,10 +3645,10 @@
       "Requested method": "egarch_or_ewma",
       "Simulation": "garch11_residual_fallback_insufficient_egarch_obs",
       "Breach 10%": 1.0,
-      "Breach 25%": 0.973,
-      "Breach 50%": 0.533,
-      "Breach 75%": 0.091,
-      "Breach 90%": 0.006
+      "Breach 25%": 0.976,
+      "Breach 50%": 0.541,
+      "Breach 75%": 0.098,
+      "Breach 90%": 0.007
     },
     {
       "Return basis": "Full-spread post-cost",
@@ -3657,9 +3657,9 @@
       "Simulation": "circular_block_bootstrap",
       "Breach 10%": 1.0,
       "Breach 25%": 1.0,
-      "Breach 50%": 0.858,
-      "Breach 75%": 0.232,
-      "Breach 90%": 0.009
+      "Breach 50%": 0.863,
+      "Breach 75%": 0.237,
+      "Breach 90%": 0.013
     },
     {
       "Return basis": "Full-spread post-cost",
@@ -3668,9 +3668,9 @@
       "Simulation": "garch11_residual_fallback_insufficient_egarch_obs",
       "Breach 10%": 1.0,
       "Breach 25%": 0.999,
-      "Breach 50%": 0.933,
-      "Breach 75%": 0.645,
-      "Breach 90%": 0.337
+      "Breach 50%": 0.939,
+      "Breach 75%": 0.655,
+      "Breach 90%": 0.346
     },
     {
       "Return basis": "Full-spread post-cost",
@@ -3679,8 +3679,8 @@
       "Simulation": "circular_block_bootstrap",
       "Breach 10%": 1.0,
       "Breach 25%": 1.0,
-      "Breach 50%": 0.535,
-      "Breach 75%": 0.034,
+      "Breach 50%": 0.541,
+      "Breach 75%": 0.036,
       "Breach 90%": 0.0
     },
     {
@@ -3689,10 +3689,10 @@
       "Requested method": "egarch_or_ewma",
       "Simulation": "garch11_residual_fallback_insufficient_egarch_obs",
       "Breach 10%": 1.0,
-      "Breach 25%": 0.991,
-      "Breach 50%": 0.768,
-      "Breach 75%": 0.315,
-      "Breach 90%": 0.083
+      "Breach 25%": 0.992,
+      "Breach 50%": 0.776,
+      "Breach 75%": 0.324,
+      "Breach 90%": 0.084
     },
     {
       "Return basis": "Full-spread post-cost",
@@ -3701,9 +3701,9 @@
       "Simulation": "circular_block_bootstrap",
       "Breach 10%": 1.0,
       "Breach 25%": 1.0,
-      "Breach 50%": 0.902,
-      "Breach 75%": 0.548,
-      "Breach 90%": 0.175
+      "Breach 50%": 0.903,
+      "Breach 75%": 0.564,
+      "Breach 90%": 0.177
     },
     {
       "Return basis": "Full-spread post-cost",
@@ -3712,8 +3712,8 @@
       "Simulation": "garch11_residual_fallback_insufficient_egarch_obs",
       "Breach 10%": 1.0,
       "Breach 25%": 0.998,
-      "Breach 50%": 0.778,
-      "Breach 75%": 0.282,
+      "Breach 50%": 0.785,
+      "Breach 75%": 0.287,
       "Breach 90%": 0.068
     },
     {
@@ -3721,8 +3721,8 @@
       "Strategy": "Underlying Markowitz",
       "Requested method": "circular_block_bootstrap",
       "Simulation": "circular_block_bootstrap",
-      "Breach 10%": 0.981,
-      "Breach 25%": 0.432,
+      "Breach 10%": 0.982,
+      "Breach 25%": 0.442,
       "Breach 50%": 0.013,
       "Breach 75%": 0.0,
       "Breach 90%": 0.0
@@ -3732,8 +3732,8 @@
       "Strategy": "Underlying Markowitz",
       "Requested method": "egarch_or_ewma",
       "Simulation": "garch11_residual_fallback_insufficient_egarch_obs",
-      "Breach 10%": 0.962,
-      "Breach 25%": 0.3,
+      "Breach 10%": 0.963,
+      "Breach 25%": 0.305,
       "Breach 50%": 0.011,
       "Breach 75%": 0.0,
       "Breach 90%": 0.0
@@ -3746,8 +3746,8 @@
       "Breach 10%": 1.0,
       "Breach 25%": 1.0,
       "Breach 50%": 1.0,
-      "Breach 75%": 0.99,
-      "Breach 90%": 0.908
+      "Breach 75%": 0.992,
+      "Breach 90%": 0.915
     },
     {
       "Return basis": "Full-spread post-cost",
@@ -3767,9 +3767,9 @@
       "Simulation": "circular_block_bootstrap",
       "Breach 10%": 1.0,
       "Breach 25%": 1.0,
-      "Breach 50%": 0.996,
-      "Breach 75%": 0.869,
-      "Breach 90%": 0.56
+      "Breach 50%": 0.998,
+      "Breach 75%": 0.876,
+      "Breach 90%": 0.569
     },
     {
       "Return basis": "Full-spread post-cost",
@@ -3778,9 +3778,9 @@
       "Simulation": "garch11_residual_fallback_insufficient_egarch_obs",
       "Breach 10%": 1.0,
       "Breach 25%": 1.0,
-      "Breach 50%": 0.997,
-      "Breach 75%": 0.857,
-      "Breach 90%": 0.508
+      "Breach 50%": 0.998,
+      "Breach 75%": 0.866,
+      "Breach 90%": 0.522
     },
     {
       "Return basis": "Full-spread post-cost",
