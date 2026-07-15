@@ -46,6 +46,15 @@ class FailingTimeseries:
         raise RuntimeError("402 account_insufficient_funds")
 
 
+class ExistingTempTimeseries:
+    def __init__(self):
+        self.calls = []
+
+    def get_range(self, **kwargs):
+        self.calls.append(kwargs)
+        raise FileExistsError(f"The file `{kwargs['path']}` already exists.")
+
+
 class FakeClient:
     def __init__(self, cost: float = 1.0, frame: pd.DataFrame | None = None):
         self.metadata = FakeMetadata(cost)
@@ -64,13 +73,14 @@ def request(phase: int = 1, purpose: str = "definition") -> audit.DataRequest:
     )
 
 
-def test_primary_project_key_is_the_only_accepted_key(tmp_path):
+def test_selected_project_key2_is_the_only_accepted_key(tmp_path):
     env = tmp_path / ".env"
     primary = "a" * 32
-    env.write_text(f"DATABENTO_API_KEY={primary}\nDATABENTO_API_KEY2={'b' * 32}\n")
-    assert audit.load_primary_key(env) == primary
-    env.write_text(f"DATABENTO_API_KEY2={'b' * 32}\n")
-    with pytest.raises(RuntimeError, match="DATABENTO_API_KEY"):
+    secondary = "b" * 32
+    env.write_text(f"DATABENTO_API_KEY={primary}\nDATABENTO_API_KEY2={secondary}\n")
+    assert audit.load_primary_key(env) == secondary
+    env.write_text(f"DATABENTO_API_KEY={primary}\n")
+    with pytest.raises(RuntimeError, match="DATABENTO_API_KEY2"):
         audit.load_primary_key(env)
 
 
@@ -154,6 +164,7 @@ def test_resume_is_idempotent_and_corrupt_cache_is_replaced(tmp_path):
     runner = audit.AcquisitionRunner(client, tmp_path / "cache", tmp_path / "summary", max_cost=10.0, sleep=lambda _: None)
     req = request()
     runner.execute([req])
+    assert client.timeseries.calls[0]["stype_out"] == "instrument_id"
     runner.execute([req])
     assert len(client.timeseries.calls) == 1
     _, parquet = runner._paths(req)
@@ -161,6 +172,47 @@ def test_resume_is_idempotent_and_corrupt_cache_is_replaced(tmp_path):
     runner.execute([req])
     assert len(client.timeseries.calls) == 2
     assert runner.verify()["verification_passed"] is True
+
+
+def test_truncated_stream_resumes_from_last_complete_timestamp(tmp_path, monkeypatch):
+    index = pd.DatetimeIndex(["2025-02-28T20:50:00Z", "2025-02-28T20:57:15Z"], name="ts_recv")
+    partial = pd.DataFrame({"symbol": ["A", "A"], "price": [1.0, 1.1]}, index=index).reset_index()
+    tail_index = pd.DatetimeIndex(["2025-02-28T20:57:15Z", "2025-02-28T20:59:00Z"], name="ts_recv")
+    tail = pd.DataFrame({"symbol": ["A", "A"], "price": [1.1, 1.2]}, index=tail_index)
+    client = FakeClient(cost=0.1, frame=tail)
+    runner = audit.AcquisitionRunner(client, tmp_path / "cache", tmp_path / "summary", max_cost=1.0, sleep=lambda _: None)
+    req = audit.DataRequest(
+        phase=2,
+        purpose="candidate_close_quotes",
+        dataset="OPRA.PILLAR",
+        schema="cmbp-1",
+        start="2025-02-28T20:50:00+00:00",
+        end="2025-02-28T21:00:00+00:00",
+        symbols=("AAPL  250321C00230000",),
+    )
+    dbn, parquet = runner._paths(req)
+    dbn.parent.mkdir(parents=True)
+    dbn.with_suffix(dbn.suffix + ".tmp").write_bytes(b"truncated")
+    monkeypatch.setattr(audit, "_read_dbn_frame", lambda _path: (partial.copy(), "ts_recv"))
+
+    runner.execute([req])
+
+    assert client.timeseries.calls[0]["start"] == "2025-02-28T20:57:15+00:00"
+    assert len(pd.read_parquet(parquet)) == 3
+    entry = runner.ledger[req.request_id]
+    assert entry["resumed_partial_rows"] == 2
+    assert len(entry["dbn_parts"]) == 2
+
+
+def test_existing_temp_file_retries_are_bounded(tmp_path):
+    client = FakeClient(cost=0.1)
+    client.timeseries = ExistingTempTimeseries()
+    runner = audit.AcquisitionRunner(client, tmp_path / "cache", tmp_path / "summary", max_cost=1.0, sleep=lambda _: None)
+
+    with pytest.raises(FileExistsError):
+        runner.execute([request()])
+
+    assert len(client.timeseries.calls) == 6
 
 
 def test_parent_definitions_use_supported_instrument_id_output(tmp_path):
@@ -189,8 +241,11 @@ def test_repository_manifest_counts_and_excludes_corporate_actions():
     execution = audit.build_execution_requests(inputs, pd.DataFrame())
     phase3, gaps = audit.build_phase3_requests(inputs, pd.DataFrame())
     all_requests = definitions + known + execution + phase3
-    assert len([r for r in phase3 if r.purpose == "vx_decision_close"]) == 84
-    assert len([g for g in gaps if g["kind"] == "vx_front"]) == 9
+    execution_purposes = {request.purpose for request in execution}
+    assert {"held_next_open", "held_exit_close", "vix_intervention_cbbo"}.issubset(execution_purposes)
+    assert "held_cbbo_path" not in execution_purposes
+    assert phase3 == []
+    assert gaps == []
     assert not any("corporate" in r.dataset.lower() or "assignment" in r.purpose.lower() for r in all_requests)
 
 
@@ -210,3 +265,14 @@ def test_failed_download_records_sanitized_account_error(tmp_path):
     entry = runner.ledger[request().request_id]
     assert entry["status"] == "failed"
     assert entry["error_code"] == "account_insufficient_funds"
+
+
+def test_uncompleted_cost_is_repriced_after_credential_switch(tmp_path):
+    cache = tmp_path / "cache"
+    old_client = FakeClient(cost=0.1)
+    old = audit.AcquisitionRunner(old_client, cache, tmp_path / "summary", max_cost=1.0, sleep=lambda _: None, credential_id="old")
+    assert old.estimate([request()]) == pytest.approx(0.1)
+    new_client = FakeClient(cost=0.2)
+    new = audit.AcquisitionRunner(new_client, cache, tmp_path / "summary", max_cost=1.0, sleep=lambda _: None, credential_id="new")
+    assert new.estimate([request()]) == pytest.approx(0.2)
+    assert len(new_client.metadata.calls) == 1

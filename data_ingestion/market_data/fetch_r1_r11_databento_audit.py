@@ -1,7 +1,7 @@
 """Cost-capped Databento acquisition for the R1/R1.1 execution audit.
 
 The CLI is deliberately separate from the repository's older Databento jobs:
-it reads only ``DATABENTO_API_KEY`` from the project ``.env`` and passes that
+it reads only ``DATABENTO_API_KEY2`` from the project ``.env`` and passes that
 value explicitly to the client. Licensed symbol manifests and market records
 stay under the gitignored cache. Only aggregate, nonlicensed audit summaries
 are written under the paper artifacts directory.
@@ -46,6 +46,8 @@ CMBP_START = pd.Timestamp("2023-03-28")
 XCBF_START = pd.Timestamp("2018-11-04")
 EQUITY_FEED_START = pd.Timestamp("2018-05-01")
 DEFAULT_MAX_COST = 40.0
+CREDENTIAL_VARIABLE = "DATABENTO_API_KEY2"
+AUDIT_SCOPE = "entry_exit_intervention_quotes_only"
 
 NASDAQ = {
     "AAL", "AAPL", "ADBE", "AMAT", "AMD", "AMZN", "AVGO", "CHTR", "CMCSA",
@@ -102,12 +104,12 @@ class AcquisitionInputs:
 
 
 def load_primary_key(env_file: Path = ROOT / ".env") -> str:
-    """Return only the primary project key without consulting process state."""
+    """Return only the explicitly selected project key without fallback."""
 
-    value = dotenv_values(env_file).get("DATABENTO_API_KEY")
+    value = dotenv_values(env_file).get(CREDENTIAL_VARIABLE)
     key = str(value).strip() if value is not None else ""
     if len(key) != 32 or not key.isascii() or any(ch.isspace() for ch in key):
-        raise RuntimeError("project .env DATABENTO_API_KEY is missing or malformed")
+        raise RuntimeError(f"project .env {CREDENTIAL_VARIABLE} is missing or malformed")
     return key
 
 
@@ -115,6 +117,10 @@ def make_client(env_file: Path = ROOT / ".env"):
     import databento as db
 
     return db.Historical(load_primary_key(env_file))
+
+
+def credential_fingerprint(env_file: Path = ROOT / ".env") -> str:
+    return hashlib.sha256(load_primary_key(env_file).encode()).hexdigest()[:12]
 
 
 def _is_raw_osi(symbol: object) -> bool:
@@ -457,8 +463,9 @@ def build_execution_requests(inputs: AcquisitionInputs, resolved: pd.DataFrame) 
         requests.append(_request(2, "held_next_open", "OPRA.PILLAR", _schema_for_option_events(start), start, end, group["symbol"]))
         for expiry, cohort in group.groupby("expiry", observed=True):
             expiry_session = _session_for_day(pd.Timestamp(expiry), "previous")
-            finish = _calendar().session_close(expiry_session) + pd.Timedelta(minutes=1)
-            requests.append(_request(2, "held_cbbo_path", "OPRA.PILLAR", "cbbo-1m", start, finish, cohort["symbol"]))
+            exit_start = _calendar().session_close(expiry_session) - pd.Timedelta(minutes=10)
+            exit_end = _calendar().session_close(expiry_session)
+            requests.append(_request(2, "held_exit_close", "OPRA.PILLAR", _schema_for_option_events(exit_start), exit_start, exit_end, cohort["symbol"]))
     for execution, group in inputs.event_rows.groupby("execution_date", observed=True):
         session = _session_for_day(pd.Timestamp(execution), "next")
         start = _calendar().session_open(session)
@@ -485,67 +492,22 @@ def _vx_raw_symbol(value: str) -> str:
 
 
 def build_phase3_requests(inputs: AcquisitionInputs, resolved: pd.DataFrame) -> tuple[list[DataRequest], list[dict[str, object]]]:
-    requests: list[DataRequest] = []
-    gaps: list[dict[str, object]] = []
-    held = _resolved_active(inputs, resolved)
-    decision_dates = sorted(pd.to_datetime(inputs.candidate_rows["decision_date"]).unique())
-    equity_symbols = sorted((NASDAQ | NYSE) & set(inputs.candidate_rows["underlying"].astype(str)))
-    for decision in decision_dates:
-        decision = pd.Timestamp(decision)
-        if decision < EQUITY_FEED_START:
-            gaps.append({"kind": "equity_primary_venue", "date": decision.date().isoformat(), "reason": "vendor_unavailable_before_2018_05_01"})
-            continue
-        start, end = close_window(decision)
-        for dataset in ("XNAS.ITCH", "XNYS.PILLAR"):
-            symbols = [symbol for symbol in equity_symbols if _primary_dataset(symbol) == dataset]
-            requests.append(_request(3, "underlying_decision_close", dataset, "ohlcv-1m", start, end, symbols))
-    equity_held = held[held["underlying"].isin(equity_symbols)].copy()
-    if len(equity_held):
-        equity_held["dataset"] = equity_held["underlying"].map(_primary_dataset)
-    for (dataset, decision, expiry), group in equity_held.groupby(["dataset", "decision_date", "expiry"], observed=True):
-        if pd.Timestamp(decision) < EQUITY_FEED_START:
-            continue
-        start, _ = open_window(pd.Timestamp(decision))
-        finish = _calendar().session_close(_session_for_day(pd.Timestamp(expiry), "previous")) + pd.Timedelta(minutes=1)
-        requests.append(_request(3, "held_underlying_path", str(dataset), "ohlcv-1m", start, finish, group["underlying"].astype(str)))
-
-    vx = pd.DataFrame()
-    if VX_DAILY.exists():
-        vx = pd.read_parquet(VX_DAILY)
-    date_col = next((c for c in ("date", "trade_date", "session") if c in vx.columns), None)
-    contract_col = next((c for c in ("contract", "symbol", "front_contract") if c in vx.columns), None)
-    settlement_col = next((c for c in ("settlement_date", "expiry", "expiration") if c in vx.columns), None)
-    if date_col and contract_col:
-        vx[date_col] = pd.to_datetime(vx[date_col]).dt.normalize()
-        if settlement_col:
-            vx[settlement_col] = pd.to_datetime(vx[settlement_col], errors="coerce").dt.normalize()
-        for decision in decision_dates:
-            decision = pd.Timestamp(decision).normalize()
-            same_day = vx[vx[date_col].eq(decision)].copy()
-            if settlement_col:
-                same_day = same_day[same_day[settlement_col].ge(decision)].sort_values(settlement_col)
-            row = same_day.head(1)
-            if row.empty:
-                continue
-            artifact_symbol = str(row.iloc[0][contract_col])
-            if decision < XCBF_START:
-                gaps.append({"kind": "vx_front", "date": decision.date().isoformat(), "reason": "vendor_unavailable_before_2018_11_04"})
-                continue
-            try:
-                raw = _vx_raw_symbol(artifact_symbol)
-            except ValueError:
-                gaps.append({"kind": "vx_front", "date": decision.date().isoformat(), "reason": f"unmapped_artifact_symbol:{artifact_symbol}"})
-                continue
-            start, end = close_window(decision)
-            requests.append(_request(3, "vx_decision_close", "XCBF.PITCH", "ohlcv-1m", start, end, [raw]))
-            finish = pd.Timestamp(row.iloc[0][settlement_col]).normalize() + pd.Timedelta(days=1) if settlement_col else decision + pd.Timedelta(days=45)
-            requests.append(_request(3, "vx_daily_path", "XCBF.PITCH", "ohlcv-1d", start.normalize(), finish.normalize(), [raw]))
-    return requests, gaps
+    return [], []
 
 
 def _dedupe_requests(requests: Iterable[DataRequest]) -> list[DataRequest]:
     by_id = {request.request_id: request for request in requests}
     return sorted(by_id.values(), key=lambda x: (x.phase, x.purpose, x.start, x.request_id))
+
+
+def _read_dbn_frame(path: Path) -> tuple[pd.DataFrame, str | None]:
+    """Read every complete record from a possibly truncated DBN stream."""
+
+    import databento as db
+
+    raw = db.DBNStore.from_file(path).to_df(map_symbols=True)
+    time_column = str(raw.index.name) if raw.index.name is not None else None
+    return raw.reset_index(), time_column
 
 
 class AcquisitionRunner:
@@ -556,6 +518,7 @@ class AcquisitionRunner:
         summary_root: Path = DEFAULT_SUMMARY,
         max_cost: float = DEFAULT_MAX_COST,
         sleep: Callable[[float], None] = time.sleep,
+        credential_id: str = "test",
     ) -> None:
         if not np.isfinite(max_cost) or max_cost <= 0:
             raise ValueError("max_cost must be positive")
@@ -564,6 +527,7 @@ class AcquisitionRunner:
         self.summary_root = Path(summary_root)
         self.max_cost = float(max_cost)
         self.sleep = sleep
+        self.credential_id = str(credential_id)
         self.ledger_path = self.cache_root / "request_ledger.json"
         self.ledger = self._load_ledger()
 
@@ -605,6 +569,8 @@ class AcquisitionRunner:
                 return func(), attempt
             except Exception as exc:  # Databento exposes several transport exception types.
                 error = exc
+                if isinstance(exc, FileExistsError):
+                    raise
                 if "422" in str(exc) or "symbology_invalid_request" in str(exc):
                     raise
                 if attempt + 1 < attempts:
@@ -619,7 +585,12 @@ class AcquisitionRunner:
         def has_current_estimate(request: DataRequest) -> bool:
             entry = self.ledger.get(request.request_id, {})
             value = entry.get("estimated_cost")
-            return entry.get("request") == request.normalized() and isinstance(value, (int, float)) and np.isfinite(value)
+            return (
+                entry.get("request") == request.normalized()
+                and entry.get("credential_id") == self.credential_id
+                and isinstance(value, (int, float))
+                and np.isfinite(value)
+            )
 
         total = float(sum(float(self.ledger[r.request_id]["estimated_cost"]) for r in incomplete if has_current_estimate(r)))
         uncached = [request for request in incomplete if not has_current_estimate(request)]
@@ -637,6 +608,7 @@ class AcquisitionRunner:
                     "request": request.normalized(),
                     "estimated_cost": estimate,
                     "metadata_retries": retries,
+                    "credential_id": self.credential_id,
                     "status": entry.get("status", "estimated"),
                 })
                 total += estimate
@@ -656,6 +628,53 @@ class AcquisitionRunner:
             raise RuntimeError(f"projected Databento cost ${projected:.6f} exceeds ${self.max_cost:.2f} cap")
         return projected
 
+    def _prepare_download_resume(
+        self,
+        request: DataRequest,
+        dbn: Path,
+        tmp: Path,
+    ) -> tuple[dict[str, object], list[pd.DataFrame], list[Path], pd.Timestamp | None]:
+        partial_frames: list[pd.DataFrame] = []
+        partial_paths = sorted(dbn.parent.glob(f"{request.request_id}.part-*.dbn.zst"))
+        if tmp.exists():
+            try:
+                _read_dbn_frame(tmp)
+            except Exception:
+                tmp.unlink()
+            else:
+                part = dbn.parent / f"{request.request_id}.part-{len(partial_paths) + 1:03d}.dbn.zst"
+                tmp.replace(part)
+                partial_paths.append(part)
+
+        resume_start: pd.Timestamp | None = None
+        for part in partial_paths:
+            recovered, time_column = _read_dbn_frame(part)
+            if recovered.empty or time_column is None or time_column not in recovered:
+                continue
+            timestamps = pd.to_datetime(recovered[time_column], utc=True, errors="coerce")
+            if timestamps.notna().any():
+                last = timestamps.max()
+                resume_start = last if resume_start is None else max(resume_start, last)
+                partial_frames.append(recovered)
+
+        api_args = request.api_args()
+        if resume_start is not None:
+            request_start = pd.Timestamp(request.start)
+            request_end = pd.Timestamp(request.end)
+            if request_start.tzinfo is None:
+                request_start = request_start.tz_localize("UTC")
+            if request_end.tzinfo is None:
+                request_end = request_end.tz_localize("UTC")
+            if request_start <= resume_start < request_end:
+                # Databento start timestamps are inclusive. Re-requesting the
+                # final complete timestamp prevents a boundary-record gap;
+                # exact duplicate records are removed after concatenation.
+                api_args["start"] = resume_start.isoformat()
+            else:
+                resume_start = None
+                partial_frames = []
+        return api_args, partial_frames, partial_paths, resume_start
+
     def execute(self, requests: Sequence[DataRequest]) -> None:
         self.enforce_cap(requests)
         pending = _dedupe_requests(requests)
@@ -665,27 +684,42 @@ class AcquisitionRunner:
             dbn, parquet = self._paths(request)
             parquet.parent.mkdir(parents=True, exist_ok=True)
             tmp = dbn.with_suffix(dbn.suffix + ".tmp")
-            if tmp.exists():
-                tmp.unlink()
-            stype_out = "instrument_id" if request.stype_in == "parent" else "raw_symbol"
-            try:
-                store, retries = self._retry(
-                    lambda request=request, tmp=tmp, stype_out=stype_out: self.client.timeseries.get_range(
-                        **request.api_args(), stype_out=stype_out, path=tmp
-                    )
-                )
-            except Exception as exc:
+            stype_out = "instrument_id"
+            store = None
+            retries = 0
+            partial_frames: list[pd.DataFrame] = []
+            partial_paths: list[Path] = []
+            resume_start: pd.Timestamp | None = None
+            error: Exception | None = None
+            for attempt in range(6):
+                api_args, partial_frames, partial_paths, resume_start = self._prepare_download_resume(request, dbn, tmp)
+                try:
+                    store = self.client.timeseries.get_range(**api_args, stype_out=stype_out, path=tmp)
+                    retries = attempt
+                    break
+                except Exception as exc:  # Databento exposes several transport exception types.
+                    error = exc
+                    message = str(exc)
+                    if "422" in message or "symbology_invalid_request" in message:
+                        break
+                    if attempt + 1 < 6:
+                        self.sleep(min(2 ** attempt, 15))
+            if store is None:
                 entry = self.ledger.setdefault(request.request_id, {})
-                message = str(exc)
-                error_code = "account_insufficient_funds" if "account_insufficient_funds" in message else type(exc).__name__
+                assert error is not None
+                message = str(error)
+                error_code = "account_insufficient_funds" if "account_insufficient_funds" in message else type(error).__name__
                 entry.update({
                     "request": request.normalized(),
                     "status": "failed",
                     "error_code": error_code,
                 })
                 self._write_ledger()
-                raise
+                raise error
             frame = store.to_df(map_symbols=True).reset_index()
+            partial_rows = int(sum(len(part) for part in partial_frames))
+            if partial_frames:
+                frame = pd.concat([*partial_frames, frame], ignore_index=True).drop_duplicates(ignore_index=True)
             if tmp.exists():
                 tmp.replace(dbn)
             elif not dbn.exists():
@@ -698,8 +732,17 @@ class AcquisitionRunner:
                 "download_retries": retries,
                 "rows": int(len(frame)),
                 "dbn_sha256": self._sha256(dbn),
+                "dbn_parts": [
+                    {
+                        "path": str(path.relative_to(self.cache_root)),
+                        "sha256": self._sha256(path),
+                    }
+                    for path in [*partial_paths, dbn]
+                ],
                 "parquet_sha256": self._sha256(parquet),
                 "columns": list(map(str, frame.columns)),
+                "resumed_partial_rows": partial_rows,
+                "resumed_from_timestamp": resume_start.isoformat() if resume_start is not None else None,
             })
             self._write_ledger()
             if number == 1 or number % 10 == 0 or number == len(pending):
@@ -767,7 +810,10 @@ def _write_public_summary(
     summary = {
         "generated_at_utc": pd.Timestamp.now(tz="UTC").isoformat(),
         "pipeline_status": pipeline_status,
+        "audit_scope": AUDIT_SCOPE,
         "max_authorized_cost_usd": runner.max_cost,
+        "credential_variable": CREDENTIAL_VARIABLE,
+        "credential_fingerprint_prefix": runner.credential_id,
         "completed_estimated_cost_usd": runner.completed_estimated_cost(),
         "completed_estimated_cost_by_phase_usd": phase_costs,
         "completed_requests_by_phase": phase_requests,
@@ -799,7 +845,7 @@ def _write_public_summary(
 
 def run_pipeline(command: str, max_cost: float, cache_root: Path, summary_root: Path) -> dict[str, object]:
     client = make_client()
-    runner = AcquisitionRunner(client, cache_root, summary_root, max_cost)
+    runner = AcquisitionRunner(client, cache_root, summary_root, max_cost, credential_id=credential_fingerprint())
     inputs = load_inputs()
     definitions = build_definition_requests(inputs)
     known_selection = build_known_selection_requests(inputs)
@@ -877,7 +923,13 @@ def main() -> None:
     except Exception as exc:
         if "account_insufficient_funds" not in str(exc):
             raise
-        runner = AcquisitionRunner(make_client(), args.cache_root, args.summary_root, args.max_cost)
+        runner = AcquisitionRunner(
+            make_client(),
+            args.cache_root,
+            args.summary_root,
+            args.max_cost,
+            credential_id=credential_fingerprint(),
+        )
         summary = _write_public_summary(
             runner,
             load_inputs(),

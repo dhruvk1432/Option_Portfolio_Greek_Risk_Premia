@@ -1,0 +1,26 @@
+{
+  "specification": "R2 robust Sortino",
+  "evidence_status": "retrospective_development_sample",
+  "promoted": false,
+  "active_development_extension": "R1.1",
+  "historical_universe_wins": 0,
+  "repriced_universe_wins": 1,
+  "valid_refit_coverage": 0.0975,
+  "hard_failures": 0,
+  "gates": {
+    "zero_hard_failures": true,
+    "historical_three_of_four": false,
+    "no_material_historical_harm": false,
+    "stationary_sortino_lower_positive": false,
+    "stationary_log_growth_lower_nonnegative": false,
+    "repriced_p05_no_worse_everywhere": false,
+    "repriced_p05_better_three_of_four": false,
+    "severe_drawdown_within_two_points": true,
+    "refit_coverage_at_least_95pct": false,
+    "refit_no_defaults": true
+  },
+  "bootstrap_bounds": {
+    "sortino_improvement_90pct_lower": -1.6534444082751814,
+    "net_log_growth_improvement_90pct_lower": -0.01284497133067506
+  }
+}

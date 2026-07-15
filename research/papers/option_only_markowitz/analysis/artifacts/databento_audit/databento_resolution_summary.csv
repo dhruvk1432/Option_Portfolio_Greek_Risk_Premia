@@ -1,1 +1,5 @@
 resolution_status,slots
+resolved_exact_osi,1350
+unresolved_missing_spot,15
+unresolved_no_definition_candidate,17
+unresolved_no_eligible_phase2_contract,1030

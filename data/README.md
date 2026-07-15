@@ -36,9 +36,9 @@ constraint check, the risk-off arm remains unscored.
 
 The staged R1/R1.1 Databento audit uses
 `data_ingestion.market_data.fetch_r1_r11_databento_audit`. It reads only
-`DATABENTO_API_KEY` from the repository `.env`, enforces a cumulative $40 cost ceiling,
-and stores licensed definitions, option quotes, volumes, open interest, underlying paths,
-and VX records under `data/databento_cache/r1_r11_audit/`. Run `make
+`DATABENTO_API_KEY2` from the repository `.env`, enforces a cumulative $40 cost ceiling,
+and now limits newly requested execution audit records to option entry, exit, and
+intervention quote windows under `data/databento_cache/r1_r11_audit/`. Run `make
 databento-audit-plan` for cost estimation, `make databento-audit-execute` for the initial
 pull, `make databento-audit-resume` after an interrupted pull, and `make
 databento-audit-verify` to verify hashes. Corporate actions and assignment records are not

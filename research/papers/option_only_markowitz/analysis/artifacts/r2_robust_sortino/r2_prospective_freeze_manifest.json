@@ -1,0 +1,83 @@
+{
+  "specification": "R2 robust Sortino diagnostic",
+  "evidence_status": "retrospective_development_sample",
+  "data_cutoff": "2026-04-30",
+  "first_eligible_decision_date": "2026-05-31",
+  "confirmatory_observations_required": 36,
+  "confirmatory_claim_allowed": false,
+  "source_sha256": {
+    "research/papers/option_only_markowitz/analysis/r2_robust_sortino_pipeline.py": "30447029d5145189546d1c88d262443d7133f810b3c63dae1be18f28d2f6041d",
+    "research/papers/option_only_markowitz/analysis/r2_stability.py": "8190007d187d2aeb6248e756e436a6d7c84d25d8571ead40de2785bf50c4f8f9",
+    "src/portfolio/r2_robust_sortino.py": "693f424105009b3e20f850ee535527dfe1f851fbcbab7729ae84a96749299a07",
+    "research/papers/option_only_markowitz/analysis/simulation.py": "1acd18e4da75f5a3c098a3f775ad88de79d78d880935df07a70a9df07876c576"
+  },
+  "python": "3.14.5 (main, May 10 2026, 10:21:34) [Clang 17.0.0 (clang-1700.6.4.2)]",
+  "platform": "macOS-15.7.2-arm64-arm-64bit-Mach-O",
+  "packages": {
+    "numpy": "2.5.0",
+    "pandas": "3.0.3",
+    "scipy": "1.18.0",
+    "scikit-learn": "1.9.0",
+    "cvxpy": "1.9.2"
+  },
+  "parameters": {
+    "annual_vol_target": 0.25,
+    "periods_per_year": 12.0,
+    "cvar_alpha": 0.95,
+    "cvar_loss_nav": 0.1,
+    "stress_loss_nav": 0.2,
+    "short_margin_nav": 0.75,
+    "collateral_nav": 1.0,
+    "lambda_floor": 1e-06,
+    "lambda_ceiling": 1000000.0,
+    "bisection_steps": 18,
+    "annual_downside_target": 0.1,
+    "recent_months": 36,
+    "min_recent_observations": 24,
+    "premia_half_life_months": 36.0,
+    "recent_weights": [
+      0.25,
+      0.5,
+      0.75
+    ],
+    "default_recent_weight": 0.5,
+    "min_inner_forecasts": 12,
+    "imputation_sets": 5,
+    "bootstrap_scenarios": 500,
+    "bootstrap_block_months": 6,
+    "daily_window": 756,
+    "min_daily_observations": 500,
+    "volatility_horizon_days": 21,
+    "volatility_blend_weights": [
+      0.0,
+      0.25,
+      0.5,
+      0.75,
+      1.0
+    ],
+    "variance_ratio_floor": 0.67,
+    "variance_ratio_ceiling": 1.5,
+    "max_three_month_loss": 0.15,
+    "max_six_month_loss": 0.2,
+    "scalar_grid_points": 401,
+    "solver_tolerance": 1e-06,
+    "random_seed": 20260713
+  },
+  "endpoints": {
+    "primary": [
+      "net_log_growth",
+      "zero_target_sortino",
+      "maximum_drawdown",
+      "survival"
+    ],
+    "simulation": [
+      "p05_terminal_wealth",
+      "p05_sortino",
+      "severe_drawdown_quantile",
+      "refit_coverage"
+    ],
+    "promotion": "all gates in r2_promotion_gate.json"
+  },
+  "promotion_policy": "diagnostic unless every historical, bootstrap, repricing, and refit gate passes",
+  "vix40_overlay": "unscored_until_complete_executable_OPRA_quotes; excluded_from_R2_returns"
+}

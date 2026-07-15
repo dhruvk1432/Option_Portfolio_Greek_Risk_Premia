@@ -62,8 +62,10 @@ def performance_metrics(returns: pd.Series | np.ndarray, periods: int = 12) -> d
     else:
         total = terminal - 1.0
         ann_return = float((1.0 + total) ** (periods / len(r)) - 1.0)
-        wealth_series = pd.Series(wealth, index=r.index)
-        max_dd = float((wealth_series / wealth_series.cummax() - 1.0).min())
+        # Initial NAV is an economically real peak.  Omitting it understates a
+        # drawdown when the path begins with losses and never recovers to 1.0.
+        peaks = np.maximum.accumulate(np.r_[1.0, wealth])[1:]
+        max_dd = float(np.min(wealth / peaks - 1.0))
     ann_vol = float(r.std(ddof=1) * math.sqrt(periods)) if len(r) > 1 else 0.0
     sharpe = float(r.mean() * periods / max(ann_vol, 1e-12))
     downside = np.minimum(r.to_numpy(float), 0.0)
