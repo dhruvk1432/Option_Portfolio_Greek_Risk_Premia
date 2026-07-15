@@ -262,6 +262,7 @@ def build_short_net_sharpe_table(results: pd.DataFrame) -> pd.DataFrame:
         .reset_index()
         .rename(columns={"arm": "Arm"})
     )
+    pivot["Arm"] = pivot["Arm"].replace({"Full E1": "Full model"})
     pivot.columns.name = None
     return pivot
 

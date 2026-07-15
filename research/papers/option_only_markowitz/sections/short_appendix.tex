@@ -1,213 +1,175 @@
-\section{Technical appendix}\label{app:technical}
+\section{Technical details and relocated evidence}
 
-The main text keeps the proof sketches close to the economic argument. This appendix
-records standard mathematical details used by the implementation. They are included for
-auditability, not as claims of new theory. The maximum-Sharpe discussion describes the
-legacy E1 geometry and why R1 replaces it with strictly concave net utility.
+This appendix records the mathematical steps needed to audit the implementation and the
+wide exhibits that the main reading path omits. The arguments are standard. We include
+them to make the code-to-equation mapping explicit.
 
-\subsection{Scale, costs, and no-free-exposure logic}
+\subsection{Funded option scale and covariance}
 
-\begin{proposition}[No free option exposure]\label{prop:app_no_free_exposure}
-Let \(\mathcal C\) include binding gross-premium, short-premium, stress-loss,
-margin/collateral, or contract-level liquidity controls, and assume the imposed controls
-jointly separate exposure: any premium-weight direction on which every imposed control
-vanishes carries no premium, payoff, or Greek exposure. Then no economically nonzero
-sequence of option positions can take unbounded premium, payoff, or Greek exposure while
-remaining feasible and using zero capital.
-\end{proposition}
+Let \(w\) denote signed premium weights and let residual cash be the numeraire. If the
+constraint set limits gross premium, short premium, stress loss, margin, collateral,
+Greek concentration, and contract liquidity, then every economically nonzero direction
+uses a finite budget. A direction that lies in the joint null space of every control must
+carry no premium, payoff, or Greek exposure. It is economically empty. This separation
+rules out free scale in the feasible option book.
 
-\begin{proof}
-The listed controls are positively homogeneous in the premium-weight vector. If
-\(\|w_k\|\to\infty\) along an economically nonzero direction, at least one controlled
-premium, margin, stress, Greek, or liquidity functional diverges, violating feasibility
-at some finite scale. The only directions along which no imposed control diverges lie in
-the joint null space of the controls, and by the separation assumption those directions
-carry no premium, payoff, or Greek exposure, so they are not economically nonzero.
-Therefore every economically meaningful option direction must consume a real budget
-before scale can diverge.
-\end{proof}
-
-This proposition is one reason the paper does not treat gross option Sharpe as a
-trading claim. A cheap option can carry large return exposure per dollar of premium, and
-a short option can receive premium while creating a future liability. The optimizer is
-only an allocation rule after premium, short-premium, stress, margin, concentration, and
-liquidity limits turn the scale-free return object into a feasible book.
-
-\begin{proposition}[Operational monotonicity]\label{prop:app_monotonicity}
-For
+For the joint state vector
 \[
-  V(\mathcal C,c)=
-  \max_{w\in\mathcal C}
-  \widehat\mu^\top w-\frac{\gamma}{2}w^\top\Sigma w-c^\top |w|,
-\]
-with \(\Sigma\succeq0\), if \(\mathcal C_1\subseteq\mathcal C_0\) and
-\(c_1\ge c_0\) componentwise, then \(V(\mathcal C_1,c_1)\le V(\mathcal C_0,c_0)\).
-\end{proposition}
-
-\begin{proof}
-For every \(w\in\mathcal C_1\), the same \(w\) is feasible for \(\mathcal C_0\), and
-\(-c_1^\top |w|\le -c_0^\top |w|\). Maximizing a weakly lower objective over a weakly
-smaller feasible set cannot increase the value.
-\end{proof}
-
-The monotonicity result justifies the conservative reporting convention. Higher spread,
-fee, slippage, margin, assignment, or impact assumptions can only make the utility value
-worse. Tighter displayed-size, stress, or margin budgets can only make the feasible set
-smaller. Positive results under full costs and hard caps are therefore more meaningful
-than positive gross results, while failures under exact execution data would supersede the
-current proxy-spread sensitivity.
-
-\subsection{Mean estimation error, shrinkage, and purge details}\label{app:mean_error}
-
-\begin{proof}[Proof of Proposition~\ref{prop:short_mean_error}]
-Each error \(e_i\) is sub-Gaussian with variance proxy \(\sigma_i^2/T\le\bar\sigma^2/T\),
-so for every \(\lambda>0\),
-\(\E\exp(\lambda e_i)\le\exp(\lambda^2\bar\sigma^2/2T)\) and the same holds for \(-e_i\).
-Let \(M=\max_i|e_i|\), the maximum of the \(m=2n\) variables \(\{\pm e_i\}\). By Jensen's
-inequality and a union bound on the moment generating function,
-\[
-  \exp\big(\lambda\,\E[M]\big)\le\E\exp(\lambda M)
-  \le\sum_{j=1}^{m}\E\exp(\lambda X_j)
-  \le m\exp\!\Big(\frac{\lambda^2\bar\sigma^2}{2T}\Big),
-\]
-so \(\E[M]\le\log(m)/\lambda+\lambda\bar\sigma^2/2T\). Optimizing at
-\(\lambda=\sqrt{2T\log m}/\bar\sigma\) gives
-\(\E[M]\le\bar\sigma\sqrt{2\log(2n)/T}\), the first display. For the second, H\"older's
-inequality gives \(\sup_{w\in\mathcal C}e^\top w\le\sup_{\|w\|_1\le g}e^\top w
-= g\|e\|_\infty=gM\); take expectations. For the objective-loss statement, write the
-optimizer's concave criterion as \(F_\mu(w)=\mu^\top w-R(w)\), where \(R\) collects the
-risk and cost penalties, and let \(\widetilde w\) maximize \(F_{\widehat\mu}\) and
-\(w^\ast\) maximize \(F_{\mu}\) over \(\mathcal C\). Then
-\[
-  F_\mu(\widetilde w)
-  \;\ge\; F_{\widehat\mu}(\widetilde w)-g\|e\|_\infty
-  \;\ge\; F_{\widehat\mu}(w^\ast)-g\|e\|_\infty
-  \;\ge\; F_{\mu}(w^\ast)-2g\|e\|_\infty,
-\]
-so the expected sacrifice of true objective value is at most
-\(2g\,\E\|e\|_\infty\le2g\bar\sigma\sqrt{2\log(2n)/T}\).
-\end{proof}
-
-\begin{proof}[Proof of Corollary~\ref{cor:short_crossover}]
-The sandwich argument above holds verbatim when the mean input is the structural
-forecast: with deterministic bias vector \(b=\mu^{\mathrm{struct}}-\mu\) and
-\(\|b\|_\infty\le\beta\), the loss bound is \(2g\beta\). Comparing the two worst-case
-bounds, the historical mean has the smaller guarantee exactly when
-\(\bar\sigma\sqrt{2\log(2n)/T}<\beta\), which rearranges to
-\(2\log(2n)<T\beta^2/\bar\sigma^2\), i.e.
-\(n<\tfrac12\exp(T\beta^2/2\bar\sigma^2)\). At fixed \(T\) the left side grows in \(n\)
-while the right side is constant, which yields the stated crossover.
-\end{proof}
-
-The bounds compare worst-case guarantees, not realized losses, and the sub-Gaussian model
-ignores the correlation and missingness of real option panels; both simplifications favor
-the historical mean, so the crossover argument is conservative in the direction the paper
-uses it.
-
-\begin{lemma}[One-month purge suffices for monthly option labels]\label{lem:purge_gap}
-Index each label by its return month-end. Assume every tested contract's information
-window spans at most \(\Delta\) calendar days and ends at its return month-end, where
-\(\Delta\approx44\) days is the maximum decision-to-expiry span of the monthly-tenor
-contracts. If the realized calendar distance \(|t_e-t_r|\) between every training return
-month-end \(t_r\) and every test return month-end \(t_e\) is at least \(G\) with
-\(G>\Delta\) in every fold---a two-sided requirement, because combinatorial folds train
-on months both before and after each tested block---then no training label's information
-window overlaps any test label's window.
-\end{lemma}
-
-\begin{proof}
-A training label with return month-end \(t_r\) has window contained in
-\([t_r-\Delta,\,t_r]\); a test label with return month-end \(t_e\) has window contained
-in \([t_e-\Delta,\,t_e]\). If \(t_r\le t_e\), overlap requires \(t_r\ge t_e-\Delta\); if
-\(t_r>t_e\), overlap requires \(t_r-\Delta\le t_e\). Either way overlap requires
-\(|t_e-t_r|\le\Delta\). The purge/embargo schedule enforces
-\(|t_e-t_r|\ge G>\Delta\) for every training/test pair, so the windows are disjoint.
-\end{proof}
-
-The quantity \(G\) is not assumed; it is measured. The verifier recomputes the minimum
-gap across all folds, schemes, and configurations from the fold schedule and ledger
-artifacts---on both sides of every test block, since the pre-test boundary is set by the
-purge alone while the post-test boundary is set by the purge plus embargo---and asserts
-\(G>44\) days; in the current artifacts the realized minimum is \(G=59\) days, attained
-on the pre-test side. The one-month purge plus one-month embargo is therefore sufficient
-with two weeks of slack, and the sufficiency claim is re-audited on every verification
-run rather than hand-typed.
-
-\subsection{Legacy maximum Sharpe and conic reduction}
-
-Let \(\mu=\widehat\mu_t\) and \(\Sigma=\widehat\Sigma_{O,t}\). When
-\(\Sigma\succ0\), the unconstrained maximum-Sharpe direction is the usual tangency
-direction even though the assets are option cashflows:
-\[
-  \argmax_{w\ne0}\frac{w^\top\mu}{\sqrt{w^\top\Sigma w}}
-  \quad \propto \quad
-  \Sigma^{-1}\mu .
-\]
-The difference from stock Markowitz is not the algebra of the tangency direction; it is
-the construction of \(\mu\), \(\Sigma\), and the feasible set. Option premium weights have
-cash and collateral as the numeraire, so the unit-stock-budget equation is replaced by
-gross premium, short-premium, stress, margin, and liquidity budgets.
-
-\begin{proposition}[Conic maximum-Sharpe form]\label{prop:app_conic}
-Let \(K\subseteq\R^n\) be a closed convex cone containing some \(w\) with
-\(w^\top\mu>0\), and let \(\Sigma\succ0\). Then
-\[
-  \sup_{w\in K\setminus\{0\}}
-  \frac{w^\top\mu}{\sqrt{w^\top\Sigma w}}
-  =
-  \max\{\,y^\top\mu:\ y\in K,\ y^\top\Sigma y\le1\,\}.
-\]
-The right side is a convex quadratically constrained program and is a second-order-cone
-program when a Cholesky or square-root factor of \(\Sigma\) is used.
-\end{proposition}
-
-\begin{proof}
-For any nonzero \(w\in K\), define \(y=w/\sqrt{w^\top\Sigma w}\). Since \(K\) is a cone,
-\(y\in K\), \(y^\top\Sigma y=1\), and \(y^\top\mu\) equals the Sharpe ratio of \(w\). This
-shows that the right side is at least the left. Conversely, any feasible \(y\) with
-\(y^\top\mu>0\) satisfies
-\[
-  \frac{y^\top\mu}{\sqrt{y^\top\Sigma y}}\ge y^\top\mu,
-\]
-so the left side is at least the right. Positive definiteness makes the risk ball
-bounded, and the objective is linear on a closed convex feasible set.
-\end{proof}
-
-This geometry determines only a direction. Legacy E1 imposed gross equality on positive
-and negative split variables, which allowed overlapping legs to satisfy the algebra while
-the net economic book remained smaller. R1 does not use that representation. It solves
-strictly concave net utility over one position vector, imposes \(\|w\|_1\le g\), and
-allows the unallocated balance to remain cash.
-
-\subsection{Joint risk-model estimator}
-
-Let \(Z_t=[f_t^\top,\varepsilon_t^\top]^\top\), where
-\(\varepsilon_t=r_t-B^Gf_t\). R1 standardizes the aligned training columns, applies
-Ledoit--Wolf shrinkage to their joint correlation-scale covariance, rescales to the
-original units, and partitions the result as
-\[
+ Z_t=\begin{bmatrix}f_t\\ \varepsilon_t\end{bmatrix},
+ \qquad
  \widehat S_Z=
  \begin{bmatrix}
-  \widehat\Omega&\widehat\Gamma\\
-  \widehat\Gamma^\top&\widehat\Sigma_\varepsilon
- \end{bmatrix}.
+ \widehat\Omega&\widehat\Gamma\\
+ \widehat\Gamma^\top&\widehat\Sigma_\varepsilon
+ \end{bmatrix},
 \]
-The option covariance is
+the option covariance estimator is
 \[
  \widehat\Sigma_O=[B^G\ I]\widehat S_Z[B^G\ I]^\top.
 \]
-This transformation is PSD whenever \(\widehat S_Z\) is PSD and retains the cross terms.
-With shrinkage disabled it reproduces the aligned sample covariance of option returns.
-Only after this joint transformation does the implementation apply a small numerical
-eigenvalue floor. Legacy E1's diagonal residual covariance remains in the archived
-development path, not in R1.
+The map is positive semidefinite whenever the estimated joint covariance is positive
+semidefinite. Expanding the product gives both factor and residual cross terms. With no
+shrinkage, the construction reproduces the aligned sample option covariance before the
+final numerical eigenvalue floor.
 
-\subsection{Appendix use and audit trail}
+\subsection{Utility monotonicity and integer execution}
 
-Mathematical mechanics that strengthen the results but would slow the main reading path
-are kept in this appendix. Large empirical ledgers remain machine-readable artifacts
-under \texttt{analysis/artifacts/breadth\_solutions/robustness/}; the body prints only
-the scoreboard, distributional summaries, robustness heatmap, capacity/spread panel, and
-rolling OOS paths. Every number in the body traces to one of those ledgers, and the
-verification harness recomputes the headline statistics from the artifacts on each
-build.
+Define the cost-aware value
+\[
+ V(\mathcal C,c)=
+ \max_{w\in\mathcal C}
+ \left\{
+ \widehat\mu^\top w
+ -\frac{\gamma}{2}w^\top\Sigma w
+ -c^\top|w|
+ \right\}.
+\]
+If \(\mathcal C_1\subseteq\mathcal C_0\) and \(c_1\ge c_0\) componentwise, then
+\(V(\mathcal C_1,c_1)\le V(\mathcal C_0,c_0)\). Every point feasible under the tighter
+rules also belongs to the earlier feasible set, and its cost penalty is weakly larger.
+The reporting direction is therefore conservative. Higher spreads or tighter execution
+limits cannot improve the optimized value.
+
+A continuous premium weight implies a contract count
+\[
+ N_i=\frac{w_iW_t}{m_iC_{i,t}}.
+\]
+The survival-first policies truncate counts toward cash and recheck the full constraint
+set. They never remove one risky leg to manufacture feasibility. A failed direct
+conversion selects cash and keeps the rejected book's diagnostics in the audit ledger.
+
+\subsection{Maximum Sharpe and validation geometry}
+
+For \(\Sigma\succ0\), the unconstrained maximum-Sharpe direction is proportional to
+\(\Sigma^{-1}\mu\). Under a convex cone \(K\), its normalized form is
+\[
+ \max_{y\in K}\ y^\top\mu
+ \quad\text{subject to}\quad
+ y^\top\Sigma y\le 1.
+\]
+This reduction determines a direction but not an economically valid option scale. The
+premium, stress, margin, and liquidity controls supply that scale. The earlier prototype
+used the ratio as its selection target. The later policies use strictly concave net
+utility and permit zero exposure.
+
+Purged combinatorial cross-validation separates each test label from any training label
+whose option holding window could overlap it. The fold ledger checks the realized calendar
+gap on both sides of every test block. The selection rule excludes embargoed observations.
+Recombined paths retain their original ordering within each test block and apply zero
+wealth as an absorbing state.
+
+\FloatBarrier
+\subsection{Licensed-quote audit tables}\label{app:audit_tables}
+
+Table~\ref{tab:app_execution_summary} contains the complete scenario ladder. The audit
+aggregates coverage by absolute portfolio weight. Missing quote legs retain modeled spread
+cost, and the coverage denominator still counts them. Tables~\ref{tab:app_execution_spreads}
+and~\ref{tab:app_liquidity} report the spread and entry-date liquidity checks.
+
+\begin{table}[t]
+\centering
+\caption{High Ceiling annualized return, Sortino, drawdown, and quote coverage under the
+frozen modeled, mid, touch, and worst scenarios.}
+\label{tab:app_execution_summary}
+\resizebox{\textwidth}{!}{\input{tables/short_execution_audit_summary}}
+\end{table}
+
+\begin{table}[t]
+\centering
+\caption{Modeled and observed relative-spread quantiles by policy and quote regime.}
+\label{tab:app_execution_spreads}
+\resizebox{0.92\textwidth}{!}{\input{tables/short_execution_spread_comparison}}
+\end{table}
+
+\begin{table}[t]
+\centering
+\caption{Entry-date participation, open-interest diagnostics, and frozen threshold
+breaches in the licensed-quote audit.}
+\label{tab:app_liquidity}
+\resizebox{\textwidth}{!}{\input{tables/short_liquidity_validation}}
+\end{table}
+
+\FloatBarrier
+\subsection{Integer, concentration, and validation tables}
+
+The direct-or-abstain ledger in Table~\ref{tab:app_integer} reports the candidate and cash
+outcomes separately. Tables~\ref{tab:app_concentration}, \ref{tab:app_robustness},
+and~\ref{tab:app_cpcv} retain the prototype's concentration and validation evidence.
+
+\begin{table}[t]
+\centering
+\caption{Whole-contract direct conversion and cash abstention outcomes for the High
+Ceiling base and diagnostic books.}
+\label{tab:app_integer}
+\resizebox{0.74\textwidth}{!}{\input{tables/short_r11_integer_repair_summary}}
+\end{table}
+
+\begin{table}[t]
+\centering
+\caption{Prototype contract breadth, concentration, deployed gross, and capacity budget
+at the frozen account size.}
+\label{tab:app_concentration}
+\resizebox{0.88\textwidth}{!}{\input{tables/short_e1_concentration}}
+\end{table}
+
+\begin{table}[t]
+\centering
+\caption{Pass, mixed, fail, and diagnostic outcomes across the locked prototype
+validation suite.}
+\label{tab:app_robustness}
+\resizebox{\textwidth}{!}{\input{tables/short_robustness_summary}}
+\end{table}
+
+\begin{table}[t]
+\centering
+\caption{Prototype CPCV wealth quantiles, absorption shares, and relative-path evidence
+for liquid and claim windows.}
+\label{tab:app_cpcv}
+\resizebox{\textwidth}{!}{\input{tables/short_cpcv_windows}}
+\end{table}
+
+\FloatBarrier
+\subsection{Relocated path figures}
+
+The following figures retain the detailed path and distribution views used by the
+verification suite. Figures~\ref{fig:app_walk_forward} and
+\ref{fig:app_validation_distributions} supplement the compact robustness summary in the
+main text.
+
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=0.94\textwidth]{figures/short_walk_forward_return_paths.pdf}
+\caption{Rolling out-of-sample full-cost return paths for stock baselines, the Sharpe
+Prototype universes, and capped naive option books.}
+\label{fig:app_walk_forward}
+\end{figure}
+
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=0.93\textwidth]{figures/short_validation_distributions.pdf}
+\caption{Distributional validation for the four prototype universes. The shapes summarize
+locked CPCV, resampling, and refit evidence rather than future returns.}
+\label{fig:app_validation_distributions}
+\end{figure}
+
+\FloatBarrier

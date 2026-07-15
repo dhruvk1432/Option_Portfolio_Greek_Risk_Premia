@@ -441,6 +441,36 @@ def test_mark_accuracy_regimes() -> None:
     assert result.iloc[0]["absolute_error"] == pytest.approx(0.1)
 
 
+def test_rebuild_tables_from_artifacts_writes_only_display_tables(tmp_path: Path) -> None:
+    artifact_dir = audit.DEFAULT_OUT
+    summary_before = json.loads(
+        (artifact_dir / "execution_audit_summary.json").read_text(encoding="utf-8")
+    )
+
+    audit.rebuild_tables_from_artifacts(artifact_dir, tmp_path)
+
+    assert {path.name for path in tmp_path.iterdir()} == {
+        "short_execution_spread_comparison.tex",
+        "short_liquidity_validation.tex",
+    }
+    spread_text = (tmp_path / "short_execution_spread_comparison.tex").read_text(
+        encoding="utf-8"
+    )
+    liquidity_text = (tmp_path / "short_liquidity_validation.tex").read_text(
+        encoding="utf-8"
+    )
+    assert "Survival" in spread_text
+    assert "High Ceiling" in spread_text
+    assert "Survival" in liquidity_text
+    assert "High Ceiling" in liquidity_text
+    summary_after = json.loads(
+        (artifact_dir / "execution_audit_summary.json").read_text(encoding="utf-8")
+    )
+    assert summary_after == summary_before
+    artifact_arms = pd.DataFrame(summary_after["spread_distribution"])["arm"]
+    assert artifact_arms.drop_duplicates().sort_values().tolist() == ["R1", "R1.1"]
+
+
 def test_main_writes_only_custom_out_and_preserves_frozen_file(
     tmp_path: Path, monkeypatch: pytest.MonkeyPatch
 ) -> None:

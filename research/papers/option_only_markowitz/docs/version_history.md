@@ -98,6 +98,20 @@ Across base and EGARCH arms, direct conversion is selected in 621 of 744 decisio
 cash in 123. Integer failures are zero. The risk-off arm remains unscored because matched
 licensed event-date OPRA quotes are incomplete.
 
+## 2026-07-15 paper restructure
+
+This publication pass cut the paper from 44 pages to 20 pages. It added mechanism names
+and a figure-first presentation that leads with the result. R2 was removed from the paper
+only. All R2 pipelines, Make targets, regeneration instructions, and artifacts remain.
+
+The verifier deliberately changed the paper page gate from 25-45 to 18-30. The R1
+frozen-source check now exempts the two rewritten prose files,
+`sections/short_paper.tex` and `sections/short_appendix.tex`, from the unchanged-hash
+requirement. It still enforces exact frozen hashes on the executable policy sources. The
+verification report records each prose exemption explicitly.
+
+All reported numbers are unchanged. The freeze manifests were not modified.
+
 ## Git versioning convention
 
 Each accepted model-policy change must be committed and pushed before another model-policy

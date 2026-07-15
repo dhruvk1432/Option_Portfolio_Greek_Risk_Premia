@@ -175,7 +175,8 @@ def test_e1_ablation_short_table_formats_net_sharpe(tmp_path):
     table = build_short_net_sharpe_table(pd.DataFrame(rows))
     assert table.columns.tolist() == ["Arm", "orig", "orig+VIX", "larger", "larger+VIX"]
     assert table.columns.name is None
-    assert table["Arm"].tolist() == ARM_ORDER
+    assert ARM_ORDER[0] == "Full E1"
+    assert table["Arm"].tolist() == ["Full model", *ARM_ORDER[1:]]
     assert float(table.loc[table["Arm"].eq("No vol/VRP"), "larger+VIX"].iloc[0]) == 3.3
     path = tmp_path / "short_e1_channel_ablation.tex"
     _write_ablation_latex_table(table, path)

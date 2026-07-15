@@ -1,107 +1,137 @@
-\clearpage
-\section{Licensed-quote execution audit}
-\label{sec:execution_audit}
+\section{Execution audit at observed quotes}
 
-The execution audit uses a cost-capped licensed Databento acquisition covering February
-2018--April 2026. It completed 1,170 requests and verified 82.0 million rows for \$17.68
-against a \$40 cap. The pull contains 10-minute entry-close, next-open, and exit-close
-windows, full-session VIX intervention days, and decision-date daily volume and open
-interest.\footnote{The operational acquisition record, including the private-request-ledger
-hash, is \path{analysis/artifacts/databento_audit/databento_acquisition_summary.json}.}
+The licensed-quote audit changes only spread evidence. It preserves positions, returns,
+non-spread costs, integer decisions, and survival gates. The mid scenario uses observed
+midpoints while retaining the frozen non-spread terms. The touch scenario substitutes
+observed entry and exit spreads. The worst scenario uses the entry-window maximum spread
+and the observed exit spread.
 
-The quote source is consolidated minute BBO before March 28, 2023 and consolidated MBP-1
-thereafter. The purpose is to audit the execution realism of the frozen R1 and R1.1
-replays. No return, position, cost input, integerization rule, survival gate, or frozen
-protocol is changed.
+Months without observed quotes keep the frozen modeled cost. The audit counts them and
+never imputes them. Reconstructing modeled cost from the frozen components leaves a
+maximum absolute gap below \(10^{-16}\). The scenario ladder therefore isolates the effect
+of quote-based spread evidence.
 
-Positions from the frozen weight ledgers are matched to observed NBBO in each leg's
-window. The audit then replaces only the spread evidence in three scenarios:
-\begin{itemize}
-  \item \emph{Mid} retains the frozen non-spread terms: fees, slippage, funding, and the
-  recorded short-call borrow term.
-  \item \emph{Touch} substitutes the observed entry and exit spreads into the frozen cost
-  formula while leaving every other term unchanged.
-  \item \emph{Worst} uses the entry-window maximum spread and the observed exit spread.
-\end{itemize}
-Months or legs without observed quotes retain the frozen modeled cost: they are counted,
-never imputed. Rebuilding modeled cost from the frozen inputs reproduces
-\verb|predicted_cost| exactly, with a maximum absolute gap below $10^{-16}$, so the
-scenario comparison isolates the spread evidence.
-
-R1.1 weight-aggregate entry coverage is 98.5 percent for larger, 96.2 percent for
-larger+VIX, 98.7 percent for orig, and 94.1 percent for orig+VIX. Round-trip coverage is
-62.9, 29.1, 65.1, and 25.5 percent, respectively. VIX options are cash settled at the
-SOQ, so settlement-held positions have no exit-close quote. Where the cached holding path
-contains a last-tradable-session quote, the audit uses it as a fallback and labels that
-source in the ledger.
-
-\begin{table}[H]
+\begin{figure}[!ht]
 \centering
-\caption{R1.1 retrospective development returns under frozen modeled costs and three
-licensed-quote execution scenarios. Coverage is aggregated by absolute portfolio weight.}
-\label{tab:execution_audit_summary}
-\resizebox{\textwidth}{!}{\input{tables/short_execution_audit_summary}}
+\includegraphics[width=0.95\textwidth]{figures/short_audit_scenario_ladder.pdf}
+\caption{Execution audit for the High Ceiling Allocator. The x axis moves from frozen
+modeled costs through observed mid, touch, and worst fills. The eight-name plus VIX
+configuration uses the heavier line.}
+\label{fig:audit_ladder}
+\end{figure}
+
+Figure~\ref{fig:audit_ladder} shows a modest improvement at observed mid and a decline at
+touch and worst fills. The headline configuration remains above its survival threshold.
+The ladder is an execution sensitivity around the same frozen positions. It is not a new
+backtest selected from the quote sample.
+
+\subsection{Why the eight-name book with VIX is the headline}
+
+The spread-source distinction decides which historical result deserves emphasis.
+Broad-name and VIX rows lack exact panel CBBO in the frozen cost stack, so those rows use
+the inferred proxy. The licensed audit finds wider observed broad-name spreads than the
+proxy assumed. Figure~\ref{fig:proxy_coverage} places proxy reliance, observed-quote
+coverage, and spread quantiles in one view.
+
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=0.97\textwidth]{figures/short_proxy_coverage_evidence.pdf}
+\caption{Proxy reliance and licensed-quote evidence. Panel (a) compares inferred-proxy
+row share with absolute-weighted entry and round-trip quote coverage. Panel (b) pools the
+High Ceiling positions across configurations and compares modeled and observed spread
+quantiles before and after the quote-schema cutover.}
+\label{fig:proxy_coverage}
+\end{figure}
+
+For larger+VIX, touch Sortino falls from 2.197 to 1.812, a 17.5 percent decline. For
+orig+VIX, it falls from 2.275 to 2.052, a 9.8 percent decline. Round-trip coverage is 29.1
+percent for the broad book against 65.1 percent for the eight-name book without VIX. The
+headline therefore uses the eight-name plus VIX configuration because its equity-option
+spread evidence is exact in the frozen panel, its entry coverage is high, and its observed
+touch result remains viable. Appendix~\ref{app:audit_tables} reports the wide scenario,
+spread, and liquidity tables.
+
+\FloatBarrier
+\section{Robustness in brief}
+
+The validation suite separates path fragility from formal inference. CPCV recombines
+purged test blocks and preserves the zero-wealth boundary.
+
+Monte Carlo resampling tests return ordering. Refit and reprice exercises repeat
+estimation and option repricing under locked cost rules. These simulations serve as
+\mbox{path-risk diagnostics only}, not as tradable histories or confirmatory observations.
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=0.94\textwidth]{figures/short_robustness_heatmap.pdf}
+\caption{Artifact-backed robustness summary for the four frozen prototype universes.
+Cells distinguish passes, mixed evidence, failures, and capacity diagnostics across the
+locked validation suite.}
+\label{fig:robustness_heatmap}
+\end{figure}
+
+Figure~\ref{fig:robustness_heatmap} makes the asymmetry visible. The original-universe
+repricing checks produce mixed evidence, while the broad-universe overlays fail. The
+estimated probability of backtest overfitting is about 0.19. That value cautions against
+choosing a winner from many related variants even when a static ratio looks strong.
+
+\begin{table}[t]
+\centering
+\caption{Formal inference for the static full-cost net prototype books over the common
+test window. The table reports uncertainty, probabilistic and deflated Sharpe measures,
+and comparisons with stock and capped naive baselines.}
+\label{tab:short_inference_panel}
+\resizebox{\textwidth}{!}{\input{tables/short_inference_panel}}
 \end{table}
 
-Mid fills are marginally better than the modeled series. At the touch, however, the
-no-VIX orig book declines from 0.118 to 0.086 annualized return and from 1.097 to 0.830
-Sortino. The orig+VIX book moves from 0.160 to 0.146 annualized return and from 2.275 to
-2.052 Sortino; its worst scenario remains at 0.145 annualized return and 2.029 Sortino.
-Observed spreads for the broad equity books are wider than the inferred-CBBO proxy
-assumed in the frozen costs. Even so, the headline orig+VIX configuration survives the
-harshest observed-quote scenario with Sortino approximately 2.0.
+Rolling out-of-sample tests retrain only on earlier observations. The common ledger keeps
+the comparison dates fixed across universes. Table~\ref{tab:short_inference_panel} shows
+that multiple-testing adjustment weakens the interpretation of the static prototype
+results but does not erase every signal. The survival failure still dominates the
+prototype's attractive later-window statistics.
 
-\begin{table}[H]
+\FloatBarrier
+\section{Capacity, execution limits, and claim boundary}
+
+Capacity is part of the result. Figure~\ref{fig:capacity_spreads} compares deployed gross
+with the sum of contract liquidity caps and also records the spread-source mix. The local
+contract panel does not support mechanical scaling from roughly \(\$1\) million to
+\(\$5\) million NAV.
+
+\begin{figure}[t]
 \centering
-\caption{Modeled and observed relative-spread quantiles before and after the quote-schema
-cutover.}
-\label{tab:execution_spreads}
-\resizebox{0.88\textwidth}{!}{\input{tables/short_execution_spread_comparison}}
-\end{table}
+\includegraphics[width=0.94\textwidth]{figures/short_capacity_spread_panel.pdf}
+\caption{Capacity and spread-source evidence at the frozen account size. Panel (a)
+compares deployed gross with the sum of liquidity caps. Panel (b) shows exact panel CBBO
+and inferred-proxy shares.}
+\label{fig:capacity_spreads}
+\end{figure}
 
-For R1.1 before March 28, 2023, the median observed relative spread is 2.4 percent versus
-1.7 percent modeled, and the observed 90th percentile is 7.1 percent versus 2.7 percent
-modeled. After the cutover, the corresponding observed/model medians are 4.4/1.5 percent
-and the 90th percentiles are 12.4/2.4 percent. The split distinguishes minute-observable
-consolidated BBO from the later consolidated MBP-1 record rather than treating the two
-schemas as identical evidence.
+Multi-exchange routing could change available depth. The paper marks routing improvement as
+\mbox{not claimed}.
+The data contain no routed orders or realized fills. The allocator checks assignment
+exposure before execution. Any whole-contract breach fails closed to cash. The paper also
+leaves the VIX-40 risk-off arm unscored without complete event quotes. A model price cannot
+fill any of these gaps after the fact.
 
-Decision-mark accuracy is stable across the cutover. For R1.1, median absolute relative
-error against observed entry mids is 2.9 percent before March 28, 2023 and 3.0 percent
-after; the corresponding 90th percentiles are 13.8 and 13.0 percent.
+The evidence boundary is therefore narrow. The paper supports one retrospective
+development candidate at the tested size and under the frozen source hierarchy. It does
+not support unrestricted capacity, live execution quality, or performance outside the
+recorded universes.
 
-\begin{table}[H]
-\centering
-\caption{Entry-date contract participation and capacity diagnostics. Volume is reported
-against summed and maximum publisher observations; open interest is a separate diagnostic.}
-\label{tab:execution_liquidity}
-\resizebox{\textwidth}{!}{\input{tables/short_liquidity_validation}}
-\end{table}
+\FloatBarrier
+\section{Freeze protocol and conclusion}
 
-R1.1's 90th-percentile participation is 2.8 percent of summed decision-date volume, 6.9
-percent against the maximum publisher observation, and 0.5 percent of open interest. The
-5 percent optimizer-volume, 10 percent capacity-volume, and 2 percent open-interest
-diagnostics record 83/27/54 R1 breaches and 186/57/140 R1.1 breaches. These checks cover
-entry dates only, not the holding path. R1 contract counts are implied at \$1 million NAV
-through the R1.1 symbol lookup and are identified by the \verb|contracts_source| column;
-R1.1 counts are the frozen integerized contracts.
+The prospective protocol freezes code, configuration, source hashes, artifact hashes,
+and the decision rule before the system scores a future observation. Confirmation requires 36
+untouched monthly observations beginning 2026-07-31. A missing quote, failed integer
+conversion, or survival breach keeps its original status in the ledger. No later return
+can change that status.
 
-The intervention artifact contains 156 evidence-only position rows, of which 154 have a
-valid quote aggregate. Median quote-presence is 99.7 percent; across rows with quotes, the
-median of the session median spreads is 2.7 percent and its cross-row 90th percentile is
-12.9 percent. The cross-contract medians of first-valid and full-session VWAP touch are
-5.250 and 4.531. These are post-freeze feasibility observations only. The risk-off arm
-remains unscored under the frozen protocol.
+The conclusion is simple. The Sharpe Prototype found an attractive later-window path but
+failed the March 2020 survival test. The Survival Allocator repaired the model and made
+cash admissible. The High Ceiling Allocator preserved those repairs and produced the one
+development path that remains credible after the licensed-quote audit. That path is the
+paper's candidate, not its proof.
 
-The remaining limitations are:
-\begin{itemize}
-  \item pre-2023 option quotes are minute-observable, not tick-exact;
-  \item no assignment/early-exercise validation;
-  \item no corporate-action adjustments;
-  \item volume/OI validated at entry dates only;
-  \item quotes prove executability at displayed top-of-book size, not realized fills;
-  \item the risk-off intervention arm remains unscored.
-\end{itemize}
-
-The audit strengthens cost realism of the retrospective development evidence; it does
-not convert it into confirmatory evidence, and the 36-month prospective freeze stands.
+\FloatBarrier

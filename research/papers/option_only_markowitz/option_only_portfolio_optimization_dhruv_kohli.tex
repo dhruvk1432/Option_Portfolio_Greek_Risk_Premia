@@ -20,14 +20,14 @@
 \usepackage[
   paperwidth=6.85in,
   paperheight=9.72in,
-  top=0.55in,
-  bottom=0.65in,
-  left=0.62in,
-  right=0.62in
+  top=0.72in,
+  bottom=0.80in,
+  left=0.75in,
+  right=0.75in
 ]{geometry}
 \usepackage{
   amsmath,amssymb,amsthm,mathtools,booktabs,graphicx,float,array,tabularx,
-  setspace,titlesec,xcolor,fancyhdr,caption,enumitem,url
+  setspace,titlesec,xcolor,fancyhdr,caption,enumitem,url,placeins
 }
 \usepackage[round,authoryear]{natbib}
 \usepackage[colorlinks=true,linkcolor=journalgreen,urlcolor=journalgreen,citecolor=black]{hyperref}
@@ -38,9 +38,9 @@
   pdftitle={Option-Only Portfolio Optimization with Greek-Induced Covariance and Conditional Risk Premia},
   pdfauthor={Dhruv Kohli},
   pdfsubject={Premium-weighted option-only portfolio construction with Greek-induced covariance, VIX settlement controls, and post-cost validation},
-  pdfkeywords={option portfolio construction; Markowitz; Greek covariance; VIX options; option risk premia; settlement; transaction costs; portfolio validation}
+  pdfkeywords={option portfolio construction, Markowitz, Greek covariance, VIX options, option risk premia, settlement, transaction costs, portfolio validation}
 }
-\setstretch{1.02}
+\setstretch{1.26}
 \setlength{\parindent}{1.15em}
 \setlength{\parskip}{0pt}
 \setlength{\floatsep}{8pt}
@@ -57,9 +57,6 @@
 \setcounter{totalnumber}{5}
 \emergencystretch=2em
 \raggedbottom
-\sloppy
-\hbadness=10000
-\hfuzz=1pt
 
 \titleformat{\section}
   {\large\bfseries\color{journalgreen}}{\thesection.}{0.45em}{}
@@ -120,43 +117,28 @@ Option-Only Portfolio Optimization with\\ Greek-Induced Covariance and\\ Conditi
 \vspace{0.42cm}
 \noindent{\bfseries\color{journalgreen} Abstract}
 
-We repair an option-only mean--variance implementation and reassess what its historical
-evidence can support. Option positions are premium-funded, expiring cashflows. For the
-fixed Greek loading matrix, the covariance retains factor/residual cross terms rather
-than assuming an OLS projection that the code does not estimate. The repaired R1
-allocation maximizes expected return net of asymmetric costs and a variance penalty,
-permits cash, and imposes CVaR, stress, margin, collateral, assignment, integer, and
-point-in-time liquidity limits before a position is accepted. The covariance factors are
-limited to delta, centered quadratic spot returns, and vega; skew and tail enter premia
-and stress tests. We make no claim that these standard mathematical ingredients are new.
-The original E1 Sharpes are retained as retrospective development evidence, not headline
-proof: E1 was selected after inspection of the post-2020 window, and its VIX-enabled CPCV
-wealth paths are absorbed at zero in March 2020 despite positive return-based Sharpe.
-Under R1's hard survival gate that is a failure. All existing observations are labeled
-development data, and confirmatory claims require 36 future untouched monthly returns.
-The separately versioned R1.1 development arm raises the risk ceiling to 25 percent,
-pursues but does not force 50 percent gross, and specifies a close-to-next-open VIX-40
-exit rule. Its event-date return remains unscored until matched licensed CBBO is available;
-its EGARCH overlay fails a prespecified promotion gate.
+This paper presents one retrospective development result. The High Ceiling Allocator on
+the eight-name plus VIX universe returns 16.0 percent annualized with a Sortino ratio of
+2.275 and a maximum drawdown of 17.1 percent under frozen modeled costs. Its Sortino ratio
+is 2.052 at observed touch fills, with 94.1 percent entry coverage in a licensed-quote
+audit. The allocator combines premium accounting, a complete Greek factor and residual
+covariance, asymmetric costs, cash, and hard survival gates. The result is not a
+confirmatory claim. Confirmation requires 36 untouched monthly observations beginning
+2026-07-31 under frozen code, data rules, and hashes.
 
 \vspace{0.26cm}
 \noindent\colorbox{impactshade}{%
   \begin{minipage}{0.94\textwidth}
   \textbf{\color{journalgreen} Key findings and claim boundary}
   \begin{itemize}
-    \item R1 includes the covariance cross terms omitted by E1 and prices predictable
-    costs inside a uniquely scaled utility objective.
-    \item Gross premium is an upper bound; cash replaces split-leg ``burn'' and infeasible
-    integer books fail closed to cash.
-    \item Any zero-wealth, margin, collateral, or integer-feasibility failure overrides
-    Sharpe. The legacy VIX CPCV paths therefore fail the repaired survival standard.
-    \item Existing results are retrospective development evidence. A prospective freeze
-    manifest requires 36 untouched monthly observations for confirmation.
-    \item R1.1 does not attain its 50 percent deployment target under the retained
-    constraints; its VIX risk-off arm is unscored without executable event quotes.
-    \item The licensed-quote audit leaves headline R1.1 orig+VIX Sortino at 2.275 under
-    modeled costs and 2.052 under observed touch fills, with 94.1 percent entry coverage.
-    \item R1.1 is the paper's final development model; R2 remains a gate-failed diagnostic.
+    \item The eight-name plus VIX High Ceiling Allocator is the headline development
+    result because it survives the frozen risk and observed-quote checks.
+    \item The Survival Allocator retains Greek factor and residual cross terms, prices
+    predictable costs inside utility, permits cash, and rejects infeasible integer books.
+    \item The Sharpe Prototype fails the survival standard when its VIX-enabled CPCV paths
+    absorb at zero in March 2020.
+    \item Every reported path remains retrospective. The prospective freeze sets the
+    boundary for any later confirmatory claim.
   \end{itemize}
   \end{minipage}}
 
@@ -164,11 +146,7 @@ its EGARCH overlay fails a prespecified promotion gate.
 
 \input{sections/short_paper}
 
-\input{sections/short_r11_update}
-
 \input{sections/short_execution_audit}
-
-\input{sections/short_r2_update}
 
 \clearpage
 \appendix
@@ -177,15 +155,15 @@ its EGARCH overlay fails a prespecified promotion gate.
 \clearpage
 \section*{Data availability statement}
 The reproduction package contains code, generated tables, figures, verification outputs,
-schemas, and artifact hashes. Raw licensed OPRA/Databento data are not redistributed. The
-repository instead ships the audit's aggregate artifacts under
-\path{analysis/artifacts/execution_audit/} and the acquisition summary with request hashes.
-Entry-window costs and decision marks for held positions are audited against licensed
+schemas, and artifact hashes. The repository does not redistribute raw licensed
+OPRA/Databento data. It instead ships aggregate artifacts in the execution-audit
+directory and an acquisition summary with request hashes.
+The audit checks entry-window costs and decision marks for held positions against licensed
 consolidated quotes. The baseline eight equity-option spread rows use local historical
-panel CBBO. Broad-name and
-VIX spread rows that lack matched historical CBBO use the documented inferred CBBO proxy
-and are labeled as execution-sensitivity evidence. Exact VRO/SOQ settlement files are
-versioned by source hash before VIX option rows enter the reported tables.
+panel CBBO. Broad-name and VIX spread rows without matched historical CBBO use the
+documented inferred CBBO proxy. The paper labels them as execution-sensitivity evidence.
+The pipeline versions exact VRO/SOQ settlement files by source hash before VIX option rows
+enter the reported tables.
 
 \bibliographystyle{abbrvnat}
 \bibliography{references}

@@ -3,10 +3,20 @@
 Self-contained publication bundle for the paper
 [`option_only_portfolio_optimization_dhruv_kohli.pdf`](option_only_portfolio_optimization_dhruv_kohli.pdf).
 
+Paper display names map to internal artifact codes. **Sharpe Prototype** is E1,
+**Survival Allocator** is R1, and **High Ceiling Allocator** is R1.1.
+
 ## What this is
 
-A premium-weighted framework for books composed **entirely of listed options**. The repaired
-R1 model uses a complete joint covariance of Greek factors and Greek residuals, including
+The paper leads with one retrospective development result. The High Ceiling Allocator on
+the eight-name plus VIX universe returns 16.0% annualized under frozen modeled costs. Its
+Sortino ratio is 2.275 under those costs and 2.052 at observed touch fills with 94.1% entry
+coverage in the licensed-quote audit. The result is not a live track record or a
+confirmatory claim.
+
+The research path begins with the Sharpe Prototype, repairs it through the Survival
+Allocator, and ends with the High Ceiling Allocator. The repaired framework uses premium
+weights and a complete joint covariance of Greek factors and Greek residuals, including
 their cross terms. It allocates with cost-aware mean-variance utility, permits cash, and
 enforces CVaR, stress, margin, collateral, assignment, whole-contract, and point-in-time
 liquidity constraints before a position is accepted.
@@ -53,7 +63,9 @@ positive arithmetic Sharpe.
 ```
 option_only_portfolio_optimization_dhruv_kohli.tex   LaTeX root (compiled paper)
 option_only_portfolio_optimization_dhruv_kohli.pdf   compiled paper
-sections/short_paper.tex, short_appendix.tex         the entire paper body + appendix
+sections/short_paper.tex                             main theory and model progression
+sections/short_execution_audit.tex                   execution, robustness, and claim boundary
+sections/short_appendix.tex                          technical appendix and relocated evidence
 tables/, figures/                                    generated exhibits (never hand-edited)
 references.bib                                        bibliography (@article/@book only)
 analysis/                                            empirical pipeline (see REPRODUCIBILITY.md)

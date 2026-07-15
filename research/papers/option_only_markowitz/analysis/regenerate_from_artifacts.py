@@ -291,6 +291,36 @@ def rebuild_formatting_only_tables() -> None:
     write_table(ablation, "forecast_ablation_performance.tex", canonical_cols=("Ablation",))
     print("rewrote (formatting only) forecast_ablation_performance.tex")
 
+    analysis_artifacts = PAPER / "analysis" / "artifacts"
+
+    from research.papers.option_only_markowitz.analysis import r11_higher_risk_pipeline
+
+    r11_summary = pd.read_csv(analysis_artifacts / "r11_higher_risk" / "r11_survival_summary.csv")
+    r11_higher_risk_pipeline.write_latex_summary(
+        r11_summary,
+        TABLE_DIR / "short_r11_development_summary.tex",
+    )
+    print("rewrote (formatting only) short_r11_development_summary.tex")
+
+    from research.papers.option_only_markowitz.analysis import breadth_e1_ablation_experiment
+
+    e1_ablation = pd.read_csv(
+        analysis_artifacts / "breadth_solutions" / "robustness" / "breadth_e1_channel_ablation.csv"
+    )
+    breadth_e1_ablation_experiment._write_latex_table(
+        breadth_e1_ablation_experiment.build_short_net_sharpe_table(e1_ablation),
+        TABLE_DIR / "short_e1_channel_ablation.tex",
+    )
+    print("rewrote (formatting only) short_e1_channel_ablation.tex")
+
+    from research.papers.option_only_markowitz.analysis import r1_r11_execution_audit
+
+    r1_r11_execution_audit.rebuild_tables_from_artifacts(
+        analysis_artifacts / "execution_audit",
+        TABLE_DIR,
+    )
+    print("rewrote (formatting only) execution audit display tables")
+
 
 def _as_float(value: object) -> float:
     try:

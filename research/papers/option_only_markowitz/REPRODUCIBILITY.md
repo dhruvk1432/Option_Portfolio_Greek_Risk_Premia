@@ -4,6 +4,13 @@ Paper: **Option-Only Portfolio Optimization with Greek-Induced Covariance and Co
 Risk Premia**. All commands run from the repository root with `.venv` active and `.env`
 copied from `.env.example`.
 
+Paper display names map to internal artifact codes: Sharpe Prototype to E1, Survival
+Allocator to R1, and High Ceiling Allocator to R1.1.
+
+The paper body uses `sections/short_paper.tex` and
+`sections/short_execution_audit.tex`. The technical appendix uses
+`sections/short_appendix.tex`.
+
 ## 1. Environment and data
 
 ```bash

@@ -928,7 +928,7 @@ def write_latex_summary(summary: pd.DataFrame, path: Path) -> None:
             " & ".join(
                 [
                     str(row.get("config", "")).replace("_", r"\_"),
-                    ("EGARCH" if "EGARCH" in str(row.get("strategy", "")) else r"R1.1 25\%"),
+                    ("EGARCH" if "EGARCH" in str(row.get("strategy", "")) else r"High Ceiling 25\%"),
                     str(int(row.get("observations", 0))),
                     f"{float(row.get('mean_gross_nav', np.nan)):.3f}",
                     f"{float(row.get('deployment_target_hit_rate', np.nan)):.2f}",

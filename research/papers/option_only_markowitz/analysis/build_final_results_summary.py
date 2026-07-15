@@ -18,8 +18,11 @@ Path(os.environ["MPLCONFIGDIR"]).mkdir(parents=True, exist_ok=True)
 import matplotlib
 
 matplotlib.use("Agg")
+import matplotlib.dates as mdates
 import matplotlib.pyplot as plt
-from matplotlib.patches import FancyBboxPatch
+from matplotlib.collections import PolyCollection
+from matplotlib.patches import FancyBboxPatch, Patch
+from matplotlib.ticker import PercentFormatter
 import numpy as np
 import pandas as pd
 
@@ -33,12 +36,18 @@ SUMMARY_DIR = ROBUSTNESS_DIR
 
 CONFIG_ORDER = ["orig", "orig+VIX", "larger", "larger+VIX"]
 BROAD_CONFIGS = ["larger", "larger+VIX"]
+DISPLAY_MODEL = {
+    "E1": "Sharpe Prototype",
+    "R1": "Survival Allocator",
+    "R1.1": "High Ceiling Allocator",
+}
 DISPLAY_CONFIG = {
     "orig": "orig",
     "orig+VIX": "orig+VIX",
     "larger": "larger",
     "larger+VIX": "larger+VIX",
 }
+JOURNAL_COLORS = ["#00552B", "#2F6F9F", "#8B1E3F", "#7A6A2B", "#4C566A", "#A65E2E", "#4F7C45", "#6B4E71"]
 PRIMARY_STRATEGY = "E1 capped"
 STOCK_MARKOWITZ_STRATEGY = "Stock Markowitz"
 BROAD_STOCK_LABEL = "Stock Markowitz (56)"
@@ -594,7 +603,7 @@ def write_short_tables(scoreboard: pd.DataFrame, robustness: pd.DataFrame, sprea
     ].rename(
         columns={
             "config_label": "Config",
-            "e1_net_sharpe": "E1 net",
+            "e1_net_sharpe": "Prototype net",
             "best_naive_net_sharpe": "Naive net",
             "stock_markowitz_sharpe": "Stock Markowitz",
         }
@@ -871,7 +880,7 @@ def plot_validation_distributions(path_values: pd.DataFrame, scoreboard: pd.Data
             color=COLORS["interval"],
             linewidth=6,
             alpha=0.45,
-            label="Legacy E1",
+            label=DISPLAY_MODEL["E1"],
         )
         stock_handle = plt.Line2D(
             [0],
@@ -909,7 +918,7 @@ def plot_baseline_comparison(scoreboard: pd.DataFrame) -> None:
         x - width / 2,
         scoreboard["e1_net_sharpe"].to_numpy(float),
         width,
-        label="Legacy E1 development book",
+        label=f"{DISPLAY_MODEL['E1']} development book",
         color=e1_colors,
         edgecolor="#263238",
         linewidth=0.55,
@@ -987,7 +996,7 @@ def plot_short_theory_flow() -> None:
         ("1. Listed option", "premium, payoff,\nsettlement, Greeks"),
         ("2. Cashflow map", "NAV return,\nconditional premium"),
         ("3. Joint risk model", "$\\Sigma_O=[B\\ I]\\Sigma_{f,\\varepsilon}[B\\ I]^\\top$"),
-        ("4. R1 net utility", "net mean - variance\nCVaR, stress, margin, cash"),
+        ("4. Survival Allocator", "net mean - variance\nCVaR, stress, margin, cash"),
         ("5. Survival first", "integer feasibility,\nwalk-forward, ruin gate"),
     ]
     xs = np.linspace(0.015, 0.795, len(boxes))
@@ -1102,7 +1111,7 @@ def plot_walk_forward_return_paths(paths: pd.DataFrame) -> None:
 
     fig, axes = plt.subplots(2, 1, figsize=(11.2, 6.9), sharex=True)
     panel_specs = [
-        (axes[0], "Locked E1 variants", "Locked E1"),
+        (axes[0], "Sharpe Prototype variants", "Locked E1"),
         (axes[1], "Matched capped-naive option baselines", "Matched capped naive"),
     ]
     label_offsets = {
@@ -1154,7 +1163,11 @@ def plot_walk_forward_return_paths(paths: pd.DataFrame) -> None:
                 color=LINE_COLORS[config],
                 linewidth=linewidth,
                 linestyle=linestyle,
-                label=line["config_label"].iloc[0],
+                label=(
+                    f"{DISPLAY_CONFIG[config]} {DISPLAY_MODEL['E1']}"
+                    if family == "Locked E1"
+                    else f"{DISPLAY_CONFIG[config]} capped naive"
+                ),
             )
             last = line.iloc[-1]
             ax.text(
@@ -1207,6 +1220,459 @@ def plot_walk_forward_return_paths(paths: pd.DataFrame) -> None:
     plt.close(fig)
 
 
+def plot_short_headline_wealth() -> None:
+    source = PAPER / "analysis/artifacts/r11_higher_risk/r11_monthly_development_returns.csv"
+    monthly = pd.read_csv(_require(source), parse_dates=["return_date", "decision_date"])
+    path = monthly.loc[
+        monthly["config"].astype(str).eq("orig+VIX")
+        & monthly["strategy"].astype(str).eq("R1.1 25pct positive-edge deployment")
+    ].sort_values("return_date")
+    if len(path) != 93:
+        raise ValueError(f"Expected 93 headline months, found {len(path)}")
+    if path["return_date"].duplicated().any():
+        raise ValueError("Headline return dates are not unique")
+
+    net_returns = pd.to_numeric(path["net_return"], errors="raise")
+    net_returns.index = pd.DatetimeIndex(path["return_date"])
+    if net_returns.isna().any():
+        raise ValueError("Headline net-return path is incomplete")
+    wealth = (1.0 + net_returns).cumprod()
+    initial_date = pd.Timestamp(path["decision_date"].iloc[0])
+    wealth = pd.concat([pd.Series([1.0], index=pd.DatetimeIndex([initial_date])), wealth])
+    drawdown = wealth / wealth.cummax() - 1.0
+    abstained = path["integer_execution_abstained"].astype(str).str.lower().eq("true")
+    abstention_periods = path.loc[abstained, ["decision_date", "return_date"]]
+    band_starts = mdates.date2num(abstention_periods["decision_date"])
+    band_ends = mdates.date2num(abstention_periods["return_date"])
+    lower = np.zeros(len(abstention_periods))
+    upper = np.ones(len(abstention_periods))
+    band_vertices = np.stack(
+        [
+            np.column_stack([band_starts, lower]),
+            np.column_stack([band_starts, upper]),
+            np.column_stack([band_ends, upper]),
+            np.column_stack([band_ends, lower]),
+        ],
+        axis=1,
+    )
+
+    FIG_DIR.mkdir(parents=True, exist_ok=True)
+    fig, axes = plt.subplots(2, 1, figsize=(8.8, 6.2), sharex=True)
+    axes[0].plot(
+        wealth.index,
+        wealth.to_numpy(float),
+        color=JOURNAL_COLORS[0],
+        linewidth=2.2,
+        label=DISPLAY_MODEL["R1.1"],
+    )
+    axes[0].add_collection(
+        PolyCollection(
+            band_vertices,
+            facecolor=JOURNAL_COLORS[4],
+            edgecolor="none",
+            alpha=0.12,
+            label="Integer abstention month",
+            transform=axes[0].get_xaxis_transform(),
+        ),
+    )
+    axes[0].axhline(1.0, color="#6E7781", linewidth=0.8, linestyle=":")
+    axes[0].set_ylabel("Net wealth")
+    axes[0].set_title("(a) Headline cumulative net wealth", fontsize=11)
+    axes[0].grid(True, axis="y", alpha=0.20, linewidth=0.7)
+
+    axes[1].plot(drawdown.index, drawdown.to_numpy(float), color=JOURNAL_COLORS[2], linewidth=2.0)
+    minimum_date = pd.Timestamp(drawdown.idxmin())
+    minimum_drawdown = float(drawdown.min())
+    axes[1].scatter([minimum_date], [minimum_drawdown], color=JOURNAL_COLORS[2], s=22, zorder=3)
+    axes[1].annotate(
+        f"{minimum_drawdown:.1%}",
+        xy=(minimum_date, minimum_drawdown),
+        xytext=(8, 8),
+        textcoords="offset points",
+        fontsize=8,
+        color=JOURNAL_COLORS[2],
+    )
+    axes[1].add_collection(
+        PolyCollection(
+            band_vertices,
+            facecolor=JOURNAL_COLORS[4],
+            edgecolor="none",
+            alpha=0.12,
+            transform=axes[1].get_xaxis_transform(),
+        ),
+    )
+    axes[1].axhline(0.0, color="#6E7781", linewidth=0.8, linestyle=":")
+    axes[1].set_ylim(minimum_drawdown - 0.025, 0.01)
+    axes[1].yaxis.set_major_formatter(PercentFormatter(1.0))
+    axes[1].set_ylabel("Drawdown")
+    axes[1].set_xlabel("Return date")
+    axes[1].set_title("(b) Drawdown from prior peak", fontsize=11)
+    axes[1].grid(True, axis="y", alpha=0.20, linewidth=0.7)
+    fig.legend(*axes[0].get_legend_handles_labels(), loc="lower center", ncol=2, fontsize=8, frameon=False)
+    fig.tight_layout(rect=(0, 0.08, 1, 1))
+    fig.savefig(FIG_DIR / "short_headline_wealth.pdf")
+    plt.close(fig)
+
+
+def plot_short_model_progression() -> None:
+    aligned_path = PAPER / "analysis/artifacts/r1_r11_aligned/r1_r11_aligned_return_panel.csv"
+    aligned = pd.read_csv(_require(aligned_path), parse_dates=["return_date"])
+    aligned = aligned.loc[
+        aligned["config"].astype(str).eq("orig+VIX")
+        & aligned["window"].astype(str).eq("aligned_2018_2026")
+        & aligned["strategy"].astype(str).isin(
+            ["R1 repaired net utility", "R1.1 25pct positive-edge deployment"]
+        )
+    ]
+    aligned_returns = aligned.pivot(index="return_date", columns="strategy", values="net_return").sort_index()
+
+    rolling = pd.read_csv(_require(ROBUSTNESS_DIR / "breadth_rolling_oos.csv"), parse_dates=["return_date"])
+    common_dates = pd.DatetimeIndex(pd.to_datetime(rolling["return_date"]).dropna().unique()).sort_values()
+    prototype_frame = pd.read_csv(_require(ROBUSTNESS_DIR / "breadth_strategy_returns_net.csv"))
+    prototype_column = "orig+VIX E1 capped"
+    if prototype_column not in prototype_frame.columns:
+        raise ValueError(f"Missing prototype return column {prototype_column!r}")
+    if len(prototype_frame) != len(common_dates):
+        raise ValueError(
+            "Cannot align prototype returns to the common date ledger: "
+            f"{len(prototype_frame)} rows vs {len(common_dates)} dates"
+        )
+    if not common_dates.isin(aligned_returns.index).all():
+        raise ValueError("Aligned R1/R1.1 panel does not cover every prototype return date")
+
+    common_returns = pd.DataFrame(
+        {
+            "E1": pd.to_numeric(prototype_frame[prototype_column], errors="raise").to_numpy(float),
+            "R1": pd.to_numeric(
+                aligned_returns.loc[common_dates, "R1 repaired net utility"], errors="raise"
+            ).to_numpy(float),
+            "R1.1": pd.to_numeric(
+                aligned_returns.loc[common_dates, "R1.1 25pct positive-edge deployment"], errors="raise"
+            ).to_numpy(float),
+        },
+        index=common_dates,
+    )
+    if common_returns.isna().any().any():
+        raise ValueError("Common model-progression return panel is incomplete")
+    initial_date = common_dates.min() - pd.offsets.MonthEnd(1)
+    initial = pd.DataFrame(0.0, index=pd.DatetimeIndex([initial_date]), columns=common_returns.columns)
+    wealth = (1.0 + pd.concat([initial, common_returns])).cumprod()
+
+    FIG_DIR.mkdir(parents=True, exist_ok=True)
+    fig, ax = plt.subplots(figsize=(8.8, 4.8))
+    ax.plot(wealth.index, wealth["E1"], color=JOURNAL_COLORS[2], linewidth=1.8, label=DISPLAY_MODEL["E1"])
+    ax.plot(wealth.index, wealth["R1"], color=JOURNAL_COLORS[1], linewidth=2.0, label=DISPLAY_MODEL["R1"])
+    ax.plot(wealth.index, wealth["R1.1"], color=JOURNAL_COLORS[0], linewidth=2.3, label=DISPLAY_MODEL["R1.1"])
+    ax.axhline(1.0, color="#6E7781", linewidth=0.8, linestyle=":")
+    ax.set_yscale("log")
+    ax.set_ylabel("Cumulative net wealth (log scale)")
+    ax.set_xlabel("Common return date")
+    ax.set_title("Model progression on the common 2021-2026 return window", fontsize=11)
+    ax.grid(True, which="major", axis="y", alpha=0.20, linewidth=0.7)
+    ax.grid(True, which="minor", axis="y", alpha=0.08, linewidth=0.4)
+    ax.legend(loc="upper center", bbox_to_anchor=(0.5, -0.14), ncol=3, fontsize=8, frameon=False)
+    fig.tight_layout(rect=(0, 0.07, 1, 1))
+    fig.savefig(FIG_DIR / "short_model_progression.pdf")
+    plt.close(fig)
+
+
+def plot_short_prototype_failure() -> None:
+    source = ROBUSTNESS_DIR / "breadth_cv_cpcv_path_month_returns.csv"
+    paths = pd.read_csv(_require(source), parse_dates=["return_date"])
+    paths = paths.loc[
+        paths["strategy"].astype(str).eq("orig+VIX E1 capped")
+        & paths["basis"].astype(str).eq("full_cost_net")
+    ]
+    returns = paths.pivot(index="return_date", columns="path_id", values="ret").sort_index()
+    if returns.shape[1] != 11:
+        raise ValueError(f"Expected 11 CPCV paths, found {returns.shape[1]}")
+    returns = returns.astype(float)
+    if returns.isna().any().any():
+        raise ValueError("Prototype CPCV path pivot is incomplete")
+    gross_growth = 1.0 + returns
+    raw_wealth = gross_growth.cumprod()
+    absorbed = gross_growth.le(0.0).cummax()
+    wealth = raw_wealth.mask(absorbed, 0.0)
+    initial_date = returns.index.min() - pd.offsets.MonthEnd(1)
+    wealth = pd.concat([pd.DataFrame(1.0, index=pd.DatetimeIndex([initial_date]), columns=wealth.columns), wealth])
+    absorbed = pd.concat([pd.DataFrame(False, index=pd.DatetimeIndex([initial_date]), columns=absorbed.columns), absorbed])
+    absorbed_columns = absorbed.any(axis=0)
+    if not absorbed_columns.any():
+        raise ValueError("No prototype CPCV path reaches the zero-wealth absorption boundary")
+    first_absorption = gross_growth.loc[:, absorbed_columns].le(0.0).idxmax()
+    if not first_absorption.eq(pd.Timestamp("2020-03-31")).all():
+        raise ValueError(f"Prototype absorption dates changed: {first_absorption.to_dict()}")
+
+    FIG_DIR.mkdir(parents=True, exist_ok=True)
+    fig, ax = plt.subplots(figsize=(8.8, 4.8))
+    ax.plot(wealth.index, wealth.to_numpy(float), color="#B9C0C6", linewidth=1.0, alpha=0.72)
+    ax.plot(
+        wealth.index,
+        wealth.loc[:, absorbed_columns].where(absorbed.loc[:, absorbed_columns]).to_numpy(float),
+        color=JOURNAL_COLORS[2],
+        linewidth=1.4,
+        alpha=0.75,
+    )
+    march_2020 = pd.Timestamp("2020-03-31")
+    ax.axvline(march_2020, color=JOURNAL_COLORS[2], linewidth=1.2, linestyle="--")
+    ax.annotate(
+        f"{int(absorbed_columns.sum())} paths absorb at zero",
+        xy=(pd.Timestamp("2021-01-31"), 2.2),
+        ha="left",
+        va="center",
+        fontsize=8,
+        color=JOURNAL_COLORS[2],
+        bbox={"facecolor": "white", "edgecolor": "none", "alpha": 0.9, "pad": 1.5},
+    )
+    handles = [
+        plt.Line2D([0], [0], color="#B9C0C6", linewidth=1.5, label="CPCV net wealth path"),
+        plt.Line2D([0], [0], color=JOURNAL_COLORS[2], linewidth=1.8, label="Absorbed at zero"),
+        plt.Line2D([0], [0], color=JOURNAL_COLORS[2], linewidth=1.2, linestyle="--", label="March 2020"),
+    ]
+    ax.axhline(1.0, color="#6E7781", linewidth=0.8, linestyle=":")
+    ax.set_ylim(bottom=-0.03)
+    ax.set_ylabel("Full-cost net wealth")
+    ax.set_xlabel("CPCV return date")
+    ax.set_title(f"{DISPLAY_MODEL['E1']} fails the CPCV survival standard", fontsize=11)
+    ax.grid(True, axis="y", alpha=0.20, linewidth=0.7)
+    ax.legend(handles=handles, loc="upper center", bbox_to_anchor=(0.5, -0.14), ncol=3, fontsize=8, frameon=False)
+    fig.tight_layout(rect=(0, 0.07, 1, 1))
+    fig.savefig(FIG_DIR / "short_prototype_failure.pdf")
+    plt.close(fig)
+
+
+def plot_short_deployment_constraints() -> None:
+    source = PAPER / "analysis/artifacts/r11_higher_risk/r11_monthly_development_returns.csv"
+    monthly = pd.read_csv(_require(source), parse_dates=["return_date"])
+    base = monthly.loc[
+        monthly["strategy"].astype(str).eq("R1.1 25pct positive-edge deployment")
+    ].copy()
+    gross_nav = base.pivot(index="return_date", columns="config", values="gross_nav").reindex(columns=CONFIG_ORDER)
+    gross_nav = gross_nav.astype(float)
+    if gross_nav.shape != (93, len(CONFIG_ORDER)) or gross_nav.isna().any().any():
+        raise ValueError(f"Deployment gross/NAV panel is incomplete: shape={gross_nav.shape}")
+    target_values = pd.to_numeric(base["deployment_target"], errors="raise").drop_duplicates()
+    if len(target_values) != 1:
+        raise ValueError(f"Expected one deployment target, found {target_values.tolist()}")
+    deployment_target = float(target_values.iloc[0])
+    abstained = base["integer_execution_abstained"].astype(str).str.lower().eq("true")
+    abstention_counts = abstained.groupby(base["config"]).sum().reindex(CONFIG_ORDER).astype(int)
+    expected_counts = pd.Series([0, 32, 0, 34], index=CONFIG_ORDER)
+    if not abstention_counts.equals(expected_counts):
+        raise ValueError(f"Unexpected abstention counts: {abstention_counts.to_dict()}")
+
+    FIG_DIR.mkdir(parents=True, exist_ok=True)
+    fig, axes = plt.subplots(1, 2, figsize=(10.2, 4.0))
+    axes[0].boxplot(
+        gross_nav.to_numpy(float),
+        tick_labels=[DISPLAY_CONFIG[config] for config in CONFIG_ORDER],
+        patch_artist=True,
+        showfliers=False,
+        boxprops={"facecolor": JOURNAL_COLORS[1], "alpha": 0.45, "edgecolor": "#40534C"},
+        medianprops={"color": JOURNAL_COLORS[0], "linewidth": 1.5},
+        whiskerprops={"color": "#6E7781"},
+        capprops={"color": "#6E7781"},
+    )
+    axes[0].axhline(deployment_target, color=JOURNAL_COLORS[2], linewidth=1.4, linestyle="--")
+    axes[0].set_ylim(bottom=0.0, top=max(0.55, float(gross_nav.max().max()) * 1.08))
+    axes[0].set_ylabel("Deployed premium gross / NAV")
+    axes[0].set_title("(a) Deployment is pursued, not forced", fontsize=11)
+    axes[0].tick_params(axis="x", labelrotation=20)
+    axes[0].grid(True, axis="y", alpha=0.20, linewidth=0.7)
+    axes[0].legend(
+        handles=[
+            Patch(facecolor=JOURNAL_COLORS[1], alpha=0.45, edgecolor="#40534C", label="Monthly distribution"),
+            plt.Line2D(
+                [0],
+                [0],
+                color=JOURNAL_COLORS[2],
+                linestyle="--",
+                label=f"{deployment_target:.0%} target",
+            ),
+        ],
+        loc="upper center",
+        bbox_to_anchor=(0.5, -0.23),
+        ncol=2,
+        fontsize=8,
+        frameon=False,
+    )
+
+    bars = axes[1].bar(
+        np.arange(len(CONFIG_ORDER)),
+        abstention_counts.to_numpy(int),
+        color=JOURNAL_COLORS[0],
+        alpha=0.82,
+        edgecolor="#263238",
+        linewidth=0.5,
+    )
+    axes[1].bar_label(bars, padding=2, fontsize=8)
+    axes[1].set_xticks(np.arange(len(CONFIG_ORDER)), [DISPLAY_CONFIG[config] for config in CONFIG_ORDER], rotation=20)
+    axes[1].set_ylim(0.0, max(36.0, float(abstention_counts.max()) * 1.12))
+    axes[1].set_ylabel("Abstention months")
+    axes[1].set_title("(b) Direct-or-abstain integer execution", fontsize=11)
+    axes[1].grid(True, axis="y", alpha=0.20, linewidth=0.7)
+    fig.suptitle(f"{DISPLAY_MODEL['R1.1']} deployment constraints", fontsize=11, y=0.995)
+    fig.tight_layout(rect=(0, 0.11, 1, 0.98))
+    fig.savefig(FIG_DIR / "short_deployment_constraints.pdf")
+    plt.close(fig)
+
+
+def plot_short_audit_scenario_ladder() -> None:
+    source = PAPER / "analysis/artifacts/execution_audit/execution_audit_summary.json"
+    payload = json.loads(_require(source).read_text(encoding="utf-8"))
+    headline = pd.DataFrame(payload["headline_r11"])
+    headline = headline.loc[headline["window"].astype(str).eq("aligned_2018_2026")]
+    scenarios = ["modeled", "mid", "touch", "worst"]
+    sortino = headline.pivot(index="strategy", columns="config", values="sortino").reindex(
+        index=scenarios, columns=CONFIG_ORDER
+    )
+    annual_return = headline.pivot(index="strategy", columns="config", values="annualized_return").reindex(
+        index=scenarios, columns=CONFIG_ORDER
+    )
+    if sortino.isna().any().any() or annual_return.isna().any().any():
+        raise ValueError("Execution-audit scenario ladder is incomplete")
+
+    FIG_DIR.mkdir(parents=True, exist_ok=True)
+    fig, axes = plt.subplots(1, 2, figsize=(10.2, 4.6))
+    x = np.arange(len(scenarios))
+    muted_styles = {"orig": "-", "larger": "--", "larger+VIX": ":"}
+    for config in CONFIG_ORDER:
+        emphasized = config == "orig+VIX"
+        color = JOURNAL_COLORS[0] if emphasized else "#9AA1A6"
+        linewidth = 2.5 if emphasized else 1.1
+        linestyle = "-" if emphasized else muted_styles[config]
+        alpha = 1.0 if emphasized else 0.72
+        axes[0].plot(
+            x,
+            sortino[config].to_numpy(float),
+            color=color,
+            linewidth=linewidth,
+            linestyle=linestyle,
+            marker="o",
+            markersize=4.5 if emphasized else 3.2,
+            alpha=alpha,
+            label=DISPLAY_CONFIG[config],
+        )
+        axes[1].plot(
+            x,
+            annual_return[config].to_numpy(float),
+            color=color,
+            linewidth=linewidth,
+            linestyle=linestyle,
+            marker="o",
+            markersize=4.5 if emphasized else 3.2,
+            alpha=alpha,
+        )
+
+    for x_value, y_value in zip(x, sortino["orig+VIX"].to_numpy(float)):
+        axes[0].annotate(
+            f"{y_value:.3f}",
+            xy=(x_value, y_value),
+            xytext=(0, 7),
+            textcoords="offset points",
+            ha="center",
+            fontsize=7.5,
+            color=JOURNAL_COLORS[0],
+        )
+    for ax in axes:
+        ax.set_xticks(x, [scenario.title() for scenario in scenarios])
+        ax.grid(True, axis="y", alpha=0.20, linewidth=0.7)
+    axes[0].set_ylabel("Sortino ratio")
+    axes[0].set_title("(a) Sortino under observed-fill scenarios", fontsize=11)
+    axes[1].yaxis.set_major_formatter(PercentFormatter(1.0))
+    axes[1].set_ylabel("Annualized return")
+    axes[1].set_title("(b) Annualized return under the same ladder", fontsize=11)
+    fig.suptitle(f"{DISPLAY_MODEL['R1.1']} execution audit", fontsize=11, y=0.995)
+    fig.legend(*axes[0].get_legend_handles_labels(), loc="lower center", ncol=4, fontsize=8, frameon=False)
+    fig.tight_layout(rect=(0, 0.08, 1, 0.97))
+    fig.savefig(FIG_DIR / "short_audit_scenario_ladder.pdf")
+    plt.close(fig)
+
+
+def plot_short_proxy_coverage_evidence() -> None:
+    spread_source = pd.read_csv(_require(ROBUSTNESS_DIR / "breadth_spread_source_coverage.csv"))
+    spread_source["rows"] = pd.to_numeric(spread_source["rows"], errors="raise")
+    spread_source["proxy_rows"] = spread_source["rows"].where(
+        spread_source["relative_spread_source"].astype(str).eq("inferred_cbbo_proxy"), 0.0
+    )
+    proxy_totals = spread_source.groupby("config", observed=True)[["proxy_rows", "rows"]].sum()
+    proxy_share = (proxy_totals["proxy_rows"] / proxy_totals["rows"]).reindex(CONFIG_ORDER)
+
+    source = PAPER / "analysis/artifacts/execution_audit/execution_audit_summary.json"
+    payload = json.loads(_require(source).read_text(encoding="utf-8"))
+    coverage = pd.DataFrame(payload["coverage"])
+    coverage = coverage.loc[coverage["arm"].astype(str).eq("R1.1")].set_index("config").reindex(CONFIG_ORDER)
+    coverage["entry_coverage"] = pd.to_numeric(coverage["entry_coverage"], errors="raise")
+    coverage["roundtrip_coverage"] = pd.to_numeric(coverage["roundtrip_coverage"], errors="raise")
+    spreads = pd.DataFrame(payload["spread_distribution"])
+    spreads = spreads.loc[spreads["arm"].astype(str).eq("R1.1")].set_index(["regime", "source"])
+    if (
+        proxy_share.isna().any()
+        or proxy_totals["rows"].le(0.0).any()
+        or coverage[["entry_coverage", "roundtrip_coverage"]].isna().any().any()
+    ):
+        raise ValueError("Proxy or quote-coverage evidence is incomplete")
+
+    FIG_DIR.mkdir(parents=True, exist_ok=True)
+    fig, axes = plt.subplots(1, 2, figsize=(10.4, 4.1))
+    x = np.arange(len(CONFIG_ORDER))
+    axes[0].bar(
+        x,
+        proxy_share.to_numpy(float),
+        color=JOURNAL_COLORS[5],
+        alpha=0.66,
+        edgecolor="#263238",
+        linewidth=0.5,
+        label="Inferred-proxy row share",
+    )
+    axes[0].scatter(
+        x,
+        coverage["entry_coverage"],
+        marker="o",
+        s=36,
+        color=JOURNAL_COLORS[0],
+        label="Entry quote coverage",
+        zorder=3,
+    )
+    axes[0].scatter(
+        x,
+        coverage["roundtrip_coverage"],
+        marker="D",
+        s=30,
+        color=JOURNAL_COLORS[1],
+        label="Round-trip quote coverage",
+        zorder=3,
+    )
+    axes[0].set_xticks(x, [DISPLAY_CONFIG[config] for config in CONFIG_ORDER], rotation=20)
+    axes[0].set_ylim(0.0, 1.05)
+    axes[0].yaxis.set_major_formatter(PercentFormatter(1.0))
+    axes[0].set_ylabel("Share / quote-coverage weight")
+    axes[0].set_title("(a) Proxy reliance and observed-quote coverage", fontsize=11)
+    axes[0].grid(True, axis="y", alpha=0.20, linewidth=0.7)
+    axes[0].legend(loc="upper center", bbox_to_anchor=(0.5, -0.24), ncol=1, fontsize=7.5, frameon=False)
+
+    regimes = ["pre_2023_03_28", "post_2023_03_28"]
+    regime_labels = ["Before 2023-03-28", "From 2023-03-28"]
+    centers = np.arange(len(regimes))
+    width = 0.18
+    modeled_p50 = 100.0 * pd.to_numeric(spreads.loc[(regimes, "modeled"), "p50"], errors="raise").to_numpy(float)
+    observed_p50 = 100.0 * pd.to_numeric(spreads.loc[(regimes, "observed"), "p50"], errors="raise").to_numpy(float)
+    modeled_p90 = 100.0 * pd.to_numeric(spreads.loc[(regimes, "modeled"), "p90"], errors="raise").to_numpy(float)
+    observed_p90 = 100.0 * pd.to_numeric(spreads.loc[(regimes, "observed"), "p90"], errors="raise").to_numpy(float)
+    axes[1].bar(centers - 1.5 * width, modeled_p50, width, color=JOURNAL_COLORS[1], alpha=0.55, label="Modeled p50")
+    axes[1].bar(centers - 0.5 * width, observed_p50, width, color=JOURNAL_COLORS[0], alpha=0.55, label="Observed p50")
+    axes[1].bar(centers + 0.5 * width, modeled_p90, width, color=JOURNAL_COLORS[1], alpha=0.90, label="Modeled p90")
+    axes[1].bar(centers + 1.5 * width, observed_p90, width, color=JOURNAL_COLORS[0], alpha=0.90, label="Observed p90")
+    axes[1].set_xticks(centers, regime_labels, rotation=12)
+    axes[1].set_ylabel("Relative spread (% of premium)")
+    axes[1].set_title(f"(b) {DISPLAY_MODEL['R1.1']} spread quantiles", fontsize=11)
+    axes[1].grid(True, axis="y", alpha=0.20, linewidth=0.7)
+    axes[1].legend(loc="upper center", bbox_to_anchor=(0.5, -0.24), ncol=2, fontsize=7.5, frameon=False)
+    fig.tight_layout(rect=(0, 0.15, 1, 1))
+    fig.savefig(FIG_DIR / "short_proxy_coverage_evidence.pdf")
+    plt.close(fig)
+
+
 def main() -> None:
     scoreboard = build_baseline_scoreboard()
     distributions = build_validation_distribution_summary()
@@ -1222,6 +1688,12 @@ def main() -> None:
     plot_short_robustness_heatmap(robustness)
     plot_short_capacity_spread_panel(scoreboard, spread)
     plot_walk_forward_return_paths(walk_paths)
+    plot_short_headline_wealth()
+    plot_short_model_progression()
+    plot_short_prototype_failure()
+    plot_short_deployment_constraints()
+    plot_short_audit_scenario_ladder()
+    plot_short_proxy_coverage_evidence()
 
 
 if __name__ == "__main__":

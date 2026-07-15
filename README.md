@@ -6,7 +6,7 @@ Standalone publication repository for the paper:
 research/papers/option_only_markowitz/option_only_portfolio_optimization_dhruv_kohli.pdf
 ```
 
-This project asks how an allocator should choose among listed calls and puts when every instrument is a funded, expiring, state-contingent cashflow rather than a standard asset-return column. The paper is theory-first: it develops the option-allocation mathematics up front, tests four locked E1 universes with artifact-backed figures, compact tables, real-world costs, liquidity caps, and robustness checks, and keeps detailed solver/proof mechanics in a compact technical appendix.
+The paper is results-first. It leads with the High Ceiling Allocator (R1.1) and its licensed-quote audit, then traces the Sharpe Prototype (E1), its survival failure, and the Survival Allocator (R1) through figure-first evidence before a compact technical appendix.
 
 The contribution is a disciplined option allocation and validation framework. The empirical evidence is a point-in-time, pre-production research simulation. It does **not** claim live alpha, broker-executed performance, live margin parity, production tradability, or deployable option trading performance.
 

@@ -969,7 +969,18 @@ def _write_tables(
     ).sort_index().reset_index()
     audit_table = audit_table.rename(columns={"config": "Config"})
     _write_latex_table(audit_table, table_dir / "short_execution_audit_summary.tex")
-    spread_table = spreads.rename(
+    _write_spread_and_liquidity_tables(table_dir, spreads, liquidity)
+
+
+def _write_spread_and_liquidity_tables(
+    table_dir: Path,
+    spreads: pd.DataFrame,
+    liquidity: pd.DataFrame,
+) -> None:
+    display_arm = {"R1": "Survival", "R1.1": "High Ceiling"}
+    spread_table = spreads.copy()
+    spread_table["arm"] = spread_table["arm"].replace(display_arm)
+    spread_table = spread_table.rename(
         columns={"arm": "Arm", "regime": "Regime", "source": "Source", "p25": "p25", "p50": "p50", "p75": "p75", "p90": "p90"}
     )
     _write_latex_table(spread_table, table_dir / "short_execution_spread_comparison.tex")
@@ -992,8 +1003,20 @@ def _write_tables(
         volume_010_breaches=("breach_capacity_volume_0_10", "sum"),
         oi_002_breaches=("breach_capacity_oi_0_02", "sum"),
     )
-    liquidity_summary = liquidity_quantiles.join(breaches).reset_index().rename(columns={"arm": "Arm"})
+    liquidity_summary = liquidity_quantiles.join(breaches).reset_index()
+    liquidity_summary["arm"] = liquidity_summary["arm"].replace(display_arm)
+    liquidity_summary = liquidity_summary.rename(columns={"arm": "Arm"})
     _write_latex_table(liquidity_summary, table_dir / "short_liquidity_validation.tex")
+
+
+def rebuild_tables_from_artifacts(
+    artifact_dir: Path = DEFAULT_OUT,
+    table_dir: Path = TABLES,
+) -> None:
+    summary = json.loads((artifact_dir / "execution_audit_summary.json").read_text(encoding="utf-8"))
+    spreads = pd.DataFrame(summary["spread_distribution"])
+    liquidity = pd.read_csv(artifact_dir / "liquidity_gate_validation.csv")
+    _write_spread_and_liquidity_tables(table_dir, spreads, liquidity)
 
 
 def _summary_payload(

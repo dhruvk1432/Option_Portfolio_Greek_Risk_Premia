@@ -3,7 +3,7 @@
 Status: **PASS**
 Critical failures: `0`
 Total checks: `435`
-Hash manifest rows: `235`
+Hash manifest rows: `241`
 
 ## Category Summary
 
@@ -32,54 +32,53 @@ No failed checks.
 ## Passed Critical Evidence
 
 - `producer` / `empirical runner exits cleanly`: exit=0
-- `paper` / `latex bibtex compile pipeline`: pe1/public/amsfonts/cm/cmsy10.pfb
-></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb><
-/usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.p
-fb>
-Output written on option_only_portfolio_optimization_dhruv_kohli.pdf (44 pages,
- 602466 bytes).
+- `paper` / `latex bibtex compile pipeline`: fonts/type1/public/amsfonts/cm/cmr8.pf
+b></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb
+></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb>
+Output written on option_only_portfolio_optimization_dhruv_kohli.pdf (20 pages,
+ 507350 bytes).
 Transcript written on option_only_portfolio_optimization_dhruv_kohli.log.
 
 
 $ /Library/TeX/texbin/lualatex -interaction=nonstopmode option_only_portfolio_optimization_dhruv_kohli.tex
 exit=0
-Times New Roman.ttf></System/Library/Fonts/Supplemental/Times New
- Roman Bold.ttf></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts
-/cm/cmex10.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/
-cmextra/cmex8.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfon
-ts/cm/cmmi10.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfont
-s/cm/cmmi6.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/
-cm/cmmi8.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm
-/cmr10.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/c
-mr6.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7
+de memory still in use:
+   6 hlist, 2 vlist, 2 rule, 4 glue, 4 kern, 1 glyph, 21 attribute, 65 glue_spe
+c, 21 attribute_list, 1 write, 2 pdf_action nodes
+   avail lists: 2:2096,3:223,4:115,5:127,6:52,7:8705,8:63,9:992,10:15,11:532
+</System/Library/Fonts/Supplemental/Times New Roman Bold Italic.ttf></System/Li
+brary/Fonts/Supplemental/Times New Roman Italic.ttf></System/Library/Fonts/Supp
+lemental/Times New Roman.ttf></System/Library/Fonts/Supplemental/Times New Roma
+n Bold.ttf></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/c
+mex10.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cm
+mi10.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmm
+i8.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10
 .pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pf
 b></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb
-></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb><
-/usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.p
-fb>
-Output written on option_only_portfolio_optimization_dhruv_kohli.pdf (44 pages,
- 602466 bytes).
+></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb>
+Output written on option_only_portfolio_optimization_dhruv_kohli.pdf (20 pages,
+ 507350 bytes).
 Transcript written on option_only_portfolio_optimization_dhruv_kohli.log.
 
 
 $ /Library/TeX/texbin/lualatex -interaction=nonstopmode option_only_portfolio_optimization_dhruv_kohli.tex
 exit=0
-Times New Roman.ttf></System/Library/Fonts/Supplemental/Times New
- Roman Bold.ttf></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts
-/cm/cmex10.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/
-cmextra/cmex8.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfon
-ts/cm/cmmi10.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfont
-s/cm/cmmi6.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/
-cm/cmmi8.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm
-/cmr10.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/c
-mr6.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7
+de memory still in use:
+   6 hlist, 2 vlist, 2 rule, 4 glue, 4 kern, 1 glyph, 21 attribute, 65 glue_spe
+c, 21 attribute_list, 1 write, 2 pdf_action nodes
+   avail lists: 2:2096,3:223,4:115,5:127,6:52,7:8705,8:63,9:992,10:15,11:532
+</System/Library/Fonts/Supplemental/Times New Roman Bold Italic.ttf></System/Li
+brary/Fonts/Supplemental/Times New Roman Italic.ttf></System/Library/Fonts/Supp
+lemental/Times New Roman.ttf></System/Library/Fonts/Supplemental/Times New Roma
+n Bold.ttf></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/c
+mex10.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cm
+mi10.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmm
+i8.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10
 .pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pf
 b></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb
-></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb><
-/usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.p
-fb>
-Output written on option_only_portfolio_optimization_dhruv_kohli.pdf (44 pages,
- 602466 bytes).
+></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb>
+Output written on option_only_portfolio_optimization_dhruv_kohli.pdf (20 pages,
+ 507350 bytes).
 Transcript written on option_only_portfolio_optimization_dhruv_kohli.log.
 
 - `artifacts` / `required generated outputs exist`: []
@@ -446,7 +445,7 @@ Transcript written on option_only_portfolio_optimization_dhruv_kohli.log.
 - `r1` / `R1 hard survival gate controls verdict`: [{"config": "orig+VIX", "verdict": "development_survived"}, {"config": "larger+VIX", "verdict": "development_survived"}, {"config": "orig", "verdict": "development_survived"}, {"config": "larger", "verdict": "development_survived"}]
 - `r1` / `R1 trial registry reports a lower bound`: {"is_complete": false, "known_trial_count_lower_bound": 598, "reason": "Earlier undocumented researcher iterations cannot be reconstructed from artifacts."}
 - `r1` / `R1 prospective protocol requires 36 untouched months`: {"confirmatory_claim_allowed": false, "covariance_estimator": "Greek B with Ledoit-Wolf joint factor/residual correlation covariance", "data_cutoff": "2026-04-30", "environment": {"cvxpy": "1.9.2", "numpy": "2.5.0", "pandas": "3.0.3", "platform": "macOS-15.7.2-arm64-arm-64bit-Mach-O", "python": "3.14.5 (main, May 10 2026, 10:21:34) [Clang 17.0.0 (clang-1700.6.4.2)]", "scikit_learn": "1.9.0"}, "evidence_before_freeze": "retrospective_development_sample", "first_eligible_decision_date": "2026-07-31", "freeze_timestamp_utc": "2026-07-11T02:17:00.685190+00:00", "nav": 1000000.0, "optimizer": "net mean-variance utility with cash", "primary_endpoints": ["terminal_wealth", "annualized_geometric_return", "max_drawdown", "worst_month", "expected_shortfall_95", "ruin_count", "margin_breaches", "collateral_breaches", "integer_failures"], "required_untouched_monthly_observations": 36, "risk_policy": {"annual_vol_target": 0.15, "bisection_steps": 18, "collateral_nav": 1.0, "cvar_alpha": 0.95, "cvar_loss_nav": 0.1, "lambda_ceiling": 1000000.0, "lambda_floor": 1e-06, "periods_per_year": 12.0, "short_margin_nav": 0.75, "stress_loss_nav": 0.2}, "secondary_endpoints": ["sharpe", "sortino"], "source_sha256": {"research/papers/option_only_markowitz/analysis/r1_repaired_pipeline.py": "c9a495181facc532990fec0f42adbcaa8633d2404b78a78598649658f7e5b05f", "research/papers/option_only_markowitz/sections/short_appendix.tex": "a3c94155507c4897b569be337a0e6a43462f72cf831581a398c242d619e3cc41", "research/papers/option_only_markowitz/sections/short_paper.tex": "8a47e4f11e2a9d39ae708915f26eb4d310e150ae173195a5f2d3f85d4b2bcbdf", "src/portfolio/option_only_markowitz_model.py": "2defaa45a5dc2bb9cf1b98fbf14d1049a989ff9376998405e0a35f67d48fa94d"}, "specification": "R1", "training_window_months": 36, "volume_participation": 0.05}
-- `r1` / `R1 frozen source hashes remain unchanged`: {"research/papers/option_only_markowitz/analysis/r1_repaired_pipeline.py": true, "research/papers/option_only_markowitz/sections/short_appendix.tex": true, "research/papers/option_only_markowitz/sections/short_paper.tex": true, "src/portfolio/option_only_markowitz_model.py": true}
+- `r1` / `R1 frozen source hashes remain unchanged`: {"research/papers/option_only_markowitz/analysis/r1_repaired_pipeline.py": {"current_sha256": "c9a495181facc532990fec0f42adbcaa8633d2404b78a78598649658f7e5b05f", "frozen_sha256": "c9a495181facc532990fec0f42adbcaa8633d2404b78a78598649658f7e5b05f", "status": "frozen_hash_match"}, "research/papers/option_only_markowitz/sections/short_appendix.tex": {"current_sha256": "9ff878e74062d209015af979684b51bc124faeb96ebcbe0414574d48ca1c03db", "frozen_sha256": "a3c94155507c4897b569be337a0e6a43462f72cf831581a398c242d619e3cc41", "status": "prose_representation_exempt"}, "research/papers/option_only_markowitz/sections/short_paper.tex": {"current_sha256": "40db207875219c3f1c6562b71995eb7569baf60caa8c76b8ee7a8e71c392c92d", "frozen_sha256": "8a47e4f11e2a9d39ae708915f26eb4d310e150ae173195a5f2d3f85d4b2bcbdf", "status": "prose_representation_exempt"}, "src/portfolio/option_only_markowitz_model.py": {"current_sha256": "2defaa45a5dc2bb9cf1b98fbf14d1049a989ff9376998405e0a35f67d48fa94d", "frozen_sha256": "2defaa45a5dc2bb9cf1b98fbf14d1049a989ff9376998405e0a35f67d48fa94d", "status": "frozen_hash_match"}}
 - `r1` / `R1 paired growth/tail comparisons cover both baselines`: [["larger", "matched_capped_naive"], ["larger", "stock_markowitz"], ["larger+VIX", "matched_capped_naive"], ["larger+VIX", "stock_markowitz"], ["orig", "matched_capped_naive"], ["orig", "stock_markowitz"], ["orig+VIX", "matched_capped_naive"], ["orig+VIX", "stock_markowitz"]]
 - `r11` / `R1.1 artifacts exist`: []
 - `r11` / `R1.1 return schema`: []
@@ -499,8 +498,8 @@ Transcript written on option_only_portfolio_optimization_dhruv_kohli.log.
 - `claims` / `source ledger records vix option`: vix option
 - `claims` / `source ledger records artifact`: artifact
 - `paper` / `LaTeX log clean`: []
-- `paper` / `compiled PDF exists`: 602466
-- `paper` / `PDF page count plausible`: 44
+- `paper` / `compiled PDF exists`: 507350
+- `paper` / `PDF page count plausible`: 20
 - `paper` / `PDF caveat text includes not claimed`: not claimed
 - `paper` / `PDF caveat text includes premium weights`: premium weights
 - `paper` / `PDF text includes exact VRO/SOQ`: VRO/SOQ
@@ -508,8 +507,8 @@ Transcript written on option_only_portfolio_optimization_dhruv_kohli.log.
 - `paper` / `PDF caveat text includes slippage`: slippage
 - `paper` / `PDF text includes tail-path simulation caveat`: tail-path simulation diagnostics
 - `paper` / `references include option-risk-premium papers`: reference text
-- `paper` / `PDF pages render to PNG`: exit=0, pages=36
-- `paper` / `rendered PDF sample pages nonempty`: [80213, 159682]
+- `paper` / `PDF pages render to PNG`: exit=0, pages=20
+- `paper` / `rendered PDF sample pages nonempty`: [107123, 125128]
 - `paper` / `Appendix all-strategy growth figure has all strategy series`: ["Beta/delta-neutral + VIX", "Cost-aware Sortino + VIX", "Delta-matched equities", "Equal premium", "Equal risk", "Equity-option Greek Markowitz", "Greek Markowitz + VIX", "Underlying Markowitz", "VIX hedge sleeve"]
 - `paper` / `Appendix all-strategy growth figure series visible`: [{"Figure": "portfolio_growth_all_strategies.pdf", "Max": 18.35005283540228, "Min": 0.183011836336598, "Pass": "yes", "Series": "Equity-option Greek Markowitz", "Visible points": 60}, {"Figure": "portfolio_growth_all_strategies.pdf", "Max": 144.51861716831928, "Min": 0.6403949030925237, "Pass": "yes", "Series": "Greek Markowitz + VIX", "Visible points": 60}, {"Figure": "portfolio_growth_all_strategies.pdf", "Max": 98.96884463070484, "Min": 0.5735594003706624, "Pass": "yes", "Series": "Beta/delta-neutral + VIX", "Visible points": 60}, {"Figure": "portfolio_growth_all_strategies.pdf", "Max": 2.996100619612762, "Min": 0.0001, "Pass": "yes", "Series": "Cost-aware Sortino + VIX", "Visible points": 60}, {"Figure": "portfolio_growth_all_strategies.pdf", "Max": 0.8905477325031234, "Min": 0.0001782014429151, "Pass": "yes", "Series": "Equal premium", "Visible points": 60}, {"Figure": "portfolio_growth_all_strategies.pdf", "Max": 0.944996867354269, "Min": 0.0228823784998115, "Pass": "yes", "Series": "Equal risk", "Visible points": 60}, {"Figure": "portfolio_growth_all_strategies.pdf", "Max": 0.0001, "Min": 0.0001, "Pass": "yes", "Series": "VIX hedge sleeve", "Visible points": 60}, {"Figure": "portfolio_growth_all_strategies.pdf", "Max": 33.429827509128316, "Min": 0.4455022015082628, "Pass": "yes", "Series": "Delta-matched equities", "Visible points": 60}, {"Figure": "portfolio_growth_all_strategies.pdf", "Max": 2.459772612888149, "Min": 0.945644336357695, "Pass": "yes", "Series": "Underlying Markowitz", "Visible points": 60}]
-- `artifacts` / `hash manifest covers outputs`: 235
+- `artifacts` / `hash manifest covers outputs`: 241
