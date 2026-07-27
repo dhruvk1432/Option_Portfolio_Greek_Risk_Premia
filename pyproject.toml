@@ -1,0 +1,42 @@
+[build-system]
+requires = ["setuptools==83.0.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "option-portfolio-greek-risk-premia"
+version = "1.0.0"
+description = "Minimal code and derived evidence for an option-portfolio working paper"
+readme = "README.md"
+requires-python = ">=3.12,<3.15"
+dependencies = [
+    "cvxpy==1.9.2",
+    "numpy==2.5.0",
+    "pandas==3.0.3",
+    "scipy==1.18.0",
+]
+
+[project.optional-dependencies]
+data = ["pyarrow==24.0.0"]
+
+[dependency-groups]
+dev = [
+    "pytest==9.1.1",
+    "ruff==0.14.11",
+]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+addopts = "-q -p no:cacheprovider"
+testpaths = ["tests"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "SIM"]
+
+[tool.ruff.lint.isort]
+known-first-party = ["analysis", "option_portfolio"]

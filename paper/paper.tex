@@ -1,0 +1,152 @@
+% Build from the repository root with `make paper`.
+\documentclass[11pt]{article}
+\usepackage{iftex}
+\ifPDFTeX
+  \PackageError{Option_Only_Markowitz}{Compile with LuaLaTeX or XeLaTeX}{Run `make paper` or `lualatex paper.tex`.}
+\fi
+\usepackage{fontspec}
+\defaultfontfeatures{Ligatures=TeX}
+\setmainfont{TeX Gyre Termes}
+\usepackage[
+  paperwidth=6.85in,
+  paperheight=9.72in,
+  top=0.72in,
+  bottom=0.80in,
+  left=0.75in,
+  right=0.75in
+]{geometry}
+\usepackage{
+  amsmath,amssymb,amsthm,mathtools,booktabs,graphicx,float,array,tabularx,
+  setspace,titlesec,xcolor,fancyhdr,caption,enumitem,url,placeins
+}
+\usepackage[round,authoryear]{natbib}
+\usepackage[colorlinks=true,linkcolor=journalgreen,urlcolor=journalgreen,citecolor=black]{hyperref}
+
+\definecolor{journalgreen}{HTML}{00552B}
+\hypersetup{
+  pdftitle={Option-Only Portfolio Optimization with Greek-Induced Covariance and Conditional Risk Premia},
+  pdfauthor={Dhruv Kohli},
+  pdfsubject={Premium-weighted option-only portfolio construction with Greek-induced covariance, VIX settlement controls, and post-cost validation},
+  pdfkeywords={option portfolio construction, Markowitz, Greek covariance, VIX options, option risk premia, settlement, transaction costs, portfolio validation}
+}
+\setstretch{1.26}
+\setlength{\parindent}{1.15em}
+\setlength{\parskip}{0pt}
+\setlength{\floatsep}{8pt}
+\setlength{\textfloatsep}{9pt}
+\setlength{\intextsep}{8pt}
+\setlength{\abovecaptionskip}{4pt}
+\setlength{\belowcaptionskip}{2pt}
+\setlength{\fboxsep}{7pt}
+\renewcommand{\topfraction}{0.85}
+\renewcommand{\bottomfraction}{0.6}
+\renewcommand{\floatpagefraction}{0.85}
+\renewcommand{\textfraction}{0.07}
+\setcounter{topnumber}{3}
+\setcounter{totalnumber}{5}
+\emergencystretch=2em
+\raggedbottom
+
+\titleformat{\section}
+  {\large\bfseries\color{journalgreen}}{\thesection.}{0.45em}{}
+\titleformat{\subsection}
+  {\normalsize\bfseries\itshape\color{journalgreen}}{\thesubsection.}{0.45em}{}
+\titlespacing*{\section}{0pt}{12pt plus 2pt minus 1pt}{6pt plus 1pt}
+\titlespacing*{\subsection}{0pt}{9pt plus 2pt minus 1pt}{4pt plus 1pt}
+\captionsetup{font=small,labelfont=bf}
+\setlist[itemize]{leftmargin=1.3em,itemsep=2pt,topsep=3pt}
+\setlist[enumerate]{leftmargin=1.6em,itemsep=2pt,topsep=3pt}
+
+\newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}}
+\graphicspath{{figures/}}
+
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small\itshape Option-Only Portfolio Optimization}
+\fancyhead[R]{\small\thepage}
+\renewcommand{\headrulewidth}{0pt}
+\fancypagestyle{firstpage}{
+  \fancyhf{}
+  \renewcommand{\headrulewidth}{0pt}
+}
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{result}[theorem]{Result}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{assumption}{Assumption}
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\E}{\mathbb{E}}
+\newcommand{\Var}{\operatorname{Var}}
+\newcommand{\Cov}{\operatorname{Cov}}
+\newcommand{\diag}{\operatorname{diag}}
+\newcommand{\SR}{\operatorname{SR}}
+\newcommand{\dd}{\,\mathrm{d}}
+\newcommand{\one}{\mathbf{1}}
+\DeclareMathOperator*{\argmax}{arg\,max}
+\DeclareMathOperator*{\argmin}{arg\,min}
+
+\begin{document}
+\thispagestyle{firstpage}
+
+\vspace*{0.35cm}
+
+\noindent{\LARGE\bfseries\color{journalgreen}
+Option-Only Portfolio Optimization with\\ Greek-Induced Covariance and\\ Conditional Risk Premia\par}
+\vspace{0.28cm}
+
+\noindent Dhruv Kohli
+
+\vspace{0.42cm}
+\noindent{\bfseries\color{journalgreen} Abstract}
+
+We formulate option-only allocation as a funded cashflow problem in which premium,
+short liability, margin, collateral, liquidity, and tail loss are separate quantities.
+A fixed-Greek expansion supplies delta, centered-gamma, and vega loadings. The allocation
+program uses their complete joint covariance with residual returns, structural expected
+returns, asymmetric costs, sample CVaR, stress limits, and assignment constraints. It
+converts the continuous solution to whole contracts and accepts the result only after
+rechecking every constraint. A legacy maximum-Sharpe specification fails because all of
+its VIX-enabled CPCV paths reach zero wealth in March 2020. In the 93-month development
+sample, the R1.1 specification with a 25 percent volatility ceiling on eight names plus
+VIX has a 15.8 percent annualized mean return, a 16.0 percent CAGR, a modeled-cost Sortino
+ratio of 2.275, and a 17.1 percent maximum drawdown. Its Sortino ratio is 2.052 in the
+touch-price sensitivity. Entry and round-trip quote coverage for that scenario are 94.1
+and 25.5 percent. These results are retrospective. Confirmation requires 36 untouched
+monthly observations beginning
+2026-07-31 under the registered policy, data rules, and recorded implementation hashes.
+
+\vspace{0.30cm}
+
+\input{sections/short_paper}
+
+\input{sections/short_execution_audit}
+
+\appendix
+\input{sections/short_appendix}
+
+\clearpage
+\section*{Data availability statement}
+The public repository contains the mathematical allocation code, the paper, and compact
+derived evidence. It does not redistribute raw quote, trade, contract, or licensed market
+data, and it does not
+promise controlled reviewer access. Aggregate portfolio-month results and recorded source
+hashes allow the reported summaries to be checked, but they cannot reconstruct unavailable
+feature stores or historical quotes.
+
+The quote audit checks entry-window costs and decision marks for held positions against
+licensed consolidated quotes. It contains neither routed orders nor realized executions.
+The baseline equity-option spread rows use historical panel CBBO. Broad-name and VIX rows
+without matched CBBO use the documented point-in-time proxy and remain sensitivity
+evidence. VIX option returns follow the listed VRO/SOQ settlement convention.
+
+\bibliographystyle{abbrvnat}
+\bibliography{references}
+
+\end{document}

@@ -1,0 +1,5 @@
+config,equity_universe_size,includes_vix,exact_cbbo_rows,proxy_cbbo_rows,proxy_row_share,median_relative_spread
+orig,8,False,5777,0,0,0.018927444794952654
+orig+VIX,8,True,5777,536,0.084904166006652945,0.02212245738611639
+larger,56,False,5777,23740,0.80428227800928276,0.019324840260927838
+larger+VIX,56,True,5777,24276,0.80777293448241438,0.019722235726903022

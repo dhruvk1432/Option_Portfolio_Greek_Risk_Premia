@@ -1,72 +1,39 @@
-PYTHON ?= .venv/bin/python
-PAPER_DIR := research/papers/option_only_markowitz
-PAPER_STEM := option_only_portfolio_optimization_dhruv_kohli
+UV ?= uv
+PROJECT := option-portfolio-greek-risk-premia
+UV_RUN := $(UV) run --locked --no-editable --no-build-isolation --reinstall-package $(PROJECT)
+UV_RUN_DATA := $(UV) run --locked --no-editable --extra data --no-build-isolation --reinstall-package $(PROJECT)
+RELEASE_DIR := build/release
+UV_CACHE_DIR ?= $(abspath build/uv-cache)
+TEX_CACHE := $(abspath build/tex-cache)
+RELEASE_EPOCH := 1785110400
+TEX_ENV := SOURCE_DATE_EPOCH=$(RELEASE_EPOCH) FORCE_SOURCE_DATE=1 TZ=UTC
+TEX_ENV += TEXMFVAR="$(TEX_CACHE)" TEXMFCACHE="$(TEX_CACHE)"
+export UV_CACHE_DIR
 
-.PHONY: help install data-plan data-validate data-public data-paid cbbo-surface robustness final-results e1-ablation option-paper paper verify test clean
-
-help:
-	@echo "Targets:"
-	@echo "  install        Install Python requirements into the active environment"
-	@echo "  data-plan      Dry-run the full option-paper data pull plan"
-	@echo "  data-validate  Validate expected local input files without network calls"
-	@echo "  data-public    Execute credential-free/public data pulls"
-	@echo "  data-paid      Execute the full option-paper pull plan, including paid Databento jobs"
-	@echo "  cbbo-surface   Build the derived OPRA CBBO spread cost surface"
-	@echo "  robustness     Run distributional-robustness diagnostics for the option-only paper"
-	@echo "  final-results  Build final visual scoreboard from breadth robustness artifacts"
-	@echo "  e1-ablation    Run the locked E1 structural-channel ablation"
-	@echo "  option-paper   Regenerate option-only paper artifacts"
-	@echo "  paper          Regenerate artifacts and compile the option-only paper PDF"
-	@echo "  verify         Run the independent option-only paper verifier"
-	@echo "  test           Run focused publication/reproducibility tests"
-	@echo "  clean          Remove Python and LaTeX local intermediates"
-
-install:
-	$(PYTHON) -m pip install -r requirements.txt
-
-data-plan:
-	$(PYTHON) -m data_pull.pull --preset option-paper
-
-data-validate:
-	$(PYTHON) -m data_pull.pull --preset validate --execute
-
-data-public:
-	$(PYTHON) -m data_pull.pull --preset public --execute
-
-data-paid:
-	$(PYTHON) -m data_pull.pull --preset option-paper --execute --allow-paid
-
-cbbo-surface:
-	$(PYTHON) -m data_ingestion.build_cbbo_cost_surface
-
-robustness:
-	$(PYTHON) -m research.papers.option_only_markowitz.analysis.run_empirics --stage robustness
-
-final-results:
-	$(PYTHON) -m research.papers.option_only_markowitz.analysis.build_final_results_summary
-	$(PYTHON) -m research.papers.option_only_markowitz.analysis.build_inference_panel
-
-e1-ablation:
-	$(PYTHON) -m research.papers.option_only_markowitz.analysis.breadth_e1_ablation_experiment
-	$(PYTHON) -m research.papers.option_only_markowitz.analysis.build_e1_concentration
-
-option-paper:
-	$(PYTHON) -m research.papers.option_only_markowitz.analysis.run_empirics --stage all
-	$(PYTHON) -m research.papers.option_only_markowitz.analysis.run_empirics --stage robustness
-	$(PYTHON) -m research.papers.option_only_markowitz.analysis.regenerate_from_artifacts
-	$(PYTHON) -m research.papers.option_only_markowitz.analysis.build_final_results_summary
-	$(PYTHON) -m research.papers.option_only_markowitz.analysis.build_inference_panel
-
-paper: option-paper
-	cd $(PAPER_DIR) && lualatex -interaction=nonstopmode $(PAPER_STEM).tex && bibtex $(PAPER_STEM) && lualatex -interaction=nonstopmode $(PAPER_STEM).tex && lualatex -interaction=nonstopmode $(PAPER_STEM).tex && lualatex -interaction=nonstopmode $(PAPER_STEM).tex
-
-verify:
-	$(PYTHON) -m research.papers.option_only_markowitz.verification.verify
+.PHONY: test lint build paper verify-artifacts verify-full release
 
 test:
-	$(PYTHON) -m pytest tests/test_data_pull_cli.py tests/test_option_only_markowitz_model.py tests/test_option_only_markowitz_verification.py tests/test_option_only_publication_upgrade.py tests/test_option_portfolio_production.py tests/test_option_portfolio_shadow.py tests/test_cbbo_cost_surface.py tests/test_vix_chain_features.py tests/test_option_only_cross_validation.py tests/test_option_only_resampled_universes.py tests/test_option_only_mc_repricing.py tests/test_option_only_robustness_wiring.py -q -p no:cacheprovider
+	$(UV_RUN) python -m pytest
 
-clean:
-	find . -type d -name __pycache__ -prune -exec rm -rf {} +
-	find . -type f \( -name '*.pyc' -o -name '*.pyo' -o -name '.DS_Store' \) -delete
-	find research/papers -type f \( -name '*.aux' -o -name '*.log' -o -name '*.out' -o -name '*.toc' -o -name '*.fls' -o -name '*.fdb_latexmk' -o -name '*.synctex.gz' -o -name '*.bbl' -o -name '*.blg' \) -delete
+lint:
+	$(UV_RUN) ruff check .
+
+build:
+	$(UV_RUN) python -m analysis.release build
+
+paper: build
+	cd $(RELEASE_DIR)/paper && $(TEX_ENV) lualatex -halt-on-error -interaction=nonstopmode paper.tex
+	cd $(RELEASE_DIR)/paper && $(TEX_ENV) bibtex paper
+	cd $(RELEASE_DIR)/paper && $(TEX_ENV) lualatex -halt-on-error -interaction=nonstopmode paper.tex
+	cd $(RELEASE_DIR)/paper && $(TEX_ENV) lualatex -halt-on-error -interaction=nonstopmode paper.tex
+	cd $(RELEASE_DIR)/paper && $(TEX_ENV) lualatex -halt-on-error -interaction=nonstopmode paper.tex
+
+verify-artifacts:
+	$(UV_RUN) python -m analysis.release verify-artifacts
+
+verify-full:
+	$(UV_RUN) python -m analysis.release verify-full --inputs-only
+	$(UV_RUN_DATA) python -m analysis.release verify-full
+
+release: paper
+	$(UV_RUN) python -m analysis.release release

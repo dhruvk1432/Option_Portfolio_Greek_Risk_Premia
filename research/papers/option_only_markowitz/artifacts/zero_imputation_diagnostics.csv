@@ -1,8 +1,0 @@
-Strategy,Test months,Active assets,Imputed cells,Total cells,Imputed cell share
-Equity-option Greek Markowitz,60,43,132,2580,0.05116279069767442
-Greek Markowitz + VIX,60,46,138,2760,0.05
-Beta/delta-neutral + VIX,60,47,115,2820,0.040780141843971635
-Cost-aware Sortino + VIX,60,7,14,420,0.03333333333333333
-Equal premium,60,54,152,3240,0.04691358024691358
-Equal risk,60,54,152,3240,0.04691358024691358
-VIX hedge sleeve,60,3,4,180,0.022222222222222223

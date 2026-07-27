@@ -1,9 +1,0 @@
-Check,Value,Pass
-Raw VIX option rows after contract parsing,"103,650",yes
-Representative VIX option choices,630,yes
-VIX option holding ledger rows,536,yes
-Duplicate VIX date-symbol rows after dedupe,0,yes
-Black-76 VX-forward Greek coverage,1.000,yes
-VIX settlement source,vro_soq_exact:536,yes
-All VIX decisions before payoff dates,True,yes
-Minimum VIX long-option return,-1.000,yes

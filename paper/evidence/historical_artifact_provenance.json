@@ -1,0 +1,95 @@
+{
+  "pre_cleanup_snapshot": {
+    "baseline_commit": "0eda2a91b40d88ccb38243d7f295efa993419f2c",
+    "dirty_worktree_diff_sha256": "9b12c7943804e02fdc300d3600ba95a6c65a8e99923ad13c0c7fd23152c5043b",
+    "paper_pdf_sha256": "575055314bba4caee72fea511f4ddd8cab4fad7cf251e220721683d6b5077944",
+    "r1_returns_sha256": "61b29ffc5faf9ca2e33f32671a8c928547b17c71dd1d8d3c1839180ba04edec9",
+    "r1_weights_sha256": "ce8be5caa03ca3d6b105c829693886ecfac21ef58083069a525498847558590d",
+    "r11_returns_sha256": "e0a292a187c848cb01ecda637d68fdb1af3ef071dce56326f9f5f345b6d6a662",
+    "r11_weights_sha256": "bf59c5766b947b16dffb066d4f29f96e524da0dc41342b006b53f745f21233b5"
+  },
+  "historical_policy_freezes": {
+    "R1": {
+      "freeze_timestamp_utc": "2026-07-11T02:17:00.685190+00:00",
+      "required_untouched_monthly_observations": 36,
+      "risk_policy": {
+        "annual_volatility_ceiling": 0.15,
+        "bisection_steps": 18,
+        "collateral_nav": 1.0,
+        "cvar_alpha": 0.95,
+        "cvar_loss_nav": 0.1,
+        "lambda_ceiling": 1000000.0,
+        "lambda_floor": 1e-06,
+        "periods_per_year": 12.0,
+        "short_margin_nav": 0.75,
+        "stress_loss_nav": 0.2
+      },
+      "historical_source_sha256": {
+        "research/papers/option_only_markowitz/analysis/r1_repaired_pipeline.py": "c9a495181facc532990fec0f42adbcaa8633d2404b78a78598649658f7e5b05f",
+        "src/portfolio/option_only_markowitz_model.py": "2defaa45a5dc2bb9cf1b98fbf14d1049a989ff9376998405e0a35f67d48fa94d"
+      }
+    },
+    "R1.1": {
+      "freeze_timestamp_utc": "2026-07-12T19:49:00.236121+00:00",
+      "integer_execution_policy": {
+        "conversion": "truncate_each_contract_count_toward_zero",
+        "failed_conversion_diagnostics_preserved": true,
+        "infeasible_action": "cash_abstention_for_the_period",
+        "substitute_portfolios_allowed": false
+      },
+      "required_untouched_monthly_observations": 36,
+      "risk_policy": {
+        "annual_volatility_ceiling": 0.25,
+        "bisection_steps": 18,
+        "collateral_nav": 1.0,
+        "cvar_alpha": 0.95,
+        "cvar_loss_nav": 0.1,
+        "deployment_edge_floor": 0.0,
+        "deployment_target": 0.5,
+        "lambda_ceiling": 1000000.0,
+        "lambda_floor": 1e-06,
+        "periods_per_year": 12.0,
+        "short_margin_nav": 0.75,
+        "stress_loss_nav": 0.2
+      },
+      "historical_source_sha256": {
+        "research/papers/option_only_markowitz/analysis/r11_higher_risk_pipeline.py": "77cc6f93cf567db4b5b9523308f205c7457c40a51db3c440416ef6a6fa684708",
+        "research/papers/option_only_markowitz/analysis/r11_integer_repair.py": "125468dc0e497c3ebd8ee4d92fa386e006bcc48f3b49535cdce0fddfbb46d9a4",
+        "src/portfolio/r11_risk_controls.py": "448ef8edc6cc93c4546708991612edd6f6dc59666d02195d7852b8cb09f91503"
+      }
+    }
+  },
+  "artifacts": [
+    {
+      "bytes": 1949686,
+      "historical_path": "analysis/artifacts/r1_repaired/r1_monthly_weights.csv",
+      "release_status": "not_distributed_row_level_evidence",
+      "role": "R1 contract-level weights",
+      "sha256": "ce8be5caa03ca3d6b105c829693886ecfac21ef58083069a525498847558590d"
+    },
+    {
+      "bytes": 15174785,
+      "historical_path": "analysis/artifacts/r11_higher_risk/r11_monthly_weights.csv",
+      "release_status": "not_distributed_row_level_evidence",
+      "role": "R1.1 contract-level weights",
+      "sha256": "bf59c5766b947b16dffb066d4f29f96e524da0dc41342b006b53f745f21233b5"
+    },
+    {
+      "bytes": 7536719,
+      "historical_path": "analysis/artifacts/execution_audit/execution_fill_ledger.csv",
+      "release_status": "not_distributed_row_level_evidence",
+      "role": "Execution quote-sensitivity ledger (historical filename; no realized fills)",
+      "sha256": "1e38a0d4d463040f1e01d5ce0a04ae90cb7fbdde6224751fe017416866888351"
+    },
+    {
+      "bytes": 11040977,
+      "historical_path": "paper/artifacts/cost_scenario_ledger_repaired.csv",
+      "release_status": "not_distributed_row_level_evidence",
+      "role": "Core cost scenario ledger",
+      "sha256": "97b8cbe57b829b38cc89a261c7e4615c2c80507872426895ca831c412f392827"
+    }
+  ],
+  "data_cutoff": "2026-04-30",
+  "note": "Hashes preserve provenance for historical artifacts that are intentionally absent from the public release.",
+  "prospective_decision_date": "2026-07-31"
+}

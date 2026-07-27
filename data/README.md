@@ -1,43 +1,30 @@
-# Data Directory
+# Private Data Boundary
 
-This standalone repository intentionally does **not** redistribute raw OPRA or Databento data. The paper can be inspected from the included generated artifacts, but a full empirical rebuild requires licensed local inputs under the paths below.
+No raw or licensed market data belong in this repository. Public evidence is limited to
+portfolio-level returns, summarized weights and exposures, claim tables, trial counts, source
+hashes, and verification metadata under `paper/evidence/`.
 
-## Required Local Inputs For Full Rebuild
+Historical regeneration depended on six externally prepared inputs:
 
-- `data/feature_store/option_greek_proxy_panel.parquet`
-- `data/feature_store/opra_surface_panel.parquet`
-- `data/feature_store/option_greek_quality.csv`
-- `data/universe/multi_raw_close.csv`
-- `data/universe/vx_futures_daily.parquet`
-- `data/universe/vix_complex.parquet`
-- `data/databento_cache/opra_vix_chain_*.parquet`
+```text
+data/feature_store/option_greek_proxy_panel.parquet
+data/feature_store/opra_surface_panel.parquet
+data/feature_store/option_greek_quality.csv
+data/universe/multi_raw_close.csv
+data/universe/vx_futures_daily.parquet
+data/universe/vix_complex.parquet
+```
 
-The breadth/capacity diagnostic under `research/papers/option_only_markowitz/analysis/artifacts/breadth_solutions/` uses the same local inputs. It does not introduce a new raw data source; the 48 added equity names are read from the existing OPRA-derived feature store. To reproduce the checked-in breadth net cells, also build the derived CBBO spread surface from the licensed local OPRA full-day CBBO cache:
+These files are intentionally ignored. They may contain licensed or security-level information
+and must not be committed.
 
-- `data/feature_store/cbbo_spread_surface.parquet`
-- `data/databento_cache/opra_surface_full_day_cbbo`
+`make verify-artifacts` is the public, read-only check. It verifies the committed derived
+evidence, release manifest, manuscript assets, and PDF. `make verify-full` first reports every
+missing private input. When all six inputs exist, it requires the ignored maintainer hook
+`data/private_rebuild.py`, calls it with
+`--destination build/private-release`, and verifies the resulting complete candidate against
+the public release contract. The hook and licensed inputs are external to this repository.
+This interface distinguishes public code and artifact verification from historical data
+reconstruction without claiming a standalone raw-to-paper rebuild.
 
-The eight-name no-VIX baseline is exact on equity-option spreads (`panel_cbbo` for 5,777 cost rows across all eight baseline underlyings). Missing added-name and VIX spread rows in the breadth reruns use a point-in-time inferred CBBO proxy calibrated from that derived surface, not blanket 10%/15% class defaults or stale off-hours current-chain quotes.
-
-The breadth robustness artifacts under `research/papers/option_only_markowitz/analysis/artifacts/breadth_solutions/robustness/` use the same data boundary. The checked run reports zero current-Cboe spread rows and zero default-spread rows; all non-panel breadth spread inputs come from the inferred historical CBBO proxy. Repriced synthetic net paths do not create synthetic bid/ask quotes: they subtract a resampled historical full-cost drag from gross repriced paths.
-
-The broad inferred-spread rows are not a substitute for matched historical market-hours
-NBBO/CBBO. A production-grade historical execution proof would require OPRA/NBBO or
-broker CBBO with displayed size matched to every backtest decision row. The forward shadow
-runner accepts user-supplied market-hours quote exports, margin previews, and rejection
-notes, but those files are local operational inputs and should not be committed if they
-contain licensed or account-specific data.
-
-## Included Public Inputs
-
-The repository includes the normalized public Cboe VRO/SOQ settlement outputs used by the paper:
-
-- `data/public/cboe/vro_soq/vro_soq_settlements.csv`
-- `data/public/cboe/vro_soq/vro_soq_download_audit.csv`
-- `data/public/cboe/vro_soq/vro_soq_manifest.json`
-
-To refresh public settlement files, run `make data-public` or `python -m data_pull.pull --preset validate --jobs public-vro-soq --execute`. This is not run during project extraction.
-
-## Licensing Boundary
-
-Licensed users can reproduce the paper by supplying equivalent OPRA/Databento inputs locally or by running the paid data-pull jobs with their own credentials. Do not commit raw licensed market data or `.env` files.
+The project does not promise controlled reviewer access to the private inputs.

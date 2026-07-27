@@ -1,0 +1,10 @@
+\begin{tabular}{llllrrr}
+\toprule
+Config & Universe & Spread input & Status & Prototype net & Naive net & Stock Markowitz \\
+\midrule
+orig & 8 equities & exact panel CBBO & capacity diagnostic & 0.778 & 0.365 & 0.909 \\
+orig+VIX & 8 equities + VIX & exact panel CBBO + inferred CBBO proxy & research candidate & 1.383 & -0.890 & 0.909 \\
+larger & 56 equities & exact panel CBBO + inferred CBBO proxy & mixed & 0.587 & 0.596 & 0.909 \\
+larger+VIX & 56 equities + VIX & exact panel CBBO + inferred CBBO proxy & research candidate & 1.628 & 0.293 & 0.909 \\
+\bottomrule
+\end{tabular}

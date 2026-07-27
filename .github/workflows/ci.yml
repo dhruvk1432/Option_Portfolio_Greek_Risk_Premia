@@ -1,0 +1,59 @@
+name: public-release
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+      - uses: astral-sh/setup-uv@v7
+        with:
+          version: "0.11.5"
+          enable-cache: true
+      - name: Install system tools
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            poppler-utils \
+            texlive-bibtex-extra \
+            texlive-fonts-recommended \
+            texlive-latex-extra \
+            texlive-luatex
+      - name: Install locked environment
+        run: uv sync --locked --no-editable
+      - name: Lint
+        run: make lint
+      - name: Test
+        run: make test
+      - name: Verify committed artifacts
+        run: make verify-artifacts
+      - name: Verify clean candidate inventory
+        run: |
+          make build
+          uv run --locked --no-editable python -m analysis.release verify-candidate
+      - name: Compile clean candidate
+        run: make paper
+      - name: Check same-environment PDF determinism
+        run: |
+          cp build/release/paper/paper.pdf build/first-paper.pdf
+          make paper
+          cmp build/first-paper.pdf build/release/paper/paper.pdf
+      - name: Check candidate PDF
+        run: |
+          pdfinfo build/release/paper/paper.pdf
+          if grep -Eq "There were undefined references|There were undefined citations|multiply defined|Overfull" build/release/paper/paper.log; then
+            echo "The candidate has unresolved references or layout overflow"
+            exit 1
+          fi
+          if pdffonts build/release/paper/paper.pdf | grep -q "Type 3"; then
+            echo "Type 3 fonts are not allowed"
+            exit 1
+          fi
+      - name: Confirm tracked files are unchanged
+        run: git diff --exit-code

@@ -1,0 +1,5 @@
+claim,statement,scope,status
+Option covariance,Sigma_O = B Omega B^T + B Gamma + Gamma^T B^T + Sigma_epsilon,Complete factor-residual covariance identity,proved
+Tangency portfolio,Weights proportional to Sigma_O^{-1} mu_O,Legacy unconstrained E1 behavior only,proved_with_scope
+Touch prices,"Touch-price rows are sensitivity scenarios, not realized fills",Observed-quote sensitivity,qualified
+Prospective evidence,All reported returns are retrospective development evidence,R1 and R1.1,qualified

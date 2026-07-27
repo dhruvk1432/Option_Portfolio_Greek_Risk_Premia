@@ -1,0 +1,29 @@
+config,check,primary_value,secondary_value,status,decision_rule
+larger,Claim CPCV,0.70557904244142255,0,pass,default and zero wealth precede Sharpe
+larger,Liquid CPCV,0.80184994330742165,0,pass,default and zero wealth precede Sharpe
+larger,MC refit,0.53666883080859917,0.71943322873719084,pass,pass if p05 > 0; mixed if only p50 > 0
+larger,MC resample,-0.0013743420164889001,0.58947205613446196,mixed,pass if p05 > 0; mixed if only p50 > 0
+larger,PBO rank,0.46153846153846151,,mixed,pass at <= 0.30; mixed at <= 0.50
+larger,Repriced,-269.86296394863342,-68.685290228709547,fail,pass if p05 > 0; mixed if only p50 > 0
+larger,Rolling OOS,0.4801085343558868,,pass,pass if Sharpe > 0
+larger+VIX,Claim CPCV,1.4740531813505131,0,pass,default and zero wealth precede Sharpe
+larger+VIX,Liquid CPCV,,1,fail_default,default and zero wealth precede Sharpe
+larger+VIX,MC refit,1.3603367122089285,1.6441095408397539,pass,pass if p05 > 0; mixed if only p50 > 0
+larger+VIX,MC resample,1.0958190511653805,1.6364115484310879,pass,pass if p05 > 0; mixed if only p50 > 0
+larger+VIX,PBO rank,0.38461538461538453,,mixed,pass at <= 0.30; mixed at <= 0.50
+larger+VIX,Repriced,-12.315039409049772,-11.977148696365187,fail,pass if p05 > 0; mixed if only p50 > 0
+larger+VIX,Rolling OOS,1.2725494340774863,,pass,pass if Sharpe > 0
+orig,Claim CPCV,0.4895613112907895,0,pass,default and zero wealth precede Sharpe
+orig,Liquid CPCV,0.90783820005926397,0,pass,default and zero wealth precede Sharpe
+orig,MC refit,0.57044385790339203,0.81766650316499101,pass,pass if p05 > 0; mixed if only p50 > 0
+orig,MC resample,0.19915609652814101,0.7783270134752307,pass,pass if p05 > 0; mixed if only p50 > 0
+orig,PBO rank,0.2307692307692307,,pass,pass at <= 0.30; mixed at <= 0.50
+orig,Repriced,-3.6537241230732231,0.54705081982914461,mixed,pass if p05 > 0; mixed if only p50 > 0
+orig,Rolling OOS,0.58509177243268018,,pass,pass if Sharpe > 0
+orig+VIX,Claim CPCV,1.0618179890993873,0,pass,default and zero wealth precede Sharpe
+orig+VIX,Liquid CPCV,,1,fail_default,default and zero wealth precede Sharpe
+orig+VIX,MC refit,1.1776239675595399,1.3745832074835289,pass,pass if p05 > 0; mixed if only p50 > 0
+orig+VIX,MC resample,0.87297470740337624,1.3766899933872321,pass,pass if p05 > 0; mixed if only p50 > 0
+orig+VIX,PBO rank,0.1794871794871794,,pass,pass at <= 0.30; mixed at <= 0.50
+orig+VIX,Repriced,-3.0955611903669893,0.25840465448677979,mixed,pass if p05 > 0; mixed if only p50 > 0
+orig+VIX,Rolling OOS,1.0330623778864181,,pass,pass if Sharpe > 0

@@ -1,0 +1,595 @@
+\section{Introduction}
+
+An option portfolio cannot be scaled or funded like a stock portfolio. The signed premium
+paid today is only one cashflow. Short liability, margin, collateral, assignment, and
+stress loss are different quantities, and a cheap contract can carry a large normalized
+Greek exposure. We therefore begin with the accounting identity, derive option returns
+from fixed Greeks, and estimate the complete covariance of those factor exposures and
+their residuals. Allocation then becomes a convex, cost-aware problem with cash and hard
+survival limits. Whole-contract execution is a separate acceptance step.
+
+The empirical analysis compares three documented specifications. E1 uses a
+maximum-Sharpe direction and fails when all VIX-enabled CPCV wealth paths reach zero in
+March 2020. R1 replaces that ratio objective with net utility, includes the complete
+covariance, admits cash, and applies a 15 percent volatility ceiling. R1.1 keeps those
+rules and raises the ceiling to 25 percent.\footnote{The internal codes E1, R1, and R1.1
+also appear in artifact filenames and verifier keys.}
+
+Figure~\ref{fig:headline_wealth} reports the retrospective path for the eight-name
+plus VIX R1.1 specification. Shading identifies months in which direct integer conversion
+violated a hard constraint and the rule selected cash. The implementation does not search
+for a substitute risky book.
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=0.91\textwidth]{figures/short_headline_wealth.pdf}
+\caption{Retrospective development path for the eight-name plus VIX R1.1 specification.
+Panel (a) compounds net returns under the modeled costs. Shading marks cash selections
+after direct integer conversion failed a constraint. Panel (b) reports drawdown.}
+\label{fig:headline_wealth}
+\end{figure}
+
+Mean-variance choice supplies the starting point \citep{markowitz1952portfolio}. The
+option return literature connects compensation to option exposure and volatility risk
+\citep{coval_shumway2001,bakshi_kapadia2003,bollerslev_tauchen_zhou2009}, while existing
+allocation work combines option returns, Greeks, and portfolio choice
+\citep{faias_santaclara2017,zhao_palomar2018,malamud2014}. This paper studies funded
+option weights, factor-residual cross covariance, constrained net utility, and integer
+acceptance within one reproducible allocation rule. The failed E1 specification records
+the consequence of evaluating a ratio without the accepted survival rule.
+Multiple-testing and combinatorial validation follow
+\citet{white2000reality,hansen2005spa,bailey2017pbo,bailey_lopezdeprado2014}.
+
+\FloatBarrier
+\section{Funded model and complete covariance}
+
+\subsection{Funded premium weights and NAV}
+
+Let \(C_{i,t}>0\) be the mark of contract \(i\), \(m_i\) its multiplier,
+\(N_{i,t}\in\mathbb Z\) the signed number of contracts, and \(W_t>0\) portfolio NAV.
+The decision variable is the premium weight
+\begin{equation}
+  w_{i,t}=\frac{N_{i,t}m_iC_{i,t}}{W_t}.
+  \label{eq:premium_weight}
+\end{equation}
+If \(A_t\) is the marked cash account, then
+\begin{equation}
+  W_t=A_t+\sum_i N_{i,t}m_iC_{i,t},
+  \qquad
+  \frac{A_t}{W_t}=1-\one^\top w_t.
+  \label{eq:nav_identity}
+\end{equation}
+For \(r_{i,t+1}=(C_{i,t+1}-C_{i,t})/C_{i,t}\), a self-financing option leg contributes
+\begin{equation}
+  \frac{\Delta W_{i,t+1}}{W_t}=w_{i,t}r_{i,t+1}.
+  \label{eq:nav_return}
+\end{equation}
+The contract multiplier cancels from the return contribution because it is already in
+the weight.
+
+Equation~\eqref{eq:nav_identity} is an accounting identity, not a claim that all marked
+cash is free collateral. A long option consumes premium. A short option produces premium
+but creates a marked liability whose loss can exceed the initial receipt. Broker margin
+is a separate reserve, and capital at risk depends on stress loss, assignment, and
+liquidity as well as premium. The optimizer therefore controls gross premium
+\(\|w\|_1\), short premium \(\one^\top w^-\), margin, collateral, and tail loss separately.
+Any unused admissible capital remains in cash.
+
+\subsection{Second-order option returns}
+
+Over one holding period, a second-order local expansion gives
+\begin{equation}
+  \Delta C_i
+  \simeq \Delta_i\Delta S_i
+  +\frac{1}{2}\Gamma_i(\Delta S_i)^2
+  +\nu_i\Delta\sigma_i+\Theta_i\Delta t.
+  \label{eq:taylor_pnl}
+\end{equation}
+Writing \(u_i=\Delta S_i/S_i\) and dividing by \(C_i\) produces the loadings
+\begin{equation}
+  b_i^\Delta=\frac{\Delta_iS_i}{C_i},\qquad
+  b_i^\Gamma=\frac{\Gamma_iS_i^2}{2C_i},\qquad
+  b_i^\nu=\frac{\nu_i}{C_i}.
+  \label{eq:greek_loadings}
+\end{equation}
+The factor equation centers the quadratic return so that its mean is not counted twice:
+\begin{equation}
+  r_{i,t+1}=a_{i,t}
+  +b_{i,t}^\Delta u_{i,t+1}
+  +b_{i,t}^\Gamma\{u_{i,t+1}^2-\E_t[u_{i,t+1}^2]\}
+  +b_{i,t}^\nu\Delta\sigma_{i,t+1}
+  +\varepsilon_{i,t+1}.
+  \label{eq:option_factor_return}
+\end{equation}
+The intercept absorbs theta carry and the conditional mean of the quadratic term. These
+loadings are fixed from decision-date marks and Greeks. They are not regression slopes.
+The approximation omits higher-order and cross-Greek terms such as vanna and volga; their
+realized contribution remains in \(\varepsilon_{i,t+1}\)
+\citep{blackscholes1973,merton1973,shreve2004stochasticii}.
+
+For equity options, \(S_i\) is the underlying spot. For VIX options, the price and Greek
+anchor is the matched VX futures contract under Black's futures-option model
+\citep{black1976commodity}. VIX and VVIX remain state variables, but neither replaces the
+traded forward in Equation~\eqref{eq:taylor_pnl}. Expiration cashflows use the listed
+VRO/SOQ settlement rule.
+
+\subsection{Complete Greek and residual covariance}
+
+Stack the delta, centered-gamma, and vega innovations in \(f_{t+1}\), and let \(B^G_t\)
+contain the loadings from Equation~\eqref{eq:greek_loadings}. In vector form,
+\begin{equation}
+  r_{O,t+1}=\mu_{O,t}+B^G_tf_{t+1}+\varepsilon_{t+1}.
+  \label{eq:vector_return}
+\end{equation}
+The fixed loadings make \(\Cov_t(f_{t+1},\varepsilon_{t+1})\) generally nonzero. An
+orthogonal-residual shortcut would therefore discard sample dependence that the Greek
+model did not explain.
+
+Define the joint state and its covariance by
+\begin{equation}
+  Z_{t+1}=\begin{bmatrix}f_{t+1}\\ \varepsilon_{t+1}\end{bmatrix},
+  \qquad
+  S_{Z,t}=\Var_t(Z_{t+1})=
+  \begin{bmatrix}
+    \Omega_t&\Gamma_t\\
+    \Gamma_t^\top&\Sigma_{\varepsilon,t}
+  \end{bmatrix}.
+  \label{eq:joint_covariance}
+\end{equation}
+The option covariance used by the solver is
+\begin{align}
+  \Sigma_{O,t}
+  &=[B^G_t\ I]S_{Z,t}[B^G_t\ I]^\top \label{eq:complete_covariance}\\
+  &=B^G_t\Omega_t(B^G_t)^\top+B^G_t\Gamma_t
+    +\Gamma_t^\top(B^G_t)^\top+\Sigma_{\varepsilon,t}. \nonumber
+\end{align}
+
+\begin{proposition}[Positive semidefiniteness]
+If \(S_{Z,t}\succeq0\), then \(\Sigma_{O,t}\succeq0\). The result does not require
+\(\Gamma_t=0\).
+\end{proposition}
+\begin{proof}
+For any \(x\), set \(y=[B^G_t\ I]^\top x\). Then
+\(x^\top\Sigma_{O,t}x=y^\top S_{Z,t}y\ge0\).
+\end{proof}
+
+The estimator centers the aligned factor and option observations, forms
+\(E=R-F(B^G_t)^\top\), and stacks \(Z=[F\ E]\). It standardizes each joint column,
+applies Ledoit-Wolf shrinkage to the standardized covariance, and rescales it
+\citep{ledoitwolf2004}. With no shrinkage, Equation~\eqref{eq:complete_covariance}
+reconstructs the aligned sample option covariance exactly, including both cross terms.
+The regularized estimate is symmetrized, transformed through \([B^G_t\ I]\), and given
+one final numerical eigenvalue floor of \(10^{-10}\). Appendix~\ref{app:covariance_proof}
+records the estimator algebra.
+
+\section{Estimation and optimization}
+
+\subsection{Structural means and estimation error}
+
+Expected option returns use an auditable structural decomposition:
+\begin{equation}
+  \widetilde\mu_{i,t}
+  =\theta^*_{i,t}
+  +b^\Delta_{i,t}\widehat\lambda^S_t
+  +b^\Gamma_{i,t}\widehat\lambda^{var}_t
+  +b^\nu_{i,t}\widehat\lambda^{vol}_t
+  +\widehat\lambda^{skew}_{i,t}
+  +\widehat\lambda^{RV}_{i,t}.
+  \label{eq:structural_mean}
+\end{equation}
+Theta carry, equity exposure, variance and volatility premia, skew or tail insurance, and
+within-underlying relative value are retained as separate ledger columns. Skew and tail
+terms affect the mean and named stress scenarios; they are not added as covariance
+loadings without an identified factor series.
+
+The R1 and R1.1 estimator gives the historical option-return mean zero weight. It
+places weight \(0.75\) on Equation~\eqref{eq:structural_mean}, then shrinks the combined
+estimate \(75\) percent toward zero:
+\begin{equation}
+  \widehat\mu_t
+  =(1-0.75)\{0\cdot\overline r_t+0.75\widetilde\mu_t\}
+  =0.1875\,\widetilde\mu_t.
+  \label{eq:mean_shrinkage}
+\end{equation}
+The implementation finally clips a monthly mean only outside \([-0.35,0.35]\). This
+construction avoids feeding an unregularized mean for every contract into the optimizer.
+
+\begin{proposition}[Breadth and mean estimation error]
+Suppose \(n\) contract-mean errors are sub-Gaussian with scale at most
+\(\bar\sigma/\sqrt T\). Then
+\begin{equation}
+  \E\!\left[\max_{1\le i\le n}|\widehat\mu_i-\mu_i|\right]
+  \le \bar\sigma\sqrt{\frac{2\log(2n)}{T}}.
+  \label{eq:max_mean_error}
+\end{equation}
+For every portfolio with \(\|w\|_1\le g\), the corresponding objective perturbation is
+at most \(g\|\widehat\mu-\mu\|_\infty\). The raw cross-sectional mean bound is smaller
+than a structural bias bound \(\beta\) only when
+\begin{equation}
+  n<\frac{1}{2}\exp\!\left(\frac{T\beta^2}{2\bar\sigma^2}\right).
+  \label{eq:bias_variance_crossover}
+\end{equation}
+Beyond this crossover, the stated structural bias bound is smaller than the stated raw
+mean bound. This comparison does not establish lower total estimation error because it
+does not bound the structural estimator's variance. Appendix~\ref{app:mean_error_proof}
+gives the proof and the optimizer-regret bound.
+\end{proposition}
+
+\subsection{The R1 feasible set}
+
+Write \(w=w^+-w^-\), where \(w_i^+=\max(w_i,0)\) and
+\(w_i^-=\max(-w_i,0)\). Let \(\ell_{i,t}\) be the point-in-time liquidity cap,
+\(a_i\ge0\) the short-margin coefficient, \(\mathcal I_u\) the contracts on underlying
+\(u\), and \(\mathcal A_t\) the contracts that cannot be short because assignment is not
+admissible. The continuous feasible set includes
+\begin{align}
+  \|w\|_1&\le1.00, & |\one^\top w|&\le1.00, \label{eq:basic_limits}\\
+  \one^\top w^-&\le0.25,
+    & |w_i|&\le\min(0.18,\ell_{i,t}), \label{eq:position_limits}\\
+  \sum_{i\in\mathcal I_u}|w_i|&\le
+    \begin{cases}0.20,&u=\text{VX},\\0.35,&\text{otherwise},\end{cases}
+    & w_i&\ge0\quad(i\in\mathcal A_t), \label{eq:underlying_limits}\\
+  |(b^{\beta})^\top w|&\le3.0,
+    & |(b^{VIX\nu})^\top w|&\le8.0, \label{eq:exposure_limits}\\
+  R^{stress}_tw&\ge-0.20\one,
+    & a^\top w^-&\le0.75, \label{eq:stress_margin_limits}\\
+  \one^\top w^++a^\top w^-&\le1.00. && \label{eq:funding_limits}
+\end{align}
+The liquidity cap is computed only from information available at the decision date. The
+VX group is labeled \texttt{VX\_FRONT} in code. The beta limit is relative to SPY, and
+the vega limit applies to VIX exposure. The stress matrix contains the predefined
+scenarios. Equations~\eqref{eq:basic_limits}-\eqref{eq:funding_limits}, together with the
+sample CVaR constraint below, define \(\mathcal C_t\).
+
+Every bound is convex and \(0\in\mathcal C_t\). When expected edge does not pay for cost
+and risk, the optimizer can decline exposure. A
+premium receipt from a short position does not relax the margin or collateral budgets.
+The 15 percent annualized R1 volatility ceiling is imposed by the risk-aversion selection
+rule rather than inserted as another constraint in the first-stage program.
+
+\subsection{Sample CVaR and asymmetric costs}
+
+Let \(r^{(k)}\) be training scenario \(k\), \(K\) the number of scenarios, and
+\begin{equation}
+  \kappa_t(w)=c_{+,t}^\top w^++c_{-,t}^\top w^-.
+  \label{eq:asymmetric_cost}
+\end{equation}
+The vectors differ because crossing and closing a long position need not cost the same as
+opening and covering a short position. The scenario loss includes this predictable cost:
+\(L_k(w)=-(r^{(k)})^\top w+\kappa_t(w)\). At \(\alpha=0.95\), the implementation uses the
+Rockafellar-Uryasev epigraph \citep{rockafellar_uryasev2000}
+\begin{align}
+  \widehat{\operatorname{CVaR}}_{\alpha}(w)
+  &=\min_{\eta\in\R}\left\{\eta+
+  \frac{1}{(1-\alpha)K}\sum_{k=1}^K[L_k(w)-\eta]_+\right\},
+  \label{eq:cvar_epigraph}\\
+  \widehat{\operatorname{CVaR}}_{0.95}(w)&\le0.10. \nonumber
+\end{align}
+The complete first-stage allocation is
+\begin{equation}
+  \max_{w\in\mathcal C_t}
+  \left\{\widehat\mu_t^\top w-c_{+,t}^\top w^+
+  -c_{-,t}^\top w^- -\frac{\lambda}{2}w^\top\Sigma_{O,t}w\right\}.
+  \label{eq:net_utility}
+\end{equation}
+This is the accepted model for both R1 and the first stage of R1.1.
+
+\begin{proposition}[Convexity and global optimality]
+For \(\Sigma_{O,t}\succeq0\) and nonnegative cost vectors, the objective in
+Equation~\eqref{eq:net_utility} is concave and \(\mathcal C_t\) is convex. The equivalent
+minimization problem is convex, so every computed optimum is global
+\citep{boyd_vandenberghe2004}.
+\end{proposition}
+\begin{proof}
+The cost \(\kappa_t\) and quadratic form are convex. Their negatives are concave. Absolute
+value, linear, quadratic-epigraph, and sample-CVaR inequalities define convex sets.
+\end{proof}
+
+The optimality condition is most compact in normal-cone form. If \(w^*\) solves
+Equation~\eqref{eq:net_utility}, then
+\begin{equation}
+  0\in-\widehat\mu_t+\partial\kappa_t(w^*)
+  +\lambda\Sigma_{O,t}w^*+N_{\mathcal C_t}(w^*).
+  \label{eq:kkt_subgradient}
+\end{equation}
+For one contract, the cost subgradient is \(c_{+,i}\) when \(w_i>0\),
+\(-c_{-,i}\) when \(w_i<0\), and the interval \([-c_{-,i},c_{+,i}]\) at zero. A contract
+enters only when its marginal expected return clears the appropriate cost wedge after
+risk and active constraints are priced. The dual multipliers on CVaR, stress, liquidity,
+margin, collateral, and Greek limits are shadow prices for relaxing those budgets. The
+full multiplier form appears in Appendix~\ref{app:kkt_proof}.
+
+\begin{proposition}[Existence and uniqueness]
+The accepted program has an optimum. If \(\Sigma_{O,t}\succ0\) and \(\lambda>0\), its
+portfolio weight is unique.
+\end{proposition}
+\begin{proof}
+The set \(\mathcal C_t\) is nonempty because it contains zero. It is closed and bounded
+by the gross limit, hence compact. The objective is continuous, so it attains its maximum.
+Positive definiteness makes the quadratic penalty strictly convex and the maximization
+objective strictly concave, which gives a unique weight even if the CVaR threshold
+\(\eta\) is not unique.
+\end{proof}
+
+Equation~\eqref{eq:kkt_subgradient} also characterizes cash. The all-cash solution is
+optimal exactly when
+\begin{equation}
+  \widehat\mu_t\in\partial\kappa_t(0)+N_{\mathcal C_t}(0).
+  \label{eq:cash_kkt}
+\end{equation}
+Thus a weak forecast does not require an arbitrary expected-return cutoff. It remains at
+zero when the asymmetric trading wedge and the normals of any binding no-short rules
+contain the forecast vector.
+
+\subsection{Risk aversion and the volatility ceiling}
+
+Let \(\Phi(w)=\widehat\mu_t^\top w-\kappa_t(w)\),
+\(q(w)=w^\top\Sigma_{O,t}w\), and let \(w_\lambda\) be any global solution of
+\(\max_{w\in\mathcal C_t}\{\Phi(w)-\lambda q(w)/2\}\).
+
+\begin{proposition}[Optimized variance is nonincreasing]
+If \(0<\lambda_1<\lambda_2\), then \(q(w_{\lambda_2})\le q(w_{\lambda_1})\).
+\label{prop:risk_monotonicity}
+\end{proposition}
+\begin{proof}
+Optimality at \(\lambda_1\) and \(\lambda_2\) gives
+\begin{align*}
+ \Phi(w_{\lambda_1})-\tfrac{\lambda_1}{2}q(w_{\lambda_1})
+ &\ge \Phi(w_{\lambda_2})-\tfrac{\lambda_1}{2}q(w_{\lambda_2}),\\
+ \Phi(w_{\lambda_2})-\tfrac{\lambda_2}{2}q(w_{\lambda_2})
+ &\ge \Phi(w_{\lambda_1})-\tfrac{\lambda_2}{2}q(w_{\lambda_1}).
+\end{align*}
+Adding the inequalities yields
+\((\lambda_2-\lambda_1)\{q(w_{\lambda_1})-q(w_{\lambda_2})\}\ge0\).
+\end{proof}
+
+Proposition~\ref{prop:risk_monotonicity} justifies a one-dimensional search. The code
+solves at \(\lambda=10^{-6}\). If the annualized volatility already meets the ceiling,
+that solution is retained. Otherwise it verifies the bracket at \(10^6\) and performs
+18 geometric-midpoint steps, equivalent to bisection on \(\log\lambda\). It keeps the
+smallest bracketed risk aversion whose solution is at or below 15 percent for R1 and
+25 percent for R1.1.
+
+\subsection{R1.1 augmentation and whole contracts}
+
+R1.1 first solves Equation~\eqref{eq:net_utility} with the 25 percent ceiling. Let
+\(w^{(1)}\) be this solution and \(s_i=\operatorname{sign}(w_i^{(1)})\). If
+\(\|w^{(1)}\|_1<0.50\), the second stage freezes these signs. With
+\(d_i=s_i\widehat\mu_i-c_i(s_i)\), it permits augmentation only on
+\begin{equation}
+  \mathcal E=\{i:s_i\ne0,\ d_i>0\},
+  \qquad w=s\odot x,\quad x\ge0,\quad x_i=0\ (i\notin\mathcal E).
+  \label{eq:r11_directions}
+\end{equation}
+It then solves the feasibility problem
+\begin{align}
+  G^*&=\max_x\ \one^\top x \label{eq:r11_feasibility}\\
+  \text{subject to}\quad
+  s\odot x&\in\mathcal C_t,\qquad x\ge0,\qquad x_i=0\ (i\notin\mathcal E), \nonumber\\
+  (s\odot x)^\top\Sigma_{O,t}(s\odot x)
+  &\le\left(\frac{0.25}{\sqrt{12}}\right)^2,\qquad d^\top x\ge0, \nonumber\\
+  \one^\top x&\le0.50. \nonumber
+\end{align}
+Only when \(G^*\ge0.50\) does the code impose \(\one^\top x=0.50\) and re-solve net
+utility on the retained first-stage directions. Otherwise it keeps \(w^{(1)}\). The target
+was never feasible in the historical replay: every universe and arm has a target-hit rate
+of 0.00, with mean gross exposure between 0.047 and 0.075.
+
+For account NAV \(W_t\), multiplier 100, and mark \(C_{i,t}\), a continuous weight implies
+\begin{equation}
+  N_{i,t}=\frac{w_{i,t}W_t}{100C_{i,t}},
+  \qquad
+  \widehat N_{i,t}=\operatorname{sign}(N_{i,t})
+  \left\lfloor|N_{i,t}|\right\rfloor.
+  \label{eq:integer_conversion}
+\end{equation}
+This truncation moves each leg toward cash. The execution code preserves the continuous
+signs, including hedge legs whose standalone edge is negative, and rechecks gross, net,
+short, contract, underlying, beta, vega, stress, CVaR, margin, collateral, assignment,
+liquidity, and volatility limits on the resulting whole-contract book. A feasible direct
+conversion trades. An infeasible conversion selects all cash and records the rejected
+book's diagnostics. The accepted policy is not a mixed-integer optimizer and does not
+search for a substitute integer portfolio.
+
+\subsection{Decision-time algorithm}
+
+The monthly decision follows one fixed sequence.
+\begin{enumerate}
+  \item Form the eligible contract set from decision-date marks, Greeks, maturity,
+  moneyness, volume, open interest, quote quality, assignment status, and liquidity caps.
+  No later observation can alter this set.
+  \item On the trailing training window, compute the structural mean in
+  Equation~\eqref{eq:mean_shrinkage}, factor panel, Greek residuals, and regularized joint
+  covariance in Equation~\eqref{eq:complete_covariance}.
+  \item Build direction-specific costs and the training-scenario losses. Solve
+  Equation~\eqref{eq:net_utility} at the risk-aversion endpoints, then use the 18-step
+  logarithmic search when the lower endpoint exceeds the policy's volatility ceiling.
+  \item For R1.1 only, test Equation~\eqref{eq:r11_feasibility}. The first-stage book is
+  retained unless the sign-constrained feasible gross reaches 0.50.
+  \item Convert the selected continuous weights through
+  Equation~\eqref{eq:integer_conversion}. Recompute every constraint and the volatility
+  ceiling on that exact whole-contract book. Trade it if it passes; otherwise record cash.
+  \item Realize the next holding-period return under the stated cost and settlement rules,
+  write the decision and diagnostics to the ledger, and advance the training endpoint.
+\end{enumerate}
+Estimation, optimization, and execution acceptance are separate steps. This prevents an
+integer repair, a later quote, or a model-price substitution from changing the portfolio
+that the continuous program selected.
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=0.90\textwidth]{figures/short_theory_flow.pdf}
+\caption{Theory and implementation flow. Listed contracts become NAV-normalized
+cashflows. The joint factor and residual covariance enters cost-aware net utility. Hard
+survival and execution gates apply to the whole-contract book.}
+\label{fig:short_theory_flow}
+\end{figure}
+
+Figure~\ref{fig:short_theory_flow} summarizes the calculation. Estimation determines a
+continuous target; survival and execution determine whether that target is admissible.
+Neither a positive mean estimate nor a low estimated variance can override a zero-wealth path,
+a margin breach, or an infeasible integer conversion.
+
+\FloatBarrier
+\section{Data, cost, and validation design}
+
+The empirical panel contains listed equity options, underlying state variables, and the
+matched volatility instruments needed by the four specified universes. Every rebalance uses
+only information available by its decision date. Table~\ref{tab:short_scenarios} records
+the four comparison sets and their prescribed spread inputs.
+
+\begin{table}[!ht]
+\centering
+\caption{Empirical universes and baseline evidence. Prototype net is the static
+full-cost net Sharpe ratio used to describe the earlier development experiment.}
+\label{tab:short_scenarios}
+\resizebox{\textwidth}{!}{\input{tables/short_four_scenario_assumptions}}
+\end{table}
+
+The original universes contain eight equity names. The larger universes contain 56. The
+design evaluates each set with and without VIX options. Contract selection applies maturity,
+moneyness, mark, open-interest, volume, and quote-quality filters before optimization.
+The decision-date panel supplies marks and Greeks. Holding-period returns use subsequent
+option marks or expiry cashflows under the stated return-construction rule. VIX expiry
+cashflows use the listed VRO/SOQ settlement record.
+
+The R1 replay contains 60 observed monthly returns from January 2021 through April 2026.
+The R1.1 replay begins in February 2018 and contains 93 observed monthly returns through
+April 2026. The longer R1.1 record evaluates the separately documented 25 percent ceiling; it
+is not an extension of the R1 headline after inspection of R1 outcomes.
+
+The cost stack includes half-spread, fees, direction-specific slippage, short-call borrow,
+and funding where applicable. These transaction costs enter both selection and reported
+net returns. The stack is asymmetric because buying at the ask and covering a short at
+the ask are not mirror images of receiving the bid.
+
+Spread evidence follows a fixed ladder. The eight equity names use exact historical panel
+CBBO. Rows outside that panel use an inferred CBBO proxy when no matched historical quote
+exists. Broad-name and VIX proxy rows are execution sensitivity, not execution truth.
+The licensed-quote audit later tests that distinction directly. VIX settlement requires
+the appropriate listed settlement record rather than a convenient close.
+
+The baseline comparison includes ordinary underlying Markowitz and capped naive option
+books. The stock baseline asks whether option complexity earns its place. The capped naive
+book asks whether estimation adds value beyond simple option diversification under the
+same costs and capacity rules.
+
+\FloatBarrier
+\section{E1 failure and R1/R1.1 results}
+
+E1 maximized a cost-adjusted Sharpe direction after inspection of the post-2020
+development window. The procedure ranks historical paths but does not make the selection
+prospective. Figure~\ref{fig:short_scoreboard} and
+Table~\ref{tab:short_e1_ablation} retain the result as a record of the research path.
+
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=0.84\textwidth]{figures/short_four_variant_scoreboard.pdf}
+\caption{Static full-cost net comparison for E1, capped naive option books, and stock
+baselines at the stated account size. All values are retrospective development evidence.}
+\label{fig:short_scoreboard}
+\end{figure}
+
+\begin{table}[!ht]
+\centering
+\caption{Structural-mean channel ablation for E1. Each row re-solves
+and re-scores the book after removing one channel.}
+\label{tab:short_e1_ablation}
+\resizebox{0.88\textwidth}{!}{\input{tables/short_e1_channel_ablation}}
+\end{table}
+
+The liquid-era CPCV paths reveal the survival failure. Figure~\ref{fig:prototype_cpcv_failure}
+pivots the artifact to one column per path and compounds each path independently. Every
+VIX-enabled path reaches the absorption boundary in March 2020. Arithmetic return ratios
+after that event cannot restore wealth.
+
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=0.91\textwidth]{figures/short_prototype_failure.pdf}
+\caption{Full-cost CPCV wealth paths for VIX-enabled E1. All paths
+absorb at zero in March 2020. The maroon segment marks the absorbing state.}
+\label{fig:prototype_cpcv_failure}
+\end{figure}
+
+Reaching zero wealth disqualifies the prototype even though a later window compounds
+rapidly. Researchers selected the model after inspecting that later window, which omits
+the event that destroys the earlier paths.
+
+\FloatBarrier
+\subsection{15 percent volatility-ceiling specification (R1)}
+
+R1 replaces the E1 objective and acceptance rule. Its covariance
+retains factor-residual cross terms, and predictable costs enter utility. Cash is
+admissible, offsetting split-leg gross is removed, and the full survival set is checked
+before a whole-contract position is accepted.
+
+\begin{table}[!ht]
+\centering
+\caption{R1 monthly walk-forward development summary for 60 observed returns from January
+2021 through April 2026. Terminal wealth and tail statistics describe whole-contract
+books under the 15 percent volatility ceiling.}
+\label{tab:r1_survival}
+\resizebox{\textwidth}{!}{\input{tables/short_r1_survival_summary}}
+\end{table}
+
+Table~\ref{tab:r1_survival} shows that all four specified universes pass the development
+survival checks. The 15 percent predicted-volatility ceiling also limits return potential.
+That ceiling is a policy constraint. R1.1 separately evaluates a 25 percent ceiling while
+retaining the same zero-wealth, funding, tail-loss, and whole-contract acceptance rules.
+
+\FloatBarrier
+\subsection{25 percent volatility-ceiling specification (R1.1)}
+
+R1.1 raises the predicted-volatility ceiling to 25 percent. It
+pursues a 50 percent gross target only along positive-edge directions that the cost-aware
+first stage selects. It never forces that target through an infeasible book. The
+continuous target converts directly to whole contracts by truncating toward cash. A
+feasible conversion trades. An infeasible conversion abstains.
+
+The comparison in Figure~\ref{fig:model_progression} requires a qualification. The
+prototype's large line begins after its March 2020 zero-absorption failure,
+so the common window excludes the event that invalidates it. Researchers also selected
+the prototype after inspecting that window. The inferred CBBO proxy supplies its broad
+spread evidence. The R1.1 line is smaller because it follows the stated risk policy.
+
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=0.93\textwidth]{figures/short_model_progression.pdf}
+\caption{Common-window net wealth on a logarithmic scale. E1 reaches roughly 84 times
+initial wealth and R1.1 reaches about 3.2 times. The window begins after the March 2020 E1
+failure, and E1 was selected after inspection of this period.}
+\label{fig:model_progression}
+\end{figure}
+
+The observed gross distributions in Figure~\ref{fig:deployment_constraints} sit well
+below the target line. The VIX-enabled
+books sometimes choose cash when direct whole-contract conversion is infeasible.
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=0.96\textwidth]{figures/short_deployment_constraints.pdf}
+\caption{Deployment and integer acceptance for R1.1. Panel (a)
+compares realized gross premium with the target. Panel (b) counts cash abstentions under
+the direct conversion rule.}
+\label{fig:deployment_constraints}
+\end{figure}
+
+\begin{table}[!ht]
+\centering
+\caption{Chronological R1.1 development replay for 93 observed returns from February 2018
+through April 2026. Target hit is the share of whole-contract books at or above the gross
+target. EGARCH remains diagnostic.}
+\label{tab:r11_development}
+\resizebox{\textwidth}{!}{\input{tables/short_r11_development_summary}}
+\end{table}
+
+Table~\ref{tab:r11_development} keeps the base replay separate from the EGARCH diagnostic.
+
+The VIX-40 rule reacts after an official close and uses the first executable quote after
+the next regular-session open. It remains unscored because the release lacks
+matched executable quotes for every held option; no-rule returns are never substituted.
+
+The EGARCH overlay \citep{nelson1991} remains a diagnostic and was not selected for the
+candidate. It does not alter the reported base R1.1 path.
+
+\FloatBarrier
